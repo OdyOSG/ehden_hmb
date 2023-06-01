@@ -1,0 +1,6 @@
+.Rproj.user
+results/
+logs/
+config.yml
+
+*.docx
