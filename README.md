@@ -38,24 +38,23 @@
 
 ## Description
 
-EHDEN HMB is a characterization study of a heavy-menstrual bleeding cohort conducted on EHDEN network databases that have been standardized to the OMOP CDM. 
+EHDEN HMB is a characterization study of a heavy-menstrual bleeding cohort conducted on EHDEN network databases that have been standardized to the OMOP CDM.
 
 ## Data
 
-This study will be run on OMOP databases in the EHDEN Network. The table below lists some of the data partners that will participate in this study. 
+This study will be run on OMOP databases in the EHDEN Network. The table below lists some of the data partners that will participate in this study.
 
-| Name        | Host        | Description                                         |
-|-------------|-------------------------------------------------------------------|
-| CPRD Gold   | Bayer       | GP data representing UK population                  |
-| CPRD AURUM  | Bayer       | GP data specifically representing England           |
-| Oslo        | University of Oslo, Dept of Pharmacy | TBD |
-| Semmelweis  | Semmelweis University, Hungary | TBD |
-| LynxCare    | LynxCare    | Belgian EHR  |
-| STIZON      | STIZON     | Dutch EHR    |
-
+| Name       | Host                                 |
+|------------|--------------------------------------|
+| CPRD Gold  | Bayer                                |
+| CPRD AURUM | Bayer                                |
+| Oslo       | University of Oslo, Dept of Pharmacy |
+| Semmelweis | Semmelweis University, Hungary       |
+| LynxCare   | LynxCare                             |
+| STIZON     | STIZON                               |
 
 ## Study Documentation
 
-- **Study SAP**
-- **How To Run**
-- **Contribution Guideline**
+-   **Study SAP**
+-   **How To Run**
+-   **Contribution Guideline**
