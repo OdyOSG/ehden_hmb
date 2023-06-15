@@ -56,5 +56,5 @@ This study will be run on OMOP databases in the EHDEN Network. The table below l
 ## Study Documentation
 
 -   **Study SAP**
--   **How To Run**
+-   [**How To Run**](https://github.com/OdyOSG/ehden_hmb/blob/main/documentation/HowToRun.md)
 -   **Contribution Guideline**
