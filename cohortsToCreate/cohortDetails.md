@@ -17,6 +17,9 @@ This cohort is meant to serve as the target population for the EHDEN HMB network
 
 #### Log
 
+**Version 3: 06/15/2023**
+- Fix typo in inclusion rules for menopause. Exactly 0 occurrences of condition/observation of menopause between any time before and 0 days after
+
 **Version 2: 06/01/2023**
 
 -   Use phenotype library [HMB cohort](https://github.com/OHDSI/PhenotypeLibrary/blob/main/inst/cohorts/300.json) as a template for design
