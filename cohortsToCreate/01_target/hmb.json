@@ -19,20 +19,6 @@
               "VOCABULARY_ID": "SNOMED"
             },
             "includeDescendants": true
-          },
-          {
-            "concept": {
-              "CONCEPT_CLASS_ID": "Clinical Finding",
-              "CONCEPT_CODE": "44991000119100",
-              "CONCEPT_ID": 45757810,
-              "CONCEPT_NAME": "Abnormal uterine bleeding",
-              "DOMAIN_ID": "Condition",
-              "INVALID_REASON": "V",
-              "INVALID_REASON_CAPTION": "Valid",
-              "STANDARD_CONCEPT": "S",
-              "STANDARD_CONCEPT_CAPTION": "Standard",
-              "VOCABULARY_ID": "SNOMED"
-            }
           }
         ]
       }
@@ -42,186 +28,6 @@
       "name": "Bilateral Ovariectomy",
       "expression": {
         "items": [
-          {
-            "concept": {
-              "CONCEPT_CLASS_ID": "CPT4",
-              "CONCEPT_CODE": "58291",
-              "CONCEPT_ID": 2110190,
-              "CONCEPT_NAME": "Vaginal hysterectomy, for uterus greater than 250 g; with removal of tube(s) and/or ovary(s)",
-              "DOMAIN_ID": "Procedure",
-              "INVALID_REASON": "V",
-              "INVALID_REASON_CAPTION": "Valid",
-              "STANDARD_CONCEPT": "S",
-              "STANDARD_CONCEPT_CAPTION": "Standard",
-              "VOCABULARY_ID": "CPT4"
-            },
-            "includeDescendants": true
-          },
-          {
-            "concept": {
-              "CONCEPT_CLASS_ID": "Clinical Finding",
-              "CONCEPT_CODE": "446597007",
-              "CONCEPT_ID": 40488380,
-              "CONCEPT_NAME": "Closed depressed fracture of skull",
-              "DOMAIN_ID": "Condition",
-              "INVALID_REASON": "V",
-              "INVALID_REASON_CAPTION": "Valid",
-              "STANDARD_CONCEPT": "S",
-              "STANDARD_CONCEPT_CAPTION": "Standard",
-              "VOCABULARY_ID": "SNOMED"
-            },
-            "includeDescendants": true
-          },
-          {
-            "concept": {
-              "CONCEPT_CLASS_ID": "Procedure",
-              "CONCEPT_CODE": "67860007",
-              "CONCEPT_ID": 4283953,
-              "CONCEPT_NAME": "Salpingo-oophorotomy",
-              "DOMAIN_ID": "Procedure",
-              "INVALID_REASON": "V",
-              "INVALID_REASON_CAPTION": "Valid",
-              "STANDARD_CONCEPT": "S",
-              "STANDARD_CONCEPT_CAPTION": "Standard",
-              "VOCABULARY_ID": "SNOMED"
-            },
-            "includeDescendants": true
-          },
-          {
-            "concept": {
-              "CONCEPT_CLASS_ID": "CPT4",
-              "CONCEPT_CODE": "58262",
-              "CONCEPT_ID": 2110182,
-              "CONCEPT_NAME": "Vaginal hysterectomy, for uterus 250 g or less; with removal of tube(s), and/or ovary(s)",
-              "DOMAIN_ID": "Procedure",
-              "INVALID_REASON": "V",
-              "INVALID_REASON_CAPTION": "Valid",
-              "STANDARD_CONCEPT": "S",
-              "STANDARD_CONCEPT_CAPTION": "Standard",
-              "VOCABULARY_ID": "CPT4"
-            },
-            "includeDescendants": true
-          },
-          {
-            "concept": {
-              "CONCEPT_CLASS_ID": "CPT4",
-              "CONCEPT_CODE": "58210",
-              "CONCEPT_ID": 2110179,
-              "CONCEPT_NAME": "Radical abdominal hysterectomy, with bilateral total pelvic lymphadenectomy and para-aortic lymph node sampling (biopsy), with or without removal of tube(s), with or without removal of ovary(s)",
-              "DOMAIN_ID": "Procedure",
-              "INVALID_REASON": "V",
-              "INVALID_REASON_CAPTION": "Valid",
-              "STANDARD_CONCEPT": "S",
-              "STANDARD_CONCEPT_CAPTION": "Standard",
-              "VOCABULARY_ID": "CPT4"
-            },
-            "includeDescendants": true
-          },
-          {
-            "concept": {
-              "CONCEPT_CLASS_ID": "Procedure",
-              "CONCEPT_CODE": "120064004",
-              "CONCEPT_ID": 4003546,
-              "CONCEPT_NAME": "Ovary destructive procedure",
-              "DOMAIN_ID": "Procedure",
-              "INVALID_REASON": "V",
-              "INVALID_REASON_CAPTION": "Valid",
-              "STANDARD_CONCEPT": "S",
-              "STANDARD_CONCEPT_CAPTION": "Standard",
-              "VOCABULARY_ID": "SNOMED"
-            },
-            "includeDescendants": true
-          },
-          {
-            "concept": {
-              "CONCEPT_CLASS_ID": "CPT4",
-              "CONCEPT_CODE": "57555",
-              "CONCEPT_ID": 2110161,
-              "CONCEPT_NAME": "Excision of cervical stump, vaginal approach; with anterior and/or posterior repair",
-              "DOMAIN_ID": "Procedure",
-              "INVALID_REASON": "V",
-              "INVALID_REASON_CAPTION": "Valid",
-              "STANDARD_CONCEPT": "S",
-              "STANDARD_CONCEPT_CAPTION": "Standard",
-              "VOCABULARY_ID": "CPT4"
-            },
-            "includeDescendants": true
-          },
-          {
-            "concept": {
-              "CONCEPT_CLASS_ID": "CPT4",
-              "CONCEPT_CODE": "58263",
-              "CONCEPT_ID": 2110183,
-              "CONCEPT_NAME": "Vaginal hysterectomy, for uterus 250 g or less; with removal of tube(s), and/or ovary(s), with repair of enterocele",
-              "DOMAIN_ID": "Procedure",
-              "INVALID_REASON": "V",
-              "INVALID_REASON_CAPTION": "Valid",
-              "STANDARD_CONCEPT": "S",
-              "STANDARD_CONCEPT_CAPTION": "Standard",
-              "VOCABULARY_ID": "CPT4"
-            },
-            "includeDescendants": true
-          },
-          {
-            "concept": {
-              "CONCEPT_CLASS_ID": "CPT4",
-              "CONCEPT_CODE": "59120",
-              "CONCEPT_ID": 2110293,
-              "CONCEPT_NAME": "Surgical treatment of ectopic pregnancy; tubal or ovarian, requiring salpingectomy and/or oophorectomy, abdominal or vaginal approach",
-              "DOMAIN_ID": "Procedure",
-              "INVALID_REASON": "V",
-              "INVALID_REASON_CAPTION": "Valid",
-              "STANDARD_CONCEPT": "S",
-              "STANDARD_CONCEPT_CAPTION": "Standard",
-              "VOCABULARY_ID": "CPT4"
-            },
-            "includeDescendants": true
-          },
-          {
-            "concept": {
-              "CONCEPT_CLASS_ID": "CPT4",
-              "CONCEPT_CODE": "58292",
-              "CONCEPT_ID": 2110191,
-              "CONCEPT_NAME": "Vaginal hysterectomy, for uterus greater than 250 g; with removal of tube(s) and/or ovary(s), with repair of enterocele",
-              "DOMAIN_ID": "Procedure",
-              "INVALID_REASON": "V",
-              "INVALID_REASON_CAPTION": "Valid",
-              "STANDARD_CONCEPT": "S",
-              "STANDARD_CONCEPT_CAPTION": "Standard",
-              "VOCABULARY_ID": "CPT4"
-            },
-            "includeDescendants": true
-          },
-          {
-            "concept": {
-              "CONCEPT_CLASS_ID": "CPT4",
-              "CONCEPT_CODE": "59151",
-              "CONCEPT_ID": 2110300,
-              "CONCEPT_NAME": "Laparoscopic treatment of ectopic pregnancy; with salpingectomy and/or oophorectomy",
-              "DOMAIN_ID": "Procedure",
-              "INVALID_REASON": "V",
-              "INVALID_REASON_CAPTION": "Valid",
-              "STANDARD_CONCEPT": "S",
-              "STANDARD_CONCEPT_CAPTION": "Standard",
-              "VOCABULARY_ID": "CPT4"
-            },
-            "includeDescendants": true
-          },
-          {
-            "concept": {
-              "CONCEPT_CLASS_ID": "CPT4",
-              "CONCEPT_CODE": "58152",
-              "CONCEPT_ID": 2110176,
-              "CONCEPT_NAME": "Total abdominal hysterectomy (corpus and cervix), with or without removal of tube(s), with or without removal of ovary(s); with colpo-urethrocystopexy (eg, Marshall-Marchetti-Krantz, Burch)",
-              "DOMAIN_ID": "Procedure",
-              "INVALID_REASON": "V",
-              "INVALID_REASON_CAPTION": "Valid",
-              "STANDARD_CONCEPT": "S",
-              "STANDARD_CONCEPT_CAPTION": "Standard",
-              "VOCABULARY_ID": "CPT4"
-            },
-            "includeDescendants": true
-          },
           {
             "concept": {
               "CONCEPT_CLASS_ID": "Procedure",
@@ -234,36 +40,6 @@
               "STANDARD_CONCEPT": "S",
               "STANDARD_CONCEPT_CAPTION": "Standard",
               "VOCABULARY_ID": "SNOMED"
-            },
-            "includeDescendants": true
-          },
-          {
-            "concept": {
-              "CONCEPT_CLASS_ID": "CPT4",
-              "CONCEPT_CODE": "58200",
-              "CONCEPT_ID": 2110178,
-              "CONCEPT_NAME": "Total abdominal hysterectomy, including partial vaginectomy, with para-aortic and pelvic lymph node sampling, with or without removal of tube(s), with or without removal of ovary(s)",
-              "DOMAIN_ID": "Procedure",
-              "INVALID_REASON": "V",
-              "INVALID_REASON_CAPTION": "Valid",
-              "STANDARD_CONCEPT": "S",
-              "STANDARD_CONCEPT_CAPTION": "Standard",
-              "VOCABULARY_ID": "CPT4"
-            },
-            "includeDescendants": true
-          },
-          {
-            "concept": {
-              "CONCEPT_CLASS_ID": "CPT4",
-              "CONCEPT_CODE": "58240",
-              "CONCEPT_ID": 2110180,
-              "CONCEPT_NAME": "Pelvic exenteration for gynecologic malignancy, with total abdominal hysterectomy or cervicectomy, with or without removal of tube(s), with or without removal of ovary(s), with removal of bladder and ureteral transplantations, and/or abdominoperineal rese",
-              "DOMAIN_ID": "Procedure",
-              "INVALID_REASON": "V",
-              "INVALID_REASON_CAPTION": "Valid",
-              "STANDARD_CONCEPT": "S",
-              "STANDARD_CONCEPT_CAPTION": "Standard",
-              "VOCABULARY_ID": "CPT4"
             },
             "includeDescendants": true
           }
@@ -585,21 +361,6 @@
           },
           {
             "concept": {
-              "CONCEPT_CLASS_ID": "Qualifier Value",
-              "CONCEPT_CODE": "307429007",
-              "CONCEPT_ID": 4144036,
-              "CONCEPT_NAME": "After menopause",
-              "DOMAIN_ID": "Observation",
-              "INVALID_REASON": "V",
-              "INVALID_REASON_CAPTION": "Valid",
-              "STANDARD_CONCEPT": "S",
-              "STANDARD_CONCEPT_CAPTION": "Standard",
-              "VOCABULARY_ID": "SNOMED"
-            },
-            "includeDescendants": true
-          },
-          {
-            "concept": {
               "CONCEPT_CLASS_ID": "Clinical Finding",
               "CONCEPT_CODE": "243875009",
               "CONCEPT_ID": 4087072,
@@ -651,11 +412,19 @@
     "CriteriaList": [
       {
         "ConditionOccurrence": {
-          "CodesetId": 0
+          "CodesetId": 0,
+          "OccurrenceStartDate": {
+            "Value": "2000-01-01",
+            "Op": "gte"
+          }
         }
       },
       {
         "ConditionOccurrence": {
+          "OccurrenceStartDate": {
+            "Value": "2000-01-01",
+            "Op": "gte"
+          },
           "ConditionSourceConcept": 7
         }
       }
@@ -675,23 +444,6 @@
     "Type": "First"
   },
   "InclusionRules": [
-    {
-      "name": "Between ages of 11 to 55",
-      "expression": {
-        "Type": "ALL",
-        "CriteriaList": [],
-        "DemographicCriteriaList": [
-          {
-            "Age": {
-              "Value": 11,
-              "Extent": 55,
-              "Op": "bt"
-            }
-          }
-        ],
-        "Groups": []
-      }
-    },
     {
       "name": "Gender = Female",
       "expression": {
@@ -716,9 +468,26 @@
       }
     },
     {
+      "name": "Between ages of 11 to 55",
+      "expression": {
+        "Type": "ALL",
+        "CriteriaList": [],
+        "DemographicCriteriaList": [
+          {
+            "Age": {
+              "Value": 11,
+              "Extent": 55,
+              "Op": "bt"
+            }
+          }
+        ],
+        "Groups": []
+      }
+    },
+    {
       "name": "No prior hysterectomy or bilateral ovariectomy",
       "expression": {
-        "Type": "ANY",
+        "Type": "ALL",
         "CriteriaList": [
           {
             "Criteria": {
@@ -770,7 +539,7 @@
     {
       "name": "Not in menopause",
       "expression": {
-        "Type": "ANY",
+        "Type": "ALL",
         "CriteriaList": [
           {
             "Criteria": {

@@ -17,6 +17,16 @@ This cohort is meant to serve as the target population for the EHDEN HMB network
 
 #### Log
 
+**Version 4: 06/19/2023**
+- Simplification of Concept Sets:
+    - HMB: remove abnormal uterine bleeding
+    - bilateral ovariectomy: only use 4297990 Bilateral oophorectomy and descendants. remove other codes
+    - menopause: remove after menopause concept
+- Ensure that inclusion criteria counts both instances:
+    - having **all** menopause condition and menopause observation
+    - having **all** hysterectomy and bilateral ovariectomy
+- Add index start date range. Observe HMB on or after 2000-01-01
+
 **Version 3: 06/15/2023**
 - Fix typo in inclusion rules for menopause. Exactly 0 occurrences of condition/observation of menopause between any time before and 0 days after
 
