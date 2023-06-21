@@ -6,10 +6,12 @@
 
 #### Meta
 
-- **FilePath**: cohortsToCreate/01_target/hmb.json
-- **Id**: 1
-- **Authors**: Martin Lavallee and Asieh Golozar
-- Developed using ATLAS
+-   **LongName**: Heavy Menstrual Bleed
+-   **ShortName**: HMB
+-   **FilePath**: cohortsToCreate/01_target/hmb.json
+-   **Id**: 1
+-   **Authors**: Martin Lavallee and Asieh Golozar
+-   Developed using ATLAS
 
 #### Description
 
@@ -18,17 +20,19 @@ This cohort is meant to serve as the target population for the EHDEN HMB network
 #### Log
 
 **Version 4: 06/19/2023**
-- Simplification of Concept Sets:
-    - HMB: remove abnormal uterine bleeding
-    - bilateral ovariectomy: only use 4297990 Bilateral oophorectomy and descendants. remove other codes
-    - menopause: remove after menopause concept
-- Ensure that inclusion criteria counts both instances:
-    - having **all** menopause condition and menopause observation
-    - having **all** hysterectomy and bilateral ovariectomy
-- Add index start date range. Observe HMB on or after 2000-01-01
+
+-   Simplification of Concept Sets:
+    -   HMB: remove abnormal uterine bleeding
+    -   bilateral ovariectomy: only use 4297990 Bilateral oophorectomy and descendants. remove other codes
+    -   menopause: remove after menopause concept
+-   Ensure that inclusion criteria counts both instances:
+    -   having **all** menopause condition and menopause observation
+    -   having **all** hysterectomy and bilateral ovariectomy
+-   Add index start date range. Observe HMB on or after 2000-01-01
 
 **Version 3: 06/15/2023**
-- Fix typo in inclusion rules for menopause. Exactly 0 occurrences of condition/observation of menopause between any time before and 0 days after
+
+-   Fix typo in inclusion rules for menopause. Exactly 0 occurrences of condition/observation of menopause between any time before and 0 days after
 
 **Version 2: 06/01/2023**
 
@@ -41,4 +45,8 @@ This cohort is meant to serve as the target population for the EHDEN HMB network
     -   other gynelogical bleed considers all time after, which was removed
 -   Change censoring for age to be based on visit domain
 
-**Version 1: Prior** - Developed by IQVIA, insufficient review of cohort definition and concept sets - Added ICD9 626.2 for excessive and frequent menstruation - Censoring based on age based on measurement domain (visit domain not required by IQVIA)
+**Version 1: Prior**
+
+-   Developed by IQVIA, insufficient review of cohort definition and concept sets
+-   Added ICD9 626.2 for excessive and frequent menstruation
+-   Censoring based on age based on measurement domain (visit domain not required by IQVIA)
