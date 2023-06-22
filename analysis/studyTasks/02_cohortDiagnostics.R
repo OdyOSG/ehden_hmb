@@ -24,16 +24,18 @@ configBlock <- "odysseus"
 connectionDetails <- DatabaseConnector::createConnectionDetails(
   dbms = config::get("dbms", config = configBlock),
   user = config::get("user", config = configBlock),
-  password = config::get("user", config = configBlock),
+  password = config::get("password", config = configBlock),
   connectionString = config::get("connectionString", config = configBlock)
 )
 
 #connect to database
 con <- DatabaseConnector::connect(connectionDetails)
-on.exit(DatabaseConnector::disconnect(con)) #close on exit
+withr::defer(
+  expr = DatabaseConnector::disconnect(con),
+  envir = parent.frame()
+) # close on exit
 
-#######if in snowflake uncomment this line#################
-#startSnowflakeSession(con, executionSettings)
+
 
 # D. Study Variables -----------------------
 
@@ -49,6 +51,12 @@ outputFolder <- here::here("results/02_cohortDiagnostics") %>%
 diagCohorts <- getCohortManifest()
 # E. Script --------------------
 
+
+#######if BAYER uncomment this line#################
+#startSnowflakeSession(con, executionSettings)
+
+
+# Create cohort table names
 name <- executionSettings$cohortTable
 
 cohortTableNames <- list(cohortTable = paste0(name),
@@ -58,7 +66,7 @@ cohortTableNames <- list(cohortTable = paste0(name),
                          cohortSummaryStatsTable = paste0(name, "_summary_stats"),
                          cohortCensorStatsTable = paste0(name, "_censor_stats"))
 
-
+ #Run cohort diagnostics
 CohortDiagnostics::executeDiagnostics(
   cohortDefinitionSet =  diagCohorts,
   exportFolder = outputFolder,
@@ -76,3 +84,4 @@ CohortDiagnostics::executeDiagnostics(
 
 sessioninfo::session_info()
 rm(list=ls())
+withr::deferred_run()

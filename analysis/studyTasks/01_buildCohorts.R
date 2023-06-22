@@ -18,43 +18,53 @@ source("analysis/private/_executionSettings.R")
 # C. Connection ----------------------
 
 # set connection Block
-configBlock <- "[Add config block]"
+configBlock <- "odysseus"
 
 # provide connection details
 connectionDetails <- DatabaseConnector::createConnectionDetails(
   dbms = config::get("dbms", config = configBlock),
   user = config::get("user", config = configBlock),
-  password = config::get("user", config = configBlock),
+  password = config::get("password", config = configBlock),
   connectionString = config::get("connectionString", config = configBlock)
 )
 
+
 #connect to database
 con <- DatabaseConnector::connect(connectionDetails)
-on.exit(DatabaseConnector::disconnect(con)) #close on exit
+withr::defer(
+  expr = DatabaseConnector::disconnect(con),
+  envir = parent.frame()
+) #close on exit
 
-#######if in snowflake uncomment this line#################
-#startSnowflakeSession(con, executionSettings)
+
 
 # D. Study Variables -----------------------
 
 ### Administrative Variables
 executionSettings <- config::get(config = configBlock) %>%
-  purrr::discard_at( c("dbms", "user", "password", "connectionString"))
+  purrr::discard_at(c("dbms", "user", "password", "connectionString"))
 
 outputFolder <- here::here("results/01_buildCohorts") %>%
   fs::path(executionSettings$databaseName) %>%
   fs::dir_create()
 
+
+
 ### Add study variables or load from settings
 
 cohortManifest <- getCohortManifest()
 
-## Initialize COhort table
-### RUN ONCE #########
+
+# E. Script --------------------
+
+#######if BAYER uncomment this line#################
+#startSnowflakeSession(con, executionSettings)
+
+
+### RUN ONCE - Initialize COhort table #########
 
 #initializeCohortTables(executionSettings = executionSettings, con = con)
 
-# E. Script --------------------
 
 # Generate cohorts
 generatedCohorts <- generateCohorts(
@@ -69,3 +79,4 @@ generatedCohorts <- generateCohorts(
 
 sessioninfo::session_info()
 rm(list=ls())
+withr::deferred_run()
