@@ -1,7 +1,8 @@
 # Setup Credentials -------------
 # This file setups the credential library for your study. The function establishes
 # a config.yml file and creates a keyring for the study. Input your credentials
-# into the keyring.
+# into the keyring. Keep your database credentials handy before running this script.
+# Ask your database administrator if you are unsure of your credentials.
 
 ## A) Depedendencies ------------
 
@@ -51,13 +52,13 @@ keyring::keyring_create(keyring = keyringName, password = keyringPassword)
 ## E) Set Credentials -----------------------
 creds <- c(
   "dbms", # the database dialect
+  #"role", # the role id for your user in the db, ONLY FOR BAYER
   "user", # the user name for the db
   "password", # the password for the db
   "connectionString", # the connection string to access the db
   "cdmDatabaseSchema", # the database + schema (or just schema) hosting the cdm
   "vocabDatabaseSchema", # the database + schema (or just schema) hosting the vocabulary, usually same as cdm
-  "workDatabaseSchema", # the database + schema (or just schema) hosting the work or scratch
-  "role" # the role id for your user in the db
+  "workDatabaseSchema" # the database + schema (or just schema) hosting the work or scratch
 )
 
 cred_block <- paste(configBlock, creds, sep = "_")
@@ -81,6 +82,9 @@ blurCreds <- function(item, configBlock, keyringName) {
 }
 
 purrr::walk(creds, ~blurCreds(item = .x, configBlock = configBlock, keyringName = keyringName))
+
+# If a single credential is incorrect, change it
+#keyring::key_set(service = "dbms", kerying = keyringName)
 
 
 ### Test connection details
