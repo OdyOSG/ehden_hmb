@@ -24,6 +24,16 @@ You also require your site data to be mapped to the [OMOP CDM](https://ohdsi.git
 
 ## Setting up the Ehden Hmb study locally
 
+### Get Dependencies
+
+To run the ehden_hmb study the user must install the following packages:
+
+```r
+install.packages('usethis')
+install.packages('remotes')
+remotes::install_github("ohdsi/Ulysses", ref = "develop")
+```
+
 ### Get Repo
 
 1)  Go to the github url: <https://github.com/OdyOSG/ehden_hmb>
@@ -47,5 +57,3 @@ To set up the keyring for your credentials open the file *extras/KeyringSetup.R*
 To run the Ehden Hmb study, the user must execute the analysis scripts one at a time per database. Automations to this process are not yet available.
 
 Begin by going to the *analysis/studyTasks* folder and opening the first file in the sequence. Replace the value in the configBlock to that of the configuration you wish to use. Once this has been set you may begin running the script. Please contact [*martin.lavallee\@odysseusinc.com*](mailto:martin.lavallee@odysseusinc.com){.email} if there are any issues.
-
-
