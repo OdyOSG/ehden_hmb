@@ -1,3 +1,10 @@
+# EHDEN HMB v0.0.3
+
+* Update How to run file with installation instructions for usethis and Ulysses
+* Fix extras/KeyringSetup.R file to correctly set up credentials and check them
+* Edit `startSnowflakeSession` function to handle string split of workDatabaseSchema
+* Edit study tasks to order snowflake start correctly and close connection at end of file
+
 # EHDEN HMB v0.0.2
 
 * Update cohort definition for HMB to fix error
