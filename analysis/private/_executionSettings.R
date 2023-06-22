@@ -43,13 +43,15 @@ startSnowflakeSession <- function(con, executionSettings) {
     USE DATABASE @write_database;
     USE SCHEMA @write_schema;
   "
+  crd <- stringr::str_split_1(string = executionSettings$workDatabaseSchema, pattern = "\\.")
+
   sessionSql <- SqlRender::render(
     sql = sql,
     user_role = executionSettings$userRole,
-    write_database = executionSettings$writeDatabase,
-    write_schema = executionSettings$writeSchema
+    write_database = crd[1],
+    write_schema = crd[2]
   ) %>%
-    SqlRender::translate(targetDialect = executionSettings$connectionDetails$dbms)
+    SqlRender::translate(targetDialect = con@dbms)
   DatabaseConnector::executeSql(connection = con, sql = sessionSql)
   cli::cat_line("Setting up Snowflake session")
   invisible(sessionSql)
