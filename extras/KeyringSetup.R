@@ -21,10 +21,10 @@ keyringName <- "ehden_hmb" # the name of the keyring
 keyringPassword <- "ulysses" # password for keyring
 # This password is simply to avoid a prompt when creating the keyring
 
-## c) Create Config File------------------------
+## c) Check or create Config File------------------------
 
-# create the config.yml file
-makeConfig(block = configBlock, database = database)
+# check if config.yml file exists, make it if it does not exist
+checkConfig()
 
 ## D) Setup Keyring -----------------
 
