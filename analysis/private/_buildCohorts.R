@@ -62,24 +62,11 @@ generateCohorts <- function(executionSettings,
                             outputFolder,
                             type = "analysis") {
 
- # if (con@dbms == "snowflake") {
- #
- #    workSchema <- paste(executionSettings$workDatabase, executionSettings$workSchema, sep = ".")
- #    cdmSchema <- paste(executionSettings$cdmDatabase, executionSettings$cdmSchema, sep = ".")
- #    vocabularySchema <- paste(executionSettings$cdmDatabase, executionSettings$vocabSchema, sep = ".")
- #
- #  } else {
- #
- #    workSchema <- executionSettings$workSchema
- #    cdmSchema <- executionSettings$cdmSchema
- #    vocabularySchema <- executionSettings$vocabSchema
- #  }
 
   # prep cohorts for generator
   cohortsToCreate <- prepManifestForCohortGenerator(cohortManifest)
 
   #path for incremental
-  #incrementalFolder <- fs::path(outputFolder, executionSettings$databaseName)
   incrementalFolder <- fs::path(outputFolder)
 
 
@@ -125,7 +112,6 @@ generateCohorts <- function(executionSettings,
     )
 
   savePath <- fs::path(outputFolder, "cohortManifest.csv")
-  #savePath <- fs::path(outputFolder, executionSettings$databaseId, "cohortManifest.csv")
   readr::write_csv(x = tb, file = savePath)
   cli::cat_bullet("Saving Generated Cohorts to ", crayon::cyan(savePath),
                   bullet = "tick", bullet_col = "green")

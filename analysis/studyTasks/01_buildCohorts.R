@@ -18,7 +18,7 @@ source("analysis/private/_executionSettings.R")
 # C. Connection ----------------------
 
 # set connection Block
-configBlock <- "optum"
+configBlock <- "[block]"
 
 # provide connection details
 connectionDetails <- DatabaseConnector::createConnectionDetails(
@@ -59,17 +59,14 @@ cohortManifest <- getCohortManifest()
 # E. Script --------------------
 
 #######if BAYER uncomment this line#################
-#debug(startSnowflakeSession)
-startSnowflakeSession(con, executionSettings)
+#startSnowflakeSession(con, executionSettings)
 
 
 ### RUN ONCE - Initialize COhort table #########
-#debug(initializeCohortTables)
-initializeCohortTables(executionSettings = executionSettings, con = con)
+#initializeCohortTables(executionSettings = executionSettings, con = con)
 
 
 # Generate cohorts
-debug(generateCohorts)
 generatedCohorts <- generateCohorts(
   executionSettings = executionSettings,
   con = con,
