@@ -18,7 +18,7 @@ source("analysis/private/_executionSettings.R")
 # C. Connection ----------------------
 
 # set connection Block
-configBlock <- "odysseus"
+configBlock <- "optum"
 
 # provide connection details
 connectionDetails <- DatabaseConnector::createConnectionDetails(
@@ -53,7 +53,7 @@ diagCohorts <- getCohortManifest()
 
 
 #######if BAYER uncomment this line#################
-#startSnowflakeSession(con, executionSettings)
+startSnowflakeSession(con, executionSettings)
 
 
 # Create cohort table names
@@ -71,9 +71,9 @@ CohortDiagnostics::executeDiagnostics(
   cohortDefinitionSet =  diagCohorts,
   exportFolder = outputFolder,
   cohortTableNames = cohortTableNames,
-  cohortDatabaseSchema = executionSettings$workSchema,
-  cdmDatabaseSchema = executionSettings$cdmSchema,
-  vocabularyDatabaseSchema = executionSettings$vocabSchema,
+  cohortDatabaseSchema = executionSettings$workDatabaseSchema,
+  cdmDatabaseSchema = executionSettings$cdmDatabaseSchema,
+  vocabularyDatabaseSchema = executionSettings$vocabDatabaseSchema,
   databaseId = executionSettings$databaseName,
   connection = con,
   incremental = TRUE,

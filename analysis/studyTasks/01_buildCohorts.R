@@ -18,7 +18,7 @@ source("analysis/private/_executionSettings.R")
 # C. Connection ----------------------
 
 # set connection Block
-configBlock <- "odysseus"
+configBlock <- "optum"
 
 # provide connection details
 connectionDetails <- DatabaseConnector::createConnectionDetails(
@@ -52,21 +52,24 @@ outputFolder <- here::here("results/01_buildCohorts") %>%
 
 ### Add study variables or load from settings
 
+#debug(getCohortManifest)
 cohortManifest <- getCohortManifest()
 
 
 # E. Script --------------------
 
 #######if BAYER uncomment this line#################
-#startSnowflakeSession(con, executionSettings)
+#debug(startSnowflakeSession)
+startSnowflakeSession(con, executionSettings)
 
 
 ### RUN ONCE - Initialize COhort table #########
-
-#initializeCohortTables(executionSettings = executionSettings, con = con)
+#debug(initializeCohortTables)
+initializeCohortTables(executionSettings = executionSettings, con = con)
 
 
 # Generate cohorts
+debug(generateCohorts)
 generatedCohorts <- generateCohorts(
   executionSettings = executionSettings,
   con = con,

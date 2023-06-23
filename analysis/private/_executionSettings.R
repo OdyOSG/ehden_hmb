@@ -47,25 +47,27 @@ startSnowflakeSession <- function(con, executionSettings) {
 
   sessionSql <- SqlRender::render(
     sql = sql,
-    user_role = executionSettings$userRole,
+    user_role = executionSettings$role,
     write_database = crd[1],
     write_schema = crd[2]
   ) %>%
     SqlRender::translate(targetDialect = con@dbms)
+
   DatabaseConnector::executeSql(connection = con, sql = sessionSql)
   cli::cat_line("Setting up Snowflake session")
+
   invisible(sessionSql)
 }
 
 
 initializeCohortTables <- function(executionSettings, con) {
 
-  if (con@dbms == "snowflake") {
-    workSchema <- paste(executionSettings$workDatabase, executionSettings$workSchema, sep = ".")
-  } else {
-    workSchema <- executionSettings$workSchema
-  }
-
+  # if (con@dbms == "snowflake") {
+  #   workSchema <- paste(executionSettings$workDatabase, executionSettings$workSchema, sep = ".")
+  # } else {
+  #   workSchema <- executionSettings$workSchema
+  # }
+  #
 
   name <- executionSettings$cohortTable
 
@@ -78,7 +80,7 @@ initializeCohortTables <- function(executionSettings, con) {
 
 
   CohortGenerator::createCohortTables(connection = con,
-                                      cohortDatabaseSchema = workSchema,
+                                      cohortDatabaseSchema = executionSettings$workDatabaseSchema,
                                       cohortTableNames = cohortTableNames,
                                       incremental = TRUE)
   invisible(cohortTableNames)
