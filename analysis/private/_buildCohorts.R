@@ -11,7 +11,7 @@
 getCohortManifest <- function(inputPath = here::here("cohortsToCreate")) {
 
   #get cohort file paths
-  cohortFiles <- fs::dir_ls(inputPath, recurse = TRUE, type = "file")
+  cohortFiles <- fs::dir_ls(inputPath, recurse = TRUE, type = "file", glob = "*.json")
   #get cohort names
   cohortNames <- fs::path_file(cohortFiles) %>%
     fs::path_ext_remove()
@@ -62,24 +62,25 @@ generateCohorts <- function(executionSettings,
                             outputFolder,
                             type = "analysis") {
 
- if (con@dbms == "snowflake") {
-
-    workSchema <- paste(executionSettings$workDatabase, executionSettings$workSchema, sep = ".")
-    cdmSchema <- paste(executionSettings$cdmDatabase, executionSettings$cdmSchema, sep = ".")
-    vocabularySchema <- paste(executionSettings$cdmDatabase, executionSettings$vocabSchema, sep = ".")
-
-  } else {
-
-    workSchema <- executionSettings$workSchema
-    cdmSchema <- executionSettings$cdmSchema
-    vocabularySchema <- executionSettings$vocabSchema
-  }
+ # if (con@dbms == "snowflake") {
+ #
+ #    workSchema <- paste(executionSettings$workDatabase, executionSettings$workSchema, sep = ".")
+ #    cdmSchema <- paste(executionSettings$cdmDatabase, executionSettings$cdmSchema, sep = ".")
+ #    vocabularySchema <- paste(executionSettings$cdmDatabase, executionSettings$vocabSchema, sep = ".")
+ #
+ #  } else {
+ #
+ #    workSchema <- executionSettings$workSchema
+ #    cdmSchema <- executionSettings$cdmSchema
+ #    vocabularySchema <- executionSettings$vocabSchema
+ #  }
 
   # prep cohorts for generator
   cohortsToCreate <- prepManifestForCohortGenerator(cohortManifest)
 
   #path for incremental
-  incrementalFolder <- fs::path(outputFolder, executionSettings$databaseName)
+  #incrementalFolder <- fs::path(outputFolder, executionSettings$databaseName)
+  incrementalFolder <- fs::path(outputFolder)
 
 
   name <- executionSettings$cohortTable
@@ -94,8 +95,8 @@ generateCohorts <- function(executionSettings,
   #generate cohorts
   CohortGenerator::generateCohortSet(
     connection = con,
-    cdmDatabaseSchema = executionSettings$cdmSchema,
-    cohortDatabaseSchema = workSchema,
+    cdmDatabaseSchema = executionSettings$cdmDatabaseSchema,
+    cohortDatabaseSchema =  executionSettings$workDatabaseSchema,
     cohortTableNames = cohortTableNames,
     cohortDefinitionSet = cohortsToCreate,
     incremental = TRUE,
@@ -105,7 +106,7 @@ generateCohorts <- function(executionSettings,
   #get cohort counts
   cohortCounts <- CohortGenerator::getCohortCounts(
     connection = con,
-    cohortDatabaseSchema = workSchema,
+    cohortDatabaseSchema = executionSettings$workDatabaseSchema,
     cohortTable = cohortTableNames$cohortTable,
     cohortDefinitionSet = cohortsToCreate
   ) %>%
@@ -123,7 +124,8 @@ generateCohorts <- function(executionSettings,
       id, name, type, entries, subjects, file
     )
 
-  savePath <- fs::path(outputFolder, executionSettings$databaseId, "cohortManifest.csv")
+  savePath <- fs::path(outputFolder, "cohortManifest.csv")
+  #savePath <- fs::path(outputFolder, executionSettings$databaseId, "cohortManifest.csv")
   readr::write_csv(x = tb, file = savePath)
   cli::cat_bullet("Saving Generated Cohorts to ", crayon::cyan(savePath),
                   bullet = "tick", bullet_col = "green")
