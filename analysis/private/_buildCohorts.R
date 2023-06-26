@@ -119,3 +119,52 @@ generateCohorts <- function(executionSettings,
   return(cohortCounts)
 
 }
+
+# Run Cohort Diagnostis
+# Description: this function is used to run cohort diagnostics. preps cohorts for run
+# and then executes cohort diagnostics
+# inputs:
+# con -> the connection objection accessing the dbms storing the omop data
+# executionSettings -> the DatabaseSchema information required to run the study
+# cohortManifest -> the set of cohorts used to run diagnostics
+# outputFolder -> the save location of the cohort diagnostics run
+# return:
+# invisible return of the cohortsToRun for diagnostics. The output of this function
+# is a folder with cohort diagnostics run.
+
+runCohortDiagnostics <- function(con,
+                                 executionSettings,
+                                 cohortManifest,
+                                 outputFolder) {
+
+  cohortsToRun <- prepManifestForCohortGenerator(cohortManifest)
+
+  name <- executionSettings$cohortTable
+
+  cohortTableNames <- list(cohortTable = paste0(name),
+                           cohortInclusionTable = paste0(name, "_inclusion"),
+                           cohortInclusionResultTable = paste0(name, "_inclusion_result"),
+                           cohortInclusionStatsTable = paste0(name, "_inclusion_stats"),
+                           cohortSummaryStatsTable = paste0(name, "_summary_stats"),
+                           cohortCensorStatsTable = paste0(name, "_censor_stats"))
+
+
+  #Run cohort diagnostics
+  CohortDiagnostics::executeDiagnostics(
+    cohortDefinitionSet = cohortsToRun,
+    exportFolder = outputFolder,
+    cohortTableNames = cohortTableNames,
+    cohortDatabaseSchema = executionSettings$workDatabaseSchema,
+    cdmDatabaseSchema = executionSettings$cdmDatabaseSchema,
+    vocabularyDatabaseSchema = executionSettings$vocabDatabaseSchema,
+    databaseId = executionSettings$databaseName,
+    connection = con,
+    incremental = TRUE,
+    minCellCount = 5
+  )
+
+  cli::cat_bullet("Saving Cohort Diagnostics to ", crayon::cyan(outputFolder),
+                  bullet = "tick", bullet_col = "green")
+
+  invisible(cohortsToRun)
+}
