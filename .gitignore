@@ -2,8 +2,7 @@
 results/
 logs/
 config.yml
-
 *.docx
 NUL
-
 scratch
+.httr-oauth

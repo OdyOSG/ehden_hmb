@@ -43,8 +43,8 @@ withr::defer(
 executionSettings <- config::get(config = configBlock) %>%
   purrr::discard_at( c("dbms", "user", "password", "connectionString"))
 
-outputFolder <- here::here("results/02_cohortDiagnostics") %>%
-  fs::path(executionSettings$databaseName) %>%
+outputFolder <- here::here("results") %>%
+  fs::path(executionSettings$databaseName, "02_cohortDiagnostics") %>%
   fs::dir_create()
 
 ### Add study variables or load from settings

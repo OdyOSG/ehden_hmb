@@ -14,11 +14,14 @@ library(config)
 library(CohortDiagnostics)
 library(Ulysses)
 library(here)
+library(fs)
 
 # C. Script --------------------
 
+configBlock <- "[block]"
+
 # path to cohort diagnostics results
-dataFolder <- here("results/02_cohortDiagnostics")
+dataFolder <- fs::path(here("results"), configBlock, "02_cohortDiagnostics")
 
 
 # add a scratch folder
