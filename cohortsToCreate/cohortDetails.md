@@ -19,6 +19,8 @@ This cohort is meant to serve as the target population for the EHDEN HMB network
 
 #### Log
 
+**Version 5: 06/26/2023** - Add *First time in patient history* for HMB index
+
 **Version 4: 06/19/2023**
 
 -   Simplification of Concept Sets:

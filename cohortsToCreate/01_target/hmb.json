@@ -416,7 +416,8 @@
           "OccurrenceStartDate": {
             "Value": "2000-01-01",
             "Op": "gte"
-          }
+          },
+          "First": true
         }
       },
       {
@@ -425,7 +426,8 @@
             "Value": "2000-01-01",
             "Op": "gte"
           },
-          "ConditionSourceConcept": 7
+          "ConditionSourceConcept": 7,
+          "First": true
         }
       }
     ],
