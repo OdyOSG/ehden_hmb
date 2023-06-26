@@ -1,0 +1,57 @@
+---
+title: "EHDEN HMB Meeting Minutes"
+date: 06-01-2023
+format:
+  docx:
+    reference-doc: custom-reference-doc.docx
+---
+
+# Topic: HMB Phenotype Discussion
+
+## Attendance
+
+-   Bayer: Siir Su Saydam
+-   BI: Ron Herrera
+-   Odysseus: Martin Lavallee and Asieh Golozar
+
+## Minutes
+
+-   **Review of HMB Project History**
+    -   Bayer contract with IQVIA to run HMB study using IQVIA European datasets (France and Germany) and Bayer internal assets (CPRD GOLD, AURUM, MarketScan, Optum)
+    -   IQVIA developed concept sets, cohorts and analysis
+    -   Analysis written for ATLAS
+    -   Concept sets and cohorts were developed but not formally evaluated using cohort diagnostics.
+    -   *Current Status*: Project remains on-going with IQVIA, finalizing incidence analysis. IQVIA not contributing to EHDEN part of study.
+-   **Issues with HMB Phenotype**
+    - Mapping issue for ICD9 (626.2) *Frequent or excessive menstruation* in OMOP Vocabulary
+        - concept maps to a vague SNOMED concept: *Finding of menstrual bleeding* (id:4078455)
+        - issue found when noticed under-counting prior to 2015
+        - In cohort definition added a search on the source concept
+        - Issue is posted on [OMOP Vocabulary github](https://github.com/OHDSI/Vocabulary-v5.0/issues/588)
+    - IQVIA does not require visit table so age censor based on measurement domain
+    - Concept sets need work - use of multiple non-standard concepts
+- **Improving the HMB phenotype**
+    - HMB phenotype to be re-developed as seen to have too many errors and inconsistencies
+    - Extend time period to all available data, no longer ending at 2020. Add COVID strata to analysis
+    - HMB phenotype available from OHDSI phenotype library. Can use this as a starting point and refine. 
+    - Explore adding information from CHAPTER study to phenotype (unnatural menopause defined as women with Breast Cancer on endocrine therapy, for example)
+    - Concern of under diagnosis of HMB in GP data. CPRD uses more concepts from the Observation table that may be more helpful in enumeration
+    - Odysseus to help review concept sets
+    - BI can run cohort diagnostics and assist in improving the HMB phenotype, however can not share characterization results.
+- **Protocol Development**
+    - Bayer sent draft of protocol amendment on May 30th to study team
+    - Team agreed that it is a bit confusing separating the protocol by parts. 
+    - Preference of team to have a clean document to outline EHDEN portion of the analysis, suggest to create a Statistical Analysis Plan (SAP) that serves as our main guidance document for the study
+
+## Action Items
+
+- **Redo HMB Phenotype**
+    - Team agrees to redo HMB phenotype using the [OHDSI phenotype library definition](https://github.com/OHDSI/PhenotypeLibrary/blob/main/inst/cohorts/300.json) as a starting point
+    - Odysseus to build new HMB phenotype and concept sets by mid mext week
+- **Run Cohort Diagnostics on new HMB Phenotype**
+    - Odysseus to send new HMB phenotype to Bayer and BI to run cohort diagnostics on the new definition
+    - Odysseus to set up new study repo with cohort diagnostics code to run
+- **Develop SAP to complement Bayer Protocol**
+    - Bayer to continue with protocol amendment for internal processes
+    - Odysseus and Bayer to work on an overview of additional analysis for the protocol amendment
+    - Odysseus to develop an SAP for the EHDEN part of the study. This document will be the main guidance document. 
