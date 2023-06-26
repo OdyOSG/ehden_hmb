@@ -18,10 +18,10 @@ library(fs)
 
 # C. Script --------------------
 
-configBlock <- "[block]"
+databaseName <- "[databaseName]" #the databaseName to use for results sharing
 
 # path to cohort diagnostics results
-dataFolder <- fs::path(here("results"), configBlock, "02_cohortDiagnostics")
+dataFolder <- fs::path(here("results"), databaseName, "02_cohortDiagnostics")
 
 
 # add a scratch folder
@@ -40,6 +40,8 @@ createMergedResultsFile(dataFolder = dataFolder,
 launchDiagnosticsExplorer(sqliteDbPath = sqlLiteDbPath)
 
 # when done reviewing the shiny app hit the stop button in the console.
+
+
 
 # F. Session Info ------------------------
 
