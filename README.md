@@ -2,7 +2,7 @@
 
 <!-- studyStatus: start -->
 
-![Study Status: Started](https://img.shields.io/badge/Study%20Status-Repo%20Created-lightgray.svg)
+![Study Status: Started](https://img.shields.io/badge/Study%20Status-Started-blue.svg)
 
 <!-- studyStatus: end -->
 
