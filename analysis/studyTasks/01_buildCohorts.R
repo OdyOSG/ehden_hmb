@@ -51,8 +51,6 @@ outputFolder <- here::here("results/01_buildCohorts") %>%
 
 
 ### Add study variables or load from settings
-
-#debug(getCohortManifest)
 cohortManifest <- getCohortManifest()
 
 

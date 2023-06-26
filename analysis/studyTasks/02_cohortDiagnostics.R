@@ -18,7 +18,7 @@ source("analysis/private/_executionSettings.R")
 # C. Connection ----------------------
 
 # set connection Block
-configBlock <- "optum"
+configBlock <- "[block]"
 
 # provide connection details
 connectionDetails <- DatabaseConnector::createConnectionDetails(
@@ -53,32 +53,16 @@ diagCohorts <- getCohortManifest()
 
 
 #######if BAYER uncomment this line#################
-startSnowflakeSession(con, executionSettings)
+#startSnowflakeSession(con, executionSettings)
 
 
-# Create cohort table names
-name <- executionSettings$cohortTable
+# run cohort diagnostics
 
-cohortTableNames <- list(cohortTable = paste0(name),
-                         cohortInclusionTable = paste0(name, "_inclusion"),
-                         cohortInclusionResultTable = paste0(name, "_inclusion_result"),
-                         cohortInclusionStatsTable = paste0(name, "_inclusion_stats"),
-                         cohortSummaryStatsTable = paste0(name, "_summary_stats"),
-                         cohortCensorStatsTable = paste0(name, "_censor_stats"))
+runCohortDiagnostics(executionSettings = executionSettings,
+                     con = con,
+                     cohortManifest = diagCohorts,
+                     outputFolder = outputFolder)
 
- #Run cohort diagnostics
-CohortDiagnostics::executeDiagnostics(
-  cohortDefinitionSet =  diagCohorts,
-  exportFolder = outputFolder,
-  cohortTableNames = cohortTableNames,
-  cohortDatabaseSchema = executionSettings$workDatabaseSchema,
-  cdmDatabaseSchema = executionSettings$cdmDatabaseSchema,
-  vocabularyDatabaseSchema = executionSettings$vocabDatabaseSchema,
-  databaseId = executionSettings$databaseName,
-  connection = con,
-  incremental = TRUE,
-  minCellCount = 5
-)
 
 # F. Session Info ------------------------
 
