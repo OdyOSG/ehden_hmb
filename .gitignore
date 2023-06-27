@@ -5,6 +5,7 @@ config.yml
 NUL
 scratch
 .httr-oauth
+documentation/minutes/custom-reference-doc.docx
 documentation/custom-reference-doc.docx
 documentation/StudySAP.qmd
 documentation/minutes612023.qmd
