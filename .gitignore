@@ -2,7 +2,9 @@
 results/
 logs/
 config.yml
-*.docx
 NUL
 scratch
 .httr-oauth
+documentation/custom-reference-doc.docx
+documentation/StudySAP.qmd
+documentation/minutes612023.qmd
