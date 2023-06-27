@@ -47,7 +47,7 @@ format:
 
 - **Redo HMB Phenotype**
     - Team agrees to redo HMB phenotype using the [OHDSI phenotype library definition](https://github.com/OHDSI/PhenotypeLibrary/blob/main/inst/cohorts/300.json) as a starting point
-    - Odysseus to build new HMB phenotype and concept sets by mid mext week
+    - Odysseus to build new HMB phenotype and concept sets by mid next week
 - **Run Cohort Diagnostics on new HMB Phenotype**
     - Odysseus to send new HMB phenotype to Bayer and BI to run cohort diagnostics on the new definition
     - Odysseus to set up new study repo with cohort diagnostics code to run
