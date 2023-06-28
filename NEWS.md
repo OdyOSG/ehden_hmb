@@ -1,3 +1,8 @@
+# EHDEN HMB v0.0.4
+
+* Fix errors in KeyringSetup.R file
+* Fix cohort diagnostics to use integer64 with id in cohortDefinitionSet
+
 # EHDEN HMB v0.0.3
 
 * Update How to run file with installation instructions for usethis and Ulysses

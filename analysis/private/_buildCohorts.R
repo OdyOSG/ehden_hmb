@@ -137,7 +137,10 @@ runCohortDiagnostics <- function(con,
                                  cohortManifest,
                                  outputFolder) {
 
-  cohortsToRun <- prepManifestForCohortGenerator(cohortManifest)
+  cohortsToRun <- prepManifestForCohortGenerator(cohortManifest) %>%
+    dplyr::mutate(
+      id = bit64::as.integer64(id)
+    )
 
   name <- executionSettings$cohortTable
 

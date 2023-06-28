@@ -91,7 +91,7 @@ purrr::walk(creds, ~blurCreds(item = .x, configBlock = configBlock, keyringName 
 connectionDetails <- DatabaseConnector::createConnectionDetails(
   dbms = config::get("dbms", config = configBlock),
   user = config::get("user", config = configBlock),
-  password = config::get("user", config = configBlock),
+  password = config::get("password", config = configBlock),
   connectionString = config::get("connectionString", config = configBlock)
 )
 connectionDetails$dbms
