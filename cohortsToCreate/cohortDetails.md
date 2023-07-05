@@ -19,7 +19,14 @@ This cohort is meant to serve as the target population for the EHDEN HMB network
 
 #### Log
 
-**Version 5: 06/26/2023** - Add *First time in patient history* for HMB index
+**Version 6: 07/05/2023** 
+
+- Remove unused concept sets from json to avoid records in cohort diagnostics (breast cancer)
+
+
+**Version 5: 06/26/2023** 
+
+- Add *First time in patient history* for HMB index
 
 **Version 4: 06/19/2023**
 
