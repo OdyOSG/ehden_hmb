@@ -1,3 +1,8 @@
+# EHDEN HMB v0.0.5
+
+* Add in renv
+* minor correction to HMB cohort for cohort diagnostics
+
 # EHDEN HMB v0.0.4
 
 * Fix errors in KeyringSetup.R file
