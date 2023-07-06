@@ -67,5 +67,6 @@ runCohortDiagnostics(executionSettings = executionSettings,
 # F. Session Info ------------------------
 
 sessioninfo::session_info()
-rm(list=ls())
 withr::deferred_run()
+rm(list=ls())
+
