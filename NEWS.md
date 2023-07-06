@@ -1,3 +1,10 @@
+# EHDEN HMB v0.0.6
+
+* Add file `StoreResults` to upload cohort diagnostics zip to aws s3 bucket
+* Update `KeyringSetup` to match `Ulysses`
+* Update renv.lock to add `aws.s3` and `Ulysses` v0.0.2
+* minor correction to study task files
+
 # EHDEN HMB v0.0.5
 
 * Add in renv

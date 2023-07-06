@@ -142,4 +142,4 @@ Next you will run the cohort diagnostics script. Follow the steps described in s
 
 Once the cohort diagnostics function has completed, move to script `03_reviewCohortDiagnostics.R` and run it. This script will launch the shiny app to review the cohort diagnostics results. 
 
-Once the results have been reviewed, please upload the zip file of each database found in the *02_cohortDiagnostics* folder to the Teams Environment. 
+Once the results have been reviewed, please upload the zip file of each database found in the *02_cohortDiagnostics* folder to the aws s3 bucket. A file `extras/StoreReults.R` provides guidance on how to upload. You must contact the study lead for the aws s3 key and secret.  
