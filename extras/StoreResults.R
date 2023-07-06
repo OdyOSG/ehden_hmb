@@ -30,8 +30,8 @@ Ulysses::setMultipleCredentials(creds = c("key", "secret"),
                                 keyringName = keyringName,
                                 keyringPassword = keyringPassword)
 
-
-
+# Ulysses::checkDatabaseCredential(cred = "key", db = "aws", keyringName = "ehden_hmb")
+# Ulysses::checkDatabaseCredential(cred = "secret", db = "aws", keyringName = "ehden_hmb")
 # E) Get Zip files from Cohort Diagnostics -----------
 
 resultsPath <- here::here("results")
