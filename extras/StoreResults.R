@@ -17,6 +17,7 @@ library(Ulysses)
 library(tidyverse, quietly = TRUE)
 
 # c) Variables ----------------
+s3EndPoint <- "[insert correct endpoint]"
 
 s3Bucket <- "ehden-hmb-results" # the name of the s3 bucket to store results
 
@@ -48,6 +49,7 @@ aws.s3::put_object(
   file = zipFilePath,
   object = objZip,
   bucket = s3Bucket,
+  baseUrl = s3EndPoint,
   key = keyring::key_get("aws_key", keyring = keyringName),
   secret = keyring::key_get("aws_secret", keyring = keyringName)
 )
