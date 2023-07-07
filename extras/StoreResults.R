@@ -17,7 +17,6 @@ library(Ulysses)
 library(tidyverse, quietly = TRUE)
 
 # c) Variables ----------------
-s3EndPoint <- "[insert correct endpoint]"
 
 s3Bucket <- "ehden-hmb-results" # the name of the s3 bucket to store results
 
@@ -26,17 +25,25 @@ keyringName <- "ehden_hmb" # the name of the keyring
 keyringPassword <- "ulysses" # password for keyring
 
 # D) Set Keyring  ----------------------
-Ulysses::setMultipleCredentials(creds = c("key", "secret"),
-                                db = "aws",
-                                keyringName = keyringName,
-                                keyringPassword = keyringPassword)
 
-# Ulysses::checkDatabaseCredential(cred = "key", db = "aws", keyringName = "ehden_hmb")
-# Ulysses::checkDatabaseCredential(cred = "secret", db = "aws", keyringName = "ehden_hmb")
+#check if key ring set
+# Note if the credential has not been set it will return a credential store error
+# Will improve the error message in future Ulysses release
+
+Ulysses::checkDatabaseCredential(cred = "key", db = "aws", keyringName = "ehden_hmb")
+Ulysses::checkDatabaseCredential(cred = "secret", db = "aws", keyringName = "ehden_hmb")
+
+# if not set or wrong, uncomment below and input keyring creds
+# Ulysses::setMultipleCredentials(creds = c("key", "secret"),
+#                                 db = "aws",
+#                                 keyringName = keyringName,
+#                                 keyringPassword = keyringPassword)
+
+
 # E) Get Zip files from Cohort Diagnostics -----------
 
 resultsPath <- here::here("results")
-db <- "synpuf_110k"
+db <- "synpuf_110k" # change to the database name you want
 folder <- "02_cohortDiagnostics"
 
 zipFilePath <- fs::path(resultsPath, db, folder) %>%
@@ -49,7 +56,7 @@ aws.s3::put_object(
   file = zipFilePath,
   object = objZip,
   bucket = s3Bucket,
-  baseUrl = s3EndPoint,
+  region = "eu-central-1",
   key = keyring::key_get("aws_key", keyring = keyringName),
   secret = keyring::key_get("aws_secret", keyring = keyringName)
 )
