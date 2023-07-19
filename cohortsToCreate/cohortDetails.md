@@ -19,10 +19,18 @@ This cohort is meant to serve as the target population for the EHDEN HMB network
 
 #### Log
 
+**Version 7: 07/19/2023**
+- Changed inclusion criteria to all events from earliest event
+- Add exclusion criterion: Exactly 0 occurrences of postcoital bleeding 365 days before and 0 days after index date
+- Allow events outside of the observation period for bilateral ovariectomy and hysterectomy
+- Add exclusion criterion: Exactly 0 condition occurrence of pregnancy 180 days before and 0 days after index date
+- Changed menopause concept set to combine with PhenotypeLibrary expression and iVMS concept set from CHAPTER: Remove ‘atrophic vaginitis’ and ‘menopause monitoring status’, add ‘postmenopausal hormone replacement therapy’, ‘after menopause’, ‘postartificial menopausal syndrome’. Allow events outside of the observation period.
+- Add exclusion criterion: Exactly 0 condition occurrences of ovarian or uterine cancer all days before and 0 days after the index date. Allow events outside of the observation period.
+- Add censoring criteria: Uterine/ovarian cancer, pregnancy, add procedure occurrence based on the new concept set for menopause
+
 **Version 6: 07/05/2023** 
 
 - Remove unused concept sets from json to avoid records in cohort diagnostics (breast cancer)
-
 
 **Version 5: 06/26/2023** 
 
