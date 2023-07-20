@@ -8,34 +8,31 @@
 
 # B. Functions ------------------------
 
-getCohortManifest <- function(inputPath = here::here("cohortsToCreate")) {
+initializeCohortTables <- function(executionSettings, con) {
 
-  #get cohort file paths
-  cohortFiles <- fs::dir_ls(inputPath, recurse = TRUE, type = "file", glob = "*.json")
-  #get cohort names
-  cohortNames <- fs::path_file(cohortFiles) %>%
-    fs::path_ext_remove()
-  #get cohort type
-  cohortType <- fs::path_dir(cohortFiles) %>%
-    basename() %>%
-    gsub(".*_", "", .)
+  # if (con@dbms == "snowflake") {
+  #   workSchema <- paste(executionSettings$workDatabase, executionSettings$workSchema, sep = ".")
+  # } else {
+  #   workSchema <- executionSettings$workSchema
+  # }
+  #
 
-  #future addition of hash
-  hash <- purrr::map(cohortFiles, ~readr::read_file(.x)) %>%
-    purrr::map_chr(~digest::digest(.x, algo = "sha1")) %>%
-    unname()
+  name <- executionSettings$cohortTable
 
-  #return tibble with info
-  tb <- tibble::tibble(
-    name = cohortNames,
-    type = cohortType,
-    hash = hash,
-    file = cohortFiles %>% as.character()
-  ) %>%
-    dplyr::mutate(
-      id = dplyr::row_number(), .before = 1
-    )
-  return(tb)
+  cohortTableNames <- list(cohortTable = paste0(name),
+                           cohortInclusionTable = paste0(name, "_inclusion"),
+                           cohortInclusionResultTable = paste0(name, "_inclusion_result"),
+                           cohortInclusionStatsTable = paste0(name, "_inclusion_stats"),
+                           cohortSummaryStatsTable = paste0(name, "_summary_stats"),
+                           cohortCensorStatsTable = paste0(name, "_censor_stats"))
+
+
+  CohortGenerator::createCohortTables(connection = con,
+                                      cohortDatabaseSchema = executionSettings$workDatabaseSchema,
+                                      cohortTableNames = cohortTableNames,
+                                      incremental = TRUE)
+  invisible(cohortTableNames)
+
 }
 
 prepManifestForCohortGenerator <- function(cohortManifest) {

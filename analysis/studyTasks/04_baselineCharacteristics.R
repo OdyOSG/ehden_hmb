@@ -1,24 +1,29 @@
-# A. Meta Info -----------------------
+# 04_baselineCharacteristics.R
 
-# Name: Build Cohorts
+# A. File Info -----------------------
+
+# Study: Ehden Hmb
+# Name: Baseline Characteristics
 # Author: Martin Lavallee
-# Date: 2023-06-15
-# Description: The purpose of 01_buildCohorts.R is to build the HMB cohorts needed
-# for the analysis.
+# Date: 07/20/2023
+# Description: The purpose of this script is to run baseline characteristics for the ehden study
 
 # B. Dependencies ----------------------
 
+## include R libraries
 library(tidyverse, quietly = TRUE)
 library(DatabaseConnector)
 library(config)
 
-source("analysis/private/_buildCohorts.R")
-source("analysis/private/_utilities.R")
+## set options Ex. options(connectionObserver = NULL)
+
+## set source files source('my_file.R')
+
 
 # C. Connection ----------------------
 
 # set connection Block
-configBlock <- "[block]"
+configBlock <- "[Add config block]"
 
 # provide connection details
 connectionDetails <- DatabaseConnector::createConnectionDetails(
@@ -28,53 +33,42 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
   connectionString = config::get("connectionString", config = configBlock)
 )
 
-
-#connect to database
+# connect to database
 con <- DatabaseConnector::connect(connectionDetails)
-withr::defer(
-  expr = DatabaseConnector::disconnect(con),
-  envir = parent.frame()
-) #close on exit
+withr::defer(expr = DatabaseConnector::disconnect(con), envir = parent.frame())  #close on exit
 
 
-
-# D. Study Variables -----------------------
+# D. Variables -----------------------
 
 ### Administrative Variables
 executionSettings <- config::get(config = configBlock) %>%
   purrr::discard_at(c("dbms", "user", "password", "connectionString"))
 
 outputFolder <- here::here("results") %>%
-  fs::path(executionSettings$databaseName, "01_buildCohorts") %>%
+  fs::path(executionSettings$databaseName, "04_baselineCharacteristics") %>%
   fs::dir_create()
 
-
 ### Add study variables or load from settings
-cohortManifest <- getCohortManifest()
-
 
 # E. Script --------------------
+
 
 #######if BAYER uncomment this line#################
 #startSnowflakeSession(con, executionSettings)
 
+## Get Baseline Covariates
 
-### RUN ONCE - Initialize COhort table #########
-initializeCohortTables(executionSettings = executionSettings, con = con)
-
-
-# Generate cohorts
-generatedCohorts <- generateCohorts(
-  executionSettings = executionSettings,
-  con = con,
-  cohortManifest = cohortManifest,
-  outputFolder = outputFolder
-)
+executeBaselineCharacteristicsModule(executionSettings = executionSettings,
+                                     con = con,
+                                     cohortKey = cohortKey,
+                                     covariateKey = covariateKey,
+                                     timeA = -365,
+                                     timeB = -1,
+                                     outputFolder = outputFolder)
 
 
 # F. Session Info ------------------------
 
 sessioninfo::session_info()
+rm(list = ls())
 withr::deferred_run()
-rm(list=ls())
-

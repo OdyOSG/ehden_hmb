@@ -13,7 +13,7 @@ library(DatabaseConnector)
 library(config)
 
 source("analysis/private/_buildCohorts.R")
-source("analysis/private/_executionSettings.R")
+source("analysis/private/_utilities.R")
 
 # C. Connection ----------------------
 
