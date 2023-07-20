@@ -1,0 +1,41 @@
+treatmentLandscape:
+  cohorts:
+    targetCohort:
+    - name: hmb
+      id: 1
+    drugCohorts:
+    - name: combOralContraceptives
+      id: 3
+    - name: danazol
+      id: 4
+    - name: grha
+      id: 5
+    - name: ironPreparations
+      id: 6
+    - name: iud
+      id: 7
+    - name: nsaids
+      id: 8
+    - name: progestin
+      id: 9
+    - name: progresteron
+      id: 10
+    - name: tranexamicAcid
+      id: 11
+  prevalenceTimeWindow:
+  - startDays: 0
+    endDays: 0
+  - startDays: 1
+    endDays: 183
+  - startDays: 184
+    endDays: 365
+  - startDays: 366
+    endDays: 730
+  - startDays: 731
+    endDays: 1825
+  treatmentHistorySettings:
+    minDurationEra: 0
+    eraCollapseSize: 30
+    combinationWindow: 30
+    minPostCombinationDuration: 30
+  outputFolder: pharmetrics/05_treatmentLandscape

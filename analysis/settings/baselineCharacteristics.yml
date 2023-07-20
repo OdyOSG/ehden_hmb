@@ -1,0 +1,28 @@
+baselineCharacteristics:
+  cohorts:
+    targetCohort:
+    - name: hmb
+      id: 1
+    covariateCohorts:
+    - name: combOralContraceptives
+      id: 3
+    - name: danazol
+      id: 4
+    - name: grha
+      id: 5
+    - name: ironPreparations
+      id: 6
+    - name: iud
+      id: 7
+    - name: nsaids
+      id: 8
+    - name: progestin
+      id: 9
+    - name: progresteron
+      id: 10
+    - name: tranexamicAcid
+      id: 11
+  timeWindow:
+  - startDay: -365
+    endDay: -1
+  outputFolder: pharmetrics/04_baselineCharacteristics
