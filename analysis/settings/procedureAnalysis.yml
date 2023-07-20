@@ -4,24 +4,14 @@ procedureAnalysis:
     - name: hmb
       id: 1
     procCohortIds:
-    - name: combOralContraceptives
-      id: 3
-    - name: danazol
-      id: 4
-    - name: grha
-      id: 5
-    - name: ironPreparations
-      id: 6
-    - name: iud
-      id: 7
-    - name: nsaids
-      id: 8
-    - name: progestin
-      id: 9
-    - name: progresteron
-      id: 10
-    - name: tranexamicAcid
-      id: 11
+    - name: endometrialAblation
+      id: 12
+    - name: hysterectomy
+      id: 13
+    - name: myomectomy
+      id: 14
+    - name: uae
+      id: 15
   prevalenceTimeWindow:
   - startDays: 0
     endDays: 0
