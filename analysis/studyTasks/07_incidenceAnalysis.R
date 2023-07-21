@@ -15,10 +15,8 @@ library(tidyverse, quietly = TRUE)
 library(DatabaseConnector)
 library(config)
 
-## set options Ex. options(connectionObserver = NULL)
-
-## set source files source('my_file.R')
-
+source("analysis/private/_utilities.R")
+source("analysis/private/_incidenceAnalysis.R")
 
 # C. Connection ----------------------
 
@@ -26,12 +24,12 @@ library(config)
 configBlock <- "[Add config block]"
 
 # provide connection details
-connectionDetails <- DatabaseConnector::createConnectionDetails(dbms = config::get("dbms",
-                                                                                   config = configBlock),
-  user = config::get("user",
-                     config = configBlock), password = config::get("password",
-                                                                   config = configBlock),
-  connectionString = config::get("connectionString", config = configBlock))
+connectionDetails <- DatabaseConnector::createConnectionDetails(
+  dbms = config::get("dbms", config = configBlock),
+  user = config::get("user", config = configBlock),
+  password = config::get("password", config = configBlock),
+  connectionString = config::get("connectionString", config = configBlock)
+)
 
 # connect to database
 con <- DatabaseConnector::connect(connectionDetails)
@@ -40,15 +38,12 @@ withr::defer(expr = DatabaseConnector::disconnect(con), envir = parent.frame()) 
 
 # D. Variables -----------------------
 
-### Administrative Variables
+### Execution Settings
 executionSettings <- config::get(config = configBlock) %>%
   purrr::discard_at(c("dbms", "user", "password", "connectionString"))
 
-outputFolder <- here::here("results") %>%
-  fs::path(executionSettings$databaseName, "07_incidenceAnalysis") %>%
-  fs::dir_create()
-
-### Add study variables or load from settings
+### Analysis Settings
+analysisSettings <- readSettingsFile(here::here("analysis/settings/incidenceAnalysis.yml"))
 
 # E. Script --------------------
 
