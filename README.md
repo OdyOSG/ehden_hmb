@@ -44,14 +44,11 @@ EHDEN HMB is a characterization study of a heavy-menstrual bleeding cohort condu
 
 This study will be run on OMOP databases in the EHDEN Network. The table below lists some of the data partners that will participate in this study.
 
-| Name       | Host                                 |
-|------------|--------------------------------------|
-| CPRD Gold  | Bayer                                |
-| CPRD AURUM | Bayer                                |
-| Oslo       | University of Oslo, Dept of Pharmacy |
-| Semmelweis | Semmelweis University, Hungary       |
-| LynxCare   | LynxCare                             |
-| STIZON     | STIZON                               |
+| Database                            | Country            | Responsible Party        |
+|-------------------------------------|--------------------|--------------------------|
+| CPRD GOLD                           | UK                 | Bayer                    |
+| CPRD AURUM                          | UK                 | Bayer                    |
+| Hospital del Mar (Barcelona)        | Spain              | Hospital del Mar         |
 
 ## Study Documentation
 
