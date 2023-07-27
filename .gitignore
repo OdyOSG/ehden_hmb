@@ -3,7 +3,8 @@ results/
 logs/
 config.yml
 NUL
-scratch
+scratch/incPrevTest.R
+scratch/analysisSettings.R
 .httr-oauth
 documentation/minutes/custom-reference-doc.docx
 documentation/custom-reference-doc.docx
