@@ -12,6 +12,6 @@ documentation/StudySAP.qmd
 documentation/minutes612023.qmd
 errorReportSql.txt
 
-# ignore minutes
+# ignore minutes documents
 documentation/minutes/img
 documentation/minutes/*.qmd
