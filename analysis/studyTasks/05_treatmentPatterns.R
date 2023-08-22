@@ -1,12 +1,12 @@
-# 04_baselineCharacteristics.R
+# 05_treatmentLandscape.R
 
 # A. File Info -----------------------
 
 # Study: Ehden Hmb
-# Name: Baseline Characteristics
+# Name: Treatment Landscape
 # Author: Martin Lavallee
-# Date: 07/20/2023
-# Description: The purpose of this script is to run baseline characteristics for the ehden study
+# Date: [Add Date]
+# Description: The purpose of this script is to.....
 
 # B. Dependencies ----------------------
 
@@ -15,10 +15,12 @@ library(tidyverse, quietly = TRUE)
 library(DatabaseConnector)
 library(config)
 
+source("analysis/private/_treatmentHistory_helpers.R")
+source("analysis/private/_treatmentHistory.R")
+source("analysis/private/_treatmentPatterns.R")
 source("analysis/private/_utilities.R")
-source("analysis/private/_conceptPrevalence.R")
-source("analysis/private/_cohortPrevalence.R")
-source("analysis/private/_conditionRollup.R")
+
+
 # C. Connection ----------------------
 
 # set connection Block
@@ -45,29 +47,28 @@ executionSettings <- config::get(config = configBlock) %>%
   purrr::discard_at(c("dbms", "user", "password", "connectionString"))
 
 ### Analysis Settings
-analysisSettings <- readSettingsFile(here::here("analysis/settings/baselineCharacteristics.yml"))
+analysisSettings <- readSettingsFile(here::here("analysis/settings/treatmentLandscape.yml"))
+
 
 # E. Script --------------------
 
 #######if BAYER uncomment this line#################
 startSnowflakeSession(con, executionSettings)
 
-## Get Baseline Covariates
 
-# run concept characterization
-executeConceptCharacterization(con = con,
-                               executionSettings = executionSettings,
-                               analysisSettings = analysisSettings)
-
-#run cohort characterization
 executeCohortPrevalence(con = con,
                         executionSettings = executionSettings,
                         analysisSettings = analysisSettings)
 
-#run icd chapters rollup
-executeConditionRollup(con = con,
-                       executionSettings = executionSettings,
-                       analysisSettings = analysisSettings)
+runTreatmentHistory(con = con,
+                    executionSettings = executionSettings,
+                    analysisSettings = analysisSettings)
+
+
+getTreatmentPatterns(con = con,
+                     executionSettings = executionSettings,
+                     analysisSettings = analysisSettings)
 
 # F. Session Info ------------------------
+
 DatabaseConnector::disconnect(con)

@@ -1,0 +1,357 @@
+# A. Meta Info -----------------------
+
+# Task: Treatment Patterns
+# Author: Carina
+# Date: 2023-07-26
+# Description: The purpose of the _treatmentPatterns.R script is to.....
+
+# B. Functions ------------------------
+
+## Treatment Patterns -------------------------
+
+prepSankey <- function(th, minNumPatterns) {
+
+  treatment_pathways <- th %>%
+    tidyr::pivot_wider(id_cols = person_id,
+                       names_from = event_seq,
+                       names_prefix = "event_cohort_name",
+                       values_from = event_cohort_name) %>%
+    dplyr::count(dplyr::across(tidyselect::starts_with("event_cohort_name"))) %>%
+    dplyr::mutate(End = "end", .before = "n") %>%
+    dplyr::filter(n >= minNumPatterns)
+
+
+  links <- treatment_pathways %>%
+    dplyr::mutate(row = dplyr::row_number()) %>%
+    tidyr::pivot_longer(cols = c(-row, -n),
+                        names_to = 'column', values_to = 'source') %>%
+    dplyr::mutate(column = match(column, names(treatment_pathways))) %>%
+    tidyr::drop_na(source) %>%
+    dplyr::mutate(source = paste0(source, '__', column)) %>%
+    dplyr::group_by(row) %>%
+    dplyr::mutate(target = dplyr::lead(source, order_by = column)) %>%
+    tidyr::drop_na(target, source) %>%
+    dplyr::group_by(source, target) %>%
+    dplyr::summarise(value = sum(n), .groups = 'drop') %>%
+    dplyr::arrange(desc(value))
+
+  nodes <- data.frame(name = unique(c(links$source, links$target)))
+  nodes <- data.table::data.table(nodes)
+  links <- data.table::data.table(links)
+  links$source <- match(links$source, nodes$name) - 1
+  links$target <- match(links$target, nodes$name) - 1
+  nodes$name <- sub('__[0-9]+$', '', nodes$name)
+  links$type <- sub(' .*', '',
+                    as.data.frame(nodes)[links$source + 1, 'name'])
+  data.table::setkey(links, type)
+  data.table::setorder(links, cols = - "value")
+
+  res <- list(
+    'treatmentPatterns' = treatment_pathways,
+    'links' = links,
+    'nodes' = nodes
+  )
+
+  return(res)
+
+}
+
+getPersonIds <- function(con,
+                         workDatabaseSchema,
+                         cohortTable,
+                         cohortIds) {
+
+  sql <- "
+    SELECT cohort_definition_id, subject_id
+    FROM @workDatabaseSchema.@cohortTable
+    WHERE cohort_definition_id IN (@cohortIds)
+  " %>%
+    SqlRender::render(
+      workDatabaseSchema = workDatabaseSchema,
+      cohortTable = cohortTable,
+      cohortIds = cohortIds
+  ) %>%
+    SqlRender::translate(targetDialect = con@dbms)
+
+  cohortTbl <-  DatabaseConnector::querySql(connection = con, sql = sql)
+  colnames(cohortTbl) <- tolower(colnames(cohortTbl))
+
+  ll <- cohortTbl %>%
+    dplyr::arrange(cohort_definition_id) %>%
+    tidyr::nest(.by = cohort_definition_id) %>%
+    dplyr::mutate(
+      idx = as.integer(substr(cohort_definition_id, 1, 1))
+    ) %>%
+    dplyr::select(cohort_definition_id, idx, data)
+
+  return(ll)
+
+}
+
+
+getTreatmentPatterns <- function(con,
+                                 executionSettings,
+                                 analysisSettings) {
+
+  ## Prep
+  ## get schema vars
+  cdmDatabaseSchema <- executionSettings$cdmDatabaseSchema
+  workDatabaseSchema <- executionSettings$workDatabaseSchema
+  cohortTable <- executionSettings$cohortTable
+  databaseId <- executionSettings$databaseName
+
+  # make output folder
+  outputFolder <- fs::path(here::here("results"), databaseId, analysisSettings[[1]]$outputFolder)
+  thHistoryFolder <- outputFolder[[1]]
+  txPatFolder <- outputFolder[[2]]
+
+  #get cohort ids of all strata
+  strataCohorts <- analysisSettings$treatmentLandscape$cohorts$strataCohorts %>%
+    dplyr::select(id, name)
+  cohortIds <- strataCohorts$id
+  ll <- getPersonIds(con = con,
+                     workDatabaseSchema = workDatabaseSchema,
+                     cohortTable = cohortTable,
+                     cohortIds = cohortIds)
+
+  # list all treatment history files
+  thFiles <- fs::dir_ls(thHistoryFolder, recurse = TRUE, type = "file")
+
+  for (i in seq_along(thFiles)) {
+
+    #read parquet file - get treatment history
+    th <- arrow::read_parquet(file = thFiles[i])
+
+    # # Extract common lead of directory
+    # folder_label <- gsub(paste0(thHistoryFolder, "/"), "", thFiles[i]) %>%
+    #   fs::path_dir()
+
+    #get the target cohort name
+    file_label <- tools::file_path_sans_ext(basename(thFiles[i])) %>%
+      gsub("th_", "", .)
+
+    #determine the id of the target cohort
+    idx <- switch(file_label,
+                  AFib_Rcs = 1L,
+                  Reoccurrence_183d = 2L,
+                  Reoccurrence_365d = 3L,
+                  Reoccurrence_730d = 4L)
+
+    # get the cohort Ids of the total and strata
+    strata <- ll %>%
+      dplyr::filter(
+        idx == !!idx
+      ) %>%
+      dplyr::left_join(strataCohorts, by = c("cohort_definition_id" = "id")) %>%
+      dplyr::select(cohort_definition_id, name, data)
+
+    for (j in seq_along(strata$cohort_definition_id)) {
+      #get strata name
+      strata_name <- strata$name[j]
+      strata_id <- strata$cohort_definition_id[j]
+      cli::cat_line()
+      cli::cat_bullet(crayon::magenta("Build Sankey data for Id: "),
+                      strata_id, " (name: ",  strata_name, ")",
+                      bullet = "pointer", bullet_col = "yellow")
+
+      #get subject ids corresponding to the strata
+      ids <- strata$data[[j]]$subject_id
+      # build patterns data
+      patterns <- th %>%
+        dplyr::filter(
+          person_id %in% ids
+        ) %>%
+        prepSankey(minNumPatterns = 30L)
+
+      # extract folder names for class and era
+      save_path <- fs::path(txPatFolder) %>%
+        fs::dir_create()
+
+      #save file
+      file_name <- paste("sankey",strata_id, sep = "_")
+      save_path2 <- fs::path(save_path, file_name, ext = "rds")
+      readr::write_rds(patterns, file = save_path2)
+      cli::cat_line()
+      cli::cat_bullet("Saved file ", crayon::green(basename(save_path2)), " to:",
+                      bullet = "info", bullet_col = "blue")
+      cli::cat_bullet(crayon::cyan(save_path), bullet = "pointer", bullet_col = "yellow")
+      cli::cat_line()
+
+    }
+  }
+
+  invisible(strataCohorts)
+}
+#
+# ## Time to Event -----------------------
+#
+#
+# prepTte <- function(con,
+#                     th,
+#                     workDatabaseSchema,
+#                     cohortTable,
+#                     targetCohorts) {
+#
+#   cli::cat_line(crayon::blue("Extracting Survival Table..."))
+#
+#   targetCohortIds <- targetCohorts$id
+#   targetCohortNames <- targetCohorts$name
+#   # get target cohort table
+#   sql <- "SELECT * FROM @write_schema.@cohort_table
+#           WHERE cohort_definition_id IN (@target_cohort_id);"  %>%
+#     SqlRender::render(
+#       write_schema = workDatabaseSchema,
+#       cohort_table = cohortTable,
+#       target_cohort_id = targetCohortIds
+#     ) %>%
+#     SqlRender::translate(con@dbms)
+#
+#   targetTbl <- DatabaseConnector::querySql(connection = con, sql = sql)
+#
+#   colnames(targetTbl) <- tolower(colnames(targetTbl))
+#
+#   #prep treatment history table to tibble
+#   dt <- th %>%
+#     tibble::as_tibble()
+#
+#   #loop on targetCohort Ids
+#   survDat <- vector('list', length(targetCohortIds))
+#   for (i in seq_along(targetCohortIds)) {
+#
+#     tte <- targetTbl %>%
+#       # filter to cohort id
+#       dplyr::filter(cohort_definition_id == targetCohortIds[i]) %>%
+#       # join th and target table to determine censoring
+#       dplyr::inner_join(th, by = c("subject_id" = "person_id"), multiple = "all") %>%
+#       #identifying the event and convert time to years
+#       dplyr::mutate(
+#         event = dplyr::case_when(
+#           event_end_date < cohort_end_date ~ 1,
+#           TRUE ~ 0
+#         ),
+#         time_years = duration_era / 365.25
+#       ) %>%
+#       dplyr::select(event_cohort_id, time_years, event)
+#
+#
+#     # determine the number of persons in a combo
+#     keep_ids <- tte %>%
+#       count(event_cohort_id) %>%
+#       dplyr::mutate(
+#         combo = ifelse(grepl("\\+", event_cohort_id), 1, 0)
+#       ) %>%
+#       dplyr::filter(
+#         combo == 0 | (combo == 1 & n >= 5)
+#       ) %>%
+#       dplyr::pull(event_cohort_id)
+#
+#
+#     # create the surv fit object
+#     survFit <- ggsurvfit::survfit2(
+#       survival::Surv(time_years, event) ~ event_cohort_id, data = tte %>% filter(event_cohort_id %in% keep_ids)
+#     )
+#     # place the surv fit table into the list
+#     survDat[[i]] <- ggsurvfit::tidy_survfit(survFit) %>%
+#       dplyr::select(time, `n.risk`, `n.event`, estimate:strata) %>%
+#       dplyr::mutate(
+#         targetCohortId = targetCohortIds[i],
+#         targetCohortName = targetCohortNames[i]
+#       )
+#   }
+#   #bind data at the end
+#   survDat <- do.call('rbind', survDat)
+#   return(survDat)
+#
+# }
+#
+# getTimeToEvent <- function(con,
+#                            executionSettings,
+#                            analysisSettings) {
+#
+#
+#   ## Prep
+#   ## get schema vars
+#   cdmDatabaseSchema <- executionSettings$cdmDatabaseSchema
+#   workDatabaseSchema <- executionSettings$workDatabaseSchema
+#   cohortTable <- executionSettings$cohortTable
+#   databaseId <- executionSettings$databaseName
+#
+#   # prep output folder
+#   outputFolder <- fs::path(here::here("results"), databaseId, analysisSettings[[1]]$outputFolder)
+#   thHistoryFolder <- outputFolder[[1]]
+#   tteFolder <- outputFolder[[3]]
+#
+#   #get target cohorts
+#   #targetCohorts <- analysisSettings$treatmentLandscape$cohorts$targetCohorts
+#
+#   #get cohort ids of all strata
+#   strataCohorts <- analysisSettings$treatmentLandscape$cohorts$strataCohorts
+#
+#   # list all files from the treatment history folder
+#   thFiles <- fs::dir_ls(thHistoryFolder, recurse = TRUE, type = "file")
+#
+#   for (i in seq_along(thFiles)) {
+#
+#     # Extract common lead of directory
+#     folder_label <- gsub(paste0(thHistoryFolder, "/"), "", thFiles[i]) %>%
+#       fs::path_dir()
+#
+#
+#     #get the target cohort name
+#     file_label <- tools::file_path_sans_ext(basename(thFiles[i])) %>%
+#       gsub("th_", "", .)
+#
+#     #determine the id of the target cohort
+#     idx <- determineId(file_label)
+#
+#     #get strata for file
+#     strata <- strataCohorts %>%
+#       dplyr::filter(
+#         idx == !!idx
+#       ) %>%
+#       dplyr::select(id,name)
+#
+#     # Print statements to orient run
+#     cli::cat_rule()
+#     txt1 <- glue::glue("{idx} - {file_label}")
+#     cli::cat_bullet(crayon::green("Target Cohort: "), txt1, bullet = "pointer", bullet_col = "yellow")
+#
+#     lb <- fs::path_split(folder_label)
+#     cli::cat_bullet(crayon::green("Drug Class: "), lb[[1]][1], bullet = "pointer", bullet_col = "yellow")
+#     cli::cat_bullet(crayon::green("Era Collapse Size: "), lb[[1]][2], bullet = "pointer", bullet_col = "yellow")
+#
+#     txt2 <- paste(strata$id, collapse = ", ")
+#     cli::cat_bullet(crayon::green("Strata Cohorts Ids: "), txt2, bullet = "pointer", bullet_col = "yellow")
+#     cli::cat_line()
+#     #read parquet file - get treatment history
+#     th <- arrow::read_parquet(file = thFiles[i])
+#
+#
+#     # get time to event dataframe
+#     tteDat <- prepTte(con = con,
+#                       th = th,
+#                       workDatabaseSchema = workDatabaseSchema,
+#                       cohortTable = cohortTable,
+#                       targetCohorts = strata)
+#
+#
+#     # extract folder names for class and era
+#     save_path <- fs::path(tteFolder, folder_label) %>%
+#       fs::dir_create()
+#
+#     #save time to event data
+#     file_name <- paste(file_label, "tte", sep = "_")
+#     save_path2 <- fs::path(save_path, file_name, ext = "csv")
+#     readr::write_csv(tteDat, file = save_path2)
+#     cli::cat_line()
+#     cli::cat_bullet("Saved file ", crayon::green(basename(save_path2)), " to:",
+#                     bullet = "info", bullet_col = "blue")
+#     cli::cat_bullet(crayon::cyan(save_path), bullet = "pointer", bullet_col = "yellow")
+#     cli::cat_line()
+#
+#   }
+#
+#   invisible(tteDat)
+#
+# }
+
