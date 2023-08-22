@@ -47,27 +47,33 @@ executionSettings <- config::get(config = configBlock) %>%
   purrr::discard_at(c("dbms", "user", "password", "connectionString"))
 
 ### Analysis Settings
-analysisSettings <- readSettingsFile(here::here("analysis/settings/treatmentLandscape.yml"))
+analysisSettings <- readSettingsFile(here::here("analysis/settings/treatmentPatterns.yml"))
 
 
 # E. Script --------------------
 
 #######if BAYER uncomment this line#################
-startSnowflakeSession(con, executionSettings)
+#startSnowflakeSession(con, executionSettings)
 
-
+# execute post index prevalence
 executeCohortPrevalence(con = con,
                         executionSettings = executionSettings,
                         analysisSettings = analysisSettings)
 
+# run treatment history
 runTreatmentHistory(con = con,
                     executionSettings = executionSettings,
                     analysisSettings = analysisSettings)
 
-
+# get treatment patterns
 getTreatmentPatterns(con = con,
                      executionSettings = executionSettings,
                      analysisSettings = analysisSettings)
+
+#get time to discontinuation
+runTimeToEvent(con = con,
+               executionSettings = executionSettings,
+               analysisSettings = analysisSettings)
 
 # F. Session Info ------------------------
 
