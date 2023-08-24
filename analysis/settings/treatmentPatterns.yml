@@ -1,0 +1,59 @@
+treatmentPatterns:
+  cohorts:
+    targetCohort:
+    - name: hmb
+      id: 1
+    drugCohorts:
+    - name: adenomyosis
+      id: 2
+    - name: anemia
+      id: 3
+    - name: coagulopathy
+      id: 4
+    - name: diabetes
+      id: 5
+    - name: dysmenorrhea
+      id: 6
+    - name: endoHyperplasia
+      id: 7
+    - name: endometriosis
+      id: 8
+    - name: endoPolyp
+      id: 9
+    - name: ironDefAnemia
+      id: 10
+    - name: obesity
+      id: 11
+    - name: pain
+      id: 12
+    - name: pcos
+      id: 13
+    - name: uterineLeiomyoma
+      id: 14
+  timeWindow:
+  - startDays: 1
+    endDays: 183
+  - startDays: 184
+    endDays: 365
+  - startDays: 366
+    endDays: 730
+  - startDays: 731
+    endDays: 1825
+  treatmentHistorySettings:
+    minEraDuration: 0
+    eraCollapseSize: 30
+    combinationWindow: 30
+    minPostCombinationDuration: 30
+    filterTreatments: Changes
+    periodPriorToIndex: 0
+    includeTreatments: startDate
+    maxPathLength: 5
+    minCellCount: 5
+    minCellMethod: Remove
+    groupCombinations: 10
+    addNoPaths: no
+  outputFolder:
+  - 06_postIndexPrevalenceDrugs
+  - 07_treatmentHistory
+  - 08_treatmentSequences
+  - 09_timeToDiscontinuation

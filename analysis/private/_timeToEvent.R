@@ -1,7 +1,7 @@
 # A. Meta Info -----------------------
 
 # Task: Time to Event
-# Author: Carina
+# Author: Martin Lavallee
 # Date: 2023-07-27
 # Description: The purpose of the _timeToEvent.R script is to.....
 

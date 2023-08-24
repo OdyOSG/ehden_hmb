@@ -1,0 +1,13 @@
+incidenceAnalysis:
+  cohorts:
+    targetCohort:
+    - name: hmb
+      id: 1
+    denominatorCohort:
+    - name: female_11_55_denom
+      id: 15
+  options:
+    interval: overall
+    washout: 0
+    repeatedEvents: yes
+  outputFolder: 03_incidenceAnalysis

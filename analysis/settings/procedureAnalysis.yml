@@ -1,17 +1,17 @@
 procedureAnalysis:
   cohorts:
-    targetCohortId:
+    targetCohort:
     - name: hmb
       id: 1
-    procCohortIds:
+    procedureCohorts:
     - name: endometrialAblation
-      id: 12
+      id: 25
     - name: hysterectomy
-      id: 13
+      id: 26
     - name: myomectomy
-      id: 14
+      id: 27
     - name: uae
-      id: 15
+      id: 28
   prevalenceTimeWindow:
   - startDays: 0
     endDays: 0
@@ -23,4 +23,6 @@ procedureAnalysis:
     endDays: 730
   - startDays: 731
     endDays: 1825
-  outputFolder: pharmetrics/06_procedureAnalysis
+  outputFolder:
+  - 10_postIndexPrevalenceProcedures
+  - 11_timeToIntervention

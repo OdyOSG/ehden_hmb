@@ -45,8 +45,8 @@ executionSettings <- config::get(config = configBlock) %>%
   purrr::discard_at(c("dbms", "user", "password", "connectionString"))
 
 ### Analysis Settings
-analysisSettings <- readSettingsFile(here::here("analysis/settings/baselineCharacteristics.yml"))
-
+analysisSettings1 <- readSettingsFile(here::here("analysis/settings/baselineCharacteristics.yml"))
+analysisSettings2 <- readSettingsFile(here::here("analysis/settings/underlyingConditions.yml"))
 # E. Script --------------------
 
 #######if BAYER uncomment this line#################
@@ -57,17 +57,22 @@ startSnowflakeSession(con, executionSettings)
 # run concept characterization
 executeConceptCharacterization(con = con,
                                executionSettings = executionSettings,
-                               analysisSettings = analysisSettings)
+                               analysisSettings = analysisSettings1)
 
 #run cohort characterization
 executeCohortPrevalence(con = con,
                         executionSettings = executionSettings,
-                        analysisSettings = analysisSettings)
+                        analysisSettings = analysisSettings1)
 
 #run icd chapters rollup
 executeConditionRollup(con = con,
                        executionSettings = executionSettings,
-                       analysisSettings = analysisSettings)
+                       analysisSettings = analysisSettings1)
+
+#run cohort prevalence for underlying
+executeCohortPrevalence(con = con,
+                        executionSettings = executionSettings,
+                        analysisSettings = analysisSettings2)
 
 # F. Session Info ------------------------
 DatabaseConnector::disconnect(con)
