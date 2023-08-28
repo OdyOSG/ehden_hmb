@@ -48,7 +48,10 @@ outputFolder <- here::here("results") %>%
   fs::dir_create()
 
 ### Add study variables or load from settings
-diagCohorts <- getCohortManifest()
+diagCohorts <- getCohortManifest() %>%
+  dplyr::filter(
+    type == "target"
+  )
 # E. Script --------------------
 
 
@@ -64,9 +67,6 @@ runCohortDiagnostics(executionSettings = executionSettings,
                      outputFolder = outputFolder)
 
 
+
 # F. Session Info ------------------------
-
-sessioninfo::session_info()
-withr::deferred_run()
-rm(list=ls())
-
+DatabaseConnector::disconnect(con)

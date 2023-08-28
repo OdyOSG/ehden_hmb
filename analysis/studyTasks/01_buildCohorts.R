@@ -31,11 +31,6 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
 
 #connect to database
 con <- DatabaseConnector::connect(connectionDetails)
-withr::defer(
-  expr = DatabaseConnector::disconnect(con),
-  envir = parent.frame()
-) #close on exit
-
 
 
 # D. Study Variables -----------------------
@@ -50,7 +45,10 @@ outputFolder <- here::here("results") %>%
 
 
 ### Add study variables or load from settings
-cohortManifest <- getCohortManifest()
+cohortManifest <- getCohortManifest() %>%
+  dplyr::filter(
+    type != "covariates"
+  )
 
 
 # E. Script --------------------
@@ -73,8 +71,5 @@ generatedCohorts <- generateCohorts(
 
 
 # F. Session Info ------------------------
-
-sessioninfo::session_info()
-withr::deferred_run()
-rm(list=ls())
+DatabaseConnector::disconnect(con)
 

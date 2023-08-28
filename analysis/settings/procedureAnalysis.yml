@@ -1,20 +1,29 @@
-procedureAnalysis:
+treatmentPatterns:
   cohorts:
     targetCohort:
     - name: hmb
       id: 1
-    procedureCohorts:
-    - name: endometrialAblation
-      id: 25
-    - name: hysterectomy
-      id: 26
-    - name: myomectomy
-      id: 27
-    - name: uae
-      id: 28
-  prevalenceTimeWindow:
-  - startDays: 0
-    endDays: 0
+      type: target
+    drugCohorts:
+    - name: combOralContraceptives
+      id: 16
+    - name: danazol
+      id: 17
+    - name: grha
+      id: 18
+    - name: ironPreparations
+      id: 19
+    - name: iud
+      id: 20
+    - name: nsaids
+      id: 21
+    - name: progestin
+      id: 22
+    - name: progresteron
+      id: 23
+    - name: tranexamicAcid
+      id: 24
+  timeWindow:
   - startDays: 1
     endDays: 183
   - startDays: 184
@@ -23,6 +32,21 @@ procedureAnalysis:
     endDays: 730
   - startDays: 731
     endDays: 1825
+  treatmentHistorySettings:
+    minEraDuration: 0
+    eraCollapseSize: 30
+    combinationWindow: 30
+    minPostCombinationDuration: 30
+    filterTreatments: Changes
+    periodPriorToIndex: 0
+    includeTreatments: startDate
+    maxPathLength: 5
+    minCellCount: 5
+    minCellMethod: Remove
+    groupCombinations: 10
+    addNoPaths: no
   outputFolder:
-  - 10_postIndexPrevalenceProcedures
-  - 11_timeToIntervention
+  - 06_postIndexPrevalenceDrugs
+  - 07_treatmentHistory
+  - 08_treatmentSequences
+  - 09_timeToDiscontinuation
