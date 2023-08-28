@@ -66,12 +66,12 @@ runTreatmentHistory(con = con,
                     analysisSettings = analysisSettings)
 
 # get treatment patterns
-getTreatmentPatterns(con = con,
+executeTreatmentPatterns(con = con,
                      executionSettings = executionSettings,
                      analysisSettings = analysisSettings)
 
 #get time to discontinuation
-runTimeToEvent(con = con,
+executeTimeToEvent(con = con,
                executionSettings = executionSettings,
                analysisSettings = analysisSettings)
 

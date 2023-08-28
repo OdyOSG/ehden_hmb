@@ -4,32 +4,24 @@ treatmentPatterns:
     - name: hmb
       id: 1
     drugCohorts:
-    - name: adenomyosis
-      id: 2
-    - name: anemia
-      id: 3
-    - name: coagulopathy
-      id: 4
-    - name: diabetes
-      id: 5
-    - name: dysmenorrhea
-      id: 6
-    - name: endoHyperplasia
-      id: 7
-    - name: endometriosis
-      id: 8
-    - name: endoPolyp
-      id: 9
-    - name: ironDefAnemia
-      id: 10
-    - name: obesity
-      id: 11
-    - name: pain
-      id: 12
-    - name: pcos
-      id: 13
-    - name: uterineLeiomyoma
-      id: 14
+    - name: combOralContraceptives
+      id: 16
+    - name: danazol
+      id: 17
+    - name: grha
+      id: 18
+    - name: ironPreparations
+      id: 19
+    - name: iud
+      id: 20
+    - name: nsaids
+      id: 21
+    - name: progestin
+      id: 22
+    - name: progresteron
+      id: 23
+    - name: tranexamicAcid
+      id: 24
   timeWindow:
   - startDays: 1
     endDays: 183
