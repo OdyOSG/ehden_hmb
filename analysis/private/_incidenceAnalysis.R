@@ -1,73 +1,108 @@
 # A. Meta Info -----------------------
 
-# Task: Incidence Analysis
+# Task: Incidence
 # Author: Martin Lavallee
-# Date: 2023-07-21
-# Description: The purpose of the _incidenceAnalysis.R script is to
-# provide functions for the incidence analysis
+# Date: 2023-07-26
+# Description: The purpose of the _incidence.R script is to
+# provide functions for the incidence analysis portion of the study
 
 # B. Functions ------------------------
 
-runIncidenceAnalysis <- function(
-    con,
-    executionSettings,
-    analysisSettings
-) {
+defineIncidenceAnalysis <- function(cohortId,
+                                    cohortName,
+                                    denomCohorts,
+                                    irSettings) {
 
-  # Step 0: Setup --------------
+  targets <- purrr::pmap(
+    denomCohorts,
+    ~CohortIncidence::createCohortRef(
+      id = ..2,
+      name = ..1
+    )
+  )
+  o1 <- CohortIncidence::createOutcomeDef(
+    id = cohortId,
+    name = cohortName,
+    cohortId = cohortId,
+    cleanWindow = irSettings$cleanWindow
+  )
+
+
+  timeMap <- tibble::tibble(
+    id = seq_along(irSettings$startOffset),
+    startDays = irSettings$startOffset,
+    endDays = irSettings$endOffset
+  )
+
+  tars <- purrr::pmap(
+    timeMap,
+    ~CohortIncidence::createTimeAtRiskDef(
+      id = ..1,
+      startWith = irSettings$startWith,
+      startOffset = ..2,
+      endWith = irSettings$endsWith,
+      endOffset = ..3
+    )
+  )
+
+  # make all permutations of denominotor pop and tar
+  analysisMap <- tidyr::expand_grid(
+    't' = purrr::map_int(targets, ~.x$id), # this needs to be the cohort Id of the denom cohort to be used
+    'tar' = seq_along(tars)
+  )
+
+
+
+  analysisList <- purrr::pmap(
+    analysisMap,
+    ~CohortIncidence::createIncidenceAnalysis(
+      targets = ..1,
+      outcomes = c(o1$id),
+      tars = ..2
+    )
+  )
+
+  irDesign <- CohortIncidence::createIncidenceDesign(
+    targetDefs = targets,
+    outcomeDefs = list(o1),
+    tars = tars,
+    analysisList = analysisList
+  )
+
+  return(irDesign)
+
+}
+
+generateIncidenceAnalysis <- function(con,
+                                      executionSettings,
+                                      cohortId,
+                                      cohortName,
+                                      denomCohorts,
+                                      irSettings,
+                                      refId) {
+
 
   ## get schema vars
   cdmDatabaseSchema <- executionSettings$cdmDatabaseSchema
   workDatabaseSchema <- executionSettings$workDatabaseSchema
-  cohortTable <- executionSettings$cohortTable
+  cohortTable <- paste(executionSettings$workDatabaseSchema, executionSettings$cohortTable, sep = ".")
   databaseId <- executionSettings$databaseName
 
-  ## get cohort Ids
-  targetCohortId <- analysisSettings$incidenceAnalysis$cohorts$outcomes$id
-  targetCohortName <- analysisSettings$incidenceAnalysis$cohorts$outcomes$name
-  denomCohortId <- analysisSettings$incidenceAnalysis$cohorts$denominator$id
-  denomCohortName <- analysisSettings$incidenceAnalysis$cohorts$denominator$name
-  irSettings <- analysisSettings$incidenceAnalysis$incidenceSettings
+  outputFolder <- fs::path(here::here("results"), databaseId, analysisSettings[[1]]$outputFolder) %>%
+    fs::dir_create()
 
-  # Step 1: Define Incidence Analysis -----------
-
-  t1 <- CohortIncidence::createCohortRef(
-    id = denomCohortId,
-    name = denomCohortName
+  timeMap <- tibble::tibble(
+    id = seq_along(irSettings$startOffset),
+    startDays = irSettings$startOffset,
+    endDays = irSettings$endOffset
   )
 
-  o1 <- CohortIncidence::createOutcomeDef(
-    id = 1,
-    name = "Outcome 1, 30d Clean",
-    cohortId = targetCohortId,
-    cleanWindow = irSettings$cleanWindow
-  )
+  irDesign <- defineIncidenceAnalysis(cohortId = cohortId,
+                                      cohortName = cohortName,
+                                      denomCohorts = denomCohorts,
+                                      irSettings = irSettings)
 
-  tar1 <- CohortIncidence::createTimeAtRiskDef(
-    id = 1,
-    startWith = irSettings$startWith,
-    startOffset = irSettings$startOffset,
-    endWith = irSettings$endsWith,
-    endOffset = irSettings$endOffset
-  )
 
-  analysis1 <- CohortIncidence::createIncidenceAnalysis(
-    targets = c(t1$id),
-    outcomes = c(o1$id),
-    tars = c(tar1$id)
-  )
-
-  strata1 <- CohortIncidence::createStrataSettings(byYear = TRUE)
-
-  irDesign <- CohortIncidence::createIncidenceDesign(
-    targetDefs = list(t1),
-    outcomeDefs = list(o1),
-    tars = list(tar1),
-    analysisList = list(analysis1),
-    strataSettings = list(strata1)
-  )
-
-  # Step 2: Generate Incidence ------------------
   buildOptions <- CohortIncidence::buildOptions(
     cohortTable = cohortTable,
     cdmDatabaseSchema = cdmDatabaseSchema,
@@ -75,34 +110,76 @@ runIncidenceAnalysis <- function(
     resultsDatabaseSchema = workDatabaseSchema,
     vocabularySchema = cdmDatabaseSchema,
     useTempTables = FALSE,
-    refId = 1)
-
+    refId = refId)
 
   cli::cat_line()
   cli::cat_bullet("Executing Incidence Analysis Id: ", crayon::green(refId),
                   bullet = "checkbox_on", bullet_col = "green")
-
-  cli::cat_line()
-
   cli::cat_bullet("Denominator Population", bullet = "pointer", bullet_col = "yellow")
-  cli::cat_line("   ", crayon::yellow(cli::symbol$star), " Cohort Id: ", crayon::green(denomCohortId), "\n",
-                "   ", crayon::yellow(cli::symbol$star)," Cohort Name: ", crayon::green(denomCohortName))
+  cli::cat_line("   ", crayon::yellow(cli::symbol$star), " Cohort Id: ", crayon::green(cohortId), "\n",
+                "   ", crayon::yellow(cli::symbol$star)," Cohort Name: ", crayon::green(cohortName))
 
   cli::cat_bullet("Outcome Population", bullet = "pointer", bullet_col = "yellow")
-  cli::cat_line("   ", crayon::yellow(cli::symbol$star), " Cohort Id: ", crayon::green(targetCohortId), "\n",
-                "   ", crayon::yellow(cli::symbol$star)," Cohort Name: ", crayon::green(targetCohortName))
-
+  print_outcomeIds <- paste(denomCohorts$id, collapse = ", ")
+  cli::cat_line("   ", crayon::yellow(cli::symbol$star), " Outcomes Id: ", crayon::green(print_outcomeIds))
   cli::cat_bullet("Time at Risk", bullet = "pointer", bullet_col = "yellow")
-  cli::cat_line("   ", crayon::yellow(cli::symbol$star), " starts from " , crayon::green(irSettings$startOffset),
-                " days from ", irSettings$startWith,"\n",
-                "   ", crayon::yellow(cli::symbol$star), " ends from " , crayon::green(irSettings$endOffset),
-                " days from ", irSettings$endsWith)
+  print_tar <- paste(timeMap$startDays, timeMap$endDays, sep = "-")
+  cli::cat_line("   ", crayon::yellow(cli::symbol$star), " tar: ", crayon::green(print_tar))
+
 
   executeResults <- CohortIncidence::executeAnalysis(
     connection = con,
-    incidenceDesign = incidenceDesign,
+    incidenceDesign = irDesign,
     buildOptions = buildOptions)
 
-  return(executeResults)
+
+  verboseSave(
+    object = executeResults,
+    saveName = paste("incidence_analysis_ref", refId, sep = "_"),
+    saveLocation = outputFolder
+  )
+
+  invisible(executeResults)
 
 }
+
+
+executeIncidenceAnalysis <- function(con,
+                                     executionSettings,
+                                     analysisSettings) {
+
+
+  ## get cohort Ids
+  targetCohortId <- analysisSettings$incidenceAnalysis$cohorts$targetCohort$id
+  targetCohortName <- analysisSettings$incidenceAnalysis$cohorts$targetCohort$name
+  denomCohorts <- analysisSettings$incidenceAnalysis$cohorts$denominatorCohort
+  irSettings <- analysisSettings$incidenceAnalysis$incidenceSettings
+
+  cli::cat_boxx("Building Incidence Analysis")
+  cli::cat_line()
+
+  tik <- Sys.time()
+  for (i in seq_along(targetCohortId)) {
+
+    generateIncidenceAnalysis(
+      con = con,
+      executionSettings = executionSettings,
+      cohortId = targetCohortId[i],
+      cohortName = targetCohortName[i],
+      denomCohorts = denomCohorts,
+      irSettings = irSettings,
+      refId = i
+    )
+  }
+  tok <- Sys.time()
+  cli::cat_bullet("Execution Completed at: ", crayon::red(tok),
+                  bullet = "info", bullet_col = "blue")
+  tdif <- tok - tik
+  tok_format <- paste(scales::label_number(0.01)(as.numeric(tdif)), attr(tdif, "units"))
+  cli::cat_bullet("Execution took: ", crayon::red(tok_format),
+                  bullet = "info", bullet_col = "blue")
+
+  invisible(denomCohorts)
+
+}
+

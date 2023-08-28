@@ -18,39 +18,48 @@ library(config)
 source("analysis/private/_utilities.R")
 source("analysis/private/_incidenceAnalysis.R")
 
+
 # C. Connection ----------------------
 
 # set connection Block
-configBlock <- "[Add config block]"
+# <<<
+configBlock <- "[block]"
+# >>>
 
 # provide connection details
 connectionDetails <- DatabaseConnector::createConnectionDetails(
-  dbms = config::get("dbms", config = configBlock),
-  user = config::get("user", config = configBlock),
+  dbms = config::get("dbms",config = configBlock),
+  user = config::get("user",config = configBlock),
   password = config::get("password", config = configBlock),
   connectionString = config::get("connectionString", config = configBlock)
 )
 
 # connect to database
 con <- DatabaseConnector::connect(connectionDetails)
-withr::defer(expr = DatabaseConnector::disconnect(con), envir = parent.frame())  #close on exit
 
 
 # D. Variables -----------------------
 
-### Execution Settings
+### Administrative Variables
 executionSettings <- config::get(config = configBlock) %>%
   purrr::discard_at(c("dbms", "user", "password", "connectionString"))
 
 ### Analysis Settings
-analysisSettings <- readSettingsFile(here::here("analysis/settings/incidenceAnalysis.yml"))
+analysisSettings <- readSettingsFile(here::here("analysis/settings/incidenceAnalysis1.yml"))
+
 
 # E. Script --------------------
 
-# Add script here
+#######if BAYER uncomment this line#################
+startSnowflakeSession(con, executionSettings)
+
+## Get Baseline Covariates
+
+executeIncidenceAnalysis(con = con,
+                         executionSettings = executionSettings,
+                         analysisSettings = analysisSettings)
+
 
 # F. Session Info ------------------------
 
-sessioninfo::session_info()
-rm(list = ls())
-withr::deferred_run()
+DatabaseConnector::disconnect(con)
