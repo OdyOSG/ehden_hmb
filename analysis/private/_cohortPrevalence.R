@@ -46,9 +46,7 @@ cohortCovariates <- function(con,
       e.cohort_start_date BETWEEN
           DATEADD(day, @timeA, t.cohort_start_date) AND
           DATEADD(day, @timeB, t.cohort_start_date)
-      OR e.cohort_end_date BETWEEN
-          DATEADD(day, @timeA, t.cohort_start_date) AND
-          DATEADD(day, @timeB, t.cohort_start_date))
+          )
     GROUP BY t.cohort_definition_id, e.cohort_definition_id
 "
   # Render and translate sql
@@ -125,11 +123,11 @@ executeCohortPrevalence <- function(con,
 
 
   ## get cohort Ids
-  cohortKey <- analysisSettings$postIndexPrevalence$cohorts$targetCohort
-  covariateKey <- analysisSettings$postIndexPrevalence$cohorts$drugCohorts
+  cohortKey <- analysisSettings[[1]]$cohorts$targetCohort
+  covariateKey <- analysisSettings[[1]]$cohorts$covariateCohort
 
-  timeA <- analysisSettings$postIndexPrevalence$prevalenceTimeWindow$startDays
-  timeB <- analysisSettings$postIndexPrevalence$prevalenceTimeWindow$endDays
+  timeA <- analysisSettings[[1]]$timeWindow$startDays
+  timeB <- analysisSettings[[1]]$timeWindow$endDays
 
   #set ids
   cohortId <- cohortKey$id
@@ -137,15 +135,15 @@ executeCohortPrevalence <- function(con,
 
 
   #Start execution talk
-  cli::cat_boxx("Building Post-Index Covariates")
+  cli::cat_boxx("Building Cohort Covariates")
   cli::cat_line()
 
   tik <- Sys.time()
   #loop on time Windows
   for (i in seq_along(timeA)) {
     # Job Log
-    cli::cat_rule(glue::glue("Post-Index Analysis Job ", i))
-    cli::cat_bullet("Running Post-Index Analysis at window: [",
+    cli::cat_rule(glue::glue("Cohort Covariate Analysis Job ", i))
+    cli::cat_bullet("Running Cohort Covariate Analysis at window: [",
                     crayon::green(timeA[i]), " - ",
                     crayon::green(timeB[i]), "]",
                     bullet = "info", bullet_col = "blue")
