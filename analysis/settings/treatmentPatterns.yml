@@ -3,6 +3,12 @@ treatmentPatterns:
     targetCohort:
     - name: hmb
       id: 1
+    - name: hmb age lt 30
+      id: 1001
+    - name: hmb age 30-45
+      id: 1002
+    - name: hmb age 45-55
+      id: 1003
     drugCohorts:
     - name: combOralContraceptives
       id: 16
