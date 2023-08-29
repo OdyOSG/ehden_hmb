@@ -12,4 +12,4 @@ incidenceAnalysis:
     startOffset: 0
     endsWith: end
     endOffset: 0
-  outputFolder: 03_incidenceAnalysis
+  outputFolder: 04_incidenceAnalysis

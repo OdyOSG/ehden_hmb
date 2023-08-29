@@ -5,31 +5,31 @@ baselineCharacteristics:
       id: 1
     covariateCohort:
     - name: adenomyosis
-      id: 2
-    - name: anemia
       id: 3
-    - name: coagulopathy
+    - name: anemia
       id: 4
-    - name: diabetes
+    - name: coagulopathy
       id: 5
-    - name: dysmenorrhea
+    - name: diabetes
       id: 6
-    - name: endoHyperplasia
+    - name: dysmenorrhea
       id: 7
-    - name: endometriosis
+    - name: endoHyperplasia
       id: 8
-    - name: endoPolyp
+    - name: endometriosis
       id: 9
-    - name: ironDefAnemia
+    - name: endoPolyp
       id: 10
-    - name: obesity
+    - name: ironDefAnemia
       id: 11
-    - name: pain
+    - name: obesity
       id: 12
-    - name: pcos
+    - name: pain
       id: 13
-    - name: uterineLeiomyoma
+    - name: pcos
       id: 14
+    - name: uterineLeiomyoma
+      id: 15
   timeWindow:
   - startDays: 1
     endDays: 365
@@ -37,4 +37,4 @@ baselineCharacteristics:
     endDays: 730
   - startDays: 731
     endDays: 1825
-  outputFolder: 05_postIndexPrevalenceConditions
+  outputFolder: 06_postIndexPrevalenceConditions

@@ -45,7 +45,7 @@ treatmentPatterns:
     groupCombinations: 10
     addNoPaths: no
   outputFolder:
-  - 06_postIndexPrevalenceDrugs
-  - 07_treatmentHistory
-  - 08_treatmentSequences
-  - 09_timeToDiscontinuation
+  - 07_postIndexPrevalenceDrugs
+  - 08_treatmentHistory
+  - 09_treatmentSequences
+  - 10_timeToDiscontinuation
