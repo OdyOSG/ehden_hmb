@@ -1,0 +1,219 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "EHDEN HMB",
+    "section": "",
+    "text": "Welcome Message\nWelcome the EHDEN Heavy-menstrual Bleeding Study! This study is a characterization study of a heavy-menstrual bleeding cohort conducted on EHDEN network databases that have been standardized to the OMOP CDM.\n\n\nResources\nAdd resources for website….\n\n\nData\nThis study will be run on OMOP databases in the EHDEN Network. The table below lists some of the data partners that will participate in this study.\n\n\n\n\n\n\n\n\nDatabase\nCountry\nResponsible Party\n\n\n\n\nCPRD GOLD\nUK\nBayer\n\n\nCPRD AURUM\nUK\nBayer\n\n\nHospital del Mar (Barcelona)\nSpain\nHospital del Mar"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Add emails\n\nData Scientist: Martin Lavallee\nEpidemiology: Sirr Su Saydam and Marta Pineda Moncusi"
+  },
+  {
+    "objectID": "about.html#table-of-contents",
+    "href": "about.html#table-of-contents",
+    "title": "How to Run Study",
+    "section": "",
+    "text": "Technical Requirements\nSetting up the Ehden HMB study locally\nSetup Credentials\nExecuting Scripts"
+  },
+  {
+    "objectID": "about.html#pre-study-technical-requirements",
+    "href": "about.html#pre-study-technical-requirements",
+    "title": "How to Run Study",
+    "section": "Pre-Study Technical Requirements",
+    "text": "Pre-Study Technical Requirements\nTo run this study you must setup the HADES environment.\n\nR installed, (version 4.1 or greater)\nR Studio installed\nOn Windows: RTools installed\nJava installed\n\nYou also require your site data to be mapped to the OMOP CDM and administered on one of the following supported database platforms:\n\nMicrosoft SQL Server\nMicrosoft Parallel Data Warehouse\nOracle\nPostgreSQL\nGoogle BigQuery\nAmazon RedShift\nSnowflake\nApache Hive\nApache Spark\nApache Impala"
+  },
+  {
+    "objectID": "about.html#setting-up-the-ehden-hmb-study-locally",
+    "href": "about.html#setting-up-the-ehden-hmb-study-locally",
+    "title": "How to Run Study",
+    "section": "2) Setting up the Ehden Hmb study locally",
+    "text": "2) Setting up the Ehden Hmb study locally\n\nGet Dependencies\n\n\nGet Repo\n\nGo to the github url: https://github.com/OdyOSG/ehden_hmb.\nSelect the green code button revealing a dropdown menu.\nSelect Download Zip.\nUnzip the folder on your local computer that is easily accessible within R Studio.\nOpen the unzipped folder and select ehden_hmb.Rproj.\n\n\n\nSetup renv\nThis project contains an renv.lock file which ensures that all collaborators are working in the same environement when executing the ehden_hmb study. For more details on renv, refer to the package website.\nTo activate the renv file, run:\nrenv::restore()\nIf there are any issues with the renv please contact martin.lavallee@odysseusinc.com or george.argyriou@odysseusinc.com.\n\n\nFinal steps\nTo run the ehden_hmb study the user must install the following packages:\ninstall.packages('usethis')\ninstall.packages('remotes')\nremotes::install_github(\"ohdsi/Ulysses\", ref = \"develop\")"
+  },
+  {
+    "objectID": "about.html#setup-credentials",
+    "href": "about.html#setup-credentials",
+    "title": "How to Run Study",
+    "section": "3) Setup Credentials",
+    "text": "3) Setup Credentials\nHave your database credentials ready; suggested to save them in a accessible txt file. If you need to know your database credentials contact your database administrator. Once you have your credentials ready, open the extras/KeyringSetup.R file in the ehden_hmb project.\n1) Assign Variables\nLoad the dependencies on L9-11. If they have not been installed please install them using install.packages for CRAN packages or using the installation directions for the Ulysses package provided above.\nCreate a configBlock name for the database you want to use first. For example if you are working on the Optum claims, on L15 assign the configBlock variable as “optum”. The configBlock name is a shorthand reference to the database. Try to make this name a single word or two words separated by quotes. Next provide a name to the database. On L17 assign the database variable to a character string that describes the database in use. This can be the same name as the configBlock.\nThere are two more variables to set in section B of the KeyringSetup.R file, keyringName and keyringPassword. These variables pretain to the keyring setup. The keyring is the group that stores the set of credentials that pertain to the study. Name the keyringName after the study, this parameter should already be pre-registered as bayerChapter. Next, set a password for the keyring. Everytime we want to access the bayerChapter keyring, we must input this password. This password is preset as ulysses for convenience, however the user may choose to alter this. Keep this password handy when accessing the keyring for the study.\n2) Create config.yml\nOnce the variables have been setup, you can now setup the config.yml file. Line 27 of the KeyringSetup.R file asks you to check if the config.yml file already exists. If it does not already exist run the following:\nUlysses::makeConfig(block = configBlock, database = database)\nwhere the configBlock and database variables are defined in section B. Running this function will open the config.yml file in Rstudio. For Bayer projects you must add an additional credential, the role. Please copy and paste the below and make sure that it is tabbed in line with the block. Replace the section [block] with the value in your configBlock variable. Add a new line to the yaml file. Make sure this new line is not tabbed.\nrole: !expr keyring::key_get('[block]_role', keyring = 'bayerChapter')\nIf the config.yml already exists. Open it and review. Make sure the block contains the following structure, where [block] is the value in your configBlock variable:\n# Config block example\n\nblock:\n  databaseName: synpuf_110k\n  cohortTable: bayerChapter_synpuf_110k\n  dbms: !expr keyring::key_get('block_dbms', keyring = 'bayerChapter')\n  user: !expr keyring::key_get('block_user', keyring = 'bayerChapter')\n  password: !expr keyring::key_get('block_password', keyring = 'bayerChapter')\n  connectionString: !expr keyring::key_get('block_connectionString', keyring = 'bayerChapter')\n  cdmDatabaseSchema: !expr keyring::key_get('block_cdmDatabaseSchema', keyring = 'bayerChapter')\n  vocabDatabaseSchema: !expr keyring::key_get('block_vocabDatabaseSchema', keyring = 'bayerChapter')\n  workDatabaseSchema: !expr keyring::key_get('block_workDatabaseSchema', keyring = 'bayerChapter')\n  role: !expr keyring::key_get('block_role', keyring = 'bayerChapter')\n3) Setup keyring: Have your credentials handy\nNext we need to set up the keyring for the bayerChapter study. Run L33:48. These lines check to see if the bayerChapter keyring already exists and deletes it if it does. Next, run L50. This will create a new keyring for the study.\nOnce we have setup the keyring we can begin inserting credentials. Run L53:68. Once L68 is run, this will prompt a dialog box that asks for you to place your credentials. Type in the credentials into the dialog box as they appear. Once you have finished check if they are correct. Run L76:84 and review your credentials. If there is any mistake, uncomment L87:88 to fix any credentials and review. As one final check, run L91:98 to ensure that the connection details can be established. If there are any errors here, please contact martin.lavallee@odysseusinc.com or george.argyriou@odysseusinc.com.\n4) Adding other configBlocks\nWith one set of credentials confirmed we must do a similar process for the remaining databases in the study. To add an additional config block to the config.yml file run:\nUlysses::addConfig(block = \"[next_block]\", database = \"[next_database]\")\nIn this function replace the bracketed items with your next database. This function will open the config.yml file with a new config block set below your first one. Add the role credential as shown above for Bayer projects.\nNow we need to upload the credentials of this configBlock to the keyring. Reassign the variables on L15 and L17 of the KeyringSetup.R file to the new block and database. Now rerun L52:69 to set the credentials in the keyring storage for your other databases. Check the credentials as demonstrated before. Rerun this step until all databases are added to the config.yml and keyring."
+  },
+  {
+    "objectID": "about.html#executing-scripts",
+    "href": "about.html#executing-scripts",
+    "title": "How to Run Study",
+    "section": "4) Executing Scripts",
+    "text": "4) Executing Scripts\nOnce the credentials have been setup, the user may begin running study tasks. Navigate to the analysis/studyTasks folder and consider the file structure. Study tasks are ordered in the sequence that they must run based on a numerical prefix. This means you must run 01_buildCohorts.R first in the sequence before 02_cohortDiagnostics.R.\n\nStep 1: Build Cohorts\nIn the 01_buildCohorts.R replace L21 to fit the configBlock for the dbms you want to use in the study. For example if I was running my analysis on optum claims whose credentials were stored under the block optum, I would replace L21 with configBlock &lt;- \"optum\".\nOnce this has been changed. scroll down to L59. If you are part of Bayer, uncomment this line. If not, keep this line commented. Now you can run the script from start to finish. While the script is running, information will fill your R console describing where files have been saved and what is being done.\n\n\nStep 2: Run Cohort Diagnostics\nNext you will run the cohort diagnostics script. Follow the steps described in step 1 by replacing the assigned value for configBlock on L21 with that of the database you want to use. When this is done, run the script.\nOnce the cohort diagnostics function has completed, move to script 03_reviewCohortDiagnostics.R and run it. This script will launch the shiny app to review the cohort diagnostics results.\nOnce the results have been reviewed, please upload the zip file of each database found in the 02_cohortDiagnostics folder to the aws s3 bucket. A file extras/StoreReults.R provides guidance on how to upload. You must contact the study lead for the aws s3 key and secret."
+  },
+  {
+    "objectID": "sap.html",
+    "href": "sap.html",
+    "title": "Study Analysis Plan for EHDEN HMB",
+    "section": "",
+    "text": "This study is a continuation of a Bayer heavy-menstrual bleed (HMB) study that described first, the incidence rate of HMB; two, describe clinical characteristics of women diagnosed with HMB; and third describe the treatment pathways in five healthcare databases covering the UK, Germany, France and the US from the time period of 2000 to 2022. The first part of this study was exclusively an internal study within Bayer. The second part of the HMB study has similar objectives to part 1 with the key difference being a focus on European databases (UK CPRD) and public expansion of the analysis to data providers involved in the European databases in the European Health Data and Evidence Network (EHDEN). The purpose of this document is elaborate on the study design constructed by Odysseus Data Services. A separate protocol has been written by Bayer for HMB part 2."
+  },
+  {
+    "objectID": "sap.html#primary-objectives",
+    "href": "sap.html#primary-objectives",
+    "title": "Study Analysis Plan for EHDEN HMB",
+    "section": "Primary Objectives",
+    "text": "Primary Objectives\nThe primary objectives of this study are to:\n\nDescribe demographics and baseline clinical characteristics of women of reproductive age diagnosed with HMB between 2000 and 2022 across a network of European healthcare databases.\nDescribe treatment utilization and longitudinal treatment pathways of women of reproductive age diagnosed with HMB across different countries and data sources between the years 2000 and 2022 across a network of European healthcare databases.\nEstimate incidence of HMB among women between the ages of 11 to 55 between the years 2000 and 2022 across a network of European healthcare databases."
+  },
+  {
+    "objectID": "sap.html#sec-target",
+    "href": "sap.html#sec-target",
+    "title": "Study Analysis Plan for EHDEN HMB",
+    "section": "Study Population",
+    "text": "Study Population\nThe study population are women between the ages of 11 to 55 who with a diagnosis heavy-menstrual bleeding (index event) between the years 2000 and 2022. Women entering the HMB cohort must have a minimum of 365 days of prior observation. Female patients are excluded from the cohort if they have one of the following criteria:\n\nObservation of a hysterectomy or bilateral ovariectomy\nObservation of a menopause diagnosis\nObservation of other gynecological bleeding (vaginal bleeding outside the menstrual cycle)\n\nFemale patients are followed up until end of continuous observation or observation of one for the follow, whichever occurs first:\n\nDeath\nTurning age 55 (indicating transition into natural menopause)\nObservation of a hysterectomy or bilateral ovariectomy\nObservation of a menopause diagnosis"
+  },
+  {
+    "objectID": "sap.html#exposure-definition",
+    "href": "sap.html#exposure-definition",
+    "title": "Study Analysis Plan for EHDEN HMB",
+    "section": "Exposure Definition",
+    "text": "Exposure Definition\nThere is no exposure definition in this study."
+  },
+  {
+    "objectID": "sap.html#outcome-definition",
+    "href": "sap.html#outcome-definition",
+    "title": "Study Analysis Plan for EHDEN HMB",
+    "section": "Outcome Definition",
+    "text": "Outcome Definition\nThere is no outcome definition in this study."
+  },
+  {
+    "objectID": "sap.html#cohort-diagnostics",
+    "href": "sap.html#cohort-diagnostics",
+    "title": "Study Analysis Plan for EHDEN HMB",
+    "section": "Cohort Diagnostics",
+    "text": "Cohort Diagnostics\nPrior to running any specific analysis, we will evaluate the HMB cohort using the OHDSI R package CohortDiagnostics. This package produces metrics such as cohort counts in the database, incidence rates (by calendar year, age and gender), time distributions, cohort attrition and breakdown of index events. Evaluation of these metrics helps ensure that the clinical cohort is indeed reliable in capturing HMB in the OMOP database."
+  },
+  {
+    "objectID": "sap.html#baseline-characteristics",
+    "href": "sap.html#baseline-characteristics",
+    "title": "Study Analysis Plan for EHDEN HMB",
+    "section": "Baseline Characteristics",
+    "text": "Baseline Characteristics\nWe assess baseline characteristics based on an observation window of 365 to 1 days prior to the index date. Categorical covariates are reported using the count and percentage. Continuous covariates are reported using the median, 25th and 75th percentile.\nDemographics\n\nAge at HMB diagnosis as 5-year categories\nAge at HMB diagnosis as continuous\nRace (if available)\nEthnicity (if available)\nYear of HMB Diagnosis (per calendar year)\n\nComorbidity Scores\n\nBMI (if available) continuous and in following categories\n\nUnderweight (&lt; 18.5 kg/m^2)\nNormal Weight (18.5 - 24.9 kg/m^2)\nOverweight (25.0 - 29.9 kg/m^2)\nObese (30.0 - 39.9 kg/m^2)\nMorbidly obese (&gt; 40.0 kg/m^2)\n\nCharlston Comorbidity Score (as a continuous score)\nCHADs2Vasc (as a continuous score)\n\nConcept-based\n\nDrug Era individual and rolled up to ATC2 Categories\nCondition Era individual and rolled up to ICD10 Chapters\n\nNote: Concept-based covariates are based on prevalence concepts accumulated via FeatureExtraction. .\nCohort-based\n\nConditions\n\nUnderlying Causes of HMB (individual)\n\nUterine endometrial polyps\nAdenomyosis\nUterine leiomyoma (fibroids) (subserous or intramural)\nUterine malignancy and endometrial hyperplasia\nCoagulopathy / coagulation disorders\nOvulatory dysfunction (including hypothyroidism, polycystic ovary syndrome, adrenal disorders, hyperprolactinemia, hypothalamic disorders)\nEndometrial dysfunction\nIatrogenic HMB\nEndometriosis\nIdiopathic menorrhagia\n\nOther Conditions\n\nDiabetes Mellitus\nPolycystic Ovary Syndrome (PCOS)\nDysmenorrhea\nPain\nAnemia\nIron deficiency anemia\n\n\nDrugs\n\nAntithrombotic Agents\nAntidepressants\nTamoxifen\nAntipsychotics\nGonadal Steroids\n\nProcedures\n\nEndometrial ablation\nUterine artery embolization (UAE)\nMyomectomy\nBlood transfusion"
+  },
+  {
+    "objectID": "sap.html#treatment-landscape",
+    "href": "sap.html#treatment-landscape",
+    "title": "Study Analysis Plan for EHDEN HMB",
+    "section": "Treatment Landscape",
+    "text": "Treatment Landscape\nIn this study we assess the landscape of treatment for female patients with HMB. The term treatment landscape encapsulates three metrics of interest regarding drug utilization post-index: first, the prevalence of drug use at certain time windows post-index; second, the patterns of treatments (called treatment pathways) including single drugs and combinations of treatment; and third, the length of time spent taking the drug exposures of interest, both as single exposures or in combination. The drug exposures of interest are:\n\nTranexamic acid (B02AA02)\nProgestin only regimens:\n\nMedroxyprogesterone acetate (MPA) (G03AC06)\nOral norethindrone acetate (NETA) (G03DC02)\nDesogestrel (G03AC09)\nEtonogestrel implant (G03AC08)\n\nNon-steroidal anti-inflammatory drugs (NSAIDs) (M01A)\nCombined oral hormonal contraceptives\n\nDienogest and estradiol (G03AB08; sequential combinations)\nNomegestrol and estradiol (G03AA14; fixed combinations)\n\nSelective progesteron receptor modulators (G03AD02, G03XB02)\nDanazol (G03XA01)\nGonadotropin releasing hormone analogues (L02AE)\nIntrauterine devices (G02BA)\nIron preparations (B03A)\n\nFor the treatment landscape analysis, we must define a set of drug exposure cohorts where the index event of each cohort is prescription to one of the list drugs of interest between the years of 2000 and 2022. People remain in the cohort if they are females between the ages of 11 to 55 and have at least 365 days of prior observation. A persons time in the cohort prior to exit is determined by a drug era. The drug era is the span of time a person is considered continuously exposed to the same treatment. Eras are built by binding successive drug exposure events into a single duration where the person is inferred to be continuing use of that same treatment. We allow for a maximum of 30 days between drug exposure records to consider them part of the same era. Thus if a person has two of the same drug exposures within 30 days of each other, they are bundled into one era where the time elapsed is marked by the date of the successive exposure. This also means that if there is a gap greater than 30 days between the same treatment, this would indicate two separate eras in the treatment history for the individual person. A person is observed in the drug exposure cohort until either the end of a continuous era or one of the following censoring events, whichever occurs first:\n\nDeath\nTurning age 55 (indicating transition into natural menopause)\nObservation of a hysterectomy or bilateral ovariectomy\nObservation of a menopause diagnosis\n\n\nPrevalence of Drug Exposures\nThe first metric in our treatment landscape analysis is the prevalence of drug exposure over a set of defined time intervals. Prevalence is defined as the proportion of the at-risk population who used the medications of interest during the interval. The time windows for prevalence of drug exposures for women in the HMB cohort are: 0 days, 1 to 183 days, 184 to 365 days, 366 to 730 days, and 731 to 1825 days post index. We report the count and percentage for each drug exposure of interest (from the listed above) at each time window.\n\n\nConstructing the treatment history\nBefore continuing our treatment landscape analysis, we must align the drug exposure cohorts into a treatment history where we define when there is a discontinuation of a treatment, combination or a switch in treatments. A treatment discontinuation is defined when there is a gap of at least 30 days between successive exposures of the same treatment. A treatment combination is defined as an overlap in two different exposures of at least 30 days. This means if two drugs are being taken by the same patient for at least 30 days it is considered a treatment combination. If the overlap of two drugs is less than 30 days it is considered a switch to the drug whose era persists. For example if drug A starts first and then overlaps with drug B for 15 days, with drug B continuing onward, the treatment history would consider this a switch from drug A to drug B and no combination.\nFollowing the alignment of the treatment history for each patient, we can enumerate each unique treatment pathways identified post index and determine the duration spent on each treatment. We treatment the duration as separate for a combination of treatments to that of an individual drug since we consider the start of a combination to be a switch from a single drug to a combination.\n\n\nTreatment Pathways\nFor each female with HMB, we determine the sequence of treatments taken over the patient history. Next we enumerate each unique treatment sequence identified in the population. This unique sequence is considered a pathway. Treatment pathways with less than 20 patients identified are dropped from the analysis. The treatment sequence results will be displayed using a sankey diagram, complemented by a summary table that shows the enumeration of each specific sequence.\n\n\nDuration of Drug use\nUsing the treatment history, we calculate the median (and 95% confidence interval) time spent on a drug exposure using the Kaplan-Meier (KM) methodology. We consider a combination of exposure to be a separate calculation to individual exposures in this analysis."
+  },
+  {
+    "objectID": "sap.html#procedure-use-post-index",
+    "href": "sap.html#procedure-use-post-index",
+    "title": "Study Analysis Plan for EHDEN HMB",
+    "section": "Procedure use post-index",
+    "text": "Procedure use post-index\nIn this analysis we are also interested in procedures used after the HMB diagnosis between the years of 2000 and 2022. The procedures of interest are:\n\nHysterectomy\nEndometrial ablation\nUterine artery embolization (UAE)\nMyomectomy\n\nFor the procedure analysis we define cohorts where the index event for the procedure cohort is a first time occurrence of one of the procedures of interest in the patient history. Women in the procedure cohort must have at least 365 days of prior observation. Women exit the cohort on the day of the procedure occurrence.\nThe first metric in our analysis of procedures is prevalence of over a set of defined time intervals. The time windows for prevalence of procedures for women in the HMB cohort are: 0 days, 1 to 183 days, 184 to 365 days, 366 to 730 days, and 731 to 1825 days post index. We report the count and percentage for each procedure of interest (from the listed above) at each time window.\nThe second metric in our analysis of procedures is duration of time until the procedure intervention. We define the time to intervention as the duration between the index date of the HMB cohort to the index date of the procedure exposure cohort. We calculate the median (and 95% confidence interval) time spent until procedure using the Kaplan-Meier (KM) methodology."
+  },
+  {
+    "objectID": "sap.html#incidence-analysis",
+    "href": "sap.html#incidence-analysis",
+    "title": "Study Analysis Plan for EHDEN HMB",
+    "section": "Incidence Analysis",
+    "text": "Incidence Analysis\nIt is of interest to ascertain the overall and yearly incidence of HMB in each participating EU databases. We define the outcome for this incidence analysis to the target population defined in Section 4.1, women between the ages of 11 to 55 with first time diagnosis of HMB. The denominator for this incidence calculation will be women age 11 to 55 in the database who exit the cohort based on whether they have experienced one of the following events: turn age 55, observation of a menopause diagnosis, observation of a hysterectomy or observation of a bilateral ovariectomy. Incidence is defined based on the following formula:\n\\[\nIR = \\frac{\\text{Number of new cases in time period}}{\\text{Total person-time of the at risk population}} \\times 1000\n\\]\nThe incidence of HMB will be reported overall and per calendar year to show any variation over time. The incidence will be calculated using the CohortIncidence package from HADES."
+  },
+  {
+    "objectID": "howToRun.html",
+    "href": "howToRun.html",
+    "title": "How to Run Study",
+    "section": "",
+    "text": "Technical Requirements\nSetting up the Ehden HMB study locally\nSetup Credentials\nExecuting Scripts"
+  },
+  {
+    "objectID": "howToRun.html#table-of-contents",
+    "href": "howToRun.html#table-of-contents",
+    "title": "How to Run Study",
+    "section": "",
+    "text": "Technical Requirements\nSetting up the Ehden HMB study locally\nSetup Credentials\nExecuting Scripts"
+  },
+  {
+    "objectID": "howToRun.html#pre-study-technical-requirements",
+    "href": "howToRun.html#pre-study-technical-requirements",
+    "title": "How to Run Study",
+    "section": "Pre-Study Technical Requirements",
+    "text": "Pre-Study Technical Requirements\nTo run this study you must setup the HADES environment.\n\nR installed, (version 4.1 or greater)\nR Studio installed\nOn Windows: RTools installed\nJava installed\n\nYou also require your site data to be mapped to the OMOP CDM and administered on one of the following supported database platforms:\n\nMicrosoft SQL Server\nMicrosoft Parallel Data Warehouse\nOracle\nPostgreSQL\nGoogle BigQuery\nAmazon RedShift\nSnowflake\nApache Hive\nApache Spark\nApache Impala"
+  },
+  {
+    "objectID": "howToRun.html#setting-up-the-ehden-hmb-study-locally",
+    "href": "howToRun.html#setting-up-the-ehden-hmb-study-locally",
+    "title": "How to Run Study",
+    "section": "2) Setting up the Ehden Hmb study locally",
+    "text": "2) Setting up the Ehden Hmb study locally\n\nGet Dependencies\n\n\nGet Repo\n\nGo to the github url: https://github.com/OdyOSG/ehden_hmb.\nSelect the green code button revealing a dropdown menu.\nSelect Download Zip.\nUnzip the folder on your local computer that is easily accessible within R Studio.\nOpen the unzipped folder and select ehden_hmb.Rproj.\n\n\n\nSetup renv\nThis project contains an renv.lock file which ensures that all collaborators are working in the same environement when executing the ehden_hmb study. For more details on renv, refer to the package website.\nTo activate the renv file, run:\nrenv::restore()\nIf there are any issues with the renv please contact martin.lavallee@odysseusinc.com or george.argyriou@odysseusinc.com.\n\n\nFinal steps\nTo run the ehden_hmb study the user must install the following packages:\ninstall.packages('usethis')\ninstall.packages('remotes')\nremotes::install_github(\"ohdsi/Ulysses\", ref = \"develop\")"
+  },
+  {
+    "objectID": "howToRun.html#setup-credentials",
+    "href": "howToRun.html#setup-credentials",
+    "title": "How to Run Study",
+    "section": "3) Setup Credentials",
+    "text": "3) Setup Credentials\nHave your database credentials ready; suggested to save them in a accessible txt file. If you need to know your database credentials contact your database administrator. Once you have your credentials ready, open the extras/KeyringSetup.R file in the ehden_hmb project.\n1) Assign Variables\nLoad the dependencies on L9-11. If they have not been installed please install them using install.packages for CRAN packages or using the installation directions for the Ulysses package provided above.\nCreate a configBlock name for the database you want to use first. For example if you are working on the Optum claims, on L15 assign the configBlock variable as “optum”. The configBlock name is a shorthand reference to the database. Try to make this name a single word or two words separated by quotes. Next provide a name to the database. On L17 assign the database variable to a character string that describes the database in use. This can be the same name as the configBlock.\nThere are two more variables to set in section B of the KeyringSetup.R file, keyringName and keyringPassword. These variables pretain to the keyring setup. The keyring is the group that stores the set of credentials that pertain to the study. Name the keyringName after the study, this parameter should already be pre-registered as bayerChapter. Next, set a password for the keyring. Everytime we want to access the bayerChapter keyring, we must input this password. This password is preset as ulysses for convenience, however the user may choose to alter this. Keep this password handy when accessing the keyring for the study.\n2) Create config.yml\nOnce the variables have been setup, you can now setup the config.yml file. Line 27 of the KeyringSetup.R file asks you to check if the config.yml file already exists. If it does not already exist run the following:\nUlysses::makeConfig(block = configBlock, database = database)\nwhere the configBlock and database variables are defined in section B. Running this function will open the config.yml file in Rstudio. For Bayer projects you must add an additional credential, the role. Please copy and paste the below and make sure that it is tabbed in line with the block. Replace the section [block] with the value in your configBlock variable. Add a new line to the yaml file. Make sure this new line is not tabbed.\nrole: !expr keyring::key_get('[block]_role', keyring = 'bayerChapter')\nIf the config.yml already exists. Open it and review. Make sure the block contains the following structure, where [block] is the value in your configBlock variable:\n# Config block example\n\nblock:\n  databaseName: synpuf_110k\n  cohortTable: bayerChapter_synpuf_110k\n  dbms: !expr keyring::key_get('block_dbms', keyring = 'bayerChapter')\n  user: !expr keyring::key_get('block_user', keyring = 'bayerChapter')\n  password: !expr keyring::key_get('block_password', keyring = 'bayerChapter')\n  connectionString: !expr keyring::key_get('block_connectionString', keyring = 'bayerChapter')\n  cdmDatabaseSchema: !expr keyring::key_get('block_cdmDatabaseSchema', keyring = 'bayerChapter')\n  vocabDatabaseSchema: !expr keyring::key_get('block_vocabDatabaseSchema', keyring = 'bayerChapter')\n  workDatabaseSchema: !expr keyring::key_get('block_workDatabaseSchema', keyring = 'bayerChapter')\n  role: !expr keyring::key_get('block_role', keyring = 'bayerChapter')\n3) Setup keyring: Have your credentials handy\nNext we need to set up the keyring for the bayerChapter study. Run L33:48. These lines check to see if the bayerChapter keyring already exists and deletes it if it does. Next, run L50. This will create a new keyring for the study.\nOnce we have setup the keyring we can begin inserting credentials. Run L53:68. Once L68 is run, this will prompt a dialog box that asks for you to place your credentials. Type in the credentials into the dialog box as they appear. Once you have finished check if they are correct. Run L76:84 and review your credentials. If there is any mistake, uncomment L87:88 to fix any credentials and review. As one final check, run L91:98 to ensure that the connection details can be established. If there are any errors here, please contact martin.lavallee@odysseusinc.com or george.argyriou@odysseusinc.com.\n4) Adding other configBlocks\nWith one set of credentials confirmed we must do a similar process for the remaining databases in the study. To add an additional config block to the config.yml file run:\nUlysses::addConfig(block = \"[next_block]\", database = \"[next_database]\")\nIn this function replace the bracketed items with your next database. This function will open the config.yml file with a new config block set below your first one. Add the role credential as shown above for Bayer projects.\nNow we need to upload the credentials of this configBlock to the keyring. Reassign the variables on L15 and L17 of the KeyringSetup.R file to the new block and database. Now rerun L52:69 to set the credentials in the keyring storage for your other databases. Check the credentials as demonstrated before. Rerun this step until all databases are added to the config.yml and keyring."
+  },
+  {
+    "objectID": "howToRun.html#executing-scripts",
+    "href": "howToRun.html#executing-scripts",
+    "title": "How to Run Study",
+    "section": "4) Executing Scripts",
+    "text": "4) Executing Scripts\nOnce the credentials have been setup, the user may begin running study tasks. Navigate to the analysis/studyTasks folder and consider the file structure. Study tasks are ordered in the sequence that they must run based on a numerical prefix. This means you must run 01_buildCohorts.R first in the sequence before 02_cohortDiagnostics.R.\n\nStep 1: Build Cohorts\nIn the 01_buildCohorts.R replace L21 to fit the configBlock for the dbms you want to use in the study. For example if I was running my analysis on optum claims whose credentials were stored under the block optum, I would replace L21 with configBlock &lt;- \"optum\".\nOnce this has been changed. scroll down to L59. If you are part of Bayer, uncomment this line. If not, keep this line commented. Now you can run the script from start to finish. While the script is running, information will fill your R console describing where files have been saved and what is being done.\n\n\nStep 2: Run Cohort Diagnostics\nNext you will run the cohort diagnostics script. Follow the steps described in step 1 by replacing the assigned value for configBlock on L21 with that of the database you want to use. When this is done, run the script.\nOnce the cohort diagnostics function has completed, move to script 03_reviewCohortDiagnostics.R and run it. This script will launch the shiny app to review the cohort diagnostics results.\nOnce the results have been reviewed, please upload the zip file of each database found in the 02_cohortDiagnostics folder to the aws s3 bucket. A file extras/StoreReults.R provides guidance on how to upload. You must contact the study lead for the aws s3 key and secret."
+  },
+  {
+    "objectID": "contribution.html",
+    "href": "contribution.html",
+    "title": "Contribution Guidelines",
+    "section": "",
+    "text": "These are how you contribute to this study…."
+  },
+  {
+    "objectID": "about.html#ehden-hmb-v0.1.0",
+    "href": "about.html#ehden-hmb-v0.1.0",
+    "title": "About",
+    "section": "EHDEN HMB v0.1.0",
+    "text": "EHDEN HMB v0.1.0\n\nFirst release of study code for EHDEN HMB\n\nAdd Incidence Analysis\nAdd Baseline Characteristics\nAdd Treatment Patterns\nAdd Procedure Analysis"
+  },
+  {
+    "objectID": "about.html#ehden-hmb-v0.0.6",
+    "href": "about.html#ehden-hmb-v0.0.6",
+    "title": "About",
+    "section": "EHDEN HMB v0.0.6",
+    "text": "EHDEN HMB v0.0.6\n\nAdd file StoreResults to upload cohort diagnostics zip to aws s3 bucket\nUpdate KeyringSetup to match Ulysses\nUpdate renv.lock to add aws.s3 and Ulysses v0.0.2\nminor correction to study task files"
+  },
+  {
+    "objectID": "about.html#ehden-hmb-v0.0.5",
+    "href": "about.html#ehden-hmb-v0.0.5",
+    "title": "About",
+    "section": "EHDEN HMB v0.0.5",
+    "text": "EHDEN HMB v0.0.5\n\nAdd in renv\nminor correction to HMB cohort for cohort diagnostics"
+  },
+  {
+    "objectID": "about.html#ehden-hmb-v0.0.4",
+    "href": "about.html#ehden-hmb-v0.0.4",
+    "title": "About",
+    "section": "EHDEN HMB v0.0.4",
+    "text": "EHDEN HMB v0.0.4\n\nFix errors in KeyringSetup.R file\nFix cohort diagnostics to use integer64 with id in cohortDefinitionSet"
+  },
+  {
+    "objectID": "about.html#ehden-hmb-v0.0.3",
+    "href": "about.html#ehden-hmb-v0.0.3",
+    "title": "About",
+    "section": "EHDEN HMB v0.0.3",
+    "text": "EHDEN HMB v0.0.3\n\nUpdate How to run file with installation instructions for usethis and Ulysses\nFix extras/KeyringSetup.R file to correctly set up credentials and check them\nEdit startSnowflakeSession function to handle string split of workDatabaseSchema\nEdit study tasks to order snowflake start correctly and close connection at end of file"
+  },
+  {
+    "objectID": "about.html#ehden-hmb-v0.0.2",
+    "href": "about.html#ehden-hmb-v0.0.2",
+    "title": "About",
+    "section": "EHDEN HMB v0.0.2",
+    "text": "EHDEN HMB v0.0.2\n\nUpdate cohort definition for HMB to fix error\nAdd cohort diagnostics script\nAdd How to Run file and key ring file"
+  },
+  {
+    "objectID": "about.html#ehden-hmb-v0.0.1",
+    "href": "about.html#ehden-hmb-v0.0.1",
+    "title": "About",
+    "section": "EHDEN HMB v0.0.1",
+    "text": "EHDEN HMB v0.0.1\n\nAdd HMB cohort definition to repo\nStart preparing documentation about study\nInitialize OHDSI study\nAdd NEWS.md to track changes to OHDSI study"
+  }
+]
