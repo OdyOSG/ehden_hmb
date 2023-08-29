@@ -1,0 +1,8 @@
+name: "ehden-hmb"
+navbar:
+  title: "EHDEN HMB Network Study"
+left:
+  - text: "Home"
+href: index.html
+- text: "About"
+href: about.html
