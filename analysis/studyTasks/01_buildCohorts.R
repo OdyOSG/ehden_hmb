@@ -13,6 +13,7 @@ library(DatabaseConnector)
 library(config)
 
 source("analysis/private/_buildCohorts.R")
+source("analysis/private/_buildStrata.R")
 source("analysis/private/_utilities.R")
 
 # C. Connection ----------------------
@@ -50,6 +51,8 @@ cohortManifest <- getCohortManifest() %>%
     type != "covariates"
   )
 
+### Analysis Settings
+analysisSettings <- readSettingsFile(here::here("analysis/settings/strata.yml"))
 
 # E. Script --------------------
 
