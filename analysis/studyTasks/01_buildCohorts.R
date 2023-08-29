@@ -70,6 +70,11 @@ generatedCohorts <- generateCohorts(
 )
 
 
+# build strata
+buildStrata(con = con,
+            executionSettings = executionSettings,
+            analysisSettings = analysisSettings)
+
 # F. Session Info ------------------------
 DatabaseConnector::disconnect(con)
 
