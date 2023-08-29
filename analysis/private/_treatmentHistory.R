@@ -51,7 +51,7 @@ get_tx_history <- function(con,
   cli::cat_line("\nTreatment History built at: ", tok)
   cli::cat_line("\nTreatment History build took: ", tok_format)
 
-  save_name <- paste("th", targetName,  sep = "_")
+  save_name <- paste("th", targetId,  sep = "_")
   save_path <- fs::path(outputFolder, save_name, ext = "parquet")
   arrow::write_parquet(x = res, sink = save_path)
   cli::cat_line()
@@ -82,10 +82,7 @@ runTreatmentHistory <- function(con,
 
   thHistoryFolder <- outputFolder[[2]]
 
-  targetCohorts <- analysisSettings$treatmentPatterns$cohorts$targetCohort %>%
-    dplyr::mutate(
-      type = "target"
-    )
+  targetCohorts <- analysisSettings$treatmentPatterns$cohorts$targetCohort
   thSettings <- analysisSettings$treatmentPatterns$treatmentHistorySettings
   treatmentCohorts <- analysisSettings$treatmentPatterns$cohorts$drugCohorts %>%
     # custom add to drop ironPreparations
