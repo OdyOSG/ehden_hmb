@@ -5,8 +5,8 @@
 # Study: Ehden Hmb
 # Name: Treatment Landscape
 # Author: Martin Lavallee
-# Date: [Add Date]
-# Description: The purpose of this script is to.....
+# Date: 08/29/2023
+# Description: The purpose of this script is to run the treatment patterns module
 
 # B. Dependencies ----------------------
 
@@ -15,11 +15,10 @@ library(tidyverse, quietly = TRUE)
 library(DatabaseConnector)
 library(config)
 
+source("analysis/private/_utilities.R")
+source("analysis/private/_treatmentPatterns.R")
 source("analysis/private/_treatmentHistory_helpers.R")
 source("analysis/private/_treatmentHistory.R")
-source("analysis/private/_treatmentPatterns.R")
-source("analysis/private/_utilities.R")
-
 
 # C. Connection ----------------------
 
@@ -56,7 +55,7 @@ analysisSettings <- readSettingsFile(here::here("analysis/settings/treatmentPatt
 #startSnowflakeSession(con, executionSettings)
 
 # execute post index prevalence
-executeCohortPrevalence(con = con,
+executePostIndexDrugUtilization(con = con,
                         executionSettings = executionSettings,
                         analysisSettings = analysisSettings)
 

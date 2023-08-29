@@ -30,12 +30,6 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
 
 #connect to database
 con <- DatabaseConnector::connect(connectionDetails)
-withr::defer(
-  expr = DatabaseConnector::disconnect(con),
-  envir = parent.frame()
-) # close on exit
-
-
 
 # D. Study Variables -----------------------
 

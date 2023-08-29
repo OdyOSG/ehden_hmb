@@ -50,7 +50,7 @@ analysisSettings2 <- readSettingsFile(here::here("analysis/settings/underlyingCo
 # E. Script --------------------
 
 #######if BAYER uncomment this line#################
-startSnowflakeSession(con, executionSettings)
+#startSnowflakeSession(con, executionSettings)
 
 ## Get Baseline Covariates
 

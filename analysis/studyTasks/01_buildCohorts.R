@@ -12,9 +12,10 @@ library(tidyverse, quietly = TRUE)
 library(DatabaseConnector)
 library(config)
 
+source("analysis/private/_utilities.R")
 source("analysis/private/_buildCohorts.R")
 source("analysis/private/_buildStrata.R")
-source("analysis/private/_utilities.R")
+
 
 # C. Connection ----------------------
 

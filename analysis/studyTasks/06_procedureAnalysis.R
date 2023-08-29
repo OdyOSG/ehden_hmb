@@ -5,7 +5,7 @@
 # Study: Ehden Hmb
 # Name: Procedure Analysis
 # Author: Martin Lavallee
-# Date: [Add Date]
+# Date: 08/29/2023
 # Description: The purpose of this script is to.....
 
 # B. Dependencies ----------------------
@@ -33,7 +33,6 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
 
 # connect to database
 con <- DatabaseConnector::connect(connectionDetails)
-withr::defer(expr = DatabaseConnector::disconnect(con), envir = parent.frame())  #close on exit
 
 
 # D. Variables -----------------------
@@ -47,9 +46,10 @@ analysisSettings <- readSettingsFile(here::here("analysis/settings/procedureAnal
 
 # E. Script --------------------
 
-runProcedureAnalysis(con = con,
+executeProcedureAnalysis(con = con,
                      executionSettings = executionSettings,
                      analysisSettings = analysisSettings)
 
 # F. Session Info ------------------------
-withr::deferred_run()
+
+DatabaseConnector::disconnect(con)
