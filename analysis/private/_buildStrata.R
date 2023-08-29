@@ -112,11 +112,6 @@ buildStrata <- function(con,
 
   ## get cohort Ids
   targetCohorts <- analysisSettings$strata$cohorts$targetCohort
-  cohortStrata <- analysisSettings$strata$cohorts$strataCohorts %>%
-    dplyr::rename(
-      strataId = id,
-      strataName = name
-    )
   demoStrata <- analysisSettings$strata$demographics
 
   cli::cat_rule("Building Demographic Strata")
