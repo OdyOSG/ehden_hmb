@@ -1,0 +1,57 @@
+treatmentPatterns:
+  cohorts:
+    targetCohort:
+    - name: hmb
+      id: 1
+    - name: hmb age lt 30
+      id: 1001
+    - name: hmb age 30-45
+      id: 1002
+    - name: hmb age 45-55
+      id: 1003
+    drugCohorts:
+    - name: combOralContraceptives
+      id: 16
+    - name: danazol
+      id: 17
+    - name: grha
+      id: 18
+    - name: ironPreparations
+      id: 19
+    - name: iud
+      id: 20
+    - name: nsaids
+      id: 21
+    - name: progestin
+      id: 22
+    - name: progresteron
+      id: 23
+    - name: tranexamicAcid
+      id: 24
+  timeWindow:
+  - startDays: 1
+    endDays: 183
+  - startDays: 184
+    endDays: 365
+  - startDays: 366
+    endDays: 730
+  - startDays: 731
+    endDays: 1825
+  treatmentHistorySettings:
+    minEraDuration: 0
+    eraCollapseSize: 30
+    combinationWindow: 30
+    minPostCombinationDuration: 30
+    filterTreatments: Changes
+    periodPriorToIndex: 0
+    includeTreatments: startDate
+    maxPathLength: 5
+    minCellCount: 5
+    minCellMethod: Remove
+    groupCombinations: 10
+    addNoPaths: no
+  outputFolder:
+  - 07_postIndexPrevalenceDrugs
+  - 08_treatmentHistory
+  - 09_treatmentSequences
+  - 10_timeToDiscontinuation

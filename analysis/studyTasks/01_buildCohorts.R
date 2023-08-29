@@ -12,8 +12,10 @@ library(tidyverse, quietly = TRUE)
 library(DatabaseConnector)
 library(config)
 
+source("analysis/private/_utilities.R")
 source("analysis/private/_buildCohorts.R")
-source("analysis/private/_executionSettings.R")
+source("analysis/private/_buildStrata.R")
+
 
 # C. Connection ----------------------
 
@@ -31,11 +33,6 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
 
 #connect to database
 con <- DatabaseConnector::connect(connectionDetails)
-withr::defer(
-  expr = DatabaseConnector::disconnect(con),
-  envir = parent.frame()
-) #close on exit
-
 
 
 # D. Study Variables -----------------------
@@ -52,6 +49,8 @@ outputFolder <- here::here("results") %>%
 ### Add study variables or load from settings
 cohortManifest <- getCohortManifest()
 
+### Analysis Settings
+analysisSettings <- readSettingsFile(here::here("analysis/settings/strata.yml"))
 
 # E. Script --------------------
 
@@ -72,9 +71,11 @@ generatedCohorts <- generateCohorts(
 )
 
 
-# F. Session Info ------------------------
+# build strata
+buildStrata(con = con,
+            executionSettings = executionSettings,
+            analysisSettings = analysisSettings)
 
-sessioninfo::session_info()
-withr::deferred_run()
-rm(list=ls())
+# F. Session Info ------------------------
+DatabaseConnector::disconnect(con)
 

@@ -3,10 +3,15 @@ results/
 logs/
 config.yml
 NUL
-scratch
+scratch/incPrevTest.R
+scratch/analysisSettings.R
 .httr-oauth
 documentation/minutes/custom-reference-doc.docx
 documentation/custom-reference-doc.docx
 documentation/StudySAP.qmd
 documentation/minutes612023.qmd
 errorReportSql.txt
+
+# ignore minutes documents
+documentation/minutes/img
+documentation/minutes/*.qmd

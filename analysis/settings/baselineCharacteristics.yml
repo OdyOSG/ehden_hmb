@@ -1,0 +1,42 @@
+baselineCharacteristics:
+  cohorts:
+    targetCohort:
+    - name: hmb
+      id: 1
+    - name: hmb age lt 30
+      id: 1001
+    - name: hmb age 30-45
+      id: 1002
+    - name: hmb age 45-55
+      id: 1003
+    covariateCohort:
+    - name: adenomyosis
+      id: 3
+    - name: anemia
+      id: 4
+    - name: coagulopathy
+      id: 5
+    - name: diabetes
+      id: 6
+    - name: dysmenorrhea
+      id: 7
+    - name: endoHyperplasia
+      id: 8
+    - name: endometriosis
+      id: 9
+    - name: endoPolyp
+      id: 10
+    - name: ironDefAnemia
+      id: 11
+    - name: obesity
+      id: 12
+    - name: pain
+      id: 13
+    - name: pcos
+      id: 14
+    - name: uterineLeiomyoma
+      id: 15
+  timeWindow:
+  - startDays: -365
+    endDays: 0
+  outputFolder: 05_baselineCharacteristics

@@ -13,7 +13,7 @@ library(DatabaseConnector)
 library(config)
 
 source("analysis/private/_buildCohorts.R")
-source("analysis/private/_executionSettings.R")
+source("analysis/private/_utilities.R")
 
 # C. Connection ----------------------
 
@@ -30,12 +30,6 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
 
 #connect to database
 con <- DatabaseConnector::connect(connectionDetails)
-withr::defer(
-  expr = DatabaseConnector::disconnect(con),
-  envir = parent.frame()
-) # close on exit
-
-
 
 # D. Study Variables -----------------------
 
@@ -48,7 +42,10 @@ outputFolder <- here::here("results") %>%
   fs::dir_create()
 
 ### Add study variables or load from settings
-diagCohorts <- getCohortManifest()
+diagCohorts <- getCohortManifest() %>%
+  dplyr::filter(
+    type == "target"
+  )
 # E. Script --------------------
 
 
@@ -64,9 +61,6 @@ runCohortDiagnostics(executionSettings = executionSettings,
                      outputFolder = outputFolder)
 
 
+
 # F. Session Info ------------------------
-
-sessioninfo::session_info()
-withr::deferred_run()
-rm(list=ls())
-
+DatabaseConnector::disconnect(con)

@@ -1,0 +1,21 @@
+incidenceAnalysis:
+  cohorts:
+    targetCohort:
+    - name: hmb
+      id: 1
+    - name: hmb age lt 30
+      id: 1001
+    - name: hmb age 30-45
+      id: 1002
+    - name: hmb age 45-55
+      id: 1003
+    denominatorCohort:
+    - name: female_11_55_denom
+      id: 2
+  incidenceSettings:
+    cleanWindow: 0
+    startWith: start
+    startOffset: 0
+    endsWith: end
+    endOffset: 0
+  outputFolder: 04_incidenceAnalysis

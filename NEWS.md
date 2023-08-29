@@ -1,3 +1,11 @@
+# EHDEN HMB v0.1.0
+
+* First release of study code for EHDEN HMB
+    * Add Incidence Analysis
+    * Add Baseline Characteristics 
+    * Add Treatment Patterns
+    * Add Procedure Analysis
+
 # EHDEN HMB v0.0.6
 
 * Add file `StoreResults` to upload cohort diagnostics zip to aws s3 bucket
