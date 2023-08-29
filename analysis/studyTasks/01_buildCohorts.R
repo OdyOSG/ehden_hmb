@@ -47,10 +47,7 @@ outputFolder <- here::here("results") %>%
 
 
 ### Add study variables or load from settings
-cohortManifest <- getCohortManifest() %>%
-  dplyr::filter(
-    type != "covariates"
-  )
+cohortManifest <- getCohortManifest()
 
 ### Analysis Settings
 analysisSettings <- readSettingsFile(here::here("analysis/settings/strata.yml"))

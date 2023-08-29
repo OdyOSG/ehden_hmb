@@ -94,7 +94,7 @@ getWindowPrevalence <- function(tb, timeA, timeB) {
 }
 
 
-runProcedureAnalysis <- function(con,
+executeProcedureAnalysis <- function(con,
                                  executionSettings,
                                  analysisSettings) {
 
@@ -108,89 +108,115 @@ runProcedureAnalysis <- function(con,
   databaseId <- executionSettings$databaseName
 
   ## get cohort Ids
-  targetCohortIds <- analysisSettings$procedureAnalysis$cohorts$targetCohortId$id
-  procedureCohortIds <- analysisSettings$procedureAnalysis$cohorts$procCohortIds$id
+  targetCohortIds <- analysisSettings$procedureAnalysis$cohorts$targetCohort$id
+  procedureCohortIds <- analysisSettings$procedureAnalysis$cohorts$procedureCohorts$id
 
   ## get time windows
   timeA <- analysisSettings$procedureAnalysis$prevalenceTimeWindow$startDays
   timeB <- analysisSettings$procedureAnalysis$prevalenceTimeWindow$endDays
 
   # get outputFolder
-  outputFolder <- fs::path(here::here("results"), analysisSettings$procedureAnalysis$outputFolder) %>%
+  outputFolder <- fs::path(here::here("results"), databaseId, analysisSettings[[1]]$outputFolder) %>%
     fs::dir_create()
+
+  # get procPrevFolder
+  procPrevFolder <- outputFolder[1]
+  # get time to intervention folder
+  ttiFolder <- outputFolder[2]
 
   txt <- glue::glue("Running Procedure Analysis for {crayon::yellow(databaseId)}")
   cli::cat_rule(txt)
 
-  # Step 1: Get procedure table ------------
-  cli::cat_line()
-  cli::cat_bullet("Producing analysis table for procedures from dbms",
-                  bullet = "checkbox_on", bullet_col = "green")
+  for (i in seq_along(targetCohortIds)) {
+    idx <- targetCohortIds[i]
+
+    txt <- glue::glue("Running procedure analysis for cohort id {crayon::magenta(idx)}")
+    cli::cat_bullet(txt, bullet = "pointer", bullet_col = "yellow")
 
 
-  tb <- get_procedure_table(
-    con,
-    workDatabaseSchema = workDatabaseSchema,
-    cohortTable = cohortTable,
-    targetCohortId = targetCohortIds,
-    outcomeCohortIds = procedureCohortIds
-  )
+    # Step 1: Get procedure table ------------
+    cli::cat_line()
+    cli::cat_bullet("Step 1: Getting analysis table from db",
+                    bullet = "checkbox_on", bullet_col = "green")
 
-  # Step 2: Run Procedure prevalence ------------
-  cli::cat_line()
-  cli::cat_bullet("Calculating prevalence of procedures",
-                  bullet = "checkbox_on", bullet_col = "green")
+    tb <- get_procedure_table(
+      con,
+      workDatabaseSchema = workDatabaseSchema,
+      cohortTable = cohortTable,
+      targetCohortId = idx,
+      outcomeCohortIds = procedureCohortIds
+    )
 
-  num_persons <- length(unique(tb$subjectId))
-  tab1a <- tb %>%
-    dplyr::filter(!is.na(cohortDefinitionId)) %>%
-    dplyr::group_by(cohortDefinitionId) %>%
-    dplyr::count(name = "numEvents") %>%
-    dplyr::ungroup() %>%
-    mutate(
-      pct = numEvents / num_persons,
-      window = "All"
-    ) %>%
-    dplyr::select(window, cohortDefinitionId, numEvents, pct)
+    # Step 2: Run Procedure prevalence ------------
+    cli::cat_line()
+    cli::cat_bullet("Step 2: Calculating prevalence of procedures",
+                    bullet = "checkbox_on", bullet_col = "green")
 
-  tab1b <- purrr::map2_dfr(
-    timeA,
-    timeB,
-    ~getWindowPrevalence(tb = tb, timeA = .x, timeB = .y)
-  )
+    # find number of persons
+    num_persons <- length(unique(tb$subjectId))
 
-  tab1 <- dplyr::bind_rows(tab1a, tab1b)
+    # count events for procedures in all time
+    tab1a <- tb %>%
+      dplyr::filter(!is.na(cohortDefinitionId)) %>%
+      dplyr::group_by(cohortDefinitionId) %>%
+      dplyr::count(name = "numEvents") %>%
+      dplyr::ungroup() %>%
+      mutate(
+        pct = numEvents / num_persons,
+        window = "All"
+      ) %>%
+      dplyr::select(window, cohortDefinitionId, numEvents, pct)
 
-  verboseSave(
-    object = tab1,
-    saveName = "procedure_prevalence",
-    saveLocation = outputFolder
-  )
+    # prevalence in specified time window
+    tab1b <- purrr::map2_dfr(
+      timeA,
+      timeB,
+      ~getWindowPrevalence(tb = tb, timeA = .x, timeB = .y)
+    )
 
+    tab1 <- dplyr::bind_rows(tab1a, tab1b)
 
-  # Step 3: Run Time to event -----------
-  cli::cat_line()
-  cli::cat_bullet("Calculating time to intervention for procedures",
-                  bullet = "checkbox_on", bullet_col = "green")
-  tab2 <- tb %>%
-    dplyr::filter(!is.na(cohortDefinitionId)) %>%
-    dplyr::mutate(
-      event = 1,
-      duration = as.integer(eventDate - cohortStartDate) / 365.25
-    ) %>%
-    dplyr::select(cohortDefinitionId, duration, event)
+    fileNm <- glue::glue("procedure_prevalence_{idx}")
 
-  survFit <- ggsurvfit::survfit2(
-    survival::Surv(duration, event) ~ cohortDefinitionId, data = tab2
-  )
-  survDat <- ggsurvfit::tidy_survfit(survFit) %>%
-    dplyr::select(time, `n.risk`, `n.event`, estimate:strata)
+    #save prevalence object to folder
+    verboseSave(
+      object = tab1,
+      saveName = fileNm,
+      saveLocation = procPrevFolder
+    )
 
-  verboseSave(
-    object = survDat,
-    saveName = "procedure_survival",
-    saveLocation = outputFolder
-  )
+    # Step 3: Run Time to event -----------
+    cli::cat_line()
+    cli::cat_bullet("Step 3: Calculating time to intervention for procedures",
+                    bullet = "checkbox_on", bullet_col = "green")
+
+    # subset table for survival analysis
+    tab2 <- tb %>%
+      dplyr::filter(!is.na(cohortDefinitionId)) %>%
+      dplyr::mutate(
+        event = 1,
+        duration = as.integer(eventDate - cohortStartDate) / 365.25
+      ) %>%
+      dplyr::select(cohortDefinitionId, duration, event)
+
+    # get surv fit object
+    survFit <- ggsurvfit::survfit2(
+      survival::Surv(duration, event) ~ cohortDefinitionId, data = tab2
+    )
+    # retrieve tidy survfit
+    survDat <- ggsurvfit::tidy_survfit(survFit) %>%
+      dplyr::select(time, `n.risk`, `n.event`, estimate:strata)
+
+    fileNm2 <- glue::glue("procedure_survival_{idx}")
+
+    # save time to event obj
+    verboseSave(
+      object = survDat,
+      saveName = fileNm2,
+      saveLocation = ttiFolder
+    )
+
+  } #iterate to strata
 
   invisible(tb)
 

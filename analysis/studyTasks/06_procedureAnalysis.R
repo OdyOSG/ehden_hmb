@@ -6,7 +6,8 @@
 # Name: Procedure Analysis
 # Author: Martin Lavallee
 # Date: 08/29/2023
-# Description: The purpose of this script is to.....
+# Description: The purpose of this script is to run procedure analysis which includes prevalence
+# of procedure and time to initial treatment
 
 # B. Dependencies ----------------------
 
