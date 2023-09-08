@@ -2,19 +2,21 @@
 
 ## Table of Contents
 
-1)  Technical Requirements
-2)  Setting up the Ehden HMB study locally
-3)  Setup Credentials
-4)  Executing Scripts
+1.  Technical Requirements
+2.  Setup the Ehden HMB study locally
+3.  Setup Credentials
+4.  Execute Scripts
 
-## Pre-Study Technical Requirements
+## 1. Technical Requirements
 
 To run this study you must setup the [HADES environment](https://ohdsi.github.io/Hades/rSetup.html).
 
--   [R](https://cloud.r-project.org/) installed, (version 4.1 or greater)
--   [R Studio](https://posit.co/download/rstudio-desktop/) installed
--   On Windows: [RTools](https://cran.r-project.org/bin/windows/Rtools/) installed
--   [Java](https://www.java.com/en/) installed
+You also need to install the following software:
+
+-   [R](https://cloud.r-project.org/) (version 4.1 or greater)
+-   [R Studio](https://posit.co/download/rstudio-desktop/)
+-   On Windows: [RTools](https://cran.r-project.org/bin/windows/Rtools/)
+-   [Java](https://www.java.com/en/)
 
 You also require your site data to be mapped to the [OMOP CDM](https://ohdsi.github.io/CommonDataModel/) and administered on one of the following supported database platforms:
 
@@ -29,33 +31,28 @@ You also require your site data to be mapped to the [OMOP CDM](https://ohdsi.git
 -   Apache Spark
 -   Apache Impala
 
-## 2) Setting up the Ehden Hmb study locally
+## 2. Setup the Ehden Hmb study locally
 
-### Get Dependencies
+### Get Study Package
 
-### Get Repo
-
-1)  Go to the github url: <https://github.com/OdyOSG/ehden_hmb>.
-2)  Select the green code button revealing a dropdown menu.
-3)  Select *Download Zip*.
-4)  Unzip the folder on your local computer that is easily accessible within R Studio.
-5)  Open the unzipped folder and select `ehden_hmb.Rproj`.
+1)  Go to URL: <https://github.com/OdyOSG/ehden_hmb>
+2)  Select the green code button named `Code`, revealing a dropdown menu
+3)  Select `Download Zip`
+4)  Unzip the folder in a location on your local computer that is easily accessible by R Studio
+5)  Open the unzipped folder and click on the `ehden_hmb.Rproj` file to open the study package in R Studio
 
 ### Setup `renv`
 
-This project contains an `renv.lock` file which ensures that all collaborators are working in the same environement when executing the *ehden_hmb* study. For more details on `renv`, refer to the [package website](https://rstudio.github.io/renv/index.html).
+The study package contains an `renv.lock` file which ensures that all collaborators are working with the same packages' version. For more details on `renv`, refer to the [package website](https://rstudio.github.io/renv/index.html).
 
 To activate the `renv` file, run:
 
-```         
+```
 renv::restore()
 ```
 
-If there are any issues with the `renv` please contact [martin.lavallee\@odysseusinc.com](mailto:martin.lavallee@odysseusinc.com){.email} or [george.argyriou\@odysseusinc.com](mailto:george.argyriou@odysseusinc.com){.email}.
-
 ### Final steps
-
-To run the *ehden_hmb* study the user must install the following packages:
+To run the study package user must install the following packages:
 
 ``` r
 install.packages('usethis')
@@ -63,83 +60,123 @@ install.packages('remotes')
 remotes::install_github("ohdsi/Ulysses", ref = "develop")
 ```
 
-## 3) Setup Credentials
+## 3. Setup Credentials
 
-Have your database credentials ready; suggested to save them in a accessible txt file. If you need to know your database credentials contact your database administrator. Once you have your credentials ready, open the `extras/KeyringSetup.R` file in the *ehden_hmb* project.
+Have your database credentials ready, preferably in a text file.
 
-**1) Assign Variables**
+The credentials that you will need are the following:
 
-Load the dependencies on L9-11. If they have not been installed please install them using `install.packages` for CRAN packages or using the installation directions for the `Ulysses` package provided above.
+1)  **Database dialect**: The database SQL dialect e.g. redshift
+2)  **Username**: The user's username
+3)  **Password**: The user's password
+4)  **Connection string**: The JDBC connection string for the database
+5)  **CDM schema**: The name of the database and schema where OMOP data are located e.g. SYNPUF.CDM
+6)  **Vocabulary schema**: The name of the database and schema where the vocabulary tables are located (usually the same as CDM schema) e.g. SYNPUF.CDM
+7)  **Work schema**: The name of the database and schema where study results will be saved e.g. OHDSI.SCRATCH_GA (Note that you will need to have write permissions on this schema)
 
-Create a configBlock name for the database you want to use first. For example if you are working on the Optum claims, on L15 assign the `configBlock` variable as *"optum"*. The configBlock name is a shorthand reference to the database. Try to make this name a single word or two words separated by quotes. Next provide a name to the database. On L17 assign the `database` variable to a character string that describes the database in use. This can be the same name as the `configBlock`.
+If you don't know what your credentials are please contact your database administrator. Once you have your credentials ready, open file `extras/KeyringSetup.R`.
 
-There are two more variables to set in section B of the `KeyringSetup.R` file, `keyringName` and `keyringPassword`. These variables pretain to the `keyring` setup. The keyring is the group that stores the set of credentials that pertain to the study. Name the `keyringName` after the study, this parameter should already be pre-registered as *bayerChapter*. Next, set a password for the keyring. Everytime we want to access the *bayerChapter* keyring, we must input this password. This password is preset as *ulysses* for convenience, however the user may choose to alter this. **Keep this password handy when accessing the keyring for the study.**
 
-**2) Create config.yml**
+**1. Load Dependencies**
 
-Once the variables have been setup, you can now setup the *config.yml* file. Line 27 of the `KeyringSetup.R` file asks you to check if the *config.yml* file already exists. If it does not already exist run the following:
+Run section `A) Dependencies` to load the packages. If they are not already installed install them using `install.packages` for CRAN packages or using the installation directions for the `Ulysses` package provided in section `Final Steps` above.
+
+
+**2. Assign Variables**
+
+Run section `B) Assign Variables`. The following variables will be created:
+
+1) **configBlock**: Shorthand reference of the database. This should be a single string without spaces e.g. synpuf
+2) **database**:    The database name. This should be a single string without spaces  e.g. synpuf
+3) **keyringName**: The name of the keyring where the credentials are going to be saved. No need to fill in. This variable will be pre-registered.
+4) **keyringPassword**: The password of the keyring. **Keep this password handy as you will need it when accessing the keyring for the study.**
+
+The keyring is the group that stores the credentials that pertain to the study. More on that later.
+
+
+**3. Create file config.yml**
+
+Once variables have been assigned, you can now setup the `config.yml` file.
+Run section `C) Set config.yml` to check if the config.yml file exists. If it does not already exist run the following function to create:
 
 ``` r
 Ulysses::makeConfig(block = configBlock, database = database)
 ```
 
-where the `configBlock` and `database` variables are defined in section B. Running this function will open the *config.yml* file in Rstudio. For Bayer projects you must add an additional credential, the role. Please copy and paste the below and make sure that it is tabbed in line with the block. Replace the section *[block]* with the value in your `configBlock` variable. Add a new line to the yaml file. **Make sure this new line is not tabbed.**
+Variables `configBlock` and `database` are defined in section `B) Assign Variables`. Running this function will open the `config.yml` file in Rstudio.
 
-```         
-role: !expr keyring::key_get('[block]_role', keyring = 'bayerChapter')
-```
 
-If the *config.yml* already exists. Open it and review. Make sure the block contains the following structure, where *[block]* is the value in your `configBlock` variable:
+If the `config.yml` already exists open it and review. Make sure the block contains the following structure, where [block] is the value of the `configBlock` variable:
 
-```         
+  ```
 # Config block example
 
-block:
-  databaseName: synpuf_110k
-  cohortTable: bayerChapter_synpuf_110k
-  dbms: !expr keyring::key_get('block_dbms', keyring = 'bayerChapter')
-  user: !expr keyring::key_get('block_user', keyring = 'bayerChapter')
-  password: !expr keyring::key_get('block_password', keyring = 'bayerChapter')
-  connectionString: !expr keyring::key_get('block_connectionString', keyring = 'bayerChapter')
-  cdmDatabaseSchema: !expr keyring::key_get('block_cdmDatabaseSchema', keyring = 'bayerChapter')
-  vocabDatabaseSchema: !expr keyring::key_get('block_vocabDatabaseSchema', keyring = 'bayerChapter')
-  workDatabaseSchema: !expr keyring::key_get('block_workDatabaseSchema', keyring = 'bayerChapter')
-  role: !expr keyring::key_get('block_role', keyring = 'bayerChapter')
+[block]:
+databaseName: [database]
+cohortTable: ehden_hmb_[database]
+dbms: !expr keyring::key_get('[block]_dbms', keyring = 'ehden_hmb')
+user: !expr keyring::key_get('[block]_user', keyring = 'ehden_hmb')
+password: !expr keyring::key_get('[block]_password', keyring = 'ehden_hmb')
+connectionString: !expr keyring::key_get('[block]_connectionString', keyring = 'ehden_hmb')
+cdmDatabaseSchema: !expr keyring::key_get('[block]_cdmDatabaseSchema', keyring = 'ehden_hmb')
+vocabDatabaseSchema: !expr keyring::key_get('[block]_vocabDatabaseSchema', keyring = 'ehden_hmb')
+workDatabaseSchema: !expr keyring::key_get('[block]_workDatabaseSchema', keyring = 'ehden_hmb')
 ```
 
-**3) Setup keyring: Have your credentials handy**
+**4. Setup keyring**
 
-Next we need to set up the keyring for the `bayerChapter` study. Run L33:48. These lines check to see if the `bayerChapter` keyring already exists and deletes it if it does. Next, run L50. This will create a new keyring for the study.
+Next we need to setup the keyring for the  study. Run section `D) Setup Keyring`.
+The function checks if the keyring for the study already exists. If it does, it is being deleted and recreated.
 
-Once we have setup the keyring we can begin inserting credentials. Run L53:68. Once L68 is run, this will prompt a dialog box that asks for you to place your credentials. Type in the credentials into the dialog box as they appear. Once you have finished check if they are correct. Run L76:84 and review your credentials. If there is any mistake, uncomment L87:88 to fix any credentials and review. As one final check, run L91:98 to ensure that the connection details can be established. If there are any errors here, please contact [martin.lavallee\@odysseusinc.com](mailto:martin.lavallee@odysseusinc.com){.email} or [george.argyriou\@odysseusinc.com](mailto:george.argyriou@odysseusinc.com){.email}.
 
-**4) Adding other configBlocks**
+**5. Set Credentials**
 
-With one set of credentials confirmed we must do a similar process for the remaining databases in the study. To add an additional config block to the *config.yml* file run:
+Once we have setup the keyring we can add credentials in the keyring. Run section `E) Set Credentials`.
+You will be prompted to place your credentials. Type in the credentials into the dialog box as they appear.
 
-```         
-Ulysses::addConfig(block = "[next_block]", database = "[next_database]")
+
+**6. Check credentials**
+
+Once you have finished adding the credentials run function `checkCreds` in section `F) Check credentials` to check if they are correct.
+If there is a mistake, uncomment and run function `setSingleCred` for each incorrect credential.
+As one final check, run function `testCreds` to ensure that the connection details have been established successfully.
+If they have, you should see the name of the `dbms` variable i.e. database dialect, in your console.
+
+
+**7. Adding more databases**
+
+With one set of credentials confirmed we must do the same for the remaining databases in the study. To add another config block to the `config.yml` file run the following function:
+
+  ```
+Ulysses::addConfig(block = "[next_configBlock]", database = "[next_database]")
 ```
 
-In this function replace the bracketed items with your next database. This function will open the *config.yml* file with a new config block set below your first one. Add the role credential as shown above for Bayer projects.
+Replace the bracketed variables with the next database. This function will open the `config.yml` file with a new config block added at the bottom of the script.
 
-Now we need to upload the credentials of this configBlock to the keyring. Reassign the variables on L15 and L17 of the `KeyringSetup.R` file to the new block and database. Now rerun L52:69 to set the credentials in the keyring storage for your other databases. Check the credentials as demonstrated before. Rerun this step until all databases are added to the *config.yml* and keyring.
+We now need to add the credentials of this configBlock to the keyring. Reassign variables `configBlock` and `database` in section `B) Set Parameters` of the `KeyringSetup.R` file to the new block and database. Next, rerun section `E) Set Credentials` to set the credentials in the keyring for your other databases. Optionally, rerun section `F) Check Credentials` to check the credentials and test connection to the database as demonstrated above. Rerun these steps until all databases are added to the `config.yml` and keyring.
 
-## 4) Executing Scripts
+Lastly, run section `G) Session Info` to clear your R session. You are now ready to execute the study package.
 
-Once the credentials have been setup, the user may begin running study tasks. Navigate to the `analysis/studyTasks` folder and consider the file structure. Study tasks are ordered in the sequence that they must run based on a numerical prefix. This means you must run `01_buildCohorts.R` first in the sequence before `02_cohortDiagnostics.R`. 
+## 4. Execute Scripts (TO EDIT)
+
+Once the credentials have been setup, the user may begin running study tasks. Go to folder `analysis/studyTasks` and consider the file structure. Study tasks are ordered in the sequence that they must run based on a numerical prefix. This means you must run `01_buildCohorts.R` first in the sequence before `02_cohortDiagnostics.R`.
 
 ### Step 1: Build Cohorts
 
-In the `01_buildCohorts.R` replace L21 to fit the configBlock for the dbms you want to use in the study. For example if I was running my analysis on optum claims whose credentials were stored under the block *optum*, I would replace L21 with `configBlock <- "optum"`.
+In the `01_buildCohorts.R` script replace L21 to fit the configBlock for the database you want to use in the study. For example if I was running my analysis on optum claims whose credentials were stored under the block *optum*, I would replace L21 with `configBlock <- "optum"`.
 
-Once this has been changed. scroll down to L59. If you are part of Bayer, uncomment this line. If not, keep this line commented. Now you can run the script from start to finish. While the script is running, information will fill your R console describing where files have been saved and what is being done. 
+Once this has been changed. scroll down to L59. If you are part of Bayer, uncomment this line. If not, keep this line commented. Now you can run the script from start to finish. While the script is running, information will fill your R console describing where files have been saved and what is being done.
 
 
 ### Step 2: Run Cohort Diagnostics
 
-Next you will run the cohort diagnostics script. Follow the steps described in step 1 by replacing the assigned value for `configBlock` on L21 with that of the database you want to use.  When this is done, run the script. 
+Next you will run the cohort diagnostics script. Follow the steps described in step 1 by replacing the assigned value for `configBlock` on L21 with that of the database you want to use.  When this is done, run the script.
 
-Once the cohort diagnostics function has completed, move to script `03_reviewCohortDiagnostics.R` and run it. This script will launch the shiny app to review the cohort diagnostics results. 
+Once the cohort diagnostics function has completed, move to script `03_reviewCohortDiagnostics.R` and run it. This script will launch the shiny app to review the cohort diagnostics results.
 
-Once the results have been reviewed, please upload the zip file of each database found in the *02_cohortDiagnostics* folder to the aws s3 bucket. A file `extras/StoreReults.R` provides guidance on how to upload. You must contact the study lead for the aws s3 key and secret.  
+Once the results have been reviewed, please upload the zip file of each database found in the *02_cohortDiagnostics* folder to the aws s3 bucket. A file `extras/StoreReults.R` provides guidance on how to upload. You must contact the study lead for the aws s3 key and secret.
+
+
+### Support
+
+If you encounter any issues, please contact [martin.lavallee\@odysseusinc.com](mailto:martin.lavallee@odysseusinc.com){.email} or [george.argyriou\@odysseusinc.com](mailto:george.argyriou@odysseusinc.com){.email}.
