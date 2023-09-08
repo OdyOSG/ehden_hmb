@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>EHDEN HMB - How-to-Run Study</title>
+<title>EHDEN HMB - Technical Specifications</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -190,32 +156,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
 <p><img src="images/ehden.png" class="img-fluid"></p>
 </div></div>
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#setting-up-the-ehden-hmb-study-locally" id="toc-setting-up-the-ehden-hmb-study-locally" class="nav-link active" data-scroll-target="#setting-up-the-ehden-hmb-study-locally">1) Setting up the Ehden Hmb study locally</a>
-  <ul class="collapse">
-  <li><a href="#get-dependencies" id="toc-get-dependencies" class="nav-link" data-scroll-target="#get-dependencies">Get Dependencies</a></li>
-  <li><a href="#get-repo" id="toc-get-repo" class="nav-link" data-scroll-target="#get-repo">Get Repo</a></li>
-  <li><a href="#setup-renv" id="toc-setup-renv" class="nav-link" data-scroll-target="#setup-renv">Setup <code>renv</code></a></li>
-  <li><a href="#final-steps" id="toc-final-steps" class="nav-link" data-scroll-target="#final-steps">Final steps</a></li>
-  </ul></li>
-  <li><a href="#setup-credentials" id="toc-setup-credentials" class="nav-link" data-scroll-target="#setup-credentials">2) Setup Credentials</a></li>
-  <li><a href="#executing-scripts" id="toc-executing-scripts" class="nav-link" data-scroll-target="#executing-scripts">3) Executing Scripts</a>
-  <ul class="collapse">
-  <li><a href="#step-1-build-cohorts" id="toc-step-1-build-cohorts" class="nav-link" data-scroll-target="#step-1-build-cohorts">Step 1: Build Cohorts</a></li>
-  <li><a href="#step-2-run-cohort-diagnostics" id="toc-step-2-run-cohort-diagnostics" class="nav-link" data-scroll-target="#step-2-run-cohort-diagnostics">Step 2: Run Cohort Diagnostics</a></li>
-  </ul></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">How-to-Run Study</h1>
+<h1 class="title">Technical Specifications</h1>
 </div>
 
 
@@ -230,88 +178,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="setting-up-the-ehden-hmb-study-locally" class="level2">
-<h2 class="anchored" data-anchor-id="setting-up-the-ehden-hmb-study-locally">1) Setting up the Ehden Hmb study locally</h2>
-<section id="get-dependencies" class="level3">
-<h3 class="anchored" data-anchor-id="get-dependencies">Get Dependencies</h3>
-</section>
-<section id="get-repo" class="level3">
-<h3 class="anchored" data-anchor-id="get-repo">Get Repo</h3>
-<ol type="1">
-<li>Go to the github url: <a href="https://github.com/OdyOSG/ehden_hmb" class="uri">https://github.com/OdyOSG/ehden_hmb</a>.</li>
-<li>Select the green code button revealing a dropdown menu.</li>
-<li>Select <em>Download Zip</em>.</li>
-<li>Unzip the folder on your local computer that is easily accessible within R Studio.</li>
-<li>Open the unzipped folder and select <code>ehden_hmb.Rproj</code>.</li>
-</ol>
-</section>
-<section id="setup-renv" class="level3">
-<h3 class="anchored" data-anchor-id="setup-renv">Setup <code>renv</code></h3>
-<p>This project contains an <code>renv.lock</code> file which ensures that all collaborators are working in the same environement when executing the <em>ehden_hmb</em> study. For more details on <code>renv</code>, refer to the <a href="https://rstudio.github.io/renv/index.html">package website</a>.</p>
-<p>To activate the <code>renv</code> file, run:</p>
-<pre><code>renv::restore()</code></pre>
-<p>If there are any issues with the <code>renv</code> please contact <a href="mailto:martin.lavallee@odysseusinc.com" class="email">martin.lavallee@odysseusinc.com</a> or <a href="mailto:george.argyriou@odysseusinc.com" class="email">george.argyriou@odysseusinc.com</a>.</p>
-</section>
-<section id="final-steps" class="level3">
-<h3 class="anchored" data-anchor-id="final-steps">Final steps</h3>
-<p>To run the <em>ehden_hmb</em> study the user must install the following packages:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'usethis'</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'remotes'</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"ohdsi/Ulysses"</span>, <span class="at">ref =</span> <span class="st">"develop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-</section>
-<section id="setup-credentials" class="level2">
-<h2 class="anchored" data-anchor-id="setup-credentials">2) Setup Credentials</h2>
-<p>Have your database credentials ready; suggested to save them in a accessible txt file. If you need to know your database credentials contact your database administrator. Once you have your credentials ready, open the <code>extras/KeyringSetup.R</code> file in the <em>ehden_hmb</em> project.</p>
-<p><strong>1) Assign Variables</strong></p>
-<p>Load the dependencies on L9-11. If they have not been installed please install them using <code>install.packages</code> for CRAN packages or using the installation directions for the <code>Ulysses</code> package provided above.</p>
-<p>Create a configBlock name for the database you want to use first. For example if you are working on the Optum claims, on L15 assign the <code>configBlock</code> variable as <em>“optum”</em>. The configBlock name is a shorthand reference to the database. Try to make this name a single word or two words separated by quotes. Next provide a name to the database. On L17 assign the <code>database</code> variable to a character string that describes the database in use. This can be the same name as the <code>configBlock</code>.</p>
-<p>There are two more variables to set in section B of the <code>KeyringSetup.R</code> file, <code>keyringName</code> and <code>keyringPassword</code>. These variables pretain to the <code>keyring</code> setup. The keyring is the group that stores the set of credentials that pertain to the study. Name the <code>keyringName</code> after the study, this parameter should already be pre-registered as <em>bayerChapter</em>. Next, set a password for the keyring. Everytime we want to access the <em>bayerChapter</em> keyring, we must input this password. This password is preset as <em>ulysses</em> for convenience, however the user may choose to alter this. <strong>Keep this password handy when accessing the keyring for the study.</strong></p>
-<p><strong>2) Create config.yml</strong></p>
-<p>Once the variables have been setup, you can now setup the <em>config.yml</em> file. Line 27 of the <code>KeyringSetup.R</code> file asks you to check if the <em>config.yml</em> file already exists. If it does not already exist run the following:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Ulysses<span class="sc">::</span><span class="fu">makeConfig</span>(<span class="at">block =</span> configBlock, <span class="at">database =</span> database)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>where the <code>configBlock</code> and <code>database</code> variables are defined in section B. Running this function will open the <em>config.yml</em> file in Rstudio. For Bayer projects you must add an additional credential, the role. Please copy and paste the below and make sure that it is tabbed in line with the block. Replace the section <em>[block]</em> with the value in your <code>configBlock</code> variable. Add a new line to the yaml file. <strong>Make sure this new line is not tabbed.</strong></p>
-<pre><code>role: !expr keyring::key_get('[block]_role', keyring = 'bayerChapter')</code></pre>
-<p>If the <em>config.yml</em> already exists. Open it and review. Make sure the block contains the following structure, where <em>[block]</em> is the value in your <code>configBlock</code> variable:</p>
-<pre><code># Config block example
-
-block:
-  databaseName: synpuf_110k
-  cohortTable: bayerChapter_synpuf_110k
-  dbms: !expr keyring::key_get('block_dbms', keyring = 'bayerChapter')
-  user: !expr keyring::key_get('block_user', keyring = 'bayerChapter')
-  password: !expr keyring::key_get('block_password', keyring = 'bayerChapter')
-  connectionString: !expr keyring::key_get('block_connectionString', keyring = 'bayerChapter')
-  cdmDatabaseSchema: !expr keyring::key_get('block_cdmDatabaseSchema', keyring = 'bayerChapter')
-  vocabDatabaseSchema: !expr keyring::key_get('block_vocabDatabaseSchema', keyring = 'bayerChapter')
-  workDatabaseSchema: !expr keyring::key_get('block_workDatabaseSchema', keyring = 'bayerChapter')
-  role: !expr keyring::key_get('block_role', keyring = 'bayerChapter')</code></pre>
-<p><strong>3) Setup keyring: Have your credentials handy</strong></p>
-<p>Next we need to set up the keyring for the <code>bayerChapter</code> study. Run L33:48. These lines check to see if the <code>bayerChapter</code> keyring already exists and deletes it if it does. Next, run L50. This will create a new keyring for the study.</p>
-<p>Once we have setup the keyring we can begin inserting credentials. Run L53:68. Once L68 is run, this will prompt a dialog box that asks for you to place your credentials. Type in the credentials into the dialog box as they appear. Once you have finished check if they are correct. Run L76:84 and review your credentials. If there is any mistake, uncomment L87:88 to fix any credentials and review. As one final check, run L91:98 to ensure that the connection details can be established. If there are any errors here, please contact <a href="mailto:martin.lavallee@odysseusinc.com" class="email">martin.lavallee@odysseusinc.com</a> or <a href="mailto:george.argyriou@odysseusinc.com" class="email">george.argyriou@odysseusinc.com</a>.</p>
-<p><strong>4) Adding other configBlocks</strong></p>
-<p>With one set of credentials confirmed we must do a similar process for the remaining databases in the study. To add an additional config block to the <em>config.yml</em> file run:</p>
-<pre><code>Ulysses::addConfig(block = "[next_block]", database = "[next_database]")</code></pre>
-<p>In this function replace the bracketed items with your next database. This function will open the <em>config.yml</em> file with a new config block set below your first one. Add the role credential as shown above for Bayer projects.</p>
-<p>Now we need to upload the credentials of this configBlock to the keyring. Reassign the variables on L15 and L17 of the <code>KeyringSetup.R</code> file to the new block and database. Now rerun L52:69 to set the credentials in the keyring storage for your other databases. Check the credentials as demonstrated before. Rerun this step until all databases are added to the <em>config.yml</em> and keyring.</p>
-</section>
-<section id="executing-scripts" class="level2">
-<h2 class="anchored" data-anchor-id="executing-scripts">3) Executing Scripts</h2>
-<p>Once the credentials have been setup, the user may begin running study tasks. Navigate to the <code>analysis/studyTasks</code> folder and consider the file structure. Study tasks are ordered in the sequence that they must run based on a numerical prefix. This means you must run <code>01_buildCohorts.R</code> first in the sequence before <code>02_cohortDiagnostics.R</code>.</p>
-<section id="step-1-build-cohorts" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-build-cohorts">Step 1: Build Cohorts</h3>
-<p>In the <code>01_buildCohorts.R</code> replace L21 to fit the configBlock for the dbms you want to use in the study. For example if I was running my analysis on optum claims whose credentials were stored under the block <em>optum</em>, I would replace L21 with <code>configBlock &lt;- "optum"</code>.</p>
-<p>Once this has been changed. scroll down to L59. If you are part of Bayer, uncomment this line. If not, keep this line commented. Now you can run the script from start to finish. While the script is running, information will fill your R console describing where files have been saved and what is being done.</p>
-</section>
-<section id="step-2-run-cohort-diagnostics" class="level3">
-<h3 class="anchored" data-anchor-id="step-2-run-cohort-diagnostics">Step 2: Run Cohort Diagnostics</h3>
-<p>Next you will run the cohort diagnostics script. Follow the steps described in step 1 by replacing the assigned value for <code>configBlock</code> on L21 with that of the database you want to use. When this is done, run the script.</p>
-<p>Once the cohort diagnostics function has completed, move to script <code>03_reviewCohortDiagnostics.R</code> and run it. This script will launch the shiny app to review the cohort diagnostics results.</p>
-<p>Once the results have been reviewed, please upload the zip file of each database found in the <em>02_cohortDiagnostics</em> folder to the aws s3 bucket. A file <code>extras/StoreReults.R</code> provides guidance on how to upload. You must contact the study lead for the aws s3 key and secret.</p>
+<p>To run this study you must setup the <a href="https://ohdsi.github.io/Hades/rSetup.html">HADES environment</a>.</p>
+<ul>
+<li>Install <a href="https://cloud.r-project.org/">R</a> (version 4.1 or greater)</li>
+<li>Install <a href="https://posit.co/download/rstudio-desktop/">R Studio</a></li>
+<li>On Windows: Install <a href="https://cran.r-project.org/bin/windows/Rtools/">RTools</a></li>
+<li>Install <a href="https://www.java.com/en/">Java</a></li>
+</ul>
+<p>You also require your site data to be mapped to the <a href="https://ohdsi.github.io/CommonDataModel/">OMOP CDM</a> and administered on one of the following supported database platforms:</p>
+<ul>
+<li>Microsoft SQL Server</li>
+<li>PostgreSQL</li>
+<li>Google BigQuery</li>
+<li>Amazon RedShift</li>
+<li>Snowflake</li>
+</ul>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

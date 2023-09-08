@@ -85,24 +85,65 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./index.html" rel="" target="">
  <span class="menu-text">Home</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="./news.html" rel="" target="">
+ <span class="dropdown-text">News</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./sap.html" rel="" target="">
- <span class="menu-text">Analysis</span></a>
+        <li>
+    <a class="dropdown-item" href="./techSpecs.html" rel="" target="">
+ <span class="dropdown-text">Technical Requirements</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./howToRun.html" rel="" target="">
- <span class="menu-text">Execute</span></a>
+        <li>
+    <a class="dropdown-item" href="./about.html" rel="" target="">
+ <span class="dropdown-text">Session Info</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link active" href="./contribution.html" rel="" target="" aria-current="page">
- <span class="menu-text">Contribute</span></a>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-info" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Study Info</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-study-info">    
+        <li>
+    <a class="dropdown-item" href="./sap.html" rel="" target="">
+ <span class="dropdown-text">Analysis Plan</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./howToRun.html" rel="" target="">
+ <span class="dropdown-text">How-To-Run</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./contribution.html" rel="" target="">
+ <span class="dropdown-text">Contibution Guidelines</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bi-github" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+      <i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bi-github">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/OdyOSG/ehden_hmb" rel="" target="">
+ <span class="dropdown-text">Source Code</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/OdyOSG/ehden_hmb/issues/new?assignees=mdlavallee92&amp;labels=bug&amp;projects=&amp;template=bug_report.md&amp;title=" rel="" target="">
+ <span class="dropdown-text">Report a Bug</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <div class="quarto-navbar-tools">
 </div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
@@ -115,7 +156,20 @@ ul.task-list li input[type="checkbox"] {
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
 <p><img src="images/ehden.png" class="img-fluid"></p>
 </div></div>
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#participating-in-the-study" id="toc-participating-in-the-study" class="nav-link active" data-scroll-target="#participating-in-the-study"><span class="header-section-number">1</span> Participating in the study</a></li>
+  <li><a href="#handling-study-code-problems" id="toc-handling-study-code-problems" class="nav-link" data-scroll-target="#handling-study-code-problems"><span class="header-section-number">2</span> Handling Study Code Problems</a>
+  <ul class="collapse">
+  <li><a href="#issues" id="toc-issues" class="nav-link" data-scroll-target="#issues"><span class="header-section-number">2.1</span> Issues</a></li>
+  <li><a href="#rules" id="toc-rules" class="nav-link" data-scroll-target="#rules"><span class="header-section-number">2.2</span> Rules</a></li>
+  </ul></li>
+  <li><a href="#repository-branches-and-releases" id="toc-repository-branches-and-releases" class="nav-link" data-scroll-target="#repository-branches-and-releases"><span class="header-section-number">3</span> Repository Branches and Releases</a></li>
+  <li><a href="#sending-results" id="toc-sending-results" class="nav-link" data-scroll-target="#sending-results"><span class="header-section-number">4</span> Sending Results</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -137,9 +191,50 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>These are how you contribute to this study….</p>
+<p>Welcome to the EHDEN HMB Study! Thank you for your interest in participating in this network study. Please read the contribution guidelines carefully to understand how to participate in this study.</p>
+<section id="participating-in-the-study" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="participating-in-the-study"><span class="header-section-number">1</span> Participating in the study</h2>
+<p>During the active maintenance of the EHDEN HMB study, If you would like to participate in the network study please contact <a href="mailto:martin.lavallee@odysseusinc.com">Martin Lavallee</a>, <a href="mailto:siirsu.saydam@bayer.com">Siir Su Saydam</a> or <a href="mailto:marta.pinedamoncusi@ndorms.ox.ac.uk">Marta Pineda Moncusi</a>. Please send us the following information when announcing your interest in participation:</p>
+<ul>
+<li><strong>Primary Contact</strong> - person managing the network study participation</li>
+<li><strong>Analyst Contact</strong> - person running the study code at the institution (can be same as primary)</li>
+<li><strong>Name of Database</strong> - full name of database and a short hand name if available</li>
+<li><strong>CDM and Vocabulary version</strong> - specification of the OMOP CDM version and vocabulary version</li>
+<li><strong>Country/Region of Database</strong> - geographic coverage of healthcare database</li>
+<li><strong>Type of Database</strong> - claims, EHR, etc</li>
+<li><strong>Database Coverage</strong> - the number of persons and time frame represented in the database</li>
+</ul>
+<p>Note: If your site has been contacted about EHDEN HMB prior to the release of this study repository you do not need to fulfill this step.</p>
+</section>
+<section id="handling-study-code-problems" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="handling-study-code-problems"><span class="header-section-number">2</span> Handling Study Code Problems</h2>
+<section id="issues" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="issues"><span class="header-section-number">2.1</span> Issues</h3>
+<p>The EHDEN HMB study uses github to version control the study code required to run the analysis. As a github repository, we use <a href="https://docs.github.com/en/issues/tracking-your-work-with-issues/about-issues">issues</a> to track bugs and answer questions about the study code. Debugging issues collaboratively ensures that all study nodes are informed on code issues and have the most up-to-date code required to successfully run the study. An issue at your site is likely a similar problem for someone else. The EHDEN HMB study has two issue templates:</p>
+<ol type="1">
+<li>For code bugs and errors, please post the bug using the <a href="https://github.com/OdyOSG/ehden_hmb/issues/new?assignees=&amp;labels=&amp;projects=&amp;template=bug_report.md&amp;title=">bug issue template</a></li>
+<li>For a study question, please post the question using the <a href="https://github.com/OdyOSG/ehden_hmb/issues/new?assignees=mdlavallee92%2C+siirsu&amp;labels=question&amp;projects=&amp;template=study-question.md&amp;title=">study question template</a></li>
+</ol>
+</section>
+<section id="rules" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="rules"><span class="header-section-number">2.2</span> Rules</h3>
+<ol type="1">
+<li><strong>DO NOT</strong> post any database credentials in an issue. Issues are public.</li>
+<li>Provide a reproducible example of the error you are encountering.</li>
+<li>Before posting an issue, please review all open and closed issues that may already answer your question</li>
+</ol>
+</section>
+</section>
+<section id="repository-branches-and-releases" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="repository-branches-and-releases"><span class="header-section-number">3</span> Repository Branches and Releases</h2>
+<p>The latest version of the study code will be maintain in the <code>main</code> branch of <a href="https://github.com/OdyOSG/ehden_hmb"><code>OdyOSG/ehden_hmb</code></a>. Additional branches to the study repository may be maintained for the purposes of feature enhancements in development or custom work-around solutions for a particular study site. Please only run the study using the main branch of the repository unless otherwise stated by the study coordinator. The study repository will maintain a release cycle to differentiate versions of the study code. Please run the latest release of the study code unless otherwise stated by the study coordinator.</p>
+</section>
+<section id="sending-results" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="sending-results"><span class="header-section-number">4</span> Sending Results</h2>
+<p>Add instructions on how to send study results…..</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -381,7 +476,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-left">
       &nbsp;
     </div>   
-    <div class="nav-footer-center">Coyright 2023, Odysseus Data Services</div>
+    <div class="nav-footer-center">Copyright 2023, Odysseus Data Services</div>
     <div class="nav-footer-right">
       &nbsp;
     </div>

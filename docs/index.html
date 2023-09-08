@@ -85,24 +85,65 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link active" href="./index.html" rel="" target="" aria-current="page">
  <span class="menu-text">Home</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="./news.html" rel="" target="">
+ <span class="dropdown-text">News</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./sap.html" rel="" target="">
- <span class="menu-text">Analysis</span></a>
+        <li>
+    <a class="dropdown-item" href="./techSpecs.html" rel="" target="">
+ <span class="dropdown-text">Technical Requirements</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./howToRun.html" rel="" target="">
- <span class="menu-text">Execute</span></a>
+        <li>
+    <a class="dropdown-item" href="./about.html" rel="" target="">
+ <span class="dropdown-text">Session Info</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./contribution.html" rel="" target="">
- <span class="menu-text">Contribute</span></a>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-info" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Study Info</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-study-info">    
+        <li>
+    <a class="dropdown-item" href="./sap.html" rel="" target="">
+ <span class="dropdown-text">Analysis Plan</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./howToRun.html" rel="" target="">
+ <span class="dropdown-text">How-To-Run</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./contribution.html" rel="" target="">
+ <span class="dropdown-text">Contibution Guidelines</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bi-github" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+      <i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bi-github">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/OdyOSG/ehden_hmb" rel="" target="">
+ <span class="dropdown-text">Source Code</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/OdyOSG/ehden_hmb/issues/new?assignees=mdlavallee92&amp;labels=bug&amp;projects=&amp;template=bug_report.md&amp;title=" rel="" target="">
+ <span class="dropdown-text">Report a Bug</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <div class="quarto-navbar-tools">
 </div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
@@ -119,9 +160,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#welcome-message" id="toc-welcome-message" class="nav-link active" data-scroll-target="#welcome-message">Welcome Message</a></li>
-  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#contact" id="toc-contact" class="nav-link active" data-scroll-target="#contact">Contact</a></li>
+  <li><a href="#navigation" id="toc-navigation" class="nav-link" data-scroll-target="#navigation">Navigation</a></li>
+  <li><a href="#participating-databases" id="toc-participating-databases" class="nav-link" data-scroll-target="#participating-databases">Participating Databases</a></li>
   </ul>
 </nav>
     </div>
@@ -145,45 +186,86 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="welcome-message" class="level1">
-<h1>Welcome Message</h1>
 <p>Welcome the EHDEN Heavy-menstrual Bleeding Study! This study is a characterization study of a heavy-menstrual bleeding cohort conducted on EHDEN network databases that have been standardized to the OMOP CDM.</p>
+<section id="contact" class="level1">
+<h1>Contact</h1>
+<ul>
+<li>Study Coordinators:
+<ul>
+<li>Siir Su Saydam <a href="mailto:siirsu.saydam@bayer.com">(email)</a></li>
+<li>Marta Pineda Moncusi <a href="mailto:marta.pinedamoncusi@ndorms.ox.ac.uk">(email)</a></li>
+</ul></li>
+<li>Study Code Developers:
+<ul>
+<li>Martin Lavallee <a href="mailto:martin.lavallee@odysseusinc.com">(email)</a></li>
+<li>George Argyriou <a href="mailto:george.argyriou@odysseusinc.com">(email)</a></li>
+</ul></li>
+</ul>
 </section>
-<section id="resources" class="level1">
-<h1>Resources</h1>
-<p>Add resources for website….</p>
+<section id="navigation" class="level1">
+<h1>Navigation</h1>
+<ul>
+<li><strong>About</strong>: provides study code news and dependency information</li>
+<li><strong>Analysis</strong>: provides the study analysis plan</li>
+<li><strong>Execute</strong>: provides information on how to run the study</li>
+<li><strong>Contribute</strong>: provides information on how to contribute to the study</li>
+<li><strong>Study Code</strong>: Click on Github logo on the top right to navigate to study code</li>
+</ul>
 </section>
-<section id="data" class="level1">
-<h1>Data</h1>
-<p>This study will be run on OMOP databases in the EHDEN Network. The table below lists some of the data partners that will participate in this study.</p>
+<section id="participating-databases" class="level1">
+<h1>Participating Databases</h1>
+<p>This study will be run on OMOP databases in the EHDEN Network. The table below lists some of the data partners that have agreed to participate in this study.</p>
 <table class="table">
-<colgroup>
-<col style="width: 44%">
-<col style="width: 24%">
-<col style="width: 31%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Database</th>
 <th>Country</th>
-<th>Responsible Party</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td>Truven MarketScan</td>
+<td>United States</td>
+</tr>
+<tr class="even">
+<td>Optum Claims</td>
+<td>United States</td>
+</tr>
+<tr class="odd">
 <td>CPRD GOLD</td>
-<td>UK</td>
-<td>Bayer</td>
+<td>United Kingdom</td>
 </tr>
 <tr class="even">
 <td>CPRD AURUM</td>
-<td>UK</td>
-<td>Bayer</td>
+<td>United Kingdom</td>
 </tr>
 <tr class="odd">
 <td>Hospital del Mar (Barcelona)</td>
 <td>Spain</td>
-<td>Hospital del Mar</td>
+</tr>
+<tr class="even">
+<td>Israel Ministry of Health</td>
+<td>Israel</td>
+</tr>
+<tr class="odd">
+<td>Cegedim THIN</td>
+<td>Belgium</td>
+</tr>
+<tr class="even">
+<td>Disease Analyzer</td>
+<td>Germany</td>
+</tr>
+<tr class="odd">
+<td>FinnGen</td>
+<td>Finland</td>
+</tr>
+<tr class="even">
+<td>Semmelweis University</td>
+<td>Hungary</td>
+</tr>
+<tr class="odd">
+<td>University of Oslo</td>
+<td>Norway</td>
 </tr>
 </tbody>
 </table>
@@ -431,7 +513,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-left">
       &nbsp;
     </div>   
-    <div class="nav-footer-center">Coyright 2023, Odysseus Data Services</div>
+    <div class="nav-footer-center">Copyright 2023, Odysseus Data Services</div>
     <div class="nav-footer-right">
       &nbsp;
     </div>

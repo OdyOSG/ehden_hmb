@@ -10,7 +10,7 @@
 <meta name="author" content="Siir Su Saydam">
 <meta name="author" content="Marta Pineda Moncusi">
 <meta name="author" content="Asieh Golozar">
-<meta name="dcterms.date" content="2023-08-29">
+<meta name="dcterms.date" content="2023-08-04">
 
 <title>EHDEN HMB - Study Analysis Plan for EHDEN HMB</title>
 <style>
@@ -25,7 +25,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -92,24 +111,61 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./index.html" rel="" target="">
  <span class="menu-text">Home</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./about.html" rel="" target="">
- <span class="menu-text">About</span></a>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="./news.html" rel="" target="">
+ <span class="dropdown-text">News</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link active" href="./sap.html" rel="" target="" aria-current="page">
- <span class="menu-text">Analysis</span></a>
+        <li>
+    <a class="dropdown-item" href="./about.html" rel="" target="">
+ <span class="dropdown-text">Session Info</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./howToRun.html" rel="" target="">
- <span class="menu-text">Execute</span></a>
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-study-info" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Study Info</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-study-info">    
+        <li>
+    <a class="dropdown-item" href="./sap.html" rel="" target="">
+ <span class="dropdown-text">Analysis Plan</span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./contribution.html" rel="" target="">
- <span class="menu-text">Contribute</span></a>
+        <li>
+    <a class="dropdown-item" href="./howToRun.html" rel="" target="">
+ <span class="dropdown-text">How-To-Run</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./contribution.html" rel="" target="">
+ <span class="dropdown-text">Contibution Guidelines</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bi-github" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+      <i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bi-github">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/OdyOSG/ehden_hmb" rel="" target="">
+ <span class="dropdown-text">Source Code</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/OdyOSG/ehden_hmb/issues/new?assignees=mdlavallee92&amp;labels=bug&amp;projects=&amp;template=bug_report.md&amp;title=" rel="" target="">
+ <span class="dropdown-text">Report a Bug</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <div class="quarto-navbar-tools">
 </div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
@@ -119,38 +175,48 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<p><img src="images/ehden.png" class="img-fluid"></p>
+</div></div>
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background">Background</a></li>
-  <li><a href="#research-questions" id="toc-research-questions" class="nav-link" data-scroll-target="#research-questions">Research Questions</a></li>
-  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a>
+  <li><a href="#sec-background" id="toc-sec-background" class="nav-link active" data-scroll-target="#sec-background"><span class="header-section-number">1</span> Background</a></li>
+  <li><a href="#sec-questions" id="toc-sec-questions" class="nav-link" data-scroll-target="#sec-questions"><span class="header-section-number">2</span> Research Questions</a></li>
+  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives"><span class="header-section-number">3</span> Objectives</a>
   <ul class="collapse">
-  <li><a href="#primary-objectives" id="toc-primary-objectives" class="nav-link" data-scroll-target="#primary-objectives">Primary Objectives</a></li>
+  <li><a href="#sec-primaryObj" id="toc-sec-primaryObj" class="nav-link" data-scroll-target="#sec-primaryObj"><span class="header-section-number">3.1</span> Primary Objectives</a></li>
+  <li><a href="#sec-exploratoryObj" id="toc-sec-exploratoryObj" class="nav-link" data-scroll-target="#sec-exploratoryObj"><span class="header-section-number">3.2</span> Exploratory Objectives</a></li>
   </ul></li>
-  <li><a href="#study-design" id="toc-study-design" class="nav-link" data-scroll-target="#study-design">Study Design</a>
+  <li><a href="#sec-design" id="toc-sec-design" class="nav-link" data-scroll-target="#sec-design"><span class="header-section-number">4</span> Study Design</a>
   <ul class="collapse">
-  <li><a href="#sec-target" id="toc-sec-target" class="nav-link" data-scroll-target="#sec-target">Study Population</a></li>
-  <li><a href="#exposure-definition" id="toc-exposure-definition" class="nav-link" data-scroll-target="#exposure-definition">Exposure Definition</a></li>
-  <li><a href="#outcome-definition" id="toc-outcome-definition" class="nav-link" data-scroll-target="#outcome-definition">Outcome Definition</a></li>
-  </ul></li>
-  <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources">Data Sources</a></li>
-  <li><a href="#analysis-plan" id="toc-analysis-plan" class="nav-link" data-scroll-target="#analysis-plan">Analysis Plan</a>
+  <li><a href="#sec-target" id="toc-sec-target" class="nav-link" data-scroll-target="#sec-target"><span class="header-section-number">4.1</span> Study Population</a>
   <ul class="collapse">
-  <li><a href="#cohort-diagnostics" id="toc-cohort-diagnostics" class="nav-link" data-scroll-target="#cohort-diagnostics">Cohort Diagnostics</a></li>
-  <li><a href="#baseline-characteristics" id="toc-baseline-characteristics" class="nav-link" data-scroll-target="#baseline-characteristics">Baseline Characteristics</a></li>
-  <li><a href="#treatment-landscape" id="toc-treatment-landscape" class="nav-link" data-scroll-target="#treatment-landscape">Treatment Landscape</a>
+  <li><a href="#sec-denominator" id="toc-sec-denominator" class="nav-link" data-scroll-target="#sec-denominator"><span class="header-section-number">4.1.1</span> Incidence Denominator Cohort</a></li>
+  </ul></li>
+  <li><a href="#exposure-definition" id="toc-exposure-definition" class="nav-link" data-scroll-target="#exposure-definition"><span class="header-section-number">4.2</span> Exposure Definition</a></li>
+  <li><a href="#outcome-definition" id="toc-outcome-definition" class="nav-link" data-scroll-target="#outcome-definition"><span class="header-section-number">4.3</span> Outcome Definition</a></li>
+  </ul></li>
+  <li><a href="#sec-dataSources" id="toc-sec-dataSources" class="nav-link" data-scroll-target="#sec-dataSources"><span class="header-section-number">5</span> Data Sources</a></li>
+  <li><a href="#analysis-plan" id="toc-analysis-plan" class="nav-link" data-scroll-target="#analysis-plan"><span class="header-section-number">6</span> Analysis Plan</a>
   <ul class="collapse">
-  <li><a href="#prevalence-of-drug-exposures" id="toc-prevalence-of-drug-exposures" class="nav-link" data-scroll-target="#prevalence-of-drug-exposures">Prevalence of Drug Exposures</a></li>
-  <li><a href="#constructing-the-treatment-history" id="toc-constructing-the-treatment-history" class="nav-link" data-scroll-target="#constructing-the-treatment-history">Constructing the treatment history</a></li>
-  <li><a href="#treatment-pathways" id="toc-treatment-pathways" class="nav-link" data-scroll-target="#treatment-pathways">Treatment Pathways</a></li>
-  <li><a href="#duration-of-drug-use" id="toc-duration-of-drug-use" class="nav-link" data-scroll-target="#duration-of-drug-use">Duration of Drug use</a></li>
+  <li><a href="#sec-cd" id="toc-sec-cd" class="nav-link" data-scroll-target="#sec-cd"><span class="header-section-number">6.1</span> Cohort Diagnostics</a></li>
+  <li><a href="#sec-baseline" id="toc-sec-baseline" class="nav-link" data-scroll-target="#sec-baseline"><span class="header-section-number">6.2</span> Baseline Characteristics</a></li>
+  <li><a href="#sec-underlying" id="toc-sec-underlying" class="nav-link" data-scroll-target="#sec-underlying"><span class="header-section-number">6.3</span> Underlying Causes of HMB</a></li>
+  <li><a href="#sec-TxPat" id="toc-sec-TxPat" class="nav-link" data-scroll-target="#sec-TxPat"><span class="header-section-number">6.4</span> Treatment Patterns</a>
+  <ul class="collapse">
+  <li><a href="#sec-prevDrugExp" id="toc-sec-prevDrugExp" class="nav-link" data-scroll-target="#sec-prevDrugExp"><span class="header-section-number">6.4.1</span> Prevalence of Drug Exposures</a></li>
+  <li><a href="#sec-txSeq" id="toc-sec-txSeq" class="nav-link" data-scroll-target="#sec-txSeq"><span class="header-section-number">6.4.2</span> Treatment Pathways</a></li>
+  <li><a href="#sec-ttd" id="toc-sec-ttd" class="nav-link" data-scroll-target="#sec-ttd"><span class="header-section-number">6.4.3</span> Time to Discontinuation</a></li>
   </ul></li>
-  <li><a href="#procedure-use-post-index" id="toc-procedure-use-post-index" class="nav-link" data-scroll-target="#procedure-use-post-index">Procedure use post-index</a></li>
-  <li><a href="#incidence-analysis" id="toc-incidence-analysis" class="nav-link" data-scroll-target="#incidence-analysis">Incidence Analysis</a></li>
+  <li><a href="#incidence-analysis-exploratory" id="toc-incidence-analysis-exploratory" class="nav-link" data-scroll-target="#incidence-analysis-exploratory"><span class="header-section-number">6.5</span> Incidence Analysis (Exploratory)</a>
+  <ul class="collapse">
+  <li><a href="#overall-incidence" id="toc-overall-incidence" class="nav-link" data-scroll-target="#overall-incidence"><span class="header-section-number">6.5.1</span> Overall Incidence</a></li>
+  <li><a href="#guideline-compliance" id="toc-guideline-compliance" class="nav-link" data-scroll-target="#guideline-compliance"><span class="header-section-number">6.5.2</span> Guideline Compliance</a></li>
   </ul></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7</span> References</a></li>
   </ul>
 </nav>
     </div>
@@ -179,7 +245,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 29, 2023</p>
+      <p class="date">August 4, 2023</p>
     </div>
   </div>
   
@@ -189,75 +255,103 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="background" class="level1">
-<h1>Background</h1>
-<p>This study is a continuation of a Bayer heavy-menstrual bleed (HMB) study that described first, the incidence rate of HMB; two, describe clinical characteristics of women diagnosed with HMB; and third describe the treatment pathways in five healthcare databases covering the UK, Germany, France and the US from the time period of 2000 to 2022. The first part of this study was exclusively an internal study within Bayer. The second part of the HMB study has similar objectives to part 1 with the key difference being a focus on European databases (UK CPRD) and public expansion of the analysis to data providers involved in the European databases in the European Health Data and Evidence Network (EHDEN). The purpose of this document is elaborate on the study design constructed by Odysseus Data Services. A separate protocol has been written by Bayer for HMB part 2.</p>
+<section id="sec-background" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Background</h1>
+<p>Heavy menstrual bleeding (HMB) is a symptom that has been defined as an “excessive menstrual blood loss, which interferes with a woman’s physical, social, emotional and/or material quality of life, and which can occur alone or in combination with other symptoms” <span class="citation" data-cites="munro2018 karlsson2014 Shimamoto2021-sd Weyand2022-ay">(<a href="#ref-munro2018" role="doc-biblioref">1</a>–<a href="#ref-Weyand2022-ay" role="doc-biblioref">4</a>)</span>. Large real-world population-based studies are not currently available to quantify and comprehensively characterize women with HMB with respect to age at diagnosis, reproductive history and reproductive age, underlying conditions associated with HMB, as well as other comorbidities and comedications.</p>
+<p>The concept for this study originated from a study proposal awarded by the European Health Data and Evidence Network (EHDEN), a public-private consortium of the Innovative Medicine Initiative (IMI). EHDEN is creating a federated network of real-world data (RWD) sources across Europe, all of which are standardized to the Observational Medical Outcomes Partnerships (OMOP) common data model (CDM), which maps diverse database codes to a standardized set of concepts. The use of standardized OMOP CDM data is particularly relevant for this study, as it enables the characterization of HMB patients and their treatment pathways across multiple countries and healthcare systems.</p>
+<p>This study is designed in two parts. Part 1 of this study is conducted internally by Bayer to describe incidence of HMB, clinical characteristics of women diagnosed with HMB and treatment pathways in five healthcare databases covering the UK, Germany, France and the US. This study is later amended for the currently proposed study (Part 2) to be released for execution in additional countries within EHDEN. The study will generate evidence to identify women diagnosed with HMB in respective databases, as well as these patients’ baseline characteristics and longitudinal treatment pathways across countries with different healthcare systems. The purpose of this document is to elaborate on the study design constructed by Odysseus Data Services. A separate protocol has been written by Bayer.</p>
 </section>
-<section id="research-questions" class="level1">
-<h1>Research Questions</h1>
+<section id="sec-questions" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Research Questions</h1>
 <ul>
 <li>What are the characteristics of women diagnosed with HMB in terms of demographics, comorbidities, procedures, and comedication?</li>
-<li>What are the treatment patterns for HMB?</li>
+<li>What are the treatment patterns of women diagnosed with HMB?</li>
 <li>What is the incidence of HMB across different countries and data sources?</li>
 </ul>
 </section>
-<section id="objectives" class="level1">
-<h1>Objectives</h1>
-<section id="primary-objectives" class="level2">
-<h2 class="anchored" data-anchor-id="primary-objectives">Primary Objectives</h2>
+<section id="objectives" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Objectives</h1>
+<section id="sec-primaryObj" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sec-primaryObj"><span class="header-section-number">3.1</span> Primary Objectives</h2>
 <p>The primary objectives of this study are to:</p>
 <ul>
-<li>Describe demographics and baseline clinical characteristics of women of reproductive age diagnosed with HMB between 2000 and 2022 across a network of European healthcare databases.</li>
-<li>Describe treatment utilization and longitudinal treatment pathways of women of reproductive age diagnosed with HMB across different countries and data sources between the years 2000 and 2022 across a network of European healthcare databases.</li>
-<li>Estimate incidence of HMB among women between the ages of 11 to 55 between the years 2000 and 2022 across a network of European healthcare databases.</li>
+<li>Describe demographics and baseline clinical characteristics of women of reproductive age diagnosed with HMB.</li>
+<li>Describe treatment utilization and longitudinal treatment pathways of women of reproductive age diagnosed with HMB across different countries and data sources.</li>
+</ul>
+</section>
+<section id="sec-exploratoryObj" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-exploratoryObj"><span class="header-section-number">3.2</span> Exploratory Objectives</h2>
+<p>The exploratory objectives of this study are to:</p>
+<ul>
+<li>Estimate the incidence of HMB per calendar year and over the entire study period in selected data sources.</li>
+<li>Describe country-specific guideline compliant treatment use where national treatment guidelines are available for HMB.</li>
 </ul>
 </section>
 </section>
-<section id="study-design" class="level1">
-<h1>Study Design</h1>
-<p>This large-scale retrospective cohort study will be conducted across a network of European healthcare databases standardized to the OMOP CDM. Databases assessed in this study are either: a) Bayer data assests (CPRD GOLD and AURUM) or b) participating EHDEN data-partners. The final list of EHDEN data partners will be provided in the Data Sources section.</p>
-<p>The study period begins on January 1, 1999 (or earliest date of data availability following this date) and end at the latest date of data availability in each database. Persons involved in this study must have a minimum of one-year prior observation in the database, therefor the indexing period begins on January 1, 2000.</p>
-<p>The study population for this study are women between the ages of 11 and 55 who have a first-time diagnosis of HMB, given that they have at least 365 days of continuous observation prior to the index date. More details of the study population are found in the study population section.</p>
-<section id="sec-target" class="level2">
-<h2 class="anchored" data-anchor-id="sec-target">Study Population</h2>
-<p>The study population are women between the ages of 11 to 55 who with a diagnosis heavy-menstrual bleeding (index event) between the years 2000 and 2022. Women entering the HMB cohort must have a minimum of 365 days of prior observation. Female patients are excluded from the cohort if they have one of the following criteria:</p>
+<section id="sec-design" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Study Design</h1>
+<p>This large-scale retrospective cohort study will be conducted across a network of European healthcare databases standardized to the OMOP CDM. Databases assessed in this study are either: a) Bayer data assets (CPRD GOLD, CPRD Aurum, Optum Claims, MarketScan) or b) participating EHDEN data partners. The final list of EHDEN data partners will be provided in the Data Sources section.</p>
+<p>The study period begins on January 1, 1999 (or earliest date of data availability following this date) and ends at the latest date of data availability in each database. Persons involved in this study must have a minimum of one-year prior observation in the database, therefore the indexing period begins on January 1, 2000.</p>
+<p>The study population for this study are women between the ages of 11 and 55 who have a first-time diagnosis of HMB, given that they have at least 365 days of continuous observation prior to the index date. More details of the study population are found in <a href="#sec-target">Section&nbsp;4.1</a>.</p>
+<section id="sec-target" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="sec-target"><span class="header-section-number">4.1</span> Study Population</h2>
+<p>The study population are women between the ages of 11 to 55 who with a diagnosis of heavy-menstrual bleeding (index event) on or after January 1, 2000 and up to the date of latest data availability at the time of study conduct. Study end date might show variability across data sources. Women entering the HMB cohort must have a minimum of 365 days of prior observation. Female patients are excluded from the cohort if they have one of the following criteria:</p>
 <ol type="1">
-<li>Observation of a hysterectomy or bilateral ovariectomy</li>
-<li>Observation of a menopause diagnosis</li>
-<li>Observation of other gynecological bleeding (vaginal bleeding outside the menstrual cycle)</li>
+<li>Observation of a hysterectomy or bilateral oophorectomy on or anytime prior to index date</li>
+<li>Observation of a menopause (induced or natural) diagnosis on or anytime prior to index date</li>
+<li>Observation of postcoital bleeding on or 365 days prior to index date</li>
+<li>Observation of medical records indicating pregnancy on or 180 days prior to index date</li>
+<li>Observation of uterine or ovarian cancer diagnosis on or anytime prior to index date</li>
 </ol>
-<p>Female patients are followed up until end of continuous observation or observation of one for the follow, whichever occurs first:</p>
-<ol type="1">
+<p>Female patients are followed up until end of continuous observation or observation of one of the following, whichever occurs first:</p>
+<ul>
 <li>Death</li>
-<li>Turning age 55 (indicating transition into natural menopause)</li>
-<li>Observation of a hysterectomy or bilateral ovariectomy</li>
-<li>Observation of a menopause diagnosis</li>
-</ol>
+<li>At least one visit occurrence at age &gt; 55 years (visit occurrences capture any type of healthcare interaction in the database, to account for patients reach the age of &gt; 55 years)</li>
+<li>At least one observation of a hysterectomy or bilateral oophorectomy</li>
+<li>At least one observation of a menopause diagnosis</li>
+<li>At least one observation of uterine or ovarian cancer diagnosis</li>
+<li>At least on observation of medical records related to pregnancy</li>
+</ul>
+<section id="sec-denominator" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="sec-denominator"><span class="header-section-number">4.1.1</span> Incidence Denominator Cohort</h3>
+<p>For the incidence calculation, the denominator is women with any kind of healthcare (index event) observed between the years of 2000 and 2022. Women in the denominator cohort must have a minimum of 365 days of prior observation and no record of hysterectomy, bilateral oophorectomy, or menopause (natural or induced) diagnosis in the patient records.</p>
+<p>Female patients are followed up until end of continuous observation or observation of one for the follow, whichever occurs first:</p>
+<ul>
+<li>end of continuous observation in the database</li>
+<li>at least one visit occurrence at age &gt; 55 years</li>
+<li>menopause (induced or natural)</li>
+<li>hysterectomy or bilateral oophorectomy</li>
+<li>uterine or ovarian cancer</li>
+<li>pregnancy</li>
+<li>death</li>
+</ul>
+<p>Concepts and logic for the cohort definitions of the study population and incidence denominator will be supplied in the <em>CohortDetails</em> supplementary file.</p>
 </section>
-<section id="exposure-definition" class="level2">
-<h2 class="anchored" data-anchor-id="exposure-definition">Exposure Definition</h2>
+</section>
+<section id="exposure-definition" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="exposure-definition"><span class="header-section-number">4.2</span> Exposure Definition</h2>
 <p>There is no exposure definition in this study.</p>
 </section>
-<section id="outcome-definition" class="level2">
-<h2 class="anchored" data-anchor-id="outcome-definition">Outcome Definition</h2>
+<section id="outcome-definition" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="outcome-definition"><span class="header-section-number">4.3</span> Outcome Definition</h2>
 <p>There is no outcome definition in this study.</p>
 </section>
 </section>
-<section id="data-sources" class="level1">
-<h1>Data Sources</h1>
-<p>The datasources for this study include: a) Bayer OMOP assets and b) European databases that are part of EHDEN. All databases used in this study have been standardized to the OMOP CDM.</p>
+<section id="sec-dataSources" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Data Sources</h1>
+<p>The data sources for this study include a) Bayer OMOP assets of CPRD Aurum, CPRD GOLD, Optum Claims, MarketScan and b) European databases that are part of EHDEN. All databases used in this study have been standardized to the OMOP CDM. The table below is subject to change upon confirmation of data partners.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="tbl-data_sources" class="anchored">
 <table class="table table-sm table-striped small">
 <caption>Table&nbsp;1: Data Sources used in study</caption>
 <colgroup>
-<col style="width: 14%">
+<col style="width: 17%">
 <col style="width: 6%">
-<col style="width: 4%">
+<col style="width: 5%">
 <col style="width: 6%">
 <col style="width: 10%">
-<col style="width: 57%">
+<col style="width: 53%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -287,6 +381,22 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">Primary care data from across the UK</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">Optum Claims</td>
+<td style="text-align: left;">US</td>
+<td style="text-align: left;">Claims</td>
+<td style="text-align: left;"><count></count></td>
+<td style="text-align: left;"><dates></dates></td>
+<td style="text-align: left;">US commercial claims covering all 50 states</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MarketScan</td>
+<td style="text-align: left;">US</td>
+<td style="text-align: left;">Claims</td>
+<td style="text-align: left;"><count></count></td>
+<td style="text-align: left;"><dates></dates></td>
+<td style="text-align: left;">US commercial claims covering all 50 states</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">Hospital del Mar</td>
 <td style="text-align: left;">Spain</td>
 <td style="text-align: left;">EHR</td>
@@ -294,22 +404,69 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;"><dates></dates></td>
 <td style="text-align: left;">Hospital data from Barcelona Spain</td>
 </tr>
+<tr class="even">
+<td style="text-align: left;">Ministry of Health</td>
+<td style="text-align: left;">Israel</td>
+<td style="text-align: left;">EHR</td>
+<td style="text-align: left;"><count></count></td>
+<td style="text-align: left;"><dates></dates></td>
+<td style="text-align: left;"><description></description></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cegedim THIN</td>
+<td style="text-align: left;">Belgium</td>
+<td style="text-align: left;">EHR</td>
+<td style="text-align: left;"><count></count></td>
+<td style="text-align: left;"><dates></dates></td>
+<td style="text-align: left;"><description></description></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Disease Analyzer</td>
+<td style="text-align: left;">Germany</td>
+<td style="text-align: left;">EHR</td>
+<td style="text-align: left;"><count></count></td>
+<td style="text-align: left;"><dates></dates></td>
+<td style="text-align: left;"><description></description></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FinnGen</td>
+<td style="text-align: left;">Finland</td>
+<td style="text-align: left;">EHR</td>
+<td style="text-align: left;"><count></count></td>
+<td style="text-align: left;"><dates></dates></td>
+<td style="text-align: left;"><description></description></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Semmelweis University</td>
+<td style="text-align: left;">Hungary</td>
+<td style="text-align: left;">EHR</td>
+<td style="text-align: left;"><count></count></td>
+<td style="text-align: left;"><dates></dates></td>
+<td style="text-align: left;"><description></description></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">University of Oslo</td>
+<td style="text-align: left;">Norway</td>
+<td style="text-align: left;">EHR</td>
+<td style="text-align: left;"><count></count></td>
+<td style="text-align: left;"><dates></dates></td>
+<td style="text-align: left;"><description></description></td>
+</tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-<p>The above table will be expanded upon receiving information of the EHDEN participants.</p>
 </section>
-<section id="analysis-plan" class="level1">
-<h1>Analysis Plan</h1>
-<section id="cohort-diagnostics" class="level2">
-<h2 class="anchored" data-anchor-id="cohort-diagnostics">Cohort Diagnostics</h2>
-<p>Prior to running any specific analysis, we will evaluate the HMB cohort using the OHDSI R package <code>CohortDiagnostics</code>. This package produces metrics such as cohort counts in the database, incidence rates (by calendar year, age and gender), time distributions, cohort attrition and breakdown of index events. Evaluation of these metrics helps ensure that the clinical cohort is indeed reliable in capturing HMB in the OMOP database.</p>
+<section id="analysis-plan" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Analysis Plan</h1>
+<section id="sec-cd" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="sec-cd"><span class="header-section-number">6.1</span> Cohort Diagnostics</h2>
+<p>Prior to running any specific analysis, we will evaluate the HMB cohort using the OHDSI R package <code>CohortDiagnostics</code> <span class="citation" data-cites="cd">(<a href="#ref-cd" role="doc-biblioref">5</a>)</span>. This package produces metrics such as cohort counts in the database, incidence rates (by calendar year, age and gender), time distributions, cohort attrition and breakdown of index events. Evaluation of these metrics helps ensure that the clinical cohort is indeed reliable in capturing HMB in the OMOP database.</p>
 </section>
-<section id="baseline-characteristics" class="level2">
-<h2 class="anchored" data-anchor-id="baseline-characteristics">Baseline Characteristics</h2>
-<p>We assess baseline characteristics based on an observation window of 365 to 1 days prior to the index date. Categorical covariates are reported using the count and percentage. Continuous covariates are reported using the median, 25th and 75th percentile.</p>
+<section id="sec-baseline" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="sec-baseline"><span class="header-section-number">6.2</span> Baseline Characteristics</h2>
+<p>We assess baseline characteristics based on an observation window of 365 to 0 days prior to the index date , unless specified otherwise. Categorical covariates are reported as counts and percentages. Continuous covariates are reported as median, interquartile range (25th and 75th percentile), minimum and maximum.</p>
 <p><strong>Demographics</strong></p>
 <ul>
 <li>Age at HMB diagnosis as 5-year categories</li>
@@ -317,9 +474,11 @@ ul.task-list li input[type="checkbox"] {
 <li>Race (if available)</li>
 <li>Ethnicity (if available)</li>
 <li>Year of HMB Diagnosis (per calendar year)</li>
-</ul>
-<p><strong>Comorbidity Scores</strong></p>
+<li>Comorbidity Scores
 <ul>
+<li>Charlston Comorbidity Score (as a continuous score)</li>
+<li>CHADs2Vasc (as a continuous score)</li>
+</ul></li>
 <li>BMI (if available) continuous and in following categories
 <ul>
 <li>Underweight (&lt; 18.5 kg/m^2)</li>
@@ -327,17 +486,18 @@ ul.task-list li input[type="checkbox"] {
 <li>Overweight (25.0 - 29.9 kg/m^2)</li>
 <li>Obese (30.0 - 39.9 kg/m^2)</li>
 <li>Morbidly obese (&gt; 40.0 kg/m^2)</li>
+<li>Missing</li>
 </ul></li>
-<li>Charlston Comorbidity Score (as a continuous score)</li>
-<li>CHADs2Vasc (as a continuous score)</li>
 </ul>
 <p><strong>Concept-based</strong></p>
+<p>For analysis on data converted to the OMOP CDM, covariates can be assessed based on either singular standardized concepts from the OMOP Vocabulary or by bundling multiple concepts through cohort definitions. A concept-based covariate describes the occurrence of an event based on the presence of a standardized code in the OMOP CDM. For conditions, standardized concepts are based on Systematized Nomenclature of Medicine Vocabulary (SNOMED) and its hierarchy; including descendant concepts that are linked to the top-level term. For drugs, standardized concepts are based on the RxNorm vocabulary, where the hierarchy is rolled up to classes of the Anatomical Therapeutic Chemical (ATC) vocabulary. Assessing concept-based covariates, in an OMOP analysis, is a general approach to assessing the clinical features of a population because it considers a very large set of features with minimal user specification.</p>
 <ul>
 <li>Drug Era individual and rolled up to ATC2 Categories</li>
 <li>Condition Era individual and rolled up to ICD10 Chapters</li>
 </ul>
-<p><strong>Note</strong>: Concept-based covariates are based on prevalence concepts accumulated via <code>FeatureExtraction</code>. .</p>
+<p><strong>Note</strong>: Concept-based covariates are based on prevalence concepts accumulated via <code>FeatureExtraction</code> <span class="citation" data-cites="fe">(<a href="#ref-fe" role="doc-biblioref">6</a>)</span>.</p>
 <p><strong>Cohort-based</strong></p>
+<p>Cohort-based covariates, in an OMOP analysis, are more specific definitions of clinical concepts of interest that are built using multiple concepts from the OMOP standardized vocabulary. Cohort-based covariates are used in the context of this study to specifically identify conditions of interest, determined prior to the study execution, that are not sufficiently identified via single concepts in the OMOP vocabulary.</p>
 <ul>
 <li>Conditions
 <ul>
@@ -364,13 +524,29 @@ ul.task-list li input[type="checkbox"] {
 <li>Iron deficiency anemia</li>
 </ul></li>
 </ul></li>
-<li>Drugs
+<li>Comedications
 <ul>
 <li>Antithrombotic Agents</li>
 <li>Antidepressants</li>
 <li>Tamoxifen</li>
 <li>Antipsychotics</li>
 <li>Gonadal Steroids</li>
+<li>Tranexamic acid</li>
+<li>Progestin only regimens:
+<ul>
+<li>Medroxyprogesterone acetate (MPA)</li>
+<li>Oral norethindrone acetate (NETA)</li>
+<li>Desogestrel</li>
+<li>Etonogestrel implant</li>
+<li>Drospirenone</li>
+</ul></li>
+<li>Non-steroidal anti-inflammatory drugs (NSAIDs)</li>
+<li>Combined oral hormonal contraceptives</li>
+<li>Ulipristal acetate</li>
+<li>Danazol</li>
+<li>Gonadotropin releasing hormone analogues</li>
+<li>Intrauterine devices</li>
+<li>Iron preparations</li>
 </ul></li>
 <li>Procedures
 <ul>
@@ -378,81 +554,174 @@ ul.task-list li input[type="checkbox"] {
 <li>Uterine artery embolization (UAE)</li>
 <li>Myomectomy</li>
 <li>Blood transfusion</li>
+<li>Intrauterine devices (recorded as procedures)</li>
 </ul></li>
 </ul>
+<p>Concepts and logic for these cohort definitions will be supplied in the CohortDetails supplementary file.</p>
 </section>
-<section id="treatment-landscape" class="level2">
-<h2 class="anchored" data-anchor-id="treatment-landscape">Treatment Landscape</h2>
-<p>In this study we assess the landscape of treatment for female patients with HMB. The term treatment landscape encapsulates three metrics of interest regarding drug utilization post-index: first, the prevalence of drug use at certain time windows post-index; second, the patterns of treatments (called treatment pathways) including single drugs and combinations of treatment; and third, the length of time spent taking the drug exposures of interest, both as single exposures or in combination. The drug exposures of interest are:</p>
+<section id="sec-underlying" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="sec-underlying"><span class="header-section-number">6.3</span> Underlying Causes of HMB</h2>
+<p>In addition to assessing characteristics at baseline, proportion of patients with underlying causes of HMB will be calculated. Conditions that are considered to be underlying causes of HMB will be characterized prior 365 days prior to and including index as well as post-index in the following time intervals: 1 to 365 days, 366 to 730 days, and 731 to 1825 days from index date. Reported counts will be limited to the first occurrence of the underlying cause. The underlying causes of HMB are:</p>
 <ul>
-<li>Tranexamic acid (B02AA02)</li>
+<li>Uterine endometrial polyps</li>
+<li>Adenomyosis</li>
+<li>Uterine leiomyoma</li>
+<li>Endometrial hyperplasia</li>
+<li>Coagulopathy or coagulation disorders</li>
+<li>Ovulatory dysfunction (including hypothyroidism, polycystic ovary syndrome, adrenal disorders, hyperprolactinemia, hypothalamic disorders)</li>
+<li>Endometriosis</li>
+</ul>
+<p>The logic and concept set for the cohort definitions for these underlying causes of HMB will be supplied in the CohortDetails supplementary document.</p>
+</section>
+<section id="sec-TxPat" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="sec-TxPat"><span class="header-section-number">6.4</span> Treatment Patterns</h2>
+<p>In this study we assess the treatment patterns for female patients with HMB which encompasses three metrics: first, the prevalence of drug use at pre-defined time windows post-index; second, the patterns of treatments including single drugs and combinations of treatment (later referred to as treatment pathways); and third, the length of time spent taking the drug exposures of interest, both as single exposures or in combination (time to treatment discontinuation). The drug exposures of interest can be defined as prescription treatments and treatment procedures.</p>
+<p>Prescription treatments of interest are:</p>
+<ul>
+<li>Tranexamic acid</li>
 <li>Progestin only regimens:
 <ul>
-<li>Medroxyprogesterone acetate (MPA) (G03AC06)</li>
-<li>Oral norethindrone acetate (NETA) (G03DC02)</li>
-<li>Desogestrel (G03AC09)</li>
-<li>Etonogestrel implant (G03AC08)</li>
+<li>Medroxyprogesterone acetate (MPA)</li>
+<li>Oral norethindrone acetate (NETA)</li>
+<li>Desogestrel</li>
+<li>Etonogestrel implant</li>
+<li>Drospirenone</li>
 </ul></li>
-<li>Non-steroidal anti-inflammatory drugs (NSAIDs) (M01A)</li>
-<li>Combined oral hormonal contraceptives
-<ul>
-<li>Dienogest and estradiol (G03AB08; sequential combinations)</li>
-<li>Nomegestrol and estradiol (G03AA14; fixed combinations)</li>
-</ul></li>
-<li>Selective progesteron receptor modulators (G03AD02, G03XB02)</li>
-<li>Danazol (G03XA01)</li>
-<li>Gonadotropin releasing hormone analogues (L02AE)</li>
-<li>Intrauterine devices (G02BA)</li>
-<li>Iron preparations (B03A)</li>
+<li>Non-steroidal anti-inflammatory drugs (NSAIDs)</li>
+<li>Combined oral hormonal contraceptives</li>
+<li>Ulipristal acetate</li>
+<li>Danazol</li>
+<li>Gonadotropin releasing hormone analogues</li>
+<li>Intrauterine devices</li>
 </ul>
-<p>For the treatment landscape analysis, we must define a set of drug exposure cohorts where the index event of each cohort is prescription to one of the list drugs of interest between the years of 2000 and 2022. People remain in the cohort if they are females between the ages of 11 to 55 and have at least 365 days of prior observation. A persons time in the cohort prior to exit is determined by a drug era. The drug era is the span of time a person is considered continuously exposed to the same treatment. Eras are built by binding successive drug exposure events into a single duration where the person is inferred to be continuing use of that same treatment. We allow for a maximum of 30 days between drug exposure records to consider them part of the same era. Thus if a person has two of the same drug exposures within 30 days of each other, they are bundled into one era where the time elapsed is marked by the date of the successive exposure. This also means that if there is a gap greater than 30 days between the same treatment, this would indicate two separate eras in the treatment history for the individual person. A person is observed in the drug exposure cohort until either the end of a continuous era or one of the following censoring events, whichever occurs first:</p>
-<ol type="1">
-<li>Death</li>
-<li>Turning age 55 (indicating transition into natural menopause)</li>
-<li>Observation of a hysterectomy or bilateral ovariectomy</li>
-<li>Observation of a menopause diagnosis</li>
-</ol>
-<section id="prevalence-of-drug-exposures" class="level3">
-<h3 class="anchored" data-anchor-id="prevalence-of-drug-exposures">Prevalence of Drug Exposures</h3>
-<p>The first metric in our treatment landscape analysis is the prevalence of drug exposure over a set of defined time intervals. Prevalence is defined as the proportion of the at-risk population who used the medications of interest during the interval. The time windows for prevalence of drug exposures for women in the HMB cohort are: 0 days, 1 to 183 days, 184 to 365 days, 366 to 730 days, and 731 to 1825 days post index. We report the count and percentage for each drug exposure of interest (from the listed above) at each time window.</p>
-</section>
-<section id="constructing-the-treatment-history" class="level3">
-<h3 class="anchored" data-anchor-id="constructing-the-treatment-history">Constructing the treatment history</h3>
-<p>Before continuing our treatment landscape analysis, we must align the drug exposure cohorts into a treatment history where we define when there is a discontinuation of a treatment, combination or a switch in treatments. A treatment discontinuation is defined when there is a gap of at least 30 days between successive exposures of the same treatment. A treatment combination is defined as an overlap in two different exposures of at least 30 days. This means if two drugs are being taken by the same patient for at least 30 days it is considered a treatment combination. If the overlap of two drugs is less than 30 days it is considered a switch to the drug whose era persists. For example if drug A starts first and then overlaps with drug B for 15 days, with drug B continuing onward, the treatment history would consider this a switch from drug A to drug B and no combination.</p>
-<p>Following the alignment of the treatment history for each patient, we can enumerate each unique treatment pathways identified post index and determine the duration spent on each treatment. We treatment the duration as separate for a combination of treatments to that of an individual drug since we consider the start of a combination to be a switch from a single drug to a combination.</p>
-</section>
-<section id="treatment-pathways" class="level3">
-<h3 class="anchored" data-anchor-id="treatment-pathways">Treatment Pathways</h3>
-<p>For each female with HMB, we determine the sequence of treatments taken over the patient history. Next we enumerate each unique treatment sequence identified in the population. This unique sequence is considered a pathway. Treatment pathways with less than 20 patients identified are dropped from the analysis. The treatment sequence results will be displayed using a sankey diagram, complemented by a summary table that shows the enumeration of each specific sequence.</p>
-</section>
-<section id="duration-of-drug-use" class="level3">
-<h3 class="anchored" data-anchor-id="duration-of-drug-use">Duration of Drug use</h3>
-<p>Using the treatment history, we calculate the median (and 95% confidence interval) time spent on a drug exposure using the Kaplan-Meier (KM) methodology. We consider a combination of exposure to be a separate calculation to individual exposures in this analysis.</p>
-</section>
-</section>
-<section id="procedure-use-post-index" class="level2">
-<h2 class="anchored" data-anchor-id="procedure-use-post-index">Procedure use post-index</h2>
-<p>In this analysis we are also interested in procedures used after the HMB diagnosis between the years of 2000 and 2022. The procedures of interest are:</p>
+<p>For the treatment patterns analysis, a set of drug exposure cohorts will be defined, where the index event of each cohort is prescription of one of the drugs of interest during the study period. People remain in the cohort if they satisfy the selection criteria for the study cohort. A person’s time in the cohort prior to exit is determined by a drug era. The drug era is the span of time a person is considered continuously exposed to the same treatment. Eras are built by binding successive drug exposure events into a single duration where the person is inferred to be continuing use of that same treatment. A maximum of 30 days between drug exposure records are allowed to consider these exposures as a part of the same era. Thus, if a person has two of the same drug exposures within 30 days of each other, they are bundled into one era where the time elapsed is marked by the date of the successive exposure. This also means that if there is a gap greater than 30 days between the same treatment, this would indicate two separate eras in the treatment history for the individual person. A person is observed in the drug exposure cohort until either the end of a continuous era or one of the following censoring events, whichever occurs first:</p>
+<ul>
+<li>end of continuous observation in the database</li>
+<li>at least one visit occurrence at age &gt; 55 years</li>
+<li>menopause (induced or natural)</li>
+<li>hysterectomy or bilateral oophorectomy</li>
+<li>uterine or ovarian cancer</li>
+<li>pregnancy</li>
+<li>death</li>
+</ul>
+<p>Treatment discontinuation is defined when there is a gap of at least 30 days between successive exposures of the same treatment. A treatment combination is defined as an overlap in two different exposures of at least 30 days. This means if two drugs are being taken by the same patient for at least 30 days it is considered a treatment combination. If the overlap of two drugs is less than 30 days, it is considered a switch to the drug whose era persists. For example, if drug A starts first and then overlaps with drug B for 15 days, with drug B continuing onward, the treatment history would consider this a switch from drug A to drug B and no combination.</p>
+<p>For the procedure analysis as a part of treatment patterns, we define cohorts where the index event for the procedure cohort is a first time occurrence of one of the procedures of interest in the patient history. Women in the procedure cohort must have at least 365 days of prior observation.</p>
+<p>Treatment procedures of interest are:</p>
 <ul>
 <li>Hysterectomy</li>
 <li>Endometrial ablation</li>
 <li>Uterine artery embolization (UAE)</li>
 <li>Myomectomy</li>
 </ul>
-<p>For the procedure analysis we define cohorts where the index event for the procedure cohort is a first time occurrence of one of the procedures of interest in the patient history. Women in the procedure cohort must have at least 365 days of prior observation. Women exit the cohort on the day of the procedure occurrence.</p>
-<p>The first metric in our analysis of procedures is prevalence of over a set of defined time intervals. The time windows for prevalence of procedures for women in the HMB cohort are: 0 days, 1 to 183 days, 184 to 365 days, 366 to 730 days, and 731 to 1825 days post index. We report the count and percentage for each procedure of interest (from the listed above) at each time window.</p>
-<p>The second metric in our analysis of procedures is duration of time until the procedure intervention. We define the time to intervention as the duration between the index date of the HMB cohort to the index date of the procedure exposure cohort. We calculate the median (and 95% confidence interval) time spent until procedure using the Kaplan-Meier (KM) methodology.</p>
+<section id="sec-prevDrugExp" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="sec-prevDrugExp"><span class="header-section-number">6.4.1</span> Prevalence of Drug Exposures</h3>
+<p>The first metric under treatment patterns analysis is the prevalence of drug exposure over a set of defined time intervals. Prevalence is defined as the proportion of the study population who had the records of the treatments of interest during the interval. The time windows for the prevalence of drug exposures for women in the HMB cohort are: at index, 1 to 183 days, 184 to 365 days, 366 to 730 days, and 731 to 1825 days post index. Counts and percentages for each drug exposure cohort (from the listed above) will be reported at each time window.</p>
 </section>
-<section id="incidence-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="incidence-analysis">Incidence Analysis</h2>
-<p>It is of interest to ascertain the overall and yearly incidence of HMB in each participating EU databases. We define the outcome for this incidence analysis to the target population defined in <a href="#sec-target">Section&nbsp;4.1</a>, women between the ages of 11 to 55 with first time diagnosis of HMB. The denominator for this incidence calculation will be women age 11 to 55 in the database who exit the cohort based on whether they have experienced one of the following events: turn age 55, observation of a menopause diagnosis, observation of a hysterectomy or observation of a bilateral ovariectomy. Incidence is defined based on the following formula:</p>
+<section id="sec-txSeq" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="sec-txSeq"><span class="header-section-number">6.4.2</span> Treatment Pathways</h3>
+<p>For each female with HMB, the sequence of treatments taken throughout the patient history will be characterized. The first 15 sequences will be reported for each database where each sequence must have a minimum of 10 unique persons to be included in the treatment pathways report. Treatment procedures will be handled differently The treatment sequence results will be displayed using a Sankey diagram, complemented by a summary table that shows the enumeration of each specific sequence.</p>
+</section>
+<section id="sec-ttd" class="level3" data-number="6.4.3">
+<h3 data-number="6.4.3" class="anchored" data-anchor-id="sec-ttd"><span class="header-section-number">6.4.3</span> Time to Discontinuation</h3>
+<p>Using the treatment history, we calculate the median (and 95% confidence interval) time spent on a specific drug using the Kaplan-Meier (KM) methodology. Events are censored if the persons had any kind of healthcare interaction at age &gt; 55 years, menopause (induced or natural), hysterectomy or bilateral oophorectomy, uterine or ovarian cancer, pregnancy or all-cause mortality. Combinations of treatments will be handled as its own era in the calculation of time to discontinuation.</p>
+</section>
+</section>
+<section id="incidence-analysis-exploratory" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="incidence-analysis-exploratory"><span class="header-section-number">6.5</span> Incidence Analysis (Exploratory)</h2>
+<section id="overall-incidence" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="overall-incidence"><span class="header-section-number">6.5.1</span> Overall Incidence</h3>
+<p>The overall and yearly incidence rate of HMB is calculated in each participating database. The numerator in the incidence calculation is the HMB target cohort defined in Section 4.1 and the denominator is the cohort of women with a healthcare visit as defined in Section 4.1.1. Incidence rate is defined based on the following formula:</p>
 <p><span class="math display">\[
 IR = \frac{\text{Number of new cases in time period}}{\text{Total person-time of the at risk population}} \times 1000
 \]</span></p>
-<p>The incidence of HMB will be reported overall and per calendar year to show any variation over time. The incidence will be calculated using the CohortIncidence package from HADES.</p>
-
-
+<p>The incidence of HMB will be reported overall and per calendar year to show any variation over time. The incidence will be calculated using the CohortIncidence package from HADES <span class="citation" data-cites="ci">(<a href="#ref-ci" role="doc-biblioref">7</a>)</span>.</p>
 </section>
+<section id="guideline-compliance" class="level3" data-number="6.5.2">
+<h3 data-number="6.5.2" class="anchored" data-anchor-id="guideline-compliance"><span class="header-section-number">6.5.2</span> Guideline Compliance</h3>
+<p>The assessment of country-specific guideline compliant treatment use will only be conducted for countries for which national treatment guidelines are available for HMB. For this outcome, treatment patterns analysis will be implemented in the same way as described in <a href="#sec-prevDrugExp">Section&nbsp;6.4.1</a> and <a href="#sec-txSeq">Section&nbsp;6.4.2</a>. Based on the relevant national guidelines, recommended treatments will be categorized together under the same group for which the prevalence of exposures after index and the proportion for those treatments that were first line in the treatment pathways analysis will be reported.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="tbl-guidlines" class="anchored">
+<table class="table table-sm table-striped small">
+<caption>Table&nbsp;2: Country Guidelines for HMB Treatment</caption>
+<colgroup>
+<col style="width: 6%">
+<col style="width: 93%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: left;">Compliant</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">UK</td>
+<td style="text-align: left;">Plastic IUD with progestogen as first line treatment</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">US</td>
+<td style="text-align: left;">Combined hormonal contraceptives, oral and injectable progestins, and plastic IUD with progestogen as first-line treatment.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p><strong>Guideline Recommendation</strong></p>
+<ul>
+<li>United Kingdom
+<ul>
+<li>The following treatment options for HMB should be considered:
+<ul>
+<li>the woman’s preferences</li>
+<li>any comorbidities</li>
+<li>the presence or absence of fibroids (including size, number and location), polyps or endometrial pathology</li>
+<li>other symptoms, such as pressure and pain</li>
+</ul></li>
+<li>LNG-IUD could be considered as the first treatment for HMB in women with either:
+<ul>
+<li>no identified pathology</li>
+<li>fibroids less than 3cm in diameter, which are not causing distortion of the uterine cavity</li>
+</ul></li>
+</ul></li>
+<li>United States
+<ul>
+<li>Adolescents: After correction of acute heavy menstrual bleeding, maintenance hormonal therapy can include combined hormonal contraceptives, oral and injectable progestins, and levonorgestrel-releasing intrauterine devices (LNG-IUDs).</li>
+<li>Non-pregnant reporductive age women: Medical therapy is considered the preferred initial treatment, if clinically appropriate. Options include IV conjugated equine estrogen, multi-dose regimens of OCs or oral progestins, and tranexamic acid. Decisions should be based on the patient’s medical history and contraindications to therapies.</li>
+<li>Once the acute bleeding episode has been controlled, transitioning the patient to long-term maintenance therapy is recommended.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="references" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> References</h1>
+<div id="refs" class="references csl-bib-body" role="list">
+<div id="ref-munro2018" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Munro MG, Critchley HOD, Fraser IS, FIGO Menstrual Disorders Committee the. The two FIGO systems for normal and abnormal uterine bleeding symptoms and classification of causes of abnormal uterine bleeding in the reproductive years: 2018 revisions. International Journal of Gynecology &amp; Obstetrics [Internet]. 2018;143(3):393–408. Available from: <a href="https://obgyn.onlinelibrary.wiley.com/doi/abs/10.1002/ijgo.12666">https://obgyn.onlinelibrary.wiley.com/doi/abs/10.1002/ijgo.12666</a></div>
+</div>
+<div id="ref-karlsson2014" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Karlsson TS, Marions LB, Edlund MG. Heavy menstrual bleeding significantly affects quality of life. Acta Obstetricia et Gynecologica Scandinavica [Internet]. 2014;93(1):52–7. Available from: <a href="https://obgyn.onlinelibrary.wiley.com/doi/abs/10.1111/aogs.12292">https://obgyn.onlinelibrary.wiley.com/doi/abs/10.1111/aogs.12292</a></div>
+</div>
+<div id="ref-Shimamoto2021-sd" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Shimamoto K, Hirano M, Wada-Hiraike O, Goto R, Osuga Y. Examining the association between menstrual symptoms and health-related quality of life among working women in japan using the <span>EQ-5D</span>. BMC Women’s Health. 2021 Sep;21(1):325. </div>
+</div>
+<div id="ref-Weyand2022-ay" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Weyand AC, Fitzgerald KD, McGrath M, Gupta V, Braun TM, Quint EH, et al. Depression in female adolescents with heavy menstrual bleeding. The Journal of Pediatrics. 2022 Jan;240:171–6. </div>
+</div>
+<div id="ref-cd" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Gilbert J, Rao G, Schuemie M, Ryan P, Weaver J. CohortDiagnostics: Diagnostics for OHDSI cohorts. 2022. </div>
+</div>
+<div id="ref-fe" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Schuemie M, Suchard M, Ryan P, Reps J, Sena A, Inberg G. FeatureExtraction: Generating features for a cohort [Internet]. 2023. Available from: <a href="https://github.com/OHDSI/FeatureExtraction">https://github.com/OHDSI/FeatureExtraction</a></div>
+</div>
+<div id="ref-ci" class="csl-entry" role="listitem">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Knoll C. CohortIncidence: CohortIncidence [Internet]. 2021. Available from: <a href="https://github.com/OHDSI/CohortIncidence">https://github.com/OHDSI/CohortIncidence</a></div>
+</div>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -690,6 +959,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">Copyright 2023, Odysseus Data Services</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
 
 
 
