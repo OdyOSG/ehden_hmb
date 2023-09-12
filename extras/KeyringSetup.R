@@ -18,7 +18,7 @@ database <- "[database_name]" # the name of the database in the config block
 
 keyringName <- "ehden_hmb" # the name of the keyring
 
-keyringPassword <- "ulysses" # password for keyring
+keyringPassword <- "ohdsi" # password for keyring
 # This password is simply to avoid a prompt when creating the keyring
 
 ## c) Check or create Config File------------------------
