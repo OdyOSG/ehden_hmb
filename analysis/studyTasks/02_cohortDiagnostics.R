@@ -18,7 +18,9 @@ source("analysis/private/_utilities.R")
 # C. Connection ----------------------
 
 # set connection Block
+# <<<
 configBlock <- "[block]"
+# >>>
 
 # provide connection details
 connectionDetails <- DatabaseConnector::createConnectionDetails(
