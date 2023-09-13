@@ -80,15 +80,11 @@ runTreatmentHistory <- function(con,
   outputFolder <- fs::path(here::here("results"), databaseId, analysisSettings[[1]]$outputFolder) %>%
     fs::dir_create()
 
-  thHistoryFolder <- outputFolder[[2]]
+  thHistoryFolder <- outputFolder[[1]] # changed based on settings
 
   targetCohorts <- analysisSettings$treatmentPatterns$cohorts$targetCohort
   thSettings <- analysisSettings$treatmentPatterns$treatmentHistorySettings
-  treatmentCohorts <- analysisSettings$treatmentPatterns$cohorts$drugCohorts %>%
-    # custom add to drop ironPreparations
-    dplyr::filter(
-      name != "ironPreparations"
-    )
+  treatmentCohorts <- analysisSettings$treatmentPatterns$cohorts$txCohorts
 
   cli::cat_boxx(crayon::magenta("Begin Building Treatment History"))
   tik <- Sys.time()

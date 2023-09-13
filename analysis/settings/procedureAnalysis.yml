@@ -1,28 +1,28 @@
 procedureAnalysis:
   cohorts:
-    targetCohort:
+    targetCohorts:
     - name: hmb
       id: 1
-    - name: hmb age lt 30
+    - name: hmb_age_lt_30
       id: 1001
-    - name: hmb age 30-45
+    - name: hmb_age_30_45
       id: 1002
-    - name: hmb age 45-55
+    - name: hmb_age_45_55
       id: 1003
-    procedureCohorts:
+    procCohorts:
     - name: endometrialAblation
-      id: 25
-    - name: hysterectomy
-      id: 26
-    - name: myomectomy
-      id: 27
-    - name: uae
       id: 28
-  prevalenceTimeWindow:
-  - startDays: 0
-    endDays: 0
+    - name: hysterectomy
+      id: 29
+    - name: myomectomy
+      id: 30
+    - name: uae
+      id: 31
+  timeWindow:
   - startDays: 1
     endDays: 183
+  - startDays: 1
+    endDays: 365
   - startDays: 184
     endDays: 365
   - startDays: 366

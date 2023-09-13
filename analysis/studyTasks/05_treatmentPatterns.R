@@ -46,33 +46,43 @@ executionSettings <- config::get(config = configBlock) %>%
   purrr::discard_at(c("dbms", "user", "password", "connectionString"))
 
 ### Analysis Settings
-analysisSettings <- readSettingsFile(here::here("analysis/settings/treatmentPatterns.yml"))
-
+analysisSettings1 <- readSettingsFile(here::here("analysis/settings/postIndexPrevalence1.yml"))
+analysisSettings2 <- readSettingsFile(here::here("analysis/settings/treatmentPatterns1.yml"))
+analysisSettings3 <- readSettingsFile(here::here("analysis/settings/treatmentPatterns2.yml"))
 
 # E. Script --------------------
 
-#######if BAYER uncomment this line#################
-#startSnowflakeSession(con, executionSettings)
 
 # execute post index prevalence
 executePostIndexDrugUtilization(con = con,
                         executionSettings = executionSettings,
-                        analysisSettings = analysisSettings)
+                        analysisSettings = analysisSettings1)
 
 # run treatment history
 runTreatmentHistory(con = con,
                     executionSettings = executionSettings,
-                    analysisSettings = analysisSettings)
+                    analysisSettings = analysisSettings2)
 
 # get treatment patterns
 executeTreatmentPatterns(con = con,
                      executionSettings = executionSettings,
-                     analysisSettings = analysisSettings)
+                     analysisSettings = analysisSettings2)
 
 #get time to discontinuation
 executeTimeToEvent(con = con,
                executionSettings = executionSettings,
-               analysisSettings = analysisSettings)
+               analysisSettings = analysisSettings2)
+
+
+# run treatment history 2 --- all exposures censor hysterectomy
+runTreatmentHistory(con = con,
+                    executionSettings = executionSettings,
+                    analysisSettings = analysisSettings3)
+
+# get treatment patterns --- all exposures censor hysterectomy
+executeTreatmentPatterns(con = con,
+                         executionSettings = executionSettings,
+                         analysisSettings = analysisSettings3)
 
 # F. Session Info ------------------------
 

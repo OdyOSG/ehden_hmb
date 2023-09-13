@@ -3,39 +3,45 @@ baselineCharacteristics:
     targetCohort:
     - name: hmb
       id: 1
-    - name: hmb age lt 30
+    - name: hmb_age_lt_30
       id: 1001
-    - name: hmb age 30-45
+    - name: hmb_age_30_45
       id: 1002
-    - name: hmb age 45-55
+    - name: hmb_age_45_55
       id: 1003
-    covariateCohort:
+    covariateCohorts:
     - name: adenomyosis
       id: 3
     - name: anemia
       id: 4
     - name: coagulopathy
       id: 5
-    - name: diabetes
+    - name: covid19
       id: 6
-    - name: dysmenorrhea
+    - name: diabetes
       id: 7
-    - name: endoHyperplasia
+    - name: dysmenorrhea
       id: 8
-    - name: endometriosis
+    - name: endoHyperplasia
       id: 9
-    - name: endoPolyp
+    - name: endometriosis
       id: 10
-    - name: ironDefAnemia
+    - name: endoPolyp
       id: 11
-    - name: obesity
+    - name: ironDefAnemia
       id: 12
-    - name: pain
+    - name: obesity
       id: 13
-    - name: pcos
+    - name: pain
       id: 14
-    - name: uterineLeiomyoma
+    - name: pcos
       id: 15
+    - name: PID
+      id: 16
+    - name: STD
+      id: 17
+    - name: uterineLeiomyoma
+      id: 18
   timeWindow:
   - startDays: -365
     endDays: 0

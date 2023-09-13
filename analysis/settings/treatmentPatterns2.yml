@@ -1,0 +1,52 @@
+treatmentPatterns:
+  cohorts:
+    targetCohorts:
+    - name: hmb2
+      id: 32
+    - name: hmb2_age_lt_30
+      id: 32001
+    - name: hmb2_age_30_45
+      id: 32002
+    - name: hmb2_age_45_55
+      id: 32003
+    txCohorts:
+    - name: combOralContraceptives
+      id: 19
+    - name: danazol
+      id: 20
+    - name: grha
+      id: 21
+    - name: iud
+      id: 23
+    - name: nsaids
+      id: 24
+    - name: progestin
+      id: 25
+    - name: progresteron
+      id: 26
+    - name: tranexamicAcid
+      id: 27
+    - name: endometrialAblation
+      id: 28
+    - name: hysterectomy
+      id: 29
+    - name: myomectomy
+      id: 30
+    - name: uae
+      id: 31
+  treatmentHistorySettings:
+    minEraDuration: 0
+    eraCollapseSize: 30
+    combinationWindow: 30
+    minPostCombinationDuration: 30
+    filterTreatments: Changes
+    periodPriorToIndex: 0
+    includeTreatments: startDate
+    maxPathLength: 5
+    minCellCount: 5
+    minCellMethod: Remove
+    groupCombinations: 10
+    addNoPaths: no
+  outputFolder:
+  - 13_treatmentHistory2
+  - 14_treatmentPatterns

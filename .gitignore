@@ -4,7 +4,6 @@ logs/
 config.yml
 NUL
 scratch/incPrevTest.R
-scratch/analysisSettings.R
 .httr-oauth
 documentation/minutes/custom-reference-doc.docx
 documentation/custom-reference-doc.docx
@@ -18,3 +17,4 @@ documentation/minutes/*.qmd
 
 # ignore problem incidence Denom
 cohortsToCreate/ignore/
+hidden/

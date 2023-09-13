@@ -1,8 +1,17 @@
+# EHDEN HMB v0.1.2
+
+* Update cohort definitions
+    - rerun drug exposure with Capr
+    - rerun procedures with Capr
+    - add time restraints to nsaids
+    - add hmb cohort without hysterectomy censor
+* Add secondary treatment sequence including procedures 
+
 # EHDEN HMB v0.1.1
 
 * Add study website
 * Update cohort definitions for denominator
-* Addition of executeStudy.R file to automate exectution
+* Addition of executeStudy.R file to automate execution
 
 # EHDEN HMB v0.1.0
 
