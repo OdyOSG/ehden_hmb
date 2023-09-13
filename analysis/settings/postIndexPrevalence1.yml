@@ -1,0 +1,41 @@
+treatmentPatterns:
+  cohorts:
+    targetCohorts:
+    - name: hmb
+      id: 1
+    - name: hmb_age_lt_30
+      id: 1001
+    - name: hmb_age_30_45
+      id: 1002
+    - name: hmb_age_45_55
+      id: 1003
+    drugCohorts:
+    - name: combOralContraceptives
+      id: 19
+    - name: danazol
+      id: 20
+    - name: grha
+      id: 21
+    - name: ironPreparations
+      id: 22
+    - name: iud
+      id: 23
+    - name: nsaids
+      id: 24
+    - name: progestin
+      id: 25
+    - name: progresteron
+      id: 26
+    - name: tranexamicAcid
+      id: 27
+  timeWindow:
+  - startDays: 1
+    endDays: 183
+  - startDays: 184
+    endDays: 365
+  - startDays: 366
+    endDays: 730
+  - startDays: 731
+    endDays: 1825
+  outputFolder:
+  - 07_postIndexPrevalenceDrugs

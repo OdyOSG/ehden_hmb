@@ -3,14 +3,14 @@ incidenceAnalysis:
     targetCohort:
     - name: hmb
       id: 1
-    - name: hmb age lt 30
+    - name: hmb_age_lt_30
       id: 1001
-    - name: hmb age 30-45
+    - name: hmb_age_30_45
       id: 1002
-    - name: hmb age 45-55
+    - name: hmb_age_45_55
       id: 1003
     denominatorCohort:
-    - name: female_11_55_denom
+    - name: incidenceDenominator
       id: 2
   incidenceSettings:
     cleanWindow: 0
