@@ -51,8 +51,6 @@ analysisSettings <- readSettingsFile(here::here("analysis/settings/treatmentPatt
 
 # E. Script --------------------
 
-#######if BAYER uncomment this line#################
-#startSnowflakeSession(con, executionSettings)
 
 # execute post index prevalence
 executePostIndexDrugUtilization(con = con,
