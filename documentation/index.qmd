@@ -1,0 +1,46 @@
+---
+title: "EHDEN HMB"
+---
+
+Welcome the EHDEN Heavy-menstrual Bleeding Study! This study is a characterization study of a heavy-menstrual bleeding cohort conducted on EHDEN network databases that have been standardized to the OMOP CDM.
+
+# Contact
+
+* Study Coordinators:
+    * Siir Su Saydam [(email)](mailto:siirsu.saydam@bayer.com)
+    * Marta Pineda Moncusi [(email)](mailto:marta.pinedamoncusi@ndorms.ox.ac.uk)
+* Study Code Developers:
+    * Martin Lavallee [(email)](mailto:martin.lavallee@odysseusinc.com)
+    * George Argyriou [(email)](mailto:george.argyriou@odysseusinc.com)
+
+
+# Navigation
+
+* **Technical Info**: 
+    - **Requirements**: provides information on setting up the OHDSI environment for the study
+    - **News**: provides the latest updates to the study code
+* **Study Info**:
+    - **Analysis Plan**: provides the study analysis plan
+    - **How-To-Run**: provides information on how to run the study
+    - **Contribution Guidelines**: provides information on how to contribute to the study 
+* **Study Code**: Click on Github logo on the top right to navigate to study code 
+
+
+# Participating Databases
+
+This study will be run on OMOP databases in the EHDEN Network. The table below lists some of the data partners that have agreed to participate in this study.
+
+| Database                            | Country            |
+|-------------------------------------|--------------------|
+| Truven MarketScan                   | United States      | 
+| Optum Claims                        | United States      |
+| CPRD GOLD                           | United Kingdom     | 
+| CPRD AURUM                          | United Kingdom     | 
+| Hospital del Mar (Barcelona)        | Spain              | 
+| Israel Ministry of Health           | Israel             |
+| Cegedim THIN                        | Belgium            |
+| Disease Analyzer                    | Germany            |
+| FinnGen                             | Finland            |
+| Semmelweis University               | Hungary            |
+| University of Oslo                  | Norway             |
+
