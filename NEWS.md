@@ -2,7 +2,7 @@
 
 * Add study website
 * Update cohort definitions for denominator
-
+* Addition of executeStudy.R file to automate exectution
 
 # EHDEN HMB v0.1.0
 
