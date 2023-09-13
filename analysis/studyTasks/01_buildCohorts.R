@@ -57,10 +57,6 @@ analysisSettings <- readSettingsFile(here::here("analysis/settings/strata.yml"))
 
 # E. Script --------------------
 
-#######if BAYER uncomment this line#################
-#startSnowflakeSession(con, executionSettings)
-
-
 ### RUN ONCE - Initialize COhort table #########
 initializeCohortTables(executionSettings = executionSettings, con = con)
 
