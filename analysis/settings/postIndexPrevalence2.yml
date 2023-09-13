@@ -21,6 +21,8 @@ treatmentPatterns:
   timeWindow:
   - startDays: 1
     endDays: 183
+  - startDays: 1
+    endDays: 365
   - startDays: 184
     endDays: 365
   - startDays: 366

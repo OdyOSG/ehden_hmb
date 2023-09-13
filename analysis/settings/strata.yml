@@ -3,6 +3,8 @@ strata:
     targetCohort:
     - name: hmb
       id: 1
+    - name: hmb2
+      id: 32
   demographics:
   - strataId: 1
     strataName: age_lt_30

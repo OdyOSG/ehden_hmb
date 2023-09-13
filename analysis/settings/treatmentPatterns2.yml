@@ -1,14 +1,14 @@
 treatmentPatterns:
   cohorts:
     targetCohorts:
-    - name: hmb
-      id: 1
-    - name: hmb_age_lt_30
-      id: 1001
-    - name: hmb_age_30_45
-      id: 1002
-    - name: hmb_age_45_55
-      id: 1003
+    - name: hmb2
+      id: 32
+    - name: hmb2_age_lt_30
+      id: 32001
+    - name: hmb2_age_30_45
+      id: 32002
+    - name: hmb2_age_45_55
+      id: 32003
     txCohorts:
     - name: combOralContraceptives
       id: 19
@@ -26,6 +26,14 @@ treatmentPatterns:
       id: 26
     - name: tranexamicAcid
       id: 27
+    - name: endometrialAblation
+      id: 28
+    - name: hysterectomy
+      id: 29
+    - name: myomectomy
+      id: 30
+    - name: uae
+      id: 31
   treatmentHistorySettings:
     minEraDuration: 0
     eraCollapseSize: 30
@@ -40,6 +48,5 @@ treatmentPatterns:
     groupCombinations: 10
     addNoPaths: no
   outputFolder:
-  - 09_treatmentHistory
-  - 10_treatmentPatterns
-  - 11_timeToDiscontinuation
+  - 13_treatmentHistory2
+  - 14_treatmentPatterns
