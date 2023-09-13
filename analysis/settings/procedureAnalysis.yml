@@ -1,4 +1,4 @@
-timeToEvent:
+procedureAnalysis:
   cohorts:
     targetCohorts:
     - name: hmb
@@ -30,5 +30,5 @@ timeToEvent:
   - startDays: 731
     endDays: 1825
   outputFolder:
-  - 01_postIndexPrevalenceProcedures
+  - 11_postIndexPrevalenceProcedures
   - 12_timeToIntervention

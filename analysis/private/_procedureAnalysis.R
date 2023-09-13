@@ -109,11 +109,11 @@ executeProcedureAnalysis <- function(con,
 
   ## get cohort Ids
   targetCohortIds <- analysisSettings$procedureAnalysis$cohorts$targetCohort$id
-  procedureCohortIds <- analysisSettings$procedureAnalysis$cohorts$procedureCohorts$id
+  procedureCohortIds <- analysisSettings$procedureAnalysis$cohorts$procCohorts$id
 
   ## get time windows
-  timeA <- analysisSettings$procedureAnalysis$prevalenceTimeWindow$startDays
-  timeB <- analysisSettings$procedureAnalysis$prevalenceTimeWindow$endDays
+  timeA <- analysisSettings$procedureAnalysis$timeWindow$startDays
+  timeB <- analysisSettings$procedureAnalysis$timeWindow$endDays
 
   # get outputFolder
   outputFolder <- fs::path(here::here("results"), databaseId, analysisSettings[[1]]$outputFolder) %>%
