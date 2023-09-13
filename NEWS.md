@@ -1,3 +1,9 @@
+# EHDEN HMB v0.1.1
+
+* Add study website
+* Update cohort definitions for denominator
+* Addition of executeStudy.R file to automate exectution
+
 # EHDEN HMB v0.1.0
 
 * First release of study code for EHDEN HMB

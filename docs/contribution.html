@@ -59,6 +59,13 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script type="application/json" class="js-hypothesis-config">
+{
+  "theme": "clean",
+  "openSidebar": false
+}
+</script>
+<script async="" src="https://hypothes.is/embed.js"></script>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -86,21 +93,17 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
- <span class="menu-text">About</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-technical-info" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Technical Info</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-technical-info">    
+        <li>
+    <a class="dropdown-item" href="./techSpecs.html" rel="" target="">
+ <span class="dropdown-text">Requirements</span></a>
+  </li>  
         <li>
     <a class="dropdown-item" href="./news.html" rel="" target="">
  <span class="dropdown-text">News</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./techSpecs.html" rel="" target="">
- <span class="dropdown-text">Technical Requirements</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./about.html" rel="" target="">
- <span class="dropdown-text">Session Info</span></a>
   </li>  
     </ul>
   </li>
@@ -160,14 +163,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#participating-in-the-study" id="toc-participating-in-the-study" class="nav-link active" data-scroll-target="#participating-in-the-study"><span class="header-section-number">1</span> Participating in the study</a></li>
-  <li><a href="#handling-study-code-problems" id="toc-handling-study-code-problems" class="nav-link" data-scroll-target="#handling-study-code-problems"><span class="header-section-number">2</span> Handling Study Code Problems</a>
+  <li><a href="#participation" id="toc-participation" class="nav-link active" data-scroll-target="#participation"><span class="header-section-number">1</span> Participation</a></li>
+  <li><a href="#code-of-conduct" id="toc-code-of-conduct" class="nav-link" data-scroll-target="#code-of-conduct"><span class="header-section-number">2</span> Code of Conduct</a></li>
+  <li><a href="#bugs-and-questions" id="toc-bugs-and-questions" class="nav-link" data-scroll-target="#bugs-and-questions"><span class="header-section-number">3</span> Bugs and Questions</a>
   <ul class="collapse">
-  <li><a href="#issues" id="toc-issues" class="nav-link" data-scroll-target="#issues"><span class="header-section-number">2.1</span> Issues</a></li>
-  <li><a href="#rules" id="toc-rules" class="nav-link" data-scroll-target="#rules"><span class="header-section-number">2.2</span> Rules</a></li>
+  <li><a href="#issues" id="toc-issues" class="nav-link" data-scroll-target="#issues"><span class="header-section-number">3.1</span> Issues</a></li>
+  <li><a href="#rules" id="toc-rules" class="nav-link" data-scroll-target="#rules"><span class="header-section-number">3.2</span> Rules</a></li>
   </ul></li>
-  <li><a href="#repository-branches-and-releases" id="toc-repository-branches-and-releases" class="nav-link" data-scroll-target="#repository-branches-and-releases"><span class="header-section-number">3</span> Repository Branches and Releases</a></li>
-  <li><a href="#sending-results" id="toc-sending-results" class="nav-link" data-scroll-target="#sending-results"><span class="header-section-number">4</span> Sending Results</a></li>
+  <li><a href="#branches-and-releases" id="toc-branches-and-releases" class="nav-link" data-scroll-target="#branches-and-releases"><span class="header-section-number">4</span> Branches and Releases</a></li>
+  <li><a href="#contributing" id="toc-contributing" class="nav-link" data-scroll-target="#contributing"><span class="header-section-number">5</span> Contributing</a>
+  <ul class="collapse">
+  <li><a href="#sending-results" id="toc-sending-results" class="nav-link" data-scroll-target="#sending-results"><span class="header-section-number">5.1</span> Sending Results</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -192,8 +199,8 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p>Welcome to the EHDEN HMB Study! Thank you for your interest in participating in this network study. Please read the contribution guidelines carefully to understand how to participate in this study.</p>
-<section id="participating-in-the-study" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="participating-in-the-study"><span class="header-section-number">1</span> Participating in the study</h2>
+<section id="participation" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Participation</h1>
 <p>During the active maintenance of the EHDEN HMB study, If you would like to participate in the network study please contact <a href="mailto:martin.lavallee@odysseusinc.com">Martin Lavallee</a>, <a href="mailto:siirsu.saydam@bayer.com">Siir Su Saydam</a> or <a href="mailto:marta.pinedamoncusi@ndorms.ox.ac.uk">Marta Pineda Moncusi</a>. Please send us the following information when announcing your interest in participation:</p>
 <ul>
 <li><strong>Primary Contact</strong> - person managing the network study participation</li>
@@ -206,18 +213,22 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>Note: If your site has been contacted about EHDEN HMB prior to the release of this study repository you do not need to fulfill this step.</p>
 </section>
-<section id="handling-study-code-problems" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="handling-study-code-problems"><span class="header-section-number">2</span> Handling Study Code Problems</h2>
-<section id="issues" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="issues"><span class="header-section-number">2.1</span> Issues</h3>
+<section id="code-of-conduct" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Code of Conduct</h1>
+<p>This study follows a code of conduct specified by <a href="https://www.contributor-covenant.org/version/2/1/code_of_conduct/">Contributor Covenant version 2.1</a> in the interest of harboring an open and welcome environment for all contributors to this study. By participating in this study you agree to abide by these terms.</p>
+</section>
+<section id="bugs-and-questions" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Bugs and Questions</h1>
+<section id="issues" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="issues"><span class="header-section-number">3.1</span> Issues</h2>
 <p>The EHDEN HMB study uses github to version control the study code required to run the analysis. As a github repository, we use <a href="https://docs.github.com/en/issues/tracking-your-work-with-issues/about-issues">issues</a> to track bugs and answer questions about the study code. Debugging issues collaboratively ensures that all study nodes are informed on code issues and have the most up-to-date code required to successfully run the study. An issue at your site is likely a similar problem for someone else. The EHDEN HMB study has two issue templates:</p>
 <ol type="1">
 <li>For code bugs and errors, please post the bug using the <a href="https://github.com/OdyOSG/ehden_hmb/issues/new?assignees=&amp;labels=&amp;projects=&amp;template=bug_report.md&amp;title=">bug issue template</a></li>
 <li>For a study question, please post the question using the <a href="https://github.com/OdyOSG/ehden_hmb/issues/new?assignees=mdlavallee92%2C+siirsu&amp;labels=question&amp;projects=&amp;template=study-question.md&amp;title=">study question template</a></li>
 </ol>
 </section>
-<section id="rules" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="rules"><span class="header-section-number">2.2</span> Rules</h3>
+<section id="rules" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="rules"><span class="header-section-number">3.2</span> Rules</h2>
 <ol type="1">
 <li><strong>DO NOT</strong> post any database credentials in an issue. Issues are public.</li>
 <li>Provide a reproducible example of the error you are encountering.</li>
@@ -225,15 +236,31 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 </section>
 </section>
-<section id="repository-branches-and-releases" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="repository-branches-and-releases"><span class="header-section-number">3</span> Repository Branches and Releases</h2>
+<section id="branches-and-releases" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Branches and Releases</h1>
 <p>The latest version of the study code will be maintain in the <code>main</code> branch of <a href="https://github.com/OdyOSG/ehden_hmb"><code>OdyOSG/ehden_hmb</code></a>. Additional branches to the study repository may be maintained for the purposes of feature enhancements in development or custom work-around solutions for a particular study site. Please only run the study using the main branch of the repository unless otherwise stated by the study coordinator. The study repository will maintain a release cycle to differentiate versions of the study code. Please run the latest release of the study code unless otherwise stated by the study coordinator.</p>
 </section>
-<section id="sending-results" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="sending-results"><span class="header-section-number">4</span> Sending Results</h2>
-<p>Add instructions on how to send study results…..</p>
+<section id="contributing" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Contributing</h1>
+<p>We encourage study participants to contribute to the code base when appropriate. In order to contribute code to this study follow these steps:</p>
+<ol type="1">
+<li>Fork and clone the repository.</li>
+<li>Create a new branch: <code>git checkout -b my-branch-name</code>.</li>
+<li>Make your change and test that it is working.</li>
+<li>Push to your fork and submit a pull request. Wait for review and merge</li>
+</ol>
+<p>Here are a few things you can do that will increase the likelihood of your pull request being accepted:</p>
+<ul>
+<li>Follow the <a href="https://style.tidyverse.org/index.html">tidyverse style guide</a> and ensure your change is legible</li>
+<li>Keep your changes as focused as possible. If there are multiple changes you would like to make that are not dependent upon each other, consider submitting them as separate pull requests.</li>
+<li>Write a <a href="https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html">good commit message</a>.</li>
+</ul>
+<section id="sending-results" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="sending-results"><span class="header-section-number">5.1</span> Sending Results</h2>
+<p>Instructions for sending results will be sent in due course…</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

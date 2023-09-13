@@ -20,7 +20,10 @@ source("analysis/private/_buildStrata.R")
 # C. Connection ----------------------
 
 # set connection Block
+
+# <<<
 configBlock <- "[block]"
+# >>>
 
 # provide connection details
 connectionDetails <- DatabaseConnector::createConnectionDetails(

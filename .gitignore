@@ -15,3 +15,6 @@ errorReportSql.txt
 # ignore minutes documents
 documentation/minutes/img
 documentation/minutes/*.qmd
+
+# ignore problem incidence Denom
+cohortsToCreate/ignore/

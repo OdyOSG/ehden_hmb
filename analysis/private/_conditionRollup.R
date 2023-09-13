@@ -231,8 +231,8 @@ executeConditionRollup <- function(con,
   cohortKey <- analysisSettings$baselineCharacteristics$cohorts$targetCohort
 
   #extract time windows
-  timeA <- analysisSettings$baselineCharacteristics$timeWindow$startDay[1]
-  timeB <- analysisSettings$baselineCharacteristics$timeWindow$endDay[1]
+  timeA <- analysisSettings$baselineCharacteristics$timeWindow$startDays[1]
+  timeB <- analysisSettings$baselineCharacteristics$timeWindow$endDays[1]
 
 
 

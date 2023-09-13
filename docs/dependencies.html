@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>EHDEN HMB - How-to-Run Study</title>
+<title>EHDEN HMB - Study Environment</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -94,6 +94,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+<script src="site_libs/core-js-2.5.3/shim.min.js"></script>
+<script src="site_libs/react-17.0.0/react.min.js"></script>
+<script src="site_libs/react-17.0.0/react-dom.min.js"></script>
+<script src="site_libs/reactwidget-1.0.0/react-tools.js"></script>
+<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<link href="site_libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+<script src="site_libs/reactable-binding-0.4.4/reactable.js"></script>
+
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -120,17 +128,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-technical-info" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
- <span class="menu-text">Technical Info</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">About</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-technical-info">    
-        <li>
-    <a class="dropdown-item" href="./techSpecs.html" rel="" target="">
- <span class="dropdown-text">Requirements</span></a>
-  </li>  
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
         <li>
     <a class="dropdown-item" href="./news.html" rel="" target="">
  <span class="dropdown-text">News</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./techSpecs.html" rel="" target="">
+ <span class="dropdown-text">Technical Requirements</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./dependencies.html" rel="" target="">
+ <span class="dropdown-text">Study Environment</span></a>
   </li>  
     </ul>
   </li>
@@ -190,27 +202,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#setup-study" id="toc-setup-study" class="nav-link active" data-scroll-target="#setup-study"><span class="header-section-number">1</span> Setup Study</a>
+  <li><a href="#r-version" id="toc-r-version" class="nav-link active" data-scroll-target="#r-version"><span class="header-section-number">1</span> R Version</a></li>
+  <li><a href="#r-environment" id="toc-r-environment" class="nav-link" data-scroll-target="#r-environment"><span class="header-section-number">2</span> R Environment</a>
   <ul class="collapse">
-  <li><a href="#download-zip" id="toc-download-zip" class="nav-link" data-scroll-target="#download-zip"><span class="header-section-number">1.1</span> Download Zip</a></li>
-  <li><a href="#setup-r-environment" id="toc-setup-r-environment" class="nav-link" data-scroll-target="#setup-r-environment"><span class="header-section-number">1.2</span> Setup R Environment</a>
-  <ul class="collapse">
-  <li><a href="#using-renv" id="toc-using-renv" class="nav-link" data-scroll-target="#using-renv"><span class="header-section-number">1.2.1</span> Using <code>renv</code></a></li>
-  <li><a href="#troubleshooting-renv" id="toc-troubleshooting-renv" class="nav-link" data-scroll-target="#troubleshooting-renv"><span class="header-section-number">1.2.2</span> Troubleshooting <code>renv</code></a></li>
-  <li><a href="#conflicts" id="toc-conflicts" class="nav-link" data-scroll-target="#conflicts"><span class="header-section-number">1.2.3</span> Conflicts</a></li>
+  <li><a href="#conflicts" id="toc-conflicts" class="nav-link" data-scroll-target="#conflicts"><span class="header-section-number">2.1</span> Conflicts</a></li>
   </ul></li>
-  <li><a href="#load-execution-credentials" id="toc-load-execution-credentials" class="nav-link" data-scroll-target="#load-execution-credentials"><span class="header-section-number">1.3</span> Load Execution Credentials</a>
-  <ul class="collapse">
-  <li><a href="#required-credentials" id="toc-required-credentials" class="nav-link" data-scroll-target="#required-credentials"><span class="header-section-number">1.3.1</span> Required Credentials</a></li>
-  <li><a href="#loading-credentials" id="toc-loading-credentials" class="nav-link" data-scroll-target="#loading-credentials"><span class="header-section-number">1.3.2</span> Loading Credentials</a></li>
-  <li><a href="#multiple-databases-optional" id="toc-multiple-databases-optional" class="nav-link" data-scroll-target="#multiple-databases-optional"><span class="header-section-number">1.3.3</span> Multiple Databases (Optional)</a></li>
-  </ul></li>
-  </ul></li>
-  <li><a href="#run-study" id="toc-run-study" class="nav-link" data-scroll-target="#run-study"><span class="header-section-number">2</span> Run Study</a>
-  <ul class="collapse">
-  <li><a href="#execution-script" id="toc-execution-script" class="nav-link" data-scroll-target="#execution-script"><span class="header-section-number">2.1</span> Execution Script</a></li>
-  <li><a href="#study-tasks" id="toc-study-tasks" class="nav-link" data-scroll-target="#study-tasks"><span class="header-section-number">2.2</span> Study Tasks</a></li>
-  </ul></li>
+  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages"><span class="header-section-number">3</span> R Packages</a></li>
   </ul>
 </nav>
     </div>
@@ -219,7 +216,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">How-to-Run Study</h1>
+<h1 class="title">Study Environment</h1>
 </div>
 
 
@@ -234,30 +231,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="setup-study" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Setup Study</h1>
-<section id="download-zip" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="download-zip"><span class="header-section-number">1.1</span> Download Zip</h2>
-<p>To avoid using git to leverage this study, the easiest way to access the study code is via a zip file. Instructions for downloading the zip file are below:</p>
-<ol type="1">
-<li>Navigate to github <a href="https://github.com/OdyOSG/ehden_hmb">repo url</a>.</li>
-<li>Select the green code button revealing a dropdown menu.</li>
-<li>Select <em>Download Zip</em>.</li>
-<li>Unzip the folder on your local computer that is easily accessible within R Studio.</li>
-<li>Open the unzipped folder and select <code>ehden_hmb.Rproj</code>.</li>
-</ol>
-<!---Add clone process--------->
+<section id="r-version" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> R Version</h1>
+<p>This study requires a minimal R version of 4.1.3 (2022-03-10). <a href="https://cloud.r-project.org/bin/windows/base/old/4.1.3/">Link to windows installer</a>.</p>
 </section>
-<section id="setup-r-environment" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="setup-r-environment"><span class="header-section-number">1.2</span> Setup R Environment</h2>
-<section id="using-renv" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1" class="anchored" data-anchor-id="using-renv"><span class="header-section-number">1.2.1</span> Using <code>renv</code></h3>
-<p>This study uses <a href="https://rstudio.github.io/renv/articles/renv.html"><code>renv</code></a> to reproduce the R environment to execute this study. The study code maintains an <code>renv.lock</code> file in the main branch of the repository. To activate the R dependencies through <code>renv</code> use the following code:</p>
+<section id="r-environment" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> R Environment</h1>
+<p>This study uses <a href="https://rstudio.github.io/renv/articles/renv.html"><code>renv</code></a> to reproduce the R environment to execute this study. The study code maintains an <code>renv.lock</code> file in the main branch of the repository. To activate the <code>renv</code> use the following code:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">restore</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="troubleshooting-renv" class="level3" data-number="1.2.2">
-<h3 data-number="1.2.2" class="anchored" data-anchor-id="troubleshooting-renv"><span class="header-section-number">1.2.2</span> Troubleshooting <code>renv</code></h3>
-<p>Sometimes there are errors in the package installation via <code>renv</code>. If you encounter an error try removing the problematic package from the <code>renv.lock</code> file and restore again. To remove a package from the lock file find the header of the package and delete all corresponding lines. Once you are able to get the remaining packages to install, manually install the problem package using one of the strategies below:</p>
+<section id="conflicts" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="conflicts"><span class="header-section-number">2.1</span> Conflicts</h2>
+<p>Some organizational IT setups pose conflicts with <code>renv</code>. One example is if your organization uses the Broadsea Docker. If you have a conflict with <code>renv</code> please complete the following steps:</p>
+<ol type="1">
+<li>Run <code>renv::deactivate()</code> in the active ehden .RProj</li>
+<li>Review table below with installed versions of R packages</li>
+<li>If a dependency is missing, install it manually. The code below provides examples of scenarios on how to install an R package:</li>
+</ol>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Installing an R package from CRAN ------------</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -279,90 +268,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Installing old version of R package from github</span></span>
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"ohdsi/CohortGenerator"</span>, <span class="at">ref =</span> <span class="st">"v0.7.0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Any additional issues with the <code>renv</code> lock file please file an <a href="https://github.com/OdyOSG/ehden_hmb/issues/new?assignees=mdlavallee92&amp;labels=bug&amp;projects=&amp;template=bug_report.md&amp;title=">issue</a> in the study repository</p>
-</section>
-<section id="conflicts" class="level3" data-number="1.2.3">
-<h3 data-number="1.2.3" class="anchored" data-anchor-id="conflicts"><span class="header-section-number">1.2.3</span> Conflicts</h3>
-<p>Some organizational IT setups pose conflicts with <code>renv</code>. One example is if your organization uses the Broadsea Docker. If you are aware that your OHDSI environment will conflict with <code>renv</code>, deactivate it by running <code>renv::deactivate()</code> in the active ehden .RProj. Also delete the renv folder in your project directory. Review the list of R packages required to run the study in the <strong>Technical Requirements</strong> tab of the study hub and manually install.</p>
-<p>It is <strong>highly recommended</strong> you stick with the <code>renv</code> snapshot as this is the easiest way to reproduce the study execution environment. Please only deactivate the lock file if it is a last resort.</p>
+<p>It is highly recommended you stick with the <code>renv</code> snapshot as this is the easiest way to reproduce the study execution environment.</p>
 </section>
 </section>
-<section id="load-execution-credentials" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="load-execution-credentials"><span class="header-section-number">1.3</span> Load Execution Credentials</h2>
-<p>This study uses <code>keyring</code> and <code>config</code> to mask and query database credentials needed for execution. The study will help load these credentials using the file <code>extras/KeyringSetup.R</code>.</p>
-<section id="required-credentials" class="level3" data-number="1.3.1">
-<h3 data-number="1.3.1" class="anchored" data-anchor-id="required-credentials"><span class="header-section-number">1.3.1</span> Required Credentials</h3>
-<p>Data nodes executing this study require the following credentials:</p>
-<ol type="1">
-<li><strong>dbms</strong> - the name of the dbms you are using (redshift, postgresql, snowflake, etc)</li>
-<li><strong>user</strong> - the username credential used to connect to the OMOP database</li>
-<li><strong>password</strong> - the password credential used to connect to the OMOP database</li>
-<li><strong>connectionString</strong> - a composed string that establishes the connection to the OMOP database. An example of a connection string would be <em>jdbc:dbms://host-url.com:port/database_name</em>.</li>
-<li><strong>cdmDatabaseSchema</strong> - the database and schema used to access the cdm. Note that this credential may be separated by a dot to indicate the database and schema, which tends to be the case in sql server. Example: <em>our_cdm.cdm</em>.</li>
-<li><strong>vocabDatabaseSchema</strong> - the database and schema used to access the vocabulary tables. Note this is typically the same as the cdmDatabaseSchema.</li>
-<li><strong>workDatabaseSchema</strong> - a section of the database where the user has read/write access. This schema is where we write the cohortTable used to enumerate the cohort definitions.</li>
-</ol>
-<p>It is recommended that you write these credentials down in a private txt file to make it easier to load into the credential manager for the study.</p>
-</section>
-<section id="loading-credentials" class="level3" data-number="1.3.2">
-<h3 data-number="1.3.2" class="anchored" data-anchor-id="loading-credentials"><span class="header-section-number">1.3.2</span> Loading Credentials</h3>
-<ol type="1">
-<li>Open the file in the study names <code>extras/KeyringSetup.R</code>.</li>
-<li>On L15:16 place a name for your config block and the database. The configBlock name can be an abbreviation, for example:</li>
-</ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>configBlock <span class="ot">&lt;-</span> <span class="st">"synpuf"</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>database <span class="ot">&lt;-</span> <span class="st">"synpuf_110k"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="3" type="1">
-<li>One at a time run each line in the script and follow any prompts
-<ul>
-<li>L27 asks you to build a new config.yml file which can be done as so <code>Ulysses::makeConfig(block = configBlock, database = database)</code>. Running this function will open a new file. Make sure any keyring variable is labelled as <strong>ehden_hmb</strong>.</li>
-<li>L32 will setup a new <code>keyring</code> for the study. The name of the keyring is <strong>ehden_hmb</strong> and the password for the keyring is <strong>ohdsi</strong>. If R prompts you to place a keyring password it will be <strong>ohdsi</strong> unless changed by the user.</li>
-<li>L36 will setup all the credentials for the study. A prompt will appear asking to input credentials, using your txt file input your credentials into the prompt. Review the credentials once you are done</li>
-</ul></li>
-</ol>
-<section id="troubleshooting" class="level4" data-number="1.3.2.1">
-<h4 data-number="1.3.2.1" class="anchored" data-anchor-id="troubleshooting"><span class="header-section-number">1.3.2.1</span> Troubleshooting</h4>
-<p>If you have a problem with the keyring, please post an <a href="https://github.com/OdyOSG/ehden_hmb/issues/new?assignees=mdlavallee92&amp;labels=bug&amp;projects=&amp;template=bug_report.md&amp;title=">issue</a> in the study repository. Otherwise you can avoid the keyring api by hard-coding your credentials to the <code>config.yml</code> file as shown in the example:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode yml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">db</span><span class="kw">:</span><span class="co"> # replace with an acronym for your database no underscore</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">databaseName</span><span class="kw">:</span><span class="at"> db_ehr</span><span class="co"> # replace with the name of your database</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">dbms</span><span class="kw">:</span><span class="at"> &lt;your_dbms&gt;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">user</span><span class="kw">:</span><span class="at">  &lt;your_user&gt;</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">password</span><span class="kw">:</span><span class="at">  &lt;your_pass&gt;</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">connectionString</span><span class="kw">:</span><span class="at"> &lt;your_connectionString&gt;</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">cdmDatabaseSchema</span><span class="kw">:</span><span class="at">  &lt;your_ cdmDatabaseSchema&gt;</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">vocabDatabaseSchema</span><span class="kw">:</span><span class="at">  &lt;your_ vocabDatabaseSchema&gt;</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">workDatabaseSchema</span><span class="kw">:</span><span class="at"> &lt;your_ workDatabaseSchema&gt;</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">cohortTable</span><span class="kw">:</span><span class="at"> ehden_hmb_&lt;databaseName&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-</section>
-<section id="multiple-databases-optional" class="level3" data-number="1.3.3">
-<h3 data-number="1.3.3" class="anchored" data-anchor-id="multiple-databases-optional"><span class="header-section-number">1.3.3</span> Multiple Databases (Optional)</h3>
-<p>Some study participants will be running this study on multiple databases. To add additional credentials rerun the <code>extras/KeyringSetup.R</code> file replacing the configBlock and database with a second database you need to use. on L28 you can add the following function to add a new config block to the <code>config.yml</code> file.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Ulysses<span class="sc">::</span><span class="fu">addConfig</span>(<span class="at">block =</span> <span class="st">"[next_block]"</span>, <span class="at">database =</span> <span class="st">"[next_database]"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-</section>
-</section>
-<section id="run-study" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Run Study</h1>
-<section id="execution-script" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="execution-script"><span class="header-section-number">2.1</span> Execution Script</h2>
-<p>Running all tasks sequentially can be done using the <code>executeStudy.R</code> file. Replace L17 with the configBlock of choice and run the script.</p>
-</section>
-<section id="study-tasks" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="study-tasks"><span class="header-section-number">2.2</span> Study Tasks</h2>
-<p>Once your study is setup you are ready to run the EHDEN HMB study. The EHDEN HMB study contains six analytical tasks:</p>
-<ol type="1">
-<li><strong>Build Cohorts</strong> - initialize a cohort table and generate cohort counts from the circe json in cohortsToCreate</li>
-<li><strong>Cohort Diagnostics</strong> - review of the hmb cohort definition</li>
-<li><strong>Incidence Analysis</strong> - calculation of the incidence of hmb in a population of females between ages 11 to 55</li>
-<li><strong>Baseline Characteristics</strong> - generation of prevalence of demographics and comorbidities at baseline (-365d prior to index)</li>
-<li><strong>Treatment Patterns</strong> - calculation of drug prevalence post-index, sequences and time to treatment discontinuation</li>
-<li><strong>Procedure Analysis</strong> - calculation of post-index prevalence of procedures and time to initial treatment</li>
-</ol>
-<p>Each task will output to the <code>results</code> folder. <strong>Note</strong> that the first task <em>buildCohorts</em> is required to run any additional analytical task (base dependency). If a cohort definition json has changed it requires rerunning the <em>buildCohorts</em> task.</p>
+<section id="r-packages" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> R Packages</h1>
+<p>The following is an exhaustive list of R packages active during the development of the EHDEN HMB study:</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="reactable html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-6d4d3c231d884570eb20" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-6d4d3c231d884570eb20">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Package":["abind","Achilles","Andromeda","anytime","ape","arrow","askpass","assertthat","attempt","aws.s3","aws.signature","backports","base64enc","base64url","BeastJar","benchmarkme","benchmarkmeData","BH","bigD","BigKnn","bit","bit64","bitops","blob","brew","brio","BrokenAdaptiveRidge","broom","broom.helpers","bslib","cachem","callr","Capr","car","carData","CDMConnector","CdmInspection","cellranger","Characterization","checkmate","CirceR","cli","clipr","clock","coda","CodelistGenerator","CohortDiagnostics","CohortExplorer","CohortGenerator","CohortIncidence","CohortMethod","colorBlindness","colorspace","commonmark","CompQuadForm","config","conflicted","corrplot","covr","cowplot","cpp11","crayon","credentials","crosstalk","crul","curl","Cyclops","data.table","DatabaseConnector","DataQualityDashboard","DBI","dbplyr","DeepPatientLevelPrediction","deldir","desc","devtools","diffobj","digest","downlit","downloader","dplyr","DT","dtplyr","duckdb","emmeans","EmpiricalCalibration","EnsemblePatientLevelPrediction","estimability","Eunomia","evaluate","EvidenceSynthesis","exactRankTests","extrafont","extrafontdb","fansi","farver","fastmap","FeatureExtraction","filelock","flextable","fontawesome","fontBitstreamVera","fontLiberation","fontquiver","forcats","foreach","forge","formatR","Formula","fs","gargle","gdata","gdtools","generics","gert","gfonts","ggdist","ggh4x","ggiraph","ggplot2","ggpubr","ggrepel","ggsci","ggsignif","ggstance","ggsurvfit","ggtext","gh","gitcreds","globals","glue","googledrive","googlesheets4","googleVis","grafify","gridExtra","gridGraphics","gridtext","gt","gtable","gtools","gtsummary","Hades","haven","HDInterval","here","highr","Hmisc","hms","htmlTable","htmltools","htmlwidgets","httpcode","httpuv","httr","httr2","Hydra","ids","igraph","ini","interp","isoband","IterativeHardThresholding","iterators","jpeg","jquerylib","jsonlite","juicyjuice","kableExtra","keyring","km.ci","KMsurv","knitr","labeling","labelled","later","latticeExtra","lazyeval","lifecycle","lme4","lmerTest","lubridate","magrittr","maptools","markdown","markdownInput","mathjaxr","Matrix","MatrixModels","maxstat","memoise","memuse","meta","metadat","metafor","MethodEvaluation","mime","miniUI","minqa","modelr","multcomp","munsell","mvtnorm","networkD3","nloptr","numDeriv","odbc","OhdsiSharing","OhdsiShinyModules","openssl","openxlsx","packrat","ParallelLogger","patchwork","PatientLevelPrediction","pbapply","pbkrtest","permute","PhenotypeLibrary","PheValuator","pillar","pkgbuild","pkgconfig","pkgdown","pkgload","plogr","plotly","plyr","png","polspline","polynom","pool","praise","prettyunits","pROC","processx","profvis","progress","promises","PRROC","ps","purrr","quantreg","quarto","R.methodsS3","R.utils","R6","ragg","rappdirs","rateratio.test","rcmdcheck","RColorBrewer","Rcpp","RcppArmadillo","RcppEigen","RcppProgress","RcppTOML","RCurl","reactable","reactR","readr","readxl","rematch","rematch2","remotes","renv","reprex","reshape2","ResultModelManager","reticulate","rex","rJava","rjson","RJSONIO","rlang","rmarkdown","rms","ROhdsiWebApi","roxygen2","RPostgres","rprojroot","rsconnect","rstatix","rstudioapi","Rttf2pt1","rversions","rvest","sandwich","sass","scales","selectr","SelfControlledCaseSeries","SelfControlledCohort","sessioninfo","shiny","shinyAce","ShinyAppBuilder","shinycssloaders","shinydashboard","shinyjs","shinymeta","shinyWidgets","snakecase","snow","sodium","sourcetools","sp","SparseM","SqlRender","Strategus","stringi","stringr","survival","survminer","survMisc","svglite","sys","systemfonts","targets","testthat","textshaping","TH.data","tibble","tictoc","tidyr","tidyselect","tidyverse","timechange","tinytex","tippy","torch","triebeard","tzdb","Ulysses","urlchecker","urltools","usethis","utf8","uuid","V8","vctrs","vegan","viridis","viridisLite","vroom","waldo","webshot","whisker","withr","xfun","XML","xml2","xopen","xtable","yaml","zip","zoo","base","boot","class","cluster","codetools","compiler","datasets","foreign","graphics","grDevices","grid","KernSmooth","lattice","MASS","Matrix","methods","mgcv","nlme","nnet","parallel","rpart","spatial","splines","stats","stats4","survival","tcltk","tools","utils"],"Version":["1.4-5","1.7.2","0.6.3","0.3.9","5.7-1","12.0.1.1","1.1","0.2.1","0.3.1","0.3.21","0.6.0","1.4.1","0.1-3","1.4","1.10.6","1.0.8","1.0.4","1.81.0-1","0.2.0","1.0.2","4.0.5","4.0.5","1.0-7","1.2.4","1.0-8","1.1.3","1.0.0","1.0.5","1.13.0","0.5.0","1.0.8","3.7.3","2.0.4","3.1-2","3.0-5","1.0.0","1.0.4","1.1.0","0.1.1","2.2.0","1.3.0","3.6.1","0.8.0","0.7.0","0.19-4","1.6.0","3.2.3","0.0.14","0.8.0","3.1.0","5.0.0","0.1.9","2.1-0","1.9.0","1.4.3","0.3.1","1.2.0","0.92","3.6.2","1.1.1","0.4.5","1.5.2","1.3.2","1.2.0","1.4.0","5.0.1","3.3.1","1.14.8","6.2.3","2.3.0","1.1.3","2.3.3","1.1.6","1.0-9","1.4.2","2.4.5","0.3.5","0.6.33","0.4.3","0.4","1.1.2","0.28","1.3.1","0.8.1-1","1.8.7","3.1.1","1.0.2","1.4.1","1.0.2","0.21","0.5.0","0.8-35","0.19","1","1.0.4","2.1.1","1.1.1","3.3.0","1.0.2","0.9.2","0.5.1","0.1.1","0.1.0","0.2.1","1.0.0","1.5.2","0.2.0","1.14","1.2-5","1.6.3","1.5.2","2.19.0","0.3.3","0.1.3","1.9.2","0.2.0","3.3.0","0.2.5","0.8.7","3.4.2","0.6.0","0.9.3","3.0.0","0.6.4","0.3.6","0.3.0","0.1.2","1.4.0","0.1.2","0.16.2","1.6.2","2.1.1","1.1.1","0.7.1","3.2.0","2.3","0.5-1","0.1.5","0.9.0","0.3.3","3.9.4","1.7.2","1.13.0","2.5.3","0.2.4","1.0.1","0.1","5.1-0","1.1.3","2.4.1","0.5.5","1.6.2","0.3.0","1.6.11","1.4.6","0.2.3","0.4.0","1.0.1","1.5.0.1","0.3.1","1.1-4","0.2.7","1.0.2","1.0.14","0.1-10","0.1.4","1.8.7","0.1.0","1.3.4","1.3.1","0.5-6","0.1-5","1.43","0.4.2","2.12.0","1.3.1","0.6-30","0.2.2","1.0.3","1.1-34","3.1-3","1.9.2","2.0.3","1.1-8","1.7","0.1.2","1.6-0","1.6-0","0.5-2","0.7-25","2.0.1","4.2-3","6.5-0","1.2-0","4.2-0","2.3.0","0.12","0.1.1.1","1.2.5","0.1.11","1.4-25","0.5.0","1.2-2","0.4","2.0.3","2016.8-1.1","1.3.5","0.2.2","1.1.0","2.1.0","4.2.5.2","0.9.1","3.2.0","1.1.2","6.3.3","1.7-2","0.5.2","0.9-7","3.15.0","2.2.8","1.9.0","1.4.2","2.0.3","2.0.7","1.3.2.1","0.2.0","4.10.2","1.8.8","0.1-8","1.1.23","1.4-1","1.0.1","1.0.0","1.1.1","1.18.4","3.8.2","0.3.8","1.2.2","1.2.0.1","1.3.1","1.7.5","1.0.1","5.96","1.2","1.8.2","2.12.2","2.5.1","1.2.5","0.3.3","1.1","1.4.0","1.1-3","1.0.11","0.12.4.1.0","0.3.3.9.3","0.4.2","0.2.2","1.98-1.12","0.4.4","0.4.4","2.1.4","1.4.3","1.0.1","2.1.2","2.4.2.1","1.0.0","2.0.2","1.4.4","0.4.0","1.3","1.2.1","1.0-6","0.2.21","1.3-1.8","1.1.1","2.23","6.7-0","1.3.3","7.2.3","1.4.5","2.0.3","1.0.1","0.7.2","0.15.0","1.3.12","2.1.2","1.0.3","3.0-2","0.4.7","1.2.1","0.4-2","4.2.0","1.6.0","1.2.2","1.7.5","0.4.2","1.1.2","1.0.0","0.7.2","2.1.0","0.2.0.3","0.7.6","0.11.0","0.4-4","1.2.1","0.1.7-1","2.0-0","1.81","1.15.1","0.0.6","1.7.12","1.5.0","3.5-5","0.4.9","0.5.6","2.1.1","3.4.2","1.0.4","1.2.0","3.1.10","0.3.6","1.1-2","3.2.1","1.2","1.3.0","1.2.0","2.0.0","0.2.0","0.45","0.1.0","0.11.0","0.4.1","0.4.0","0.0.2","1.0.1","1.7.3","2.2.2","1.2.3","1.1-0","4.3.3","0.6.3","2.6-4","0.6.4","0.4.2","1.6.3","0.5.1","0.5.5","0.4.1","2.5.0","0.39","3.99-0.14","1.3.5","1.0.0","1.8-4","2.3.7","2.3.0","1.8-12","4.2.1","1.3-28","7.3-20","2.1.3","0.2-18","4.2.1","4.2.1","0.8-82","4.2.1","4.2.1","4.2.1","2.23-20","0.20-45","7.3-57","1.4-1","4.2.1","1.8-40","3.1-157","7.3-17","4.2.1","4.1.16","7.3-15","4.2.1","4.2.1","4.2.1","3.3-1","4.2.1","4.2.1","4.2.1"]},"columns":[{"id":"Package","name":"Package","type":"character"},{"id":"Version","name":"Version","type":"character"}],"filterable":true,"searchable":true,"striped":true,"dataKey":"a2e3174907b3ea142d0ab02e6eb6c984"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
