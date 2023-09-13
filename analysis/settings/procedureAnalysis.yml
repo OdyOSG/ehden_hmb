@@ -1,4 +1,4 @@
-treatmentPatterns:
+timeToEvent:
   cohorts:
     targetCohorts:
     - name: hmb
@@ -30,4 +30,5 @@ treatmentPatterns:
   - startDays: 731
     endDays: 1825
   outputFolder:
-  - 08_postIndexPrevalenceProcedures
+  - 01_postIndexPrevalenceProcedures
+  - 12_timeToIntervention
