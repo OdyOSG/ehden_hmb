@@ -1,0 +1,351 @@
+---
+title: Study Analysis Plan for EHDEN HMB
+author: 
+  - Martin Lavallee
+  - Siir Su Saydam
+  - Marta Pineda Moncusi
+  - Asieh Golozar
+date: "2023-08-04"
+number-sections: true
+bibliography: references.bib
+csl: vancouver.csl
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Background {#sec-background}
+
+Heavy menstrual bleeding (HMB) is a symptom that has been defined as an “excessive menstrual blood loss, which interferes with a woman’s physical, social, emotional and/or material quality of life, and which can occur alone or in combination with other symptoms” [@munro2018; @karlsson2014; @Shimamoto2021-sd; @Weyand2022-ay]. Large real-world population-based studies are not currently available to quantify and comprehensively characterize women with HMB with respect to age at diagnosis, reproductive history and reproductive age, underlying conditions associated with HMB, as well as other comorbidities and comedications.
+
+The concept for this study originated from a study proposal awarded by the European Health Data and Evidence Network (EHDEN), a public-private consortium of the Innovative Medicine Initiative (IMI). EHDEN is creating a federated network of real-world data (RWD) sources across Europe, all of which are standardized to the Observational Medical Outcomes Partnerships (OMOP) common data model (CDM), which maps diverse database codes to a standardized set of concepts. The use of standardized OMOP CDM data is particularly relevant for this study, as it enables the characterization of HMB patients and their treatment pathways across multiple countries and healthcare systems. 
+
+This study is designed in two parts. Part 1 of this study is conducted internally by Bayer to describe incidence of HMB, clinical characteristics of women diagnosed with HMB and treatment pathways in five healthcare databases covering the UK, Germany, France and the US. This study is later amended for the currently proposed study (Part 2) to be released for execution in additional countries within EHDEN. The study will generate evidence to identify women diagnosed with HMB in respective databases, as well as these patients’ baseline characteristics and longitudinal treatment pathways across countries with different healthcare systems. The purpose of this document is to elaborate on the study design constructed by Odysseus Data Services.  A separate protocol has been written by Bayer.
+
+
+# Research Questions {#sec-questions}
+
+-   What are the characteristics of women diagnosed with HMB in terms of demographics, comorbidities, procedures, and comedication?
+-   What are the treatment patterns of women diagnosed with HMB?
+-   What is the incidence of HMB across different countries and data sources?
+
+# Objectives
+
+## Primary Objectives {#sec-primaryObj}
+
+The primary objectives of this study are to:
+
+-   Describe demographics and baseline clinical characteristics of women of reproductive age diagnosed with HMB.
+-   Describe treatment utilization and longitudinal treatment pathways of women of reproductive age diagnosed with HMB across different countries and data sources.
+
+## Exploratory Objectives {#sec-exploratoryObj}
+
+The exploratory objectives of this study are to: 
+
+- Estimate the incidence of HMB per calendar year and over the entire study period in selected data sources. 
+- Describe country-specific guideline compliant treatment use where national treatment guidelines are available for HMB.
+
+
+# Study Design {#sec-design}
+
+This large-scale retrospective cohort study will be conducted across a network of European healthcare databases standardized to the OMOP CDM. Databases assessed in this study are either: a) Bayer data assets (CPRD GOLD, CPRD Aurum, Optum Claims, MarketScan) or b) participating EHDEN data partners. The final list of EHDEN data partners will be provided in the Data Sources section.
+
+The study period begins on January 1, 1999 (or earliest date of data availability following this date) and ends at the latest date of data availability in each database. Persons involved in this study must have a minimum of one-year prior observation in the database, therefore the indexing period begins on January 1, 2000.
+
+The study population for this study are women between the ages of 11 and 55 who have a first-time diagnosis of HMB, given that they have at least 365 days of continuous observation prior to the index date. More details of the study population are found in @sec-target.
+
+
+## Study Population {#sec-target}
+
+The study population are women between the ages of 11 to 55 who with a diagnosis of heavy-menstrual bleeding (index event) on or after January 1, 2000 and up to the date of latest data availability at the time of study conduct. Study end date might show variability across data sources. Women entering the HMB cohort must have a minimum of 365 days of prior observation. Female patients are excluded from the cohort if they have one of the following criteria:
+
+1)	Observation of a hysterectomy or bilateral oophorectomy on or anytime prior to index date
+2)	Observation of a menopause (induced or natural) diagnosis on or anytime prior to index date
+3)	Observation of postcoital bleeding on or 365 days prior to index date
+4)	Observation of medical records indicating pregnancy on or 180 days prior to index date 
+5)	Observation of uterine or ovarian cancer diagnosis on or anytime prior to index date 
+
+Female patients are followed up until end of continuous observation or observation of one of the following, whichever occurs first:
+
+-	Death
+-	At least one visit occurrence  at age > 55 years (visit occurrences capture any type of healthcare interaction in the database, to account for patients reach the age of > 55 years)
+-	At least one observation of a hysterectomy or bilateral oophorectomy
+-	At least one observation of a menopause diagnosis
+-	At least one observation of uterine or ovarian cancer diagnosis 
+-	At least on observation of medical records related to pregnancy 
+
+
+### Incidence Denominator Cohort {#sec-denominator}
+
+For the incidence calculation, the denominator is  women with any kind of healthcare (index event) observed between the years of 2000 and 2022. Women in the denominator cohort must have a minimum of 365 days of prior observation and no record of hysterectomy, bilateral oophorectomy, or menopause (natural or induced) diagnosis in the patient records.  
+
+Female patients are followed up until end of continuous observation or observation of one for the follow, whichever occurs first:
+
+- end of continuous observation in the database
+- at least one visit occurrence at age > 55 years
+- menopause (induced or natural)
+- hysterectomy or bilateral oophorectomy
+- uterine or ovarian cancer
+- pregnancy
+- death
+
+Concepts and logic for the cohort definitions of the study population and incidence denominator will be supplied in the *CohortDetails* supplementary file. 
+
+
+## Exposure Definition
+
+There is no exposure definition in this study. 
+
+
+## Outcome Definition
+
+There is no outcome definition in this study. 
+
+
+# Data Sources {#sec-dataSources}
+
+The data sources for this study include a) Bayer OMOP assets of CPRD Aurum, CPRD GOLD, Optum Claims, MarketScan and b) European databases that are part of EHDEN. All databases used in this study have been standardized to the OMOP CDM. The table below is subject to change upon confirmation of data partners. 
+
+```{r}
+#| label: tbl-data_sources
+#| echo: false
+#| tbl-cap: Data Sources used in study
+
+dataSources <- tibble::tribble(
+  ~Name, ~Country, ~Type, ~Size, ~Availability, ~Description,
+  "CPRD AURM", "UK", "EHR", "<Count>", "<Dates>", "Primary care data from a participating electronic system in England",
+  "CPRD AURM", "UK", "EHR", "<Count>", "<Dates>", "Primary care data from across the UK",
+  "Optum Claims", "US", "Claims", "<Count>", "<Dates>", " US commercial claims covering all 50 states",
+  "MarketScan", "US", "Claims", "<Count>", "<Dates>", " US commercial claims covering all 50 states",
+  "Hospital del Mar", "Spain", "EHR", "<Count>", "<Dates>", "Hospital data from Barcelona Spain", 
+  "Ministry of Health", "Israel", "EHR", "<Count>", "<Dates>", "<Description>", 
+  "Cegedim THIN", "Belgium", "EHR", "<Count>", "<Dates>", "<Description>", 
+  "Disease Analyzer", "Germany", "EHR", "<Count>", "<Dates>", "<Description>",
+  "FinnGen", "Finland", "EHR", "<Count>", "<Dates>", "<Description>",
+  "Semmelweis University", "Hungary", "EHR", "<Count>", "<Dates>", "<Description>",
+  "University of Oslo", "Norway", "EHR", "<Count>", "<Dates>", "<Description>"
+)
+
+knitr::kable(dataSources)
+
+```
+
+
+# Analysis Plan 
+
+## Cohort Diagnostics {#sec-cd}
+
+Prior to running any specific analysis, we will evaluate the HMB cohort using the OHDSI R package `CohortDiagnostics` [@cd]. This package produces metrics such as cohort counts in the database, incidence rates (by calendar year, age and gender), time distributions, cohort attrition and breakdown of index events. Evaluation of these metrics helps ensure that the clinical cohort is indeed reliable in capturing HMB in the OMOP database.
+
+## Baseline Characteristics {#sec-baseline}
+
+We assess baseline characteristics based on an observation window of 365 to 0 days prior to the index date , unless specified otherwise. Categorical covariates are reported as counts and percentages. Continuous covariates are reported as median, interquartile range (25th and 75th percentile), minimum and maximum.
+
+**Demographics**
+
+-   Age at HMB diagnosis as 5-year categories
+-   Age at HMB diagnosis as continuous
+-   Race (if available)
+-   Ethnicity (if available)
+-   Year of HMB Diagnosis (per calendar year)
+-   Comorbidity Scores
+    -   Charlston Comorbidity Score (as a continuous score)
+    -   CHADs2Vasc (as a continuous score)
+-   BMI (if available) continuous and in following categories
+    -   Underweight (< 18.5 kg/m^2)
+    -   Normal Weight (18.5 - 24.9 kg/m^2)
+    -   Overweight (25.0 - 29.9 kg/m^2)
+    -   Obese (30.0 - 39.9 kg/m^2)
+    -   Morbidly obese (> 40.0 kg/m^2)
+    -   Missing
+
+**Concept-based**
+
+For analysis on data converted to the OMOP CDM, covariates can be assessed based on either singular standardized concepts from the OMOP Vocabulary or by bundling multiple concepts through cohort definitions. A concept-based covariate describes the occurrence of an event based on the presence of a standardized code in the OMOP CDM. For conditions, standardized concepts are based on Systematized Nomenclature of Medicine Vocabulary (SNOMED) and its hierarchy; including descendant concepts that are linked to the top-level term. For drugs, standardized concepts are based on the RxNorm vocabulary, where the hierarchy is rolled up to classes of the Anatomical Therapeutic Chemical (ATC) vocabulary. Assessing concept-based covariates, in an OMOP analysis, is a general approach to assessing the clinical features of a population because it considers a very large set of features with minimal user specification. 
+
+-   Drug Era individual and rolled up to ATC2 Categories
+-   Condition Era individual and rolled up to ICD10 Chapters
+
+**Note**: Concept-based covariates are based on prevalence concepts accumulated via `FeatureExtraction` [@fe].
+
+**Cohort-based**
+
+Cohort-based covariates, in an OMOP analysis, are more specific definitions of clinical concepts of interest that are built using multiple concepts from the OMOP standardized vocabulary. Cohort-based covariates are used in the context of this study to specifically identify conditions of interest, determined prior to the study execution, that are not sufficiently identified via single concepts in the OMOP vocabulary.
+
+-   Conditions
+    -   Underlying Causes of HMB (individual)
+        -   Uterine endometrial polyps
+        -   Adenomyosis
+        -   Uterine leiomyoma (fibroids) (subserous or intramural)
+        -   Uterine malignancy and endometrial hyperplasia
+        -   Coagulopathy / coagulation disorders
+        -   Ovulatory dysfunction (including hypothyroidism, polycystic ovary syndrome, adrenal disorders, hyperprolactinemia, hypothalamic disorders)
+        -   Endometrial dysfunction
+        -   Iatrogenic HMB
+        -   Endometriosis
+        -   Idiopathic menorrhagia
+    -   Other Conditions
+        -   Diabetes Mellitus
+        -   Polycystic Ovary Syndrome (PCOS)
+        -   Dysmenorrhea
+        -   Pain
+        -   Anemia
+        -   Iron deficiency anemia
+-   Comedications
+    -   Antithrombotic Agents
+    -   Antidepressants
+    -   Tamoxifen
+    -   Antipsychotics
+    -   Gonadal Steroids
+    -   Tranexamic acid
+    -   Progestin only regimens:
+        -   Medroxyprogesterone acetate (MPA)
+        -   Oral norethindrone acetate (NETA)
+        -   Desogestrel
+        -   Etonogestrel implant
+        -   Drospirenone
+    -   Non-steroidal anti-inflammatory drugs (NSAIDs)
+    -   Combined oral hormonal contraceptives
+    -   Ulipristal acetate
+    -   Danazol
+    -   Gonadotropin releasing hormone analogues
+    -   Intrauterine devices
+    -   Iron preparations
+-   Procedures
+    -   Endometrial ablation
+    -   Uterine artery embolization (UAE)
+    -   Myomectomy
+    -   Blood transfusion
+    -   Intrauterine devices (recorded as procedures)
+
+
+Concepts and logic for these cohort definitions will be supplied in the CohortDetails supplementary file. 
+
+## Underlying Causes of HMB {#sec-underlying}
+
+In addition to assessing characteristics at baseline, proportion of patients with underlying causes of HMB will be calculated. Conditions that are considered to be underlying causes of HMB will be characterized prior 365 days prior to and including index as well as post-index in the following time intervals: 1 to 365 days, 366 to 730 days, and 731 to 1825 days from index date. Reported counts will be limited to the first occurrence of the underlying cause. The underlying causes of HMB are:
+
+- Uterine endometrial polyps
+- Adenomyosis
+- Uterine leiomyoma 
+- Endometrial hyperplasia
+- Coagulopathy or coagulation disorders
+- Ovulatory dysfunction (including hypothyroidism, polycystic ovary syndrome, adrenal disorders, hyperprolactinemia, hypothalamic disorders)
+- Endometriosis
+
+The logic and concept set for the cohort definitions for these underlying causes of HMB will be supplied in the CohortDetails supplementary document. 
+
+
+## Treatment Patterns {#sec-TxPat}
+
+In this study we assess the treatment patterns for female patients with HMB which encompasses three metrics: first, the prevalence of drug use at pre-defined time windows post-index; second, the patterns of treatments including single drugs and combinations of treatment (later referred to as treatment pathways); and third, the length of time spent taking the drug exposures of interest, both as single exposures or in combination (time to treatment discontinuation). The drug exposures of interest can be defined as prescription treatments and treatment procedures.
+
+Prescription treatments of interest are:
+
+-   Tranexamic acid
+-   Progestin only regimens:
+    -   Medroxyprogesterone acetate (MPA)
+    -   Oral norethindrone acetate (NETA)
+    -   Desogestrel
+    -   Etonogestrel implant
+    -   Drospirenone
+-   Non-steroidal anti-inflammatory drugs (NSAIDs)
+-   Combined oral hormonal contraceptives
+-   Ulipristal acetate
+-   Danazol
+-   Gonadotropin releasing hormone analogues
+-   Intrauterine devices
+
+For the treatment patterns analysis, a set of drug exposure cohorts will be defined, where the index event of each cohort is prescription of one of the drugs of interest during the study period. People remain in the cohort if they satisfy the selection criteria for the study cohort.   A person's time in the cohort prior to exit is determined by a drug era. The drug era is the span of time a person is considered continuously exposed to the same treatment. Eras are built by binding successive drug exposure events into a single duration where the person is inferred to be continuing use of that same treatment. A maximum of 30 days between drug exposure records are allowed to consider these exposures as a part of the same era. Thus, if a person has two of the same drug exposures within 30 days of each other, they are bundled into one era where the time elapsed is marked by the date of the successive exposure. This also means that if there is a gap greater than 30 days between the same treatment, this would indicate two separate eras in the treatment history for the individual person. A person is observed in the drug exposure cohort until either the end of a continuous era or one of the following censoring events, whichever occurs first:
+
+- end of continuous observation in the database
+- at least one visit occurrence at age > 55 years
+- menopause (induced or natural)
+- hysterectomy or bilateral oophorectomy
+- uterine or ovarian cancer
+- pregnancy
+- death
+
+
+Treatment discontinuation is defined when there is a gap of at least 30 days between successive exposures of the same treatment. A treatment combination is defined as an overlap in two different exposures of at least 30 days. This means if two drugs are being taken by the same patient for at least 30 days it is considered a treatment combination. If the overlap of two drugs is less than 30 days, it is considered a switch to the drug whose era persists. For example, if drug A starts first and then overlaps with drug B for 15 days, with drug B continuing onward, the treatment history would consider this a switch from drug A to drug B and no combination. 
+
+For the procedure analysis as a part of treatment patterns, we define cohorts where the index event for the procedure cohort is a first time occurrence of one of the procedures of interest in the patient history. Women in the procedure cohort must have at least 365 days of prior observation. 
+
+
+Treatment procedures of interest are:
+
+- Hysterectomy
+- Endometrial ablation
+- Uterine artery embolization (UAE)
+- Myomectomy
+
+
+### Prevalence of Drug Exposures {#sec-prevDrugExp} 
+
+The first metric under treatment patterns analysis is the prevalence of drug exposure over a set of defined time intervals. Prevalence is defined as the proportion of the study population who had the records of the treatments of interest during the interval. The time windows for the prevalence of drug exposures for women in the HMB cohort are: at index, 1 to 183 days, 184 to 365 days, 366 to 730 days, and 731 to 1825 days post index. Counts and percentages for each drug exposure cohort (from the listed above) will be reported at each time window.
+
+
+### Treatment Pathways {#sec-txSeq}
+
+For each female with HMB, the sequence of treatments taken throughout the patient history will be characterized. The first 15 sequences will be reported for each database where each sequence must have a minimum of 10 unique persons to be included in the treatment pathways report. Treatment procedures will be handled differently The treatment sequence results will be displayed using a Sankey diagram, complemented by a summary table that shows the enumeration of each specific sequence. 
+
+### Time to Discontinuation {#sec-ttd}
+
+Using the treatment history, we calculate the median (and 95% confidence interval) time spent on a specific drug using the Kaplan-Meier (KM) methodology. Events are censored if the persons had any kind of healthcare interaction at age > 55 years, menopause (induced or natural), hysterectomy or bilateral oophorectomy, uterine or ovarian cancer, pregnancy or all-cause mortality. Combinations of treatments will be handled as its own era in the calculation of time to discontinuation. 
+
+
+## Incidence Analysis (Exploratory) 
+
+### Overall Incidence
+
+The overall and yearly incidence rate of HMB is calculated in each participating database. The numerator in the incidence calculation is the HMB target cohort defined in Section 4.1 and the denominator is the cohort of women with a healthcare visit as defined in Section 4.1.1. Incidence rate is defined based on the following formula:
+
+$$
+IR = \frac{\text{Number of new cases in time period}}{\text{Total person-time of the at risk population}} \times 1000
+$$ 
+
+The incidence of HMB will be reported overall and per calendar year to show any variation over time. The incidence will be calculated using the CohortIncidence package from HADES [@ci].
+
+### Guideline Compliance
+
+The assessment of country-specific guideline compliant treatment use will only be conducted for countries for which national treatment guidelines are available for HMB. For this outcome, treatment patterns analysis will be implemented in the same way as described in @sec-prevDrugExp and @sec-txSeq. Based on the relevant national guidelines, recommended treatments will be categorized together under the same group for which the prevalence of exposures after index and the proportion for those treatments that were first line in the treatment pathways analysis will be reported.
+
+
+```{r}
+#| label: tbl-guidlines
+#| echo: false
+#| tbl-cap: Country Guidelines for HMB Treatment
+
+guidelineCompliance <- tibble::tribble(
+  ~Country, ~Compliant,
+  "UK", "Plastic IUD with progestogen as first line treatment",
+  "US", "Combined hormonal contraceptives, oral and injectable progestins, and plastic IUD with progestogen as first-line treatment."
+)
+
+knitr::kable(guidelineCompliance)
+
+```
+
+
+**Guideline Recommendation**
+
+- United Kingdom
+    - The following treatment options for HMB should be considered: 
+        - the woman's preferences 
+        - any comorbidities 
+        - the presence or absence of fibroids (including size, number and location), polyps or endometrial pathology 
+        - other symptoms, such as pressure and pain
+    - LNG-IUD could be considered as the first treatment for HMB in women with either: 
+        - no identified pathology 
+        - fibroids less than 3cm in diameter, which are not causing distortion of the uterine cavity
+- United States
+    - Adolescents: After correction of acute heavy menstrual bleeding, maintenance hormonal therapy can include combined hormonal contraceptives, oral and injectable progestins, and levonorgestrel-releasing intrauterine devices (LNG-IUDs).
+    - Non-pregnant reporductive age women: Medical  therapy is considered the preferred initial treatment, if clinically appropriate. Options include IV conjugated equine estrogen, multi-dose regimens of OCs or oral progestins, and tranexamic acid. Decisions should be based on the patient’s medical history and contraindications to therapies. 
+    - Once the acute bleeding episode has been controlled, transitioning the patient to long-term maintenance therapy is recommended.
+    
+  
+# References
+
+::: {#refs}
+:::
