@@ -19,6 +19,8 @@ procedureAnalysis:
     - name: uae
       id: 31
   timeWindow:
+  - startDays: -365
+    endDays: 0
   - startDays: 1
     endDays: 183
   - startDays: 1
