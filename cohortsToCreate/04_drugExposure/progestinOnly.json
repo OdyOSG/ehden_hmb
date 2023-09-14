@@ -1,0 +1,274 @@
+{
+    "ConceptSets": [
+      {
+        "id": 5,
+        "name": "[ehden-hmb] Progestin only regimens",
+        "expression": {
+          "items": [
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "ATC 5th",
+                "CONCEPT_CODE": "G03DC02",
+                "CONCEPT_ID": 21602553,
+                "CONCEPT_NAME": "norethisterone; oral",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "C",
+                "STANDARD_CONCEPT_CAPTION": "Classification",
+                "VOCABULARY_ID": "ATC"
+              },
+              "includeDescendants": true
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "ATC 5th",
+                "CONCEPT_CODE": "G03AC06",
+                "CONCEPT_ID": 21602502,
+                "CONCEPT_NAME": "medroxyprogesterone; parenteral",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "C",
+                "STANDARD_CONCEPT_CAPTION": "Classification",
+                "VOCABULARY_ID": "ATC"
+              },
+              "includeDescendants": true
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Branded Drug Comp",
+                "CONCEPT_CODE": "646248",
+                "CONCEPT_ID": 19037710,
+                "CONCEPT_NAME": "etonogestrel 68 MG [Implanon]",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              },
+              "includeDescendants": true
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Clinical Drug Comp",
+                "CONCEPT_CODE": "798355",
+                "CONCEPT_ID": 1519940,
+                "CONCEPT_NAME": "etonogestrel 0.005 MG/HR",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              },
+              "includeDescendants": true
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Branded Drug Form",
+                "CONCEPT_CODE": "OMOP682984",
+                "CONCEPT_ID": 43785467,
+                "CONCEPT_NAME": "Etonogestrel Drug Implant [Implanon Nxt]",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm Extension"
+              },
+              "includeDescendants": true
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Clinical Drug Comp",
+                "CONCEPT_CODE": "393400",
+                "CONCEPT_ID": 19102032,
+                "CONCEPT_NAME": "etonogestrel 68 MG",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              },
+              "includeDescendants": true
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Branded Drug Form",
+                "CONCEPT_CODE": "OMOP5021462",
+                "CONCEPT_ID": 35865003,
+                "CONCEPT_NAME": "etonogestrel Drug Implant [Yibannong]",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm Extension"
+              },
+              "includeDescendants": true
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Branded Drug Comp",
+                "CONCEPT_CODE": "1111009",
+                "CONCEPT_ID": 40240084,
+                "CONCEPT_NAME": "etonogestrel 68 MG [Nexplanon]",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              },
+              "includeDescendants": true
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Branded Drug Form",
+                "CONCEPT_CODE": "1111010",
+                "CONCEPT_ID": 40240085,
+                "CONCEPT_NAME": "etonogestrel Drug Implant [Nexplanon]",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              },
+              "includeDescendants": true
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Branded Drug Comp",
+                "CONCEPT_CODE": "OMOP682985",
+                "CONCEPT_ID": 43605579,
+                "CONCEPT_NAME": "Etonogestrel 68 MG [Implanon Nxt]",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm Extension"
+              },
+              "includeDescendants": true
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Branded Drug Form",
+                "CONCEPT_CODE": "646249",
+                "CONCEPT_ID": 40134832,
+                "CONCEPT_NAME": "etonogestrel Drug Implant [Implanon]",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              },
+              "includeDescendants": true
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Clinical Drug Comp",
+                "CONCEPT_CODE": "OMOP254396",
+                "CONCEPT_ID": 21133992,
+                "CONCEPT_NAME": "Etonogestrel 11.7 MG",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm Extension"
+              },
+              "includeDescendants": true
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Clinical Drug Form",
+                "CONCEPT_CODE": "393401",
+                "CONCEPT_ID": 40041368,
+                "CONCEPT_NAME": "etonogestrel Drug Implant",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              },
+              "includeDescendants": true
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "ATC 5th",
+                "CONCEPT_CODE": "G03AC10",
+                "CONCEPT_ID": 1588689,
+                "CONCEPT_NAME": "drospirenone; systemic",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "C",
+                "STANDARD_CONCEPT_CAPTION": "Classification",
+                "VOCABULARY_ID": "ATC"
+              },
+              "includeDescendants": true
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "ATC 5th",
+                "CONCEPT_CODE": "G03AC09",
+                "CONCEPT_ID": 21602505,
+                "CONCEPT_NAME": "desogestrel; systemic",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "C",
+                "STANDARD_CONCEPT_CAPTION": "Classification",
+                "VOCABULARY_ID": "ATC"
+              },
+              "includeDescendants": true
+            }
+          ]
+        }
+      }
+    ],
+    "PrimaryCriteria": {
+      "CriteriaList": [
+        {
+          "DrugExposure": {
+            "CodesetId": 5
+          }
+        }
+      ],
+      "ObservationWindow": {
+        "PriorDays": 0,
+        "PostDays": 0
+      },
+      "PrimaryCriteriaLimit": {
+        "Type": "All"
+      }
+    },
+    "QualifiedLimit": {
+      "Type": "First"
+    },
+    "ExpressionLimit": {
+      "Type": "All"
+    },
+    "InclusionRules": [],
+    "EndStrategy": {
+      "CustomEra": {
+        "DrugCodesetId": 5,
+        "GapDays": 30,
+        "Offset": 0
+      }
+    },
+    "CensoringCriteria": [],
+    "CollapseSettings": {
+      "CollapseType": "ERA",
+      "EraPad": 30
+    },
+    "CensorWindow": {},
+    "cdmVersionRange": ">=5.0.0"
+  }
