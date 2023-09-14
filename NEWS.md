@@ -1,3 +1,10 @@
+# EHDEN HMB v0.1.3
+
+* Update cohort definitions
+    - add baseline procedures
+    - add baseline drugs
+* Include procedure prevalence at baseline [-365,0]
+
 # EHDEN HMB v0.1.2
 
 * Update cohort definitions
