@@ -23,10 +23,10 @@ underlyingConditions:
     - name: uterineLeiomyoma
       id: 18
   timeWindow:
-  - startDays: 1
-    endDays: 365
-  - startDays: 366
-    endDays: 730
-  - startDays: 731
-    endDays: 1825
+  - startDay: 1
+    endDay: 365
+  - startDay: 366
+    endDay: 730
+  - startDay: 731
+    endDay: 1825
   outputFolder: 06_postIndexPrevalenceConditions

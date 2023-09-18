@@ -126,8 +126,8 @@ executeCohortPrevalence <- function(con,
   cohortKey <- analysisSettings[[1]]$cohorts$targetCohort
   covariateKey <- analysisSettings[[1]]$cohorts$covariateCohort
 
-  timeA <- analysisSettings[[1]]$timeWindow$startDays
-  timeB <- analysisSettings[[1]]$timeWindow$endDays
+  timeA <- analysisSettings[[1]]$timeWindow$startDay
+  timeB <- analysisSettings[[1]]$timeWindow$endDay
 
   #set ids
   cohortId <- cohortKey$id
