@@ -1,3 +1,9 @@
+# EHDEN HMB v0.1.4
+
+* Fix bug in baseline characteristics (typo in analysis settings)
+* Corrections to the study website
+
+
 # EHDEN HMB v0.1.3
 
 * Update cohort definitions
@@ -19,6 +25,7 @@
 * Add study website
 * Update cohort definitions for denominator
 * Addition of executeStudy.R file to automate execution
+* add age strata [under 30, 30-45, 45-55]
 
 # EHDEN HMB v0.1.0
 
