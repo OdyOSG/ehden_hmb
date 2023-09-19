@@ -58,6 +58,3 @@ aws.s3::put_object(
 )
 
 
-# F. Session Info ------------------------
-
-rm(list=ls())

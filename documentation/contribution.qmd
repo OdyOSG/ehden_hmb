@@ -60,4 +60,16 @@ Here are a few things you can do that will increase the likelihood of your pull 
 
 ## Sending Results
 
-Instructions for sending results will be sent in due course...
+Results from this study will be loaded to a secure file transfer protocol (sftp) hosted by Bayer. Participants in the study will be provided a key and password for the sftp emailed individually. Please contact the study coordinators if you do not have the sftp credentials prior to running the study. 
+
+### Instructions to Share
+
+1) Review that a sftp key and secret credential have been sent to your site via email
+2) Open the file `extras/ShareResults.R`
+3) Run the R file line by line
+    - When running L30 you will be asked to input the sftp credentials in a prompt
+    - Copy and paste the credentials into the prompt
+    - Replace L37 with a shortname for your study site
+    - Execute the remaining lines
+4) Contact the study coordinators that you have successfully uploaded your results to sftp
+
