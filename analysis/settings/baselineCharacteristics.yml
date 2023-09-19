@@ -59,6 +59,6 @@ baselineCharacteristics:
     - name: uterineLeiomyoma
       id: 26
   timeWindow:
-  - startDays: -365
-    endDays: 0
+  - startDay: -365
+    endDay: 0
   outputFolder: 05_baselineCharacteristics
