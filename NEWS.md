@@ -4,6 +4,10 @@
 * Update package website
 * Add yearly incidence to `Incidence Analysis` (Issue #13)
 * Add R scripts for data exchange and CD preview (Issue #14)
+* update cohort definitions from Siir
+    - copperIUDproc
+    - copperIUDdrug
+    - disorderOfOvary
 
 # EHDEN HMB v0.1.4
 

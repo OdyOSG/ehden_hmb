@@ -93,7 +93,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script async="" src="https://hypothes.is/embed.js"></script>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -211,6 +210,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#execution-script" id="toc-execution-script" class="nav-link" data-scroll-target="#execution-script"><span class="header-section-number">2.1</span> Execution Script</a></li>
   <li><a href="#study-tasks" id="toc-study-tasks" class="nav-link" data-scroll-target="#study-tasks"><span class="header-section-number">2.2</span> Study Tasks</a></li>
+  <li><a href="#review-cohort-diagnostics" id="toc-review-cohort-diagnostics" class="nav-link" data-scroll-target="#review-cohort-diagnostics"><span class="header-section-number">2.3</span> Review Cohort Diagnostics</a>
+  <ul class="collapse">
+  <li><a href="#troubleshooting-1" id="toc-troubleshooting-1" class="nav-link" data-scroll-target="#troubleshooting-1"><span class="header-section-number">2.3.1</span> Troubleshooting</a></li>
+  </ul></li>
+  <li><a href="#results-folder" id="toc-results-folder" class="nav-link" data-scroll-target="#results-folder"><span class="header-section-number">2.4</span> Results Folder</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -361,6 +365,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Procedure Analysis</strong> - calculation of post-index prevalence of procedures and time to initial treatment</li>
 </ol>
 <p>Each task will output to the <code>results</code> folder. <strong>Note</strong> that the first task <em>buildCohorts</em> is required to run any additional analytical task (base dependency). If a cohort definition json has changed it requires rerunning the <em>buildCohorts</em> task.</p>
+</section>
+<section id="review-cohort-diagnostics" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="review-cohort-diagnostics"><span class="header-section-number">2.3</span> Review Cohort Diagnostics</h2>
+<p>If you would like to review the results of the Cohort Diagnostics prior to sending you can do so by the instructions below:</p>
+<ol type="1">
+<li>Open the file <code>extras/ExploreDiagnostics.R</code></li>
+<li>Run the R file line by line
+<ul>
+<li>Replace L20 with the name of your database</li>
+<li>L28 will create a new folder in the directory called <code>scratchDiagnostics</code> where it will save the sqlite object</li>
+<li>L36 prepares the diagnostics results per database</li>
+<li>L41 launches the shiny app</li>
+</ul></li>
+<li>Ignore any warning messages about reserved keywords and navigation containers</li>
+</ol>
+<section id="troubleshooting-1" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="troubleshooting-1"><span class="header-section-number">2.3.1</span> Troubleshooting</h3>
+<p><strong>Multiple Databases</strong></p>
+<p>Some data partners may be running this study on multiple databases. If that is the case then you to identify a folder that contains all the zip files produced from the <code>CohortDiagnostics</code> routine. To check if this file was produced, go into the <code>cohortDiagnostics</code> folder of each database and identify the <code>.zip</code> file amongst the csv. It should be labelled something like <code>Results_database.zip</code>. You can collect all of these zip files in a single folder and make the <code>dataFolder</code> target as the folder with the multiple zip files per database.</p>
+<p><strong>Shiny App</strong></p>
+<p>The shiny app rendered from <code>CohortDiagnostics</code> relies on the OHDSI package <code>OhdsiShinyModules</code>. This package is installed within the <code>renv</code> snapshot loaded with the package. If you are having trouble launching the app from within the <code>ehden_hmb.RProj</code>, exit the R project and try launching the app outside the study session. If you are outside the <code>ehden_hmb.RProj</code> remember you have to provide full file paths because you are no longer zoomed in on the study directory.</p>
+</section>
+</section>
+<section id="results-folder" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="results-folder"><span class="header-section-number">2.4</span> Results Folder</h2>
+<p>Following successful execution of the study, each database will have its own sub-folder within results. There will be a further 14 subfolders containing results from the execution underneath the database. Within each of these folders there will be a combination of <code>csv</code>, <code>rds</code> and <code>parquet</code> (only for treatmentHistory) that contain the results. You may review these files individually if you wish. Instructions on how to share the results are maintained in the contribution tab of the website.</p>
 
 
 </section>

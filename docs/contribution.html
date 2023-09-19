@@ -166,7 +166,10 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#branches-and-releases" id="toc-branches-and-releases" class="nav-link" data-scroll-target="#branches-and-releases"><span class="header-section-number">4</span> Branches and Releases</a></li>
   <li><a href="#contributing" id="toc-contributing" class="nav-link" data-scroll-target="#contributing"><span class="header-section-number">5</span> Contributing</a>
   <ul class="collapse">
-  <li><a href="#sending-results" id="toc-sending-results" class="nav-link" data-scroll-target="#sending-results"><span class="header-section-number">5.1</span> Sending Results</a></li>
+  <li><a href="#sending-results" id="toc-sending-results" class="nav-link" data-scroll-target="#sending-results"><span class="header-section-number">5.1</span> Sending Results</a>
+  <ul class="collapse">
+  <li><a href="#instructions-to-share" id="toc-instructions-to-share" class="nav-link" data-scroll-target="#instructions-to-share"><span class="header-section-number">5.1.1</span> Instructions to Share</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -250,9 +253,24 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <section id="sending-results" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="sending-results"><span class="header-section-number">5.1</span> Sending Results</h2>
-<p>Instructions for sending results will be sent in due course…</p>
+<p>Results from this study will be loaded to a secure file transfer protocol (sftp) hosted by Bayer. Participants in the study will be provided a key and password for the sftp emailed individually. Please contact the study coordinators if you do not have the sftp credentials prior to running the study.</p>
+<section id="instructions-to-share" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="instructions-to-share"><span class="header-section-number">5.1.1</span> Instructions to Share</h3>
+<ol type="1">
+<li>Review that a sftp key and secret credential have been sent to your site via email</li>
+<li>Open the file <code>extras/ShareResults.R</code></li>
+<li>Run the R file line by line
+<ul>
+<li>When running L30 you will be asked to input the sftp credentials in a prompt</li>
+<li>Copy and paste the credentials into the prompt</li>
+<li>Replace L37 with a shortname for your study site</li>
+<li>Execute the remaining lines</li>
+</ul></li>
+<li>Contact the study coordinators that you have successfully uploaded your results to sftp</li>
+</ol>
 
 
+</section>
 </section>
 </section>
 
