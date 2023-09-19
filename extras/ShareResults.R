@@ -46,10 +46,11 @@ utils::zip(zipPathName, files = filesToZip)
 #zip path location for new zip folder
 zipFilePath <- fs::path_abs(zipPathName) %>% fs::path(ext = "zip")
 
+
 #put zip file in the aws bucket
 aws.s3::put_object(
   file = zipFilePath,
-  object = zipPathName,
+  object = basename(zipFilePath),
   bucket = s3Bucket,
   multipart = TRUE,
   region = "eu-central-1",
