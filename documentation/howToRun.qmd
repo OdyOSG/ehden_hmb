@@ -149,5 +149,28 @@ Once your study is setup you are ready to run the EHDEN HMB study. The EHDEN HMB
 Each task will output to the `results` folder. **Note** that the first task *buildCohorts* is required to run any additional analytical task (base dependency). If a cohort definition json has changed it requires rerunning the *buildCohorts* task. 
 
 
+## Review Cohort Diagnostics
 
+If you would like to review the results of the Cohort Diagnostics prior to sending you can do so by the instructions below:
 
+1) Open the file `extras/ExploreDiagnostics.R`
+2) Run the R file line by line
+    - Replace L20 with the name of your database
+    - L28 will create a new folder in the directory called `scratchDiagnostics` where it will save the sqlite object
+    - L36 prepares the diagnostics results per database
+    - L41 launches the shiny app
+3) Ignore any warning messages about reserved keywords and navigation containers
+    
+### Troubleshooting
+
+**Multiple Databases**
+
+Some data partners may be running this study on multiple databases. If that is the case then you to identify a folder that contains all the zip files produced from the `CohortDiagnostics` routine. To check if this file was produced, go into the `cohortDiagnostics` folder of each database and identify the `.zip` file amongst the csv. It should be labelled something like `Results_database.zip`. You can collect all of these zip files in a single folder and make the `dataFolder` target as the folder with the multiple zip files per database.
+
+**Shiny App**
+
+The shiny app rendered from `CohortDiagnostics` relies on the OHDSI package `OhdsiShinyModules`. This package is installed within the `renv` snapshot loaded with the package. If you are having trouble launching the app from within the `ehden_hmb.RProj`, exit the R project and try launching the app outside the study session. If you are outside the `ehden_hmb.RProj` remember you have to provide full file paths because you are no longer zoomed in on the study directory. 
+
+## Results Folder
+
+Following successful execution of the study, each database will have its own sub-folder within results. There will be a further 14 subfolders containing results from the execution underneath the database. Within each of these folders there will be a combination of `csv`, `rds` and `parquet` (only for treatmentHistory) that contain the results. You may review these files individually if you wish. Instructions on how to share the results are maintained in the contribution tab of the website. 

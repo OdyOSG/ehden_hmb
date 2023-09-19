@@ -2,11 +2,12 @@
 title: "EHDEN HMB"
 ---
 
-Welcome the EHDEN Heavy-menstrual Bleeding Study! This study is a characterization study of a heavy-menstrual bleeding cohort conducted on EHDEN network databases that have been standardized to the OMOP CDM.
+Welcome the EHDEN Heavy-menstrual Bleeding Study! This study aims to describe patient characteristics and treatment pathways of women diagnosed with HMB in real-world data sources that have been standardized to the OMOP CDM and are a part of EHDEN.
 
 # Contact
 
 * Study Coordinators:
+    * Gianmario Candore [(email)](mailto:gianmario.candore@bayer.com)
     * Siir Su Saydam [(email)](mailto:siirsu.saydam@bayer.com)
     * Marta Pineda Moncusi [(email)](mailto:marta.pinedamoncusi@ndorms.ox.ac.uk)
 * Study Code Developers:
@@ -32,12 +33,11 @@ This study will be run on OMOP databases in the EHDEN Network. The table below l
 
 | Database                            | Country            |
 |-------------------------------------|--------------------|
-| Truven MarketScan                   | United States      | 
-| Optum Claims                        | United States      |
+| Merative MarketScan                 | United States      | 
+| Optum Clinformatics                 | United States      |
 | CPRD GOLD                           | United Kingdom     | 
 | CPRD AURUM                          | United Kingdom     | 
 | Hospital del Mar (Barcelona)        | Spain              | 
-| Israel Ministry of Health           | Israel             |
 | Cegedim THIN                        | Belgium            |
 | Disease Analyzer                    | Germany            |
 | FinnGen                             | Finland            |

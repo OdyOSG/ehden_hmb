@@ -14,34 +14,50 @@ baselineCharacteristics:
       id: 3
     - name: anemia
       id: 4
-    - name: coagulopathy
+    - name: antidepressants
       id: 5
-    - name: covid19
+    - name: antipsychotics
       id: 6
-    - name: diabetes
+    - name: antithrombotics
       id: 7
-    - name: dysmenorrhea
+    - name: coagulopathy
       id: 8
-    - name: endoHyperplasia
+    - name: copperIUDdrug
       id: 9
-    - name: endometriosis
+    - name: covid19
       id: 10
-    - name: endoPolyp
+    - name: diabetes
       id: 11
-    - name: ironDefAnemia
+    - name: disorderOfOvary
       id: 12
-    - name: obesity
+    - name: dysmenorrhea
       id: 13
-    - name: pain
+    - name: endoHyperplasia
       id: 14
-    - name: pcos
+    - name: endometriosis
       id: 15
-    - name: PID
+    - name: endoPolyp
       id: 16
-    - name: STD
+    - name: gonadalSteroids
       id: 17
-    - name: uterineLeiomyoma
+    - name: ironDefAnemia
       id: 18
+    - name: obesity
+      id: 19
+    - name: ovulatoryDysfunction
+      id: 20
+    - name: pain
+      id: 21
+    - name: pcos
+      id: 22
+    - name: PID
+      id: 23
+    - name: STD
+      id: 24
+    - name: tamoxifen
+      id: 25
+    - name: uterineLeiomyoma
+      id: 26
   timeWindow:
   - startDays: -365
     endDays: 0
