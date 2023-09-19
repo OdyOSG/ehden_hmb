@@ -43,7 +43,7 @@ The primary objectives of this study are to:
 
 The exploratory objectives of this study are to: 
 
-- Estimate the incidence of HMB per calendar year and over the entire study period in selected data sources. 
+- Estimate the incidence of HMB per calendar year and over the entire study period. 
 - Describe country-specific guideline compliant treatment use where national treatment guidelines are available for HMB.
 
 
@@ -54,6 +54,10 @@ This large-scale retrospective cohort study will be conducted across a network o
 The study period begins on January 1, 1999 (or earliest date of data availability following this date) and ends at the latest date of data availability in each database. Persons involved in this study must have a minimum of one-year prior observation in the database, therefore the indexing period begins on January 1, 2000.
 
 The study population for this study are women between the ages of 11 and 55 who have a first-time diagnosis of HMB, given that they have at least 365 days of continuous observation prior to the index date. More details of the study population are found in @sec-target.
+
+See figure 1 for details of the study design
+
+![Figure 1: Study Design](images/studyDesign.png)
 
 
 ## Study Population {#sec-target}
@@ -87,7 +91,6 @@ Female patients are followed up until end of continuous observation or observati
 - menopause (induced or natural)
 - hysterectomy or bilateral oophorectomy
 - uterine or ovarian cancer
-- pregnancy
 - death
 
 Concepts and logic for the cohort definitions of the study population and incidence denominator will be supplied in the *CohortDetails* supplementary file. 
@@ -137,6 +140,14 @@ knitr::kable(dataSources)
 ## Cohort Diagnostics {#sec-cd}
 
 Prior to running any specific analysis, we will evaluate the HMB cohort using the OHDSI R package `CohortDiagnostics` [@cd]. This package produces metrics such as cohort counts in the database, incidence rates (by calendar year, age and gender), time distributions, cohort attrition and breakdown of index events. Evaluation of these metrics helps ensure that the clinical cohort is indeed reliable in capturing HMB in the OMOP database.
+
+## Stratification
+
+All analysis is stratified by three age groups:
+
+- Age less than 30 years old
+- Age between 30 and 45
+- Age between 45 and 55
 
 ## Baseline Characteristics {#sec-baseline}
 
@@ -309,12 +320,14 @@ The incidence of HMB will be reported overall and per calendar year to show any 
 
 ### Guideline Compliance
 
-The assessment of country-specific guideline compliant treatment use will only be conducted for countries for which national treatment guidelines are available for HMB. For this outcome, treatment patterns analysis will be implemented in the same way as described in @sec-prevDrugExp and @sec-txSeq. Based on the relevant national guidelines, recommended treatments will be categorized together under the same group for which the prevalence of exposures after index and the proportion for those treatments that were first line in the treatment pathways analysis will be reported.
+
+The assessment of country-specific guideline compliant treatment use will only be conducted for countries for which national treatment guidelines are available for HMB. For this outcome, treatment patterns analysis will be implemented in the same way as described in @sec-prevDrugExp and @sec-txSeq. Based on the relevant national guidelines, recommended treatments will be categorized together under the same group for which the prevalence of exposures after index and the proportion for those treatments that were first line in the treatment pathways analysis will be reported. This section will be updated pending internal review...please wait for further details
 
 
 ```{r}
 #| label: tbl-guidlines
 #| echo: false
+#| eval: false
 #| tbl-cap: Country Guidelines for HMB Treatment
 
 guidelineCompliance <- tibble::tribble(
@@ -327,6 +340,7 @@ knitr::kable(guidelineCompliance)
 
 ```
 
+<!---
 
 **Guideline Recommendation**
 
@@ -344,7 +358,7 @@ knitr::kable(guidelineCompliance)
     - Non-pregnant reporductive age women: Medical  therapy is considered the preferred initial treatment, if clinically appropriate. Options include IV conjugated equine estrogen, multi-dose regimens of OCs or oral progestins, and tranexamic acid. Decisions should be based on the patient’s medical history and contraindications to therapies. 
     - Once the acute bleeding episode has been controlled, transitioning the patient to long-term maintenance therapy is recommended.
     
-  
+--->  
 # References
 
 ::: {#refs}

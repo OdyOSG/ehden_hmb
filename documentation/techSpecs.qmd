@@ -109,7 +109,6 @@ The following is an exhaustive list of R packages active during the development 
 
 readr::read_csv(here::here("data/installed_packages.csv"),
                 show_col_types = FALSE) |>
-  dplyr::filter(Keep == TRUE) |>
   dplyr::select(Package, Version) |>
   reactable::reactable(
     searchable = TRUE,

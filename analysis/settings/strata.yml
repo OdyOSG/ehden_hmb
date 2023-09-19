@@ -4,7 +4,7 @@ strata:
     - name: hmb
       id: 1
     - name: hmb2
-      id: 32
+      id: 44
   demographics:
   - strataId: 1
     strataName: age_lt_30

@@ -13,15 +13,17 @@ underlyingConditions:
     - name: adenomyosis
       id: 3
     - name: coagulopathy
-      id: 5
+      id: 8
+    - name: disorderOfOvary
+      id: 12
     - name: endoHyperplasia
-      id: 9
+      id: 14
     - name: endometriosis
-      id: 10
+      id: 15
     - name: endoPolyp
-      id: 11
+      id: 16
     - name: uterineLeiomyoma
-      id: 18
+      id: 26
   timeWindow:
   - startDay: 1
     endDay: 365

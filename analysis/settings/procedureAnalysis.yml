@@ -1,4 +1,4 @@
-procedureAnalysis:
+timeToEvent:
   cohorts:
     targetCohorts:
     - name: hmb
@@ -10,17 +10,23 @@ procedureAnalysis:
     - name: hmb_age_45_55
       id: 1003
     procCohorts:
+    - name: bloodTransfusion
+      id: 36
+    - name: copperIUDprocedure
+      id: 37
     - name: endometrialAblation
-      id: 28
+      id: 38
+    - name: hormonalIUD
+      id: 39
     - name: hysterectomy
-      id: 29
+      id: 40
     - name: myomectomy
-      id: 30
+      id: 41
     - name: uae
-      id: 31
+      id: 42
+    - name: undefinedIUD
+      id: 43
   timeWindow:
-  - startDays: -365
-    endDays: 0
   - startDays: 1
     endDays: 183
   - startDays: 1
@@ -32,5 +38,5 @@ procedureAnalysis:
   - startDays: 731
     endDays: 1825
   outputFolder:
-  - 11_postIndexPrevalenceProcedures
+  - 01_postIndexPrevalenceProcedures
   - 12_timeToIntervention
