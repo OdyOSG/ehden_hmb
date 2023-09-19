@@ -1,3 +1,8 @@
+# EHDEN HMB v0.1.5
+
+* Correct bug in analysis settings
+* Update package website
+
 # EHDEN HMB v0.1.4
 
 * Fix bug in baseline characteristics (typo in analysis settings)
