@@ -7,6 +7,7 @@ title: "News"
 * Correct bug in analysis settings (Issue #12)
 * Update package website
 * Add yearly incidence to `Incidence Analysis` (Issue #13)
+* Add R scripts for data exchange and CD preview (Issue #14)
 
 # EHDEN HMB v0.1.4
 
