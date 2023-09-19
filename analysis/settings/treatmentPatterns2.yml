@@ -1,39 +1,39 @@
 treatmentPatterns:
   cohorts:
-    targetCohorts:
-    - name: hmb2
-      id: 32
-    - name: hmb2_age_lt_30
-      id: 32001
-    - name: hmb2_age_30_45
-      id: 32002
-    - name: hmb2_age_45_55
-      id: 32003
+    targetCohorts: []
     txCohorts:
     - name: combOralContraceptives
-      id: 19
-    - name: danazol
-      id: 20
-    - name: grha
-      id: 21
-    - name: iud
-      id: 23
-    - name: nsaids
-      id: 24
-    - name: progestin
-      id: 25
-    - name: progresteron
-      id: 26
-    - name: tranexamicAcid
       id: 27
-    - name: endometrialAblation
+    - name: danazol
       id: 28
-    - name: hysterectomy
+    - name: grha
       id: 29
-    - name: myomectomy
-      id: 30
-    - name: uae
+    - name: lngIUD
       id: 31
+    - name: nsaids
+      id: 32
+    - name: progestinOnly
+      id: 33
+    - name: tranexamicAcid
+      id: 34
+    - name: ulipristalAcetate
+      id: 35
+    - name: bloodTransfusion
+      id: 36
+    - name: copperIUDprocedure
+      id: 37
+    - name: endometrialAblation
+      id: 38
+    - name: hormonalIUD
+      id: 39
+    - name: hysterectomy
+      id: 40
+    - name: myomectomy
+      id: 41
+    - name: uae
+      id: 42
+    - name: undefinedIUD
+      id: 43
   treatmentHistorySettings:
     minEraDuration: 0
     eraCollapseSize: 30

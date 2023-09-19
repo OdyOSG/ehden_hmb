@@ -11,23 +11,23 @@ treatmentPatterns:
       id: 1003
     drugCohorts:
     - name: combOralContraceptives
-      id: 19
-    - name: danazol
-      id: 20
-    - name: grha
-      id: 21
-    - name: ironPreparations
-      id: 22
-    - name: iud
-      id: 23
-    - name: nsaids
-      id: 24
-    - name: progestin
-      id: 25
-    - name: progresteron
-      id: 26
-    - name: tranexamicAcid
       id: 27
+    - name: danazol
+      id: 28
+    - name: grha
+      id: 29
+    - name: ironPreparations
+      id: 30
+    - name: lngIUD
+      id: 31
+    - name: nsaids
+      id: 32
+    - name: progestinOnly
+      id: 33
+    - name: tranexamicAcid
+      id: 34
+    - name: ulipristalAcetate
+      id: 35
   timeWindow:
   - startDays: 1
     endDays: 183
