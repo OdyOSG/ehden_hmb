@@ -39,6 +39,7 @@ This study will be run on OMOP databases in the EHDEN Network. The table below l
 | CPRD AURUM                          | United Kingdom     | 
 | Hospital del Mar (Barcelona)        | Spain              | 
 | Cegedim THIN                        | Belgium            |
+| Disease Analyzer                    | Germany            |
 | FinnGen                             | Finland            |
 | Semmelweis University               | Hungary            |
 | University of Oslo                  | Norway             |
