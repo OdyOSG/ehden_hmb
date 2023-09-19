@@ -1,11 +1,12 @@
 # EHDEN HMB v0.1.5
 
-* Correct bug in analysis settings
+* Correct bug in analysis settings (Issue #12)
 * Update package website
+* Add yearly incidence to `Incidence Analysis` (Issue #13)
 
 # EHDEN HMB v0.1.4
 
-* Fix bug in baseline characteristics (typo in analysis settings)
+* Fix bug in baseline characteristics; typo in analysis settings (Issue #10)
 * Corrections to the study website
 
 
