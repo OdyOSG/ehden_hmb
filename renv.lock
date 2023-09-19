@@ -84,16 +84,6 @@
       "Requirements": [],
       "Hash": "b88d6e636af3cf24385378fcddbe62ca"
     },
-    "Eunomia": {
-      "Package": "Eunomia",
-      "Version": "1.0.2",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "Eunomia",
-      "RemoteUsername": "ohdsi",
-      "RemoteRef": "v1.0.2"
-    },
     "FeatureExtraction": {
       "Package": "FeatureExtraction",
       "Version": "3.3.0",
@@ -871,7 +861,7 @@
     },
     "processx": {
       "Package": "processx",
-      "Version": "3.8.1",
+      "Version": "3.8.2",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [],
