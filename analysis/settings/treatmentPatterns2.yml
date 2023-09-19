@@ -1,6 +1,14 @@
 treatmentPatterns:
   cohorts:
-    targetCohorts: []
+    targetCohorts:
+    - name: hmb2
+      id: 44
+    - name: hmb2_age_lt_30
+      id: 44001
+    - name: hmb2_age_30_45
+      id: 44002
+    - name: hmb2_age_45_55
+      id: 44003
     txCohorts:
     - name: combOralContraceptives
       id: 27
