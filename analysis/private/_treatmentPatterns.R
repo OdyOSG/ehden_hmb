@@ -138,8 +138,8 @@ executePostIndexDrugUtilization <- function(con,
   cohortKey <- analysisSettings$treatmentPatterns$cohorts$targetCohort
   covariateKey <- analysisSettings$treatmentPatterns$cohorts$drugCohorts
 
-  timeA <- analysisSettings$treatmentPatterns$timeWindow$startDays
-  timeB <- analysisSettings$treatmentPatterns$timeWindow$endDays
+  timeA <- analysisSettings$treatmentPatterns$timeWindow$startDay
+  timeB <- analysisSettings$treatmentPatterns$timeWindow$endDay
 
   #set ids
   cohortId <- cohortKey$id
