@@ -1,4 +1,4 @@
-timeToEvent:
+procedureAnalysis:
   cohorts:
     targetCohorts:
     - name: hmb
@@ -27,16 +27,16 @@ timeToEvent:
     - name: undefinedIUD
       id: 43
   timeWindow:
-  - startDays: 1
-    endDays: 183
-  - startDays: 1
-    endDays: 365
-  - startDays: 184
-    endDays: 365
-  - startDays: 366
-    endDays: 730
-  - startDays: 731
-    endDays: 1825
+  - startDay: 1
+    endDay: 183
+  - startDay: 1
+    endDay: 365
+  - startDay: 184
+    endDay: 365
+  - startDay: 366
+    endDay: 730
+  - startDay: 731
+    endDay: 1825
   outputFolder:
-  - 01_postIndexPrevalenceProcedures
+  - 11_postIndexPrevalenceProcedures
   - 12_timeToIntervention
