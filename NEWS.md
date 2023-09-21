@@ -1,3 +1,8 @@
+# EHDEN HMB v0.1.6
+
+* Minor bug fix to treatment patterns analysis
+* Correct typo in functions
+
 # EHDEN HMB v0.1.5
 
 * Correct bug in analysis settings (Issue #12)
