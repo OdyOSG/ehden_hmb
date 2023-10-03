@@ -1,3 +1,7 @@
+# EHDEN HMB v0.1.7
+
+* Correct event in time to procedure intervention
+
 # EHDEN HMB v0.1.6
 
 * Minor bug fix to treatment patterns analysis
