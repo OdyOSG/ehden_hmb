@@ -94,6 +94,52 @@ getWindowPrevalence <- function(tb, timeA, timeB) {
 }
 
 
+getTteRes <- function(tb, outcomeCohortId) {
+
+  ##CORRECTION needs to be time to event happening
+  tab2 <- tb %>%
+    dplyr::filter(cohortDefinitionId == outcomeCohortId) %>%
+    dplyr::mutate(
+      event = ifelse(is.na(cohortDefinitionId), 0, 1),
+      duration = dplyr::case_when(
+        event == 0 ~ as.integer(cohortEndDate - cohortStartDate) / 365.25,
+        event == 1 ~ as.integer(eventDate - cohortStartDate) / 365.25
+      )
+    ) %>%
+    dplyr::select(duration, event)
+
+
+  if (nrow(tab2) > 0) {
+    # get surv fit object
+    survFit <- ggsurvfit::survfit2(
+      survival::Surv(duration, event) ~ 1, data = tab2
+    )
+    # retrieve tidy survfit
+    survDat <- ggsurvfit::tidy_survfit(survFit) %>%
+      dplyr::select(time, `n.risk`, `n.event`, estimate, std.error) %>%
+      dplyr::filter(
+        time <= 3 # only take first 3 years of data
+      ) %>%
+      dplyr::mutate(
+        outcomeCohortId = !!outcomeCohortId
+      )
+  } else {
+    # if no data return an all zero row
+    survDat <- tibble::tibble(
+      time = 0,
+      n.risk = 0,
+      n.event = 0,
+      estimate = 0,
+      std.error = 0,
+      outcomeCohortId = outcomeCohortId
+    )
+  }
+
+  return(survDat)
+
+}
+
+
 executeProcedureAnalysis <- function(con,
                                  executionSettings,
                                  analysisSettings) {
@@ -191,21 +237,10 @@ executeProcedureAnalysis <- function(con,
                     bullet = "checkbox_on", bullet_col = "green")
 
     # subset table for survival analysis
-    tab2 <- tb %>%
-      dplyr::filter(!is.na(cohortDefinitionId)) %>%
-      dplyr::mutate(
-        event = 1,
-        duration = as.integer(eventDate - cohortStartDate) / 365.25
-      ) %>%
-      dplyr::select(cohortDefinitionId, duration, event)
-
-    # get surv fit object
-    survFit <- ggsurvfit::survfit2(
-      survival::Surv(duration, event) ~ cohortDefinitionId, data = tab2
+    survDat <- purrr::map_dfr(
+      procedureCohortIds,
+      ~getTteRes(tb, outcomeCohortId = .x)
     )
-    # retrieve tidy survfit
-    survDat <- ggsurvfit::tidy_survfit(survFit) %>%
-      dplyr::select(time, `n.risk`, `n.event`, estimate:strata)
 
     fileNm2 <- glue::glue("procedure_survival_{idx}")
 
