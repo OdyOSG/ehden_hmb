@@ -64,6 +64,8 @@ Results from this study will be loaded to a secure file transfer protocol (sftp)
 
 ### Instructions to Share
 
+#### SFTP
+
 1) Review that a sftp key and secret credential have been sent to your site via email
 2) Open the file `extras/ShareResults.R`
 3) Run the R file line by line
@@ -72,4 +74,8 @@ Results from this study will be loaded to a secure file transfer protocol (sftp)
     - Replace L37 with a shortname for your study site
     - Execute the remaining lines
 4) Contact the study coordinators that you have successfully uploaded your results to sftp
+
+#### Via email
+
+You may also email the results to [Martin Lavallee](mailto:martin.lavallee@odysseusinc.com) as a zip file using the following naming convention: `<site_id>_results_<date>.zip`.
 
