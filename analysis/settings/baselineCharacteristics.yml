@@ -50,9 +50,9 @@ baselineCharacteristics:
       id: 21
     - name: pcos
       id: 22
-    - name: PID
+    - name: pid
       id: 23
-    - name: STD
+    - name: std
       id: 24
     - name: tamoxifen
       id: 25

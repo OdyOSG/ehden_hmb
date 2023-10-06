@@ -1,3 +1,7 @@
+# EHDEN HMB v0.1.8
+
+* Fix pid and std file names in cohort definitions, changes anticipated build order
+
 # EHDEN HMB v0.1.7
 
 * Correct event in time to procedure intervention
