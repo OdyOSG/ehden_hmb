@@ -12,16 +12,50 @@ underlyingConditions:
     covariateCohorts:
     - name: adenomyosis
       id: 3
+    - name: anemia
+      id: 4
+    - name: antidepressants
+      id: 5
+    - name: antipsychotics
+      id: 6
+    - name: antithrombotics
+      id: 7
     - name: coagulopathy
       id: 8
+    - name: copperIUDdrug
+      id: 9
+    - name: covid19
+      id: 10
+    - name: diabetes
+      id: 11
     - name: disorderOfOvary
       id: 12
+    - name: dysmenorrhea
+      id: 13
     - name: endoHyperplasia
       id: 14
     - name: endometriosis
       id: 15
     - name: endoPolyp
       id: 16
+    - name: gonadalSteroids
+      id: 17
+    - name: ironDefAnemia
+      id: 18
+    - name: obesity
+      id: 19
+    - name: ovulatoryDysfunction
+      id: 20
+    - name: pain
+      id: 21
+    - name: pcos
+      id: 22
+    - name: pid
+      id: 23
+    - name: std
+      id: 24
+    - name: tamoxifen
+      id: 25
     - name: uterineLeiomyoma
       id: 26
   timeWindow:
