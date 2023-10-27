@@ -138,8 +138,8 @@ executePostIndexDrugUtilization <- function(con,
   cohortKey <- analysisSettings$treatmentPatterns$cohorts$targetCohort
   covariateKey <- analysisSettings$treatmentPatterns$cohorts$drugCohorts
 
-  timeA <- analysisSettings$treatmentPatterns$timeWindow$startDays
-  timeB <- analysisSettings$treatmentPatterns$timeWindow$endDays
+  timeA <- analysisSettings$treatmentPatterns$timeWindow$startDay
+  timeB <- analysisSettings$treatmentPatterns$timeWindow$endDay
 
   #set ids
   cohortId <- cohortKey$id
@@ -285,8 +285,8 @@ executeTreatmentPatterns <- function(con,
 
   # make output folder
   outputFolder <- fs::path(here::here("results"), databaseId, analysisSettings[[1]]$outputFolder)
-  thHistoryFolder <- outputFolder[[2]]
-  txPatFolder <- outputFolder[[3]]
+  thHistoryFolder <- outputFolder[[1]]
+  txPatFolder <- outputFolder[[2]]
 
   targetCohortId <- analysisSettings$treatmentPatterns$cohorts$targetCohort$id
   targetCohortName <- analysisSettings$treatmentPatterns$cohorts$targetCohort$name
@@ -423,8 +423,8 @@ executeTimeToEvent <- function(con,
 
   # prep output folder
   outputFolder <- fs::path(here::here("results"), databaseId, analysisSettings[[1]]$outputFolder)
-  thHistoryFolder <- outputFolder[2] # hard coded to get th folder
-  tteFolder <- outputFolder[4] # hard coded to get tte folder
+  thHistoryFolder <- outputFolder[1] # hard coded to get th folder
+  tteFolder <- outputFolder[3] # hard coded to get tte folder
 
   targetCohorts <- analysisSettings$treatmentPatterns$cohorts$targetCohort
   targetCohortId <- targetCohorts$id

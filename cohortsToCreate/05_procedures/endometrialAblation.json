@@ -35,7 +35,7 @@
       }
     ],
     "ObservationWindow": {
-      "PriorDays": 365,
+      "PriorDays": 0,
       "PostDays": 0
     },
     "PrimaryCriteriaLimit": {

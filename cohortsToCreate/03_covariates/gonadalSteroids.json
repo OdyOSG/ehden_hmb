@@ -1,0 +1,231 @@
+{
+    "ConceptSets": [
+      {
+        "id": 0,
+        "name": "[ehden-hmb] Gonadal steroids",
+        "expression": {
+          "items": [
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Ingredient",
+                "CONCEPT_CODE": "5542",
+                "CONCEPT_ID": 19077143,
+                "CONCEPT_NAME": "17-alpha-hydroxyprogesterone",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              }
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Ingredient",
+                "CONCEPT_CODE": "4083",
+                "CONCEPT_ID": 1548195,
+                "CONCEPT_NAME": "estradiol",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              }
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Ingredient",
+                "CONCEPT_CODE": "259263",
+                "CONCEPT_ID": 1598493,
+                "CONCEPT_NAME": "estrogenic substances",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              }
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Ingredient",
+                "CONCEPT_CODE": "4100",
+                "CONCEPT_ID": 19049228,
+                "CONCEPT_NAME": "estrogens",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              }
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Ingredient",
+                "CONCEPT_CODE": "4099",
+                "CONCEPT_ID": 1549080,
+                "CONCEPT_NAME": "estrogens, conjugated (USP)",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              }
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Ingredient",
+                "CONCEPT_CODE": "214549",
+                "CONCEPT_ID": 1551673,
+                "CONCEPT_NAME": "estrogens, esterified (USP)",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              }
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Ingredient",
+                "CONCEPT_CODE": "4124",
+                "CONCEPT_ID": 1549786,
+                "CONCEPT_NAME": "ethinyl estradiol",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              }
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Ingredient",
+                "CONCEPT_CODE": "6691",
+                "CONCEPT_ID": 1500211,
+                "CONCEPT_NAME": "medroxyprogesterone",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              }
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Ingredient",
+                "CONCEPT_CODE": "6904",
+                "CONCEPT_ID": 1506602,
+                "CONCEPT_NAME": "methyltestosterone",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              }
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Ingredient",
+                "CONCEPT_CODE": "8727",
+                "CONCEPT_ID": 1552310,
+                "CONCEPT_NAME": "progesterone",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              }
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Ingredient",
+                "CONCEPT_CODE": "253166",
+                "CONCEPT_ID": 1596779,
+                "CONCEPT_NAME": "synthetic conjugated estrogens, A",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              }
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Ingredient",
+                "CONCEPT_CODE": "618365",
+                "CONCEPT_ID": 1586808,
+                "CONCEPT_NAME": "synthetic conjugated estrogens, B",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              }
+            },
+            {
+              "concept": {
+                "CONCEPT_CLASS_ID": "Ingredient",
+                "CONCEPT_CODE": "10379",
+                "CONCEPT_ID": 1636780,
+                "CONCEPT_NAME": "testosterone",
+                "DOMAIN_ID": "Drug",
+                "INVALID_REASON": "V",
+                "INVALID_REASON_CAPTION": "Valid",
+                "STANDARD_CONCEPT": "S",
+                "STANDARD_CONCEPT_CAPTION": "Standard",
+                "VOCABULARY_ID": "RxNorm"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "PrimaryCriteria": {
+      "CriteriaList": [
+        {
+          "DrugExposure": {
+            "CodesetId": 0
+          }
+        }
+      ],
+      "ObservationWindow": {
+        "PriorDays": 0,
+        "PostDays": 0
+      },
+      "PrimaryCriteriaLimit": {
+        "Type": "All"
+      }
+    },
+    "QualifiedLimit": {
+      "Type": "First"
+    },
+    "ExpressionLimit": {
+      "Type": "All"
+    },
+    "InclusionRules": [],
+    "EndStrategy": {
+      "CustomEra": {
+        "DrugCodesetId": 0,
+        "GapDays": 30,
+        "Offset": 0
+      }
+    },
+    "CensoringCriteria": [],
+    "CollapseSettings": {
+      "CollapseType": "ERA",
+      "EraPad": 30
+    },
+    "CensorWindow": {},
+    "cdmVersionRange": ">=5.0.0"
+  }

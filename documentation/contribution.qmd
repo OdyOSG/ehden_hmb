@@ -1,0 +1,81 @@
+---
+title: "Contribution Guidelines"
+number-sections: true
+---
+
+Welcome to the EHDEN HMB Study! Thank you for your interest in participating in this network study. Please read the contribution guidelines carefully to understand how to participate in this study.
+
+# Participation
+
+During the active maintenance of the EHDEN HMB study, If you would like to participate in the network study please contact [Martin Lavallee](mailto:martin.lavallee@odysseusinc.com), [Siir Su Saydam](mailto:siirsu.saydam@bayer.com) or [Marta Pineda Moncusi](mailto:marta.pinedamoncusi@ndorms.ox.ac.uk). Please send us the following information when announcing your interest in participation:
+
+-   **Primary Contact** - person managing the network study participation
+-   **Analyst Contact** - person running the study code at the institution (can be same as primary)
+-   **Name of Database** - full name of database and a short hand name if available
+-   **CDM and Vocabulary version** - specification of the OMOP CDM version and vocabulary version
+-   **Country/Region of Database** - geographic coverage of healthcare database
+-   **Type of Database** - claims, EHR, etc
+-   **Database Coverage** - the number of persons and time frame represented in the database
+
+Note: If your site has been contacted about EHDEN HMB prior to the release of this study repository you do not need to fulfill this step.
+
+# Code of Conduct
+
+This study follows a code of conduct specified by [Contributor Covenant version 2.1](https://www.contributor-covenant.org/version/2/1/code_of_conduct/) in the interest of harboring an open and welcome environment for all contributors to this study. By participating in this study you agree to abide by these terms. 
+
+# Bugs and Questions
+
+## Issues
+
+The EHDEN HMB study uses github to version control the study code required to run the analysis. As a github repository, we use [issues](https://docs.github.com/en/issues/tracking-your-work-with-issues/about-issues) to track bugs and answer questions about the study code. Debugging issues collaboratively ensures that all study nodes are informed on code issues and have the most up-to-date code required to successfully run the study. An issue at your site is likely a similar problem for someone else. The EHDEN HMB study has two issue templates:
+
+1)  For code bugs and errors, please post the bug using the [bug issue template](https://github.com/OdyOSG/ehden_hmb/issues/new?assignees=&labels=&projects=&template=bug_report.md&title=)
+2)  For a study question, please post the question using the [study question template](https://github.com/OdyOSG/ehden_hmb/issues/new?assignees=mdlavallee92%2C+siirsu&labels=question&projects=&template=study-question.md&title=)
+
+## Rules
+
+1)  **DO NOT** post any database credentials in an issue. Issues are public.
+2)  Provide a reproducible example of the error you are encountering.
+3)  Before posting an issue, please review all open and closed issues that may already answer your question
+
+# Branches and Releases
+
+The latest version of the study code will be maintain in the `main` branch of [`OdyOSG/ehden_hmb`](https://github.com/OdyOSG/ehden_hmb). Additional branches to the study repository may be maintained for the purposes of feature enhancements in development or custom work-around solutions for a particular study site. Please only run the study using the main branch of the repository unless otherwise stated by the study coordinator. The study repository will maintain a release cycle to differentiate versions of the study code. Please run the latest release of the study code unless otherwise stated by the study coordinator.
+
+# Contributing
+
+We encourage study participants to contribute to the code base when appropriate. In order to contribute code to this study follow these steps:
+
+1) Fork and clone the repository.
+2) Create a new branch: `git checkout -b my-branch-name`.
+3) Make your change and test that it is working.
+4) Push to your fork and submit a pull request. Wait for review and merge
+
+Here are a few things you can do that will increase the likelihood of your pull request being accepted:
+
+- Follow the [tidyverse style guide](https://style.tidyverse.org/index.html) and ensure your change is legible
+- Keep your changes as focused as possible. If there are multiple changes you would like to make that are not dependent upon each other, consider submitting them as separate pull requests.
+- Write a [good commit message](https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
+
+
+## Sending Results
+
+Results from this study will be loaded to a secure file transfer protocol (sftp) hosted by Bayer. Participants in the study will be provided a key and password for the sftp emailed individually. Please contact the study coordinators if you do not have the sftp credentials prior to running the study. 
+
+### Instructions to Share
+
+#### SFTP
+
+1) Review that a sftp key and secret credential have been sent to your site via email
+2) Open the file `extras/ShareResults.R`
+3) Run the R file line by line
+    - When running L30 you will be asked to input the sftp credentials in a prompt
+    - Copy and paste the credentials into the prompt
+    - Replace L37 with a shortname for your study site
+    - Execute the remaining lines
+4) Contact the study coordinators that you have successfully uploaded your results to sftp
+
+#### Via email
+
+You may also email the results to [Martin Lavallee](mailto:martin.lavallee@odysseusinc.com) as a zip file using the following naming convention: `<site_id>_results_<date>.zip`.
+

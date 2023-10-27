@@ -32,7 +32,6 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
 
 # connect to database
 con <- DatabaseConnector::connect(connectionDetails)
-withr::defer(expr = DatabaseConnector::disconnect(con), envir = parent.frame())  #close on exit
 
 
 # D. Variables -----------------------
@@ -42,9 +41,9 @@ executionSettings <- config::get(config = configBlock) %>%
   purrr::discard_at(c("dbms", "user", "password", "connectionString"))
 
 
-cohortFolder <- "drugExposure" %>% #if this is the target cohort do not make new folder
-  Ulysses::addCohortFolder()
-cohortFolder <- fs::path(here::here("cohortsToCreate"), "03_drugExposure")
+# cohortFolder <- "drugExposure" %>% #if this is the target cohort do not make new folder
+#   Ulysses::addCohortFolder()
+cohortFolder <- fs::path(here::here("cohortsToCreate"), "04_drugExposure")
 
 # E. Concept Sets --------------------
 
@@ -81,8 +80,9 @@ ehden_drugs <- list(
 
   'combOralContraceptives' = cs(
     descendants(
-      40253998, #dienogest and estradiol
-      21602487 #nomegestrol and estradiol
+      21158825,36026933,36212067,36213586,36213588,36213592,36213598,36213920,
+      36216484,36216486,36218493,36223493,36224185,36247475,40039793,40039807,
+      40863632,40891651,40953844,40986435,41016123,41207409
     ),
     name = "combined Oral Hormonal Contraceptives"
   ) %>%
@@ -136,41 +136,19 @@ ehden_drugs <- list(
 
 ehdenDrugCohortTemplate <- function(conceptSet, name, cohortFolder) {
 
-  # Concept sets for censoring
-  oophorectomy <- cs(
-    descendants(4297990), name = "bilateral oophorectomy"
-  ) %>%
-    getConceptSetDetails(con = con, vocabularyDatabaseSchema = executionSettings$vocabDatabaseSchema)
-
-
-  hysterectomy <- cs(
-    descendants(4127886), name = "hysterectomy"
-  ) %>%
-    getConceptSetDetails(con = con, vocabularyDatabaseSchema = executionSettings$vocabDatabaseSchema)
-
-
-  menopause <- cs(
-    descendants(
-      193739,201078,4010333,4059477,4087072,4141640,4172857,42536667
-    ), name = "menopause"
-  )
-
   # build Cohort definition
   cd <- cohort(
     entry = entry(
       drugExposure(conceptSet = conceptSet),
-      observationWindow = continuousObservation(priorDays = 365, postDays = 0),
+      observationWindow = continuousObservation(priorDays = 0, postDays = 0),
       primaryCriteriaLimit = "All"
+    ),
+    attrition = attrition(
+      expressionLimit = "All"
     ),
     exit = exit(
       endStrategy = drugExit(conceptSet = conceptSet,
-                             persistenceWindow = 30L),
-      censor = censoringEvents(
-        procedure(oophorectomy),
-        procedure(hysterectomy),
-        conditionOccurrence(menopause),
-        observation(menopause)
-      )
+                             persistenceWindow = 30L)
     ),
     era = era(eraDays = 30L)
   )

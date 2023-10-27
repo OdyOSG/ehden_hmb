@@ -1,34 +1,42 @@
 procedureAnalysis:
   cohorts:
-    targetCohort:
+    targetCohorts:
     - name: hmb
       id: 1
-    - name: hmb age lt 30
+    - name: hmb_age_lt_30
       id: 1001
-    - name: hmb age 30-45
+    - name: hmb_age_30_45
       id: 1002
-    - name: hmb age 45-55
+    - name: hmb_age_45_55
       id: 1003
-    procedureCohorts:
+    procCohorts:
+    - name: bloodTransfusion
+      id: 36
+    - name: copperIUDprocedure
+      id: 37
     - name: endometrialAblation
-      id: 25
+      id: 38
+    - name: hormonalIUD
+      id: 39
     - name: hysterectomy
-      id: 26
+      id: 40
     - name: myomectomy
-      id: 27
+      id: 41
     - name: uae
-      id: 28
-  prevalenceTimeWindow:
-  - startDays: 0
-    endDays: 0
-  - startDays: 1
-    endDays: 183
-  - startDays: 184
-    endDays: 365
-  - startDays: 366
-    endDays: 730
-  - startDays: 731
-    endDays: 1825
+      id: 42
+    - name: undefinedIUD
+      id: 43
+  timeWindow:
+  - startDay: 1
+    endDay: 183
+  - startDay: 1
+    endDay: 365
+  - startDay: 184
+    endDay: 365
+  - startDay: 366
+    endDay: 730
+  - startDay: 731
+    endDay: 1825
   outputFolder:
   - 11_postIndexPrevalenceProcedures
   - 12_timeToIntervention

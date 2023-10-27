@@ -49,9 +49,6 @@ analysisSettings1 <- readSettingsFile(here::here("analysis/settings/baselineChar
 analysisSettings2 <- readSettingsFile(here::here("analysis/settings/underlyingConditions.yml"))
 # E. Script --------------------
 
-#######if BAYER uncomment this line#################
-#startSnowflakeSession(con, executionSettings)
-
 ## Get Baseline Covariates
 
 # run concept characterization
