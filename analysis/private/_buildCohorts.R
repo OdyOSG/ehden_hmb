@@ -159,6 +159,7 @@ runCohortDiagnostics <- function(con,
     vocabularyDatabaseSchema = executionSettings$vocabDatabaseSchema,
     databaseId = executionSettings$databaseName,
     connection = con,
+    runOrphanConcepts = FALSE,
     incremental = TRUE,
     minCellCount = 5
   )
