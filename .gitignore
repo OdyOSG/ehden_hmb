@@ -4,7 +4,6 @@ logs/
 config.yml
 NUL
 scratch/incPrevTest.R
-scratch/analysisSettings.R
 .httr-oauth
 documentation/minutes/custom-reference-doc.docx
 documentation/custom-reference-doc.docx
@@ -15,3 +14,10 @@ errorReportSql.txt
 # ignore minutes documents
 documentation/minutes/img
 documentation/minutes/*.qmd
+
+# ignore problem incidence Denom
+cohortsToCreate/ignore/
+hidden/
+results.zip
+
+scratchDiagnostics

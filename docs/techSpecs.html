@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>EHDEN HMB - Technical Specifications</title>
+<title>EHDEN HMB - Technical Requirements</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -60,6 +94,14 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+<script src="site_libs/core-js-2.5.3/shim.min.js"></script>
+<script src="site_libs/react-17.0.0/react.min.js"></script>
+<script src="site_libs/react-17.0.0/react-dom.min.js"></script>
+<script src="site_libs/reactwidget-1.0.0/react-tools.js"></script>
+<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<link href="site_libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+<script src="site_libs/reactable-binding-0.4.4/reactable.js"></script>
+
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -86,21 +128,17 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
- <span class="menu-text">About</span>
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-technical-info" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Technical Info</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-about">    
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-technical-info">    
+        <li>
+    <a class="dropdown-item" href="./techSpecs.html" rel="" target="">
+ <span class="dropdown-text">Requirements</span></a>
+  </li>  
         <li>
     <a class="dropdown-item" href="./news.html" rel="" target="">
  <span class="dropdown-text">News</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./techSpecs.html" rel="" target="">
- <span class="dropdown-text">Technical Requirements</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./about.html" rel="" target="">
- <span class="dropdown-text">Session Info</span></a>
   </li>  
     </ul>
   </li>
@@ -156,14 +194,34 @@ ul.task-list li input[type="checkbox"] {
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
 <p><img src="images/ehden.png" class="img-fluid"></p>
 </div></div>
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#ohdsi-environment-setup" id="toc-ohdsi-environment-setup" class="nav-link active" data-scroll-target="#ohdsi-environment-setup"><span class="header-section-number">1</span> OHDSI Environment Setup</a></li>
+  <li><a href="#supported-databases" id="toc-supported-databases" class="nav-link" data-scroll-target="#supported-databases"><span class="header-section-number">2</span> Supported Databases</a>
+  <ul class="collapse">
+  <li><a href="#downloading-jdbc-driver" id="toc-downloading-jdbc-driver" class="nav-link" data-scroll-target="#downloading-jdbc-driver"><span class="header-section-number">2.1</span> Downloading JDBC Driver</a></li>
+  </ul></li>
+  <li><a href="#data-quality-control" id="toc-data-quality-control" class="nav-link" data-scroll-target="#data-quality-control"><span class="header-section-number">3</span> Data Quality Control</a></li>
+  <li><a href="#study-environment" id="toc-study-environment" class="nav-link" data-scroll-target="#study-environment"><span class="header-section-number">4</span> Study Environment</a>
+  <ul class="collapse">
+  <li><a href="#r-version" id="toc-r-version" class="nav-link" data-scroll-target="#r-version"><span class="header-section-number">4.1</span> R Version</a></li>
+  <li><a href="#r-environment" id="toc-r-environment" class="nav-link" data-scroll-target="#r-environment"><span class="header-section-number">4.2</span> R Environment</a>
+  <ul class="collapse">
+  <li><a href="#conflicts" id="toc-conflicts" class="nav-link" data-scroll-target="#conflicts"><span class="header-section-number">4.2.1</span> Conflicts</a></li>
+  </ul></li>
+  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages"><span class="header-section-number">4.3</span> R Packages</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Technical Specifications</h1>
+<h1 class="title">Technical Requirements</h1>
 </div>
 
 
@@ -178,6 +236,8 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<section id="ohdsi-environment-setup" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> OHDSI Environment Setup</h1>
 <p>To run this study you must setup the <a href="https://ohdsi.github.io/Hades/rSetup.html">HADES environment</a>.</p>
 <ul>
 <li>Install <a href="https://cloud.r-project.org/">R</a> (version 4.1 or greater)</li>
@@ -185,16 +245,97 @@ ul.task-list li input[type="checkbox"] {
 <li>On Windows: Install <a href="https://cran.r-project.org/bin/windows/Rtools/">RTools</a></li>
 <li>Install <a href="https://www.java.com/en/">Java</a></li>
 </ul>
+</section>
+<section id="supported-databases" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Supported Databases</h1>
 <p>You also require your site data to be mapped to the <a href="https://ohdsi.github.io/CommonDataModel/">OMOP CDM</a> and administered on one of the following supported database platforms:</p>
 <ul>
 <li>Microsoft SQL Server</li>
 <li>PostgreSQL</li>
 <li>Google BigQuery</li>
-<li>Amazon RedShift</li>
+<li>Amazon Redshift</li>
 <li>Snowflake</li>
 </ul>
+<section id="downloading-jdbc-driver" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="downloading-jdbc-driver"><span class="header-section-number">2.1</span> Downloading JDBC Driver</h2>
+<p>Prior to starting the study ensure that you have downloaded the appropriate <code>.jar</code> file for your dbms to use with <code>DatabaseConnector</code>. Please follow these steps:</p>
+<ol type="1">
+<li>Create a <code>DATABASECONNECTOR_JAR_FOLDER</code> locally</li>
+<li>Run command <code>usethis::edit_r_environ()</code> to open your <code>.Renviron</code> which stores your environment variables</li>
+<li>Add an environment variable following example. This will serve as default path to driver for all <code>DatabaseConnector</code> commands</li>
+</ol>
+<pre><code>DATABASECONNECTOR_JAR_FOLDER="C:/Users/.../Documents/R/jar_folder"</code></pre>
+<ol start="4" type="1">
+<li>Save <code>.Renviron</code> and restart R session.</li>
+<li>Download Jdbc Driver using <code>DatabaseConnector</code>, example below</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>DatabaseConnector<span class="sc">::</span><span class="fu">downloadJdbcDrivers</span>(<span class="at">dbms =</span> <span class="st">"postgresql"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="data-quality-control" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Data Quality Control</h1>
+<p>Prior to running this study, it is expected that the data node has performed some sort of QC of their OMOP ETL process. Open-source tools are available to assist in conducting QC of the ETL:</p>
+<ul>
+<li><a href="https://ohdsi.github.io/DataQualityDashboard/">Data Quality Dashboard</a></li>
+<li><a href="https://github.com/OHDSI/Achilles">Achilles</a></li>
+</ul>
+</section>
+<section id="study-environment" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Study Environment</h1>
+<section id="r-version" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="r-version"><span class="header-section-number">4.1</span> R Version</h2>
+<p>This study requires a minimal R version of 4.1.3 (2022-03-10). <a href="https://cloud.r-project.org/bin/windows/base/old/4.1.3/">Link to windows installer</a>.</p>
+</section>
+<section id="r-environment" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="r-environment"><span class="header-section-number">4.2</span> R Environment</h2>
+<p>This study uses <a href="https://rstudio.github.io/renv/articles/renv.html"><code>renv</code></a> to reproduce the R environment to execute this study. The study code maintains an <code>renv.lock</code> file in the main branch of the repository. To activate the <code>renv</code> use the following code:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>renv<span class="sc">::</span><span class="fu">restore</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="conflicts" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="conflicts"><span class="header-section-number">4.2.1</span> Conflicts</h3>
+<p>Some organizational IT setups pose conflicts with <code>renv</code>. One example is if your organization uses the Broadsea Docker. If you have a conflict with <code>renv</code> please complete the following steps:</p>
+<ol type="1">
+<li>Run <code>renv::deactivate()</code> in the active ehden .RProj</li>
+<li>Review table below with installed versions of R packages</li>
+<li>If a dependency is missing, install it manually. The code below provides examples of scenarios on how to install an R package:</li>
+</ol>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Installing an R package from CRAN ------------</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Installing latest version of R package on CRAN</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Installing archived version of R package on CRAN</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>packageurl <span class="ot">&lt;-</span> <span class="st">"http://cran.r-project.org/src/contrib/Archive/ggplot2/ggplot2_0.9.1.tar.gz"</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(packageurl, <span class="at">repos=</span><span class="cn">NULL</span>, <span class="at">type=</span><span class="st">"source"</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Installing an R package from github -----------------</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Installing current version of R package from github</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"remotes"</span>) <span class="co"># note you may also work devtools</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"ohdsi/FeatureExtraction"</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Installing develop version of R package from github</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"ohdsi/Ulysses"</span>, <span class="at">ref =</span> <span class="st">"develop"</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Installing old version of R package from github</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"ohdsi/CohortGenerator"</span>, <span class="at">ref =</span> <span class="st">"v0.7.0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>It is <strong>highly recommended</strong> you stick with the <code>renv</code> snapshot as this is the easiest way to reproduce the study execution environment.</p>
+</section>
+</section>
+<section id="r-packages" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="r-packages"><span class="header-section-number">4.3</span> R Packages</h2>
+<p>The following is an exhaustive list of R packages active during the development of the EHDEN HMB study:</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="reactable html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-160d552252624024f132" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-160d552252624024f132">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Package":["Andromeda","arrow","askpass","assertthat","aws.s3","aws.signature","backports","base64enc","bit","bit64","blob","brio","broom","bslib","cachem","callr","Capr","cellranger","checkmate","CirceR","cli","clipr","clock","CohortDiagnostics","CohortGenerator","CohortIncidence","colorspace","config","conflicted","cpp11","crayon","credentials","curl","data.table","DatabaseConnector","DBI","dbplyr","desc","diffobj","digest","dplyr","dtplyr","ellipsis","Eunomia","evaluate","fansi","farver","fastmap","FeatureExtraction","filelock","fontawesome","forcats","fs","gargle","generics","gert","ggplot2","ggsurvfit","gh","gitcreds","glue","googledrive","googlesheets4","gtable","haven","here","highr","hms","htmltools","htmlwidgets","httr","httr2","ids","ini","isoband","jquerylib","jsonlite","keyring","knitr","labeling","later","lattice","lifecycle","lubridate","magrittr","MASS","Matrix","memoise","mgcv","mime","modelr","munsell","nlme","openssl","ParallelLogger","patchwork","pillar","pkgconfig","pkgload","plogr","pool","praise","prettyunits","processx","progress","ps","purrr","R6","ragg","rappdirs","RColorBrewer","Rcpp","reactable","reactR","readr","readxl","rematch","rematch2","remotes","renv","reprex","ResultModelManager","rJava","RJSONIO","rlang","rmarkdown","rprojroot","RSQLite","rstudioapi","rvest","sass","scales","selectr","sessioninfo","snakecase","snow","sodium","SqlRender","stringi","stringr","survival","sys","systemfonts","testthat","textshaping","tibble","tidyr","tidyselect","tidyverse","timechange","tinytex","triebeard","tzdb","Ulysses","urltools","usethis","utf8","uuid","vctrs","viridisLite","vroom","waldo","whisker","withr","xfun","xml2","yaml","zip","base","boot","class","cluster","codetools","compiler","datasets","foreign","graphics","grDevices","grid","KernSmooth","lattice","MASS","Matrix","methods","mgcv","nlme","nnet","parallel","rpart","spatial","splines","stats","stats4","survival","tcltk","tools","utils"],"Version":["0.6.3","13.0.0","1.1","0.2.1","0.3.21","0.6.0","1.4.1","0.1-3","4.0.5","4.0.5","1.2.4","1.1.3","1.0.4","0.5.0","1.0.8","3.7.3","2.0.7","1.1.0","2.2.0","1.3.1","3.6.1","0.8.0","0.7.0","3.2.2","0.8.0","3.1.5","2.1-0","0.3.1","1.2.0","0.4.5","1.5.2","1.3.2","5.0.0","1.14.8","6.2.3","1.1.3","2.3.3","1.4.2","0.3.5","0.6.32","1.1.2","1.3.1","0.3.2","1.0.2","0.21","1.0.4","2.1.1","1.1.1","3.3.0","1.0.2","0.5.1","1.0.0","1.6.3","1.3.0","0.1.3","1.9.2","3.4.2","0.3.1","1.4.0","0.1.2","1.6.2","2.1.0","1.1.0","0.3.3","2.5.2","1.0.1","0.1","1.1.3","0.5.5","1.6.2","1.4.6","0.2.3","1.0.1","0.3.1","0.2.7","0.1.4","1.8.7","1.3.1","1.43","0.4.2","1.3.1","0.20-45","1.0.3","1.9.2","2.0.3","7.3-58.3","1.5-3","2.0.1","1.8-42","0.12","0.1.11","0.5.0","3.1-162","2.1.0","3.2.0","1.1.2","1.9.0","2.0.3","1.3.2.1","0.2.0","1.0.1","1.0.0","1.1.1","3.8.2","1.2.2","1.7.5","1.0.1","2.5.1","1.2.5","0.3.3","1.1-3","1.0.10","0.4.4","0.4.4","2.1.4","1.4.2","1.0.1","2.1.2","2.4.2","0.17.3","2.0.2","0.4.0","1.0-6","1.3-1.8","1.1.1","2.23","2.0.3","2.3.1","0.15.0","1.0.3","0.4.6","1.2.1","0.4-2","1.2.2","0.11.0","0.4-4","1.2.1","1.15.1","1.7.12","1.5.0","3.5-5","3.4.2","1.0.4","3.1.10","0.3.6","3.2.1","1.3.0","1.2.0","2.0.0","0.2.0","0.45","0.4.1","0.4.0","0.0.2","1.7.3","2.2.2","1.2.3","1.1-0","0.6.3","0.4.2","1.6.3","0.5.1","0.4.1","2.5.0","0.39","1.3.4","2.3.7","2.3.0","4.1.3","1.3-28.1","7.3-21","2.1.4","0.2-19","4.1.3","4.1.3","0.8-84","4.1.3","4.1.3","4.1.3","2.23-20","0.20-45","7.3-58.3","1.5-3","4.1.3","1.8-42","3.1-162","7.3-18","4.1.3","4.1.19","7.3-16","4.1.3","4.1.3","4.1.3","3.5-5","4.1.3","4.1.3","4.1.3"]},"columns":[{"id":"Package","name":"Package","type":"character"},{"id":"Version","name":"Version","type":"character"}],"filterable":true,"searchable":true,"striped":true,"dataKey":"0eaa7ac7ffda2b2a905319753c5a540d"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

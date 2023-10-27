@@ -1,0 +1,122 @@
+---
+title: "Technical Requirements"
+number-sections: true
+---
+
+# OHDSI Environment Setup
+
+To run this study you must setup the [HADES environment](https://ohdsi.github.io/Hades/rSetup.html).
+
+-   Install [R](https://cloud.r-project.org/) (version 4.1 or greater)
+-   Install [R Studio](https://posit.co/download/rstudio-desktop/)
+-   On Windows: Install [RTools](https://cran.r-project.org/bin/windows/Rtools/)
+-   Install [Java](https://www.java.com/en/)
+
+# Supported Databases
+
+You also require your site data to be mapped to the [OMOP CDM](https://ohdsi.github.io/CommonDataModel/) and administered on one of the following supported database platforms:
+
+-   Microsoft SQL Server
+-   PostgreSQL
+-   Google BigQuery
+-   Amazon Redshift
+-   Snowflake
+
+## Downloading JDBC Driver
+
+Prior to starting the study ensure that you have downloaded the appropriate `.jar` file for your dbms to use with `DatabaseConnector`. Please follow these steps:
+
+1) Create a `DATABASECONNECTOR_JAR_FOLDER` locally
+2) Run command `usethis::edit_r_environ()` to open your `.Renviron` which stores your environment variables
+3) Add an environment variable following example. This will serve as default path to driver for all `DatabaseConnector` commands
+
+``` 
+DATABASECONNECTOR_JAR_FOLDER="C:/Users/.../Documents/R/jar_folder"
+```
+
+4) Save `.Renviron` and restart R session.
+5) Download Jdbc Driver using `DatabaseConnector`, example below
+
+``` r
+DatabaseConnector::downloadJdbcDrivers(dbms = "postgresql")
+```
+
+
+# Data Quality Control
+
+Prior to running this study, it is expected that the data node has performed some sort of QC of their OMOP ETL process. Open-source tools are available to assist in conducting QC of the ETL:
+
+- [Data Quality Dashboard](https://ohdsi.github.io/DataQualityDashboard/)
+- [Achilles](https://github.com/OHDSI/Achilles)
+
+# Study Environment
+
+## R Version
+
+This study requires a minimal R version  of 4.1.3 (2022-03-10). [Link to windows installer](https://cloud.r-project.org/bin/windows/base/old/4.1.3/). 
+
+## R Environment
+
+This study uses [`renv`](https://rstudio.github.io/renv/articles/renv.html) to reproduce the R environment to execute this study. The study code maintains an `renv.lock` file in the main branch of the repository. To activate the `renv` use the following code:
+
+``` r         
+renv::restore()
+```
+
+### Conflicts
+
+Some organizational IT setups pose conflicts with `renv`. One example is if your organization uses the Broadsea Docker. If you have a conflict with `renv` please complete the following steps:
+
+1) Run `renv::deactivate()` in the active ehden .RProj
+2) Review table below with installed versions of R packages
+3) If a dependency is missing, install it manually. The code below provides examples of scenarios on how to install an R package: 
+
+``` r
+
+# Installing an R package from CRAN ------------
+
+## Installing latest version of R package on CRAN
+install.packages("ggplot2")
+
+## Installing archived version of R package on CRAN
+packageurl <- "http://cran.r-project.org/src/contrib/Archive/ggplot2/ggplot2_0.9.1.tar.gz"
+install.packages(packageurl, repos=NULL, type="source")
+
+# Installing an R package from github -----------------
+
+# Installing current version of R package from github
+install.packages("remotes") # note you may also work devtools
+remotes::install_github("ohdsi/FeatureExtraction")
+
+# Installing develop version of R package from github
+remotes::install_github("ohdsi/Ulysses", ref = "develop")
+
+# Installing old version of R package from github
+remotes::install_github("ohdsi/CohortGenerator", ref = "v0.7.0")
+
+```
+
+It is **highly recommended** you stick with the `renv` snapshot as this is the easiest way to reproduce the study execution environment. 
+
+
+## R Packages
+
+The following is an exhaustive list of R packages active during the development of the EHDEN HMB study:
+
+```{r}
+#| label: PackageList
+#| echo: false
+
+readr::read_csv(here::here("data/installed_packages.csv"),
+                show_col_types = FALSE) |>
+  dplyr::select(Package, Version) |>
+  reactable::reactable(
+    searchable = TRUE,
+    filterable = TRUE,
+    striped = TRUE
+  )
+
+```
+
+
+

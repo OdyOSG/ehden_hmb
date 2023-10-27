@@ -31,7 +31,6 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
 
 # connect to database
 con <- DatabaseConnector::connect(connectionDetails)
-withr::defer(expr = DatabaseConnector::disconnect(con), envir = parent.frame())  #close on exit
 
 
 # D. Variables -----------------------
@@ -41,8 +40,8 @@ executionSettings <- config::get(config = configBlock) %>%
   purrr::discard_at(c("dbms", "user", "password", "connectionString"))
 
 
-cohortFolder <- "procedures" %>% #if this is the target cohort do not make new folder
-  Ulysses::addCohortFolder()
+# cohortFolder <- "procedures" %>% #if this is the target cohort do not make new folder
+#   Ulysses::addCohortFolder()
 cohortFolder <- fs::path(here::here("cohortsToCreate"), "05_procedures")
 
 # E. Concept Sets --------------------
@@ -79,7 +78,7 @@ ehdenProcedureTemplate <- function(conceptSet, name, cohortFolder) {
   cd <- cohort(
     entry = entry(
       procedure(conceptSet = conceptSet),
-      observationWindow = continuousObservation(priorDays = 365, postDays = 0),
+      observationWindow = continuousObservation(priorDays = 0, postDays = 0),
       primaryCriteriaLimit = "First"
     ),
     exit = exit(
@@ -103,6 +102,6 @@ purrr::walk2(ehden_procedures, names(ehden_procedures),
 # fix visit, death and qualified limit by hand
 # F. Session Info ------------------------
 
-sessioninfo::session_info()
+DatabaseConnector::disconnect(con)
 rm(list = ls())
-withr::deferred_run()
+

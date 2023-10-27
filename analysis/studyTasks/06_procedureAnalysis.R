@@ -22,7 +22,9 @@ source("analysis/private/_procedureAnalysis.R")
 # C. Connection ----------------------
 
 # set connection Block
-configBlock <- "[Add config block]"
+# <<<
+configBlock <- "[block]"
+# >>>
 
 # provide connection details
 connectionDetails <- DatabaseConnector::createConnectionDetails(

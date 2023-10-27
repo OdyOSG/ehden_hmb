@@ -3,40 +3,62 @@ baselineCharacteristics:
     targetCohort:
     - name: hmb
       id: 1
-    - name: hmb age lt 30
+    - name: hmb_age_lt_30
       id: 1001
-    - name: hmb age 30-45
+    - name: hmb_age_30_45
       id: 1002
-    - name: hmb age 45-55
+    - name: hmb_age_45_55
       id: 1003
-    covariateCohort:
+    covariateCohorts:
     - name: adenomyosis
       id: 3
     - name: anemia
       id: 4
-    - name: coagulopathy
+    - name: antidepressants
       id: 5
-    - name: diabetes
+    - name: antipsychotics
       id: 6
-    - name: dysmenorrhea
+    - name: antithrombotics
       id: 7
-    - name: endoHyperplasia
+    - name: coagulopathy
       id: 8
-    - name: endometriosis
+    - name: copperIUDdrug
       id: 9
-    - name: endoPolyp
+    - name: covid19
       id: 10
-    - name: ironDefAnemia
+    - name: diabetes
       id: 11
-    - name: obesity
+    - name: disorderOfOvary
       id: 12
-    - name: pain
+    - name: dysmenorrhea
       id: 13
-    - name: pcos
+    - name: endoHyperplasia
       id: 14
-    - name: uterineLeiomyoma
+    - name: endometriosis
       id: 15
+    - name: endoPolyp
+      id: 16
+    - name: gonadalSteroids
+      id: 17
+    - name: ironDefAnemia
+      id: 18
+    - name: obesity
+      id: 19
+    - name: ovulatoryDysfunction
+      id: 20
+    - name: pain
+      id: 21
+    - name: pcos
+      id: 22
+    - name: pid
+      id: 23
+    - name: std
+      id: 24
+    - name: tamoxifen
+      id: 25
+    - name: uterineLeiomyoma
+      id: 26
   timeWindow:
-  - startDays: -365
-    endDays: 0
+  - startDay: -365
+    endDay: 0
   outputFolder: 05_baselineCharacteristics

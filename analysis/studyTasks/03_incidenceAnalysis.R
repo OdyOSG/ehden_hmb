@@ -45,13 +45,10 @@ executionSettings <- config::get(config = configBlock) %>%
   purrr::discard_at(c("dbms", "user", "password", "connectionString"))
 
 ### Analysis Settings
-analysisSettings <- readSettingsFile(here::here("analysis/settings/incidenceAnalysis1.yml"))
+analysisSettings <- readSettingsFile(here::here("analysis/settings/incidenceAnalysis.yml"))
 
 
 # E. Script --------------------
-
-#######if BAYER uncomment this line#################
-startSnowflakeSession(con, executionSettings)
 
 ## Get Baseline Covariates
 
