@@ -358,76 +358,18 @@ readr::write_csv(conceptTab, file = fs::path(appDataPath, "baselineConcepts.csv"
 cohort365 <- bindCsv(allPaths = allPaths,
                      task = listOfTasks[5], # baseline char
                      file = "cohort_covariates_365_0.csv") %>%
-  dplyr::mutate(
-    #pct = scales::label_percent(accuracy = 0.01, suffix = "")(pct),
-    timeWindow = "-365d - 0d",
-    covariateName = dplyr::case_when(
-      covariateId == 3 ~ "PID",
-      covariateId == 4 ~ "STD",
-      covariateId == 5 ~ "adenomyosis",
-      covariateId == 6 ~ "anemia",
-      covariateId == 7 ~ "antidepressants",
-      covariateId == 8 ~ "antipsychotics",
-      covariateId == 9 ~ "antithrombotics",
-      covariateId == 10 ~ "coagulopathy",
-      covariateId == 11 ~ "copperIUDdrug",
-      covariateId == 12 ~ "covid19",
-      covariateId == 13 ~ "diabetes",
-      covariateId == 14 ~ "disorderOfOvary",
-      covariateId == 15 ~ "dysmenorrhea",
-      covariateId == 16 ~ "endoHyperplasia",
-      covariateId == 17 ~ "endoPolyp",
-      covariateId == 18 ~ "endometriosis",
-      covariateId == 19 ~ "gonadalSteroids",
-      covariateId == 20 ~ "ironDefAnemia",
-      covariateId == 21 ~ "obesity",
-      covariateId == 22 ~ "ovulatoryDysfunction",
-      covariateId == 23 ~ "pain",
-      covariateId == 24 ~ "pcos",
-      covariateId == 25 ~ "tamoxifen",
-      covariateId == 26 ~ "uterineLeiomyoma"
-    )
+  dplyr::left_join(
+    cohortManifest %>% dplyr::select(databaseId, id, name),
+    by = c("databaseId" = "databaseId", "covariateId" = "id")
   ) %>%
+  dplyr::mutate(
+    covariateName = name,
+    timeWindow = "[-365 : 0]"
+    ) %>%
   dplyr::select(databaseId, timeWindow, cohortId, cohortName,
                 covariateId, covariateName, count, pct) %>%
-  dplyr::arrange(databaseId, cohortId, covariateId) #%>%
-# dplyr::rename(
-#   Database = databaseId,
-#   `Time Window` = timeWindow,
-#   `Cohort Id` = cohortId,
-#   `Cohort Name` = cohortName,
-#   `Covariate Id` = covariateId,
-#   `Covariate Name` = covariateName,
-#   `Count` = count,
-#   `Percentage` = pct
-# )
+  dplyr::arrange(databaseId, cohortId, covariateId)
 
-# cohort9999 <- bindCsv(allPaths = allPaths,
-#                       task = listOfTasks[3],
-#                       file = "cohort_covariates_9999_1.csv") %>%
-#   dplyr::mutate(
-#     pct = scales::label_percent(accuracy = 0.01, suffix = "")(pct),
-#     timeWindow = "anyt time prior"
-#   ) %>%
-#   dplyr::select(databaseId, timeWindow, cohortId, cohortName,
-#                 covariateId, covariateName, count, pct) %>%
-#   dplyr::arrange(databaseId, cohortId, covariateId) %>%
-#   dplyr::mutate(
-#     timeWindow = "any time prior"
-#   ) %>%
-#   dplyr::rename(
-#     Database = databaseId,
-#     `Time Window` = timeWindow,
-#     `Cohort Id` = cohortId,
-#     `Cohort Name` = cohortName,
-#     `Covariate Id` = covariateId,
-#     `Covariate Name` = covariateName,
-#     `Count` = count,
-#     `Percentage` = pct
-#   )
-# cohortCovariates <- dplyr::bind_rows(
-#   cohort365, cohort9999
-# )
 readr::write_csv(cohort365, file = fs::path(appDataPath, "baselineCohorts.csv"))
 
 
