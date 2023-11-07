@@ -7,7 +7,7 @@ library(readr)
 source("extras/R/helpers.R")
 
 #path to place app data
-appDataPath <- here::here("extras/shiny", "data")
+appDataPath <- here::here("shiny", "data")
 
 # make new directory
 appDataPath %>% fs::dir_create()

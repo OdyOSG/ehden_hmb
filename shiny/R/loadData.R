@@ -6,7 +6,7 @@
 library(dplyr)
 library(readr)
 
-source(here::here("extras/shiny", "R", "fn.R"))
+source(here::here("shiny", "R", "fn.R"))
 source(here::here("extras/R/helpers.R"))
 
 dataPath <- here::here("shiny", "data")
