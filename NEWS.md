@@ -1,3 +1,7 @@
+# EHDEN HMB v0.2.0
+
+* Add shiny app to preview results
+
 # EHDEN HMB v0.1.8
 
 * Fix pid and std file names in cohort definitions, changes anticipated build order
