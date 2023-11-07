@@ -24,9 +24,11 @@ title <- "EHDEN HMB"
 incidenceDescription <- "Incidence rate is calculated by 'Outcome Count'/'Person Days' * 100."
 underlyingDescription <- "Counts equal to 5 and below have been masked and replaced with '<5'."
 drugUtilizationDescription <- "Drug utilization counts equal to 5 and below have been masked and replaced with '<5."
-treatmentPatternsDescription <- "Treatment Patterns counts (Sequences) are restricted to 30"
-clinicalCharacteristicsDescription <- "Counts equal to 5 and below have been masked and replaced with '<5'."
-procedureAnalysisDescription <- "Counts equal to 5 and below have been masked and replaced with '<5'."
+treatmentPatternsDescription <- "Treatment Patterns counts (Sequences) are restricted to 30. HMB cohort is the population whose index event is HMB and are censored by hysterectomy. Thus we consider only drugs.
+HMB2 cohort are those whose index event is HMB where there is no censoring for hysterectomy. Therefore we consider both drugs and procedures."
+clinicalCharacteristicsDescription <- "Counts equal to 5 and below have been masked and replaced with '<5'. ICD10 Chapters are the rollup of conditions based on condition chapters. This is used to get a snapshot of comorbidities."
+procedureAnalysisDescription <- "Counts equal to 5 and below have been masked and replaced with '<5'.
+In the time to intervention tab, consider the time for only those in the population who experienced the event not the entire population."
 
 dashboardVersion <- "0.0.4"
 dashboardDate <- Sys.Date()
