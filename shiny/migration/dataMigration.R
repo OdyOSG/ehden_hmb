@@ -4,7 +4,7 @@ library(dplyr)
 library(readr)
 
 #source helper functions
-source("extras/R/helpers.R")
+source("shiny/migration/helpers.R")
 
 #path to place app data
 appDataPath <- here::here("shiny", "data")
