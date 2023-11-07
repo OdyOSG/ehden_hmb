@@ -8,7 +8,7 @@
 
 
 ### Step 1: Run migration script to populate 'shiny/data' folder with files
-source(here::here("extras", "dataMigration.R"))
+source(here::here("shiny/migration", "dataMigration.R"))
 
 
 ### Step 2: Once migration script is ran successfully, run the app in a browser
