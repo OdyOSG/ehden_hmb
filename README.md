@@ -55,6 +55,7 @@ This study will be run on OMOP databases in the EHDEN Network. The table below l
 | Disease Analyzer                    | Germany            | Boehringer Ingelheim     |
 | Hospital del Mar (Barcelona)        | Spain              | Hospital del Mar         |
 | Semmelweis University               | Hungary            | Semmelweis University    |
+| Helsinksi University Hospital       | Finland            | Helsinksi University     |
 
 
 ## Study Documentation
