@@ -1,22 +1,19 @@
-# A. Meta Info -----------------------
+# A. File Info -----------------------
 
 # Task: Time to Event
-# Author: Martin Lavallee
-# Date: 2023-07-27
 # Description: The purpose of the _timeToEvent.R script is to.....
 
-# B. Functions ------------------------
-
-
 source("analysis/private/_utilities.R")
+
 
 # B. Functions ------------------------
 
 get_tte_table <- function(con,
-                                workDatabaseSchema,
-                                cohortTable,
-                                targetCohortId,
-                                outcomeCohortIds) {
+                          workDatabaseSchema,
+                          cohortTable,
+                          targetCohortId,
+                          outcomeCohortIds) {
+
   sql <- "
     SELECT
         t.subject_id,
@@ -30,9 +27,9 @@ get_tte_table <- function(con,
       	  AND o.cohort_start_date >= t.cohort_start_date
       	  AND o.cohort_start_date <= t.cohort_end_date
       	  AND o.cohort_definition_id IN (@outcomeId)
-    WHERE t.cohort_definition_id = @targetId
-  ;
-"
+    WHERE t.cohort_definition_id = @targetId;
+  "
+
   tteSql <- SqlRender::render(
     sql,
     workDatabaseSchema = workDatabaseSchema,
@@ -60,7 +57,6 @@ runTimeToEvent <- function(con,
                            executionSettings,
                            analysisSettings) {
 
-
   ## get schema vars
   cdmDatabaseSchema <- executionSettings$cdmDatabaseSchema
   workDatabaseSchema <- executionSettings$workDatabaseSchema
@@ -71,7 +67,6 @@ runTimeToEvent <- function(con,
   targetCohortIds <- analysisSettings$timeToEvent$cohorts$targetCohortId$id
   targetCohortName <- analysisSettings$timeToEvent$cohorts$targetCohortId$name
   tteCohortsIds <- analysisSettings$timeToEvent$cohorts$tteCohorts$id
-
 
   # get outputFolder
   outputFolder <- fs::path(here::here("results"), databaseId, analysisSettings$timeToEvent$outputFolder) %>%
@@ -96,6 +91,7 @@ runTimeToEvent <- function(con,
     cohort_print <- paste(targetCohortIds[i], targetCohortName[i], sep = ": ")
     cli::cat_bullet("Calculating time to event for cohort ", crayon::magenta(cohort_print),
                     bullet = "checkbox_on", bullet_col = "green")
+
     tab2 <- tb %>%
       dplyr::filter(!is.na(cohortDefinitionId)) %>%
       dplyr::mutate(
@@ -117,13 +113,10 @@ runTimeToEvent <- function(con,
 
   survDat <- do.call('rbind', survDat)
 
-
   verboseSave(
     object = survDat,
     saveName = "tte_analysis",
     saveLocation = outputFolder
   )
-
-
 
 }

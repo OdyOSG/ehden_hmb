@@ -1,9 +1,8 @@
-# A. Meta Info -----------------------
+# A. File Info -----------------------
 
 # Task: Treatment History
-# Author: Carina
-# Date: 2023-07-26
 # Description: The purpose of the _treatmentHistory.R script is to.....
+
 
 # B. Functions ------------------------
 
@@ -17,14 +16,12 @@ get_tx_history <- function(con,
                            outputFolder) {
 
 
-
   #collect cohorts
   current_cohorts <- collect_cohorts(con = con,
                                      workDatabaseSchema = workDatabaseSchema,
                                      cohortTable = cohortTable,
                                      targetId = targetId,
                                      eventIds = treatmentCohorts$id)
-
 
 
   # Run treatment history
@@ -61,8 +58,8 @@ get_tx_history <- function(con,
   cli::cat_line()
 
   invisible(res)
-
 }
+
 
 ## Run bulk treatment history module -------------
 
@@ -126,7 +123,6 @@ runTreatmentHistory <- function(con,
                        outputFolder = save_path)
 
 
-
   }
 
   tok <- Sys.time()
@@ -136,7 +132,5 @@ runTreatmentHistory <- function(con,
                   bullet = "info", bullet_col = "blue")
 
   invisible(treatmentCohorts)
-
 }
-
 

@@ -1,10 +1,6 @@
 # Preview results -------------
-# The purpose of this file is to launch a local shiny app to review the results
-# of the analysis conducted for ehden_hmb
-
-# Once the study has been executed results will be saved to a folder separated
-# by database name.
-
+# The purpose of this file is to launch a local shiny app to review the results of the analysis conducted for ehden_hmb
+# Once the study has been executed results will be saved to a folder separated by database name.
 
 
 ### Step 1: Run migration script to populate 'shiny/data' folder with files

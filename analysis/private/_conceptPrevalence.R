@@ -1,18 +1,18 @@
-# A. Meta Info -----------------------
+# A. File Info -----------------------
 
 # Title: Concept Prevalence
-# Author: Martin Lavallee
-# Date: 2023-08-09
-# Version: 0.0.1
 # Description: These internal function run prevalence of concepts using Feature Extraction
 
 
 # B. Helpers -----------------
 
 silentCovariates <- function(con, cdmDatabaseSchema, cohortTable, cohortDatabaseSchema, cohortId, covSettings) {
+
   cli::cat_bullet("Getting Covariates from database...",
                   bullet = "info", bullet_col = "blue")
+
   tik <- Sys.time()
+
   #get covariate data
   quietCov <- purrr::quietly(FeatureExtraction::getDbCovariateData)
   cov <- quietCov(
@@ -24,13 +24,16 @@ silentCovariates <- function(con, cdmDatabaseSchema, cohortTable, cohortDatabase
     covariateSettings = covSettings,
     aggregated = TRUE
   )$result
+
   tok <- Sys.time()
+
   cli::cat_bullet("Covariates built at: ", crayon::red(tok),
                   bullet = "info", bullet_col = "blue")
   tdif <- tok - tik
   tok_format <- paste(scales::label_number(0.01)(as.numeric(tdif)), attr(tdif, "units"))
   cli::cat_bullet("Covariate build took: ", crayon::red(tok_format),
                   bullet = "info", bullet_col = "blue")
+
   return(cov)
 }
 
@@ -44,11 +47,12 @@ verboseSave <- function(object, saveName, saveLocation) {
                   bullet = "info", bullet_col = "blue")
   cli::cat_bullet(crayon::cyan(saveLocation), bullet = "pointer", bullet_col = "yellow")
   cli::cat_line()
+
   invisible(savePath)
 }
 
-# C. Domain FE -------------------------
 
+# C. Domain FE -------------------------
 
 baselineDemographics <- function(con,
                                  cohortDatabaseSchema,
@@ -109,6 +113,7 @@ baselineContinuous <- function(con,
                                outputFolder) {
 
   cli::cat_rule("Build Continuous Covariates")
+
   # Create Continuous settings
   covSettings <- FeatureExtraction::createCovariateSettings(
     useDemographicsAge = TRUE,
@@ -142,6 +147,7 @@ baselineContinuous <- function(con,
 
   invisible(ctsTbl)
 }
+
 
 baselineDrugs <- function(con,
                           cohortDatabaseSchema,
@@ -195,7 +201,6 @@ baselineDrugs <- function(con,
   )
 
   invisible(drugTbl)
-
 }
 
 
@@ -246,8 +251,8 @@ baselineConditions <- function(con,
   )
 
   invisible(condTbl)
-
 }
+
 
 baselineProcedures <- function(con,
                                cohortDatabaseSchema,
@@ -259,7 +264,6 @@ baselineProcedures <- function(con,
                                outputFolder) {
 
   cli::cat_rule("Build Procedure Covariates")
-
 
   # Create Drugs settings
   covSettings <- FeatureExtraction::createCovariateSettings(
@@ -299,11 +303,12 @@ baselineProcedures <- function(con,
   invisible(procTbl)
 }
 
+
 # D. Execute ----------------------
 
 executeConceptCharacterization <- function(con,
-                                                 executionSettings,
-                                                 analysisSettings) {
+                                           executionSettings,
+                                           analysisSettings) {
 
   ## Prep
   ## get schema vars
@@ -315,14 +320,12 @@ executeConceptCharacterization <- function(con,
   outputFolder <- fs::path(here::here("results"), databaseId, analysisSettings[[1]]$outputFolder) %>%
     fs::dir_create()
 
-
   ## get cohort Ids
   cohortKey <- analysisSettings$baselineCharacteristics$cohorts$targetCohort
   covariateKey <- analysisSettings$baselineCharacteristics$cohorts$covariateCohorts
 
   timeA <- analysisSettings$baselineCharacteristics$timeWindow$startDay
   timeB <- analysisSettings$baselineCharacteristics$timeWindow$endDay
-
 
   cohortId <- cohortKey$id
   cli::cat_boxx("Building Baseline Covariates")
@@ -332,8 +335,7 @@ executeConceptCharacterization <- function(con,
                   bullet = "info", bullet_col = "blue")
   cli::cat_line()
 
-
-  # RUn baseline covariates
+  # Run baseline covariates
   tik <- Sys.time()
 
   # Step 1: Run Baseline Demographics
@@ -392,6 +394,6 @@ executeConceptCharacterization <- function(con,
   tok_format <- paste(scales::label_number(0.01)(as.numeric(tdif)), attr(tdif, "units"))
   cli::cat_bullet("Execution took: ", crayon::red(tok_format),
                   bullet = "info", bullet_col = "blue")
-  invisible(tok)
 
+  invisible(tok)
 }

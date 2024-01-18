@@ -1,3 +1,4 @@
+
 buildSankeyData <- function(dt) {
 
   # build links
@@ -33,8 +34,8 @@ buildSankeyData <- function(dt) {
     'links' = links,
     'nodes' = nodes
   )
-  return(res)
 
+  return(res)
 }
 
 
@@ -67,7 +68,6 @@ plotSankey <- function(sankey) {
   )
 
   return(sankey)
-
 }
 
 
@@ -98,28 +98,30 @@ plotYearlyIncidence <- function(dat) {
   return(p)
 }
 
+
 relabelStrata <- function(dat, oldLabels, newLabels) {
 
   for (i in seq_along(oldLabels)){
     dat$strata <- gsub(oldLabels[i], newLabels[i], dat$strata)
   }
-  return(dat)
 
+  return(dat)
 }
+
 
 relabelOutcome <- function(dat, oldLabels, newLabels) {
 
   for (i in seq_along(oldLabels)){
     dat$outcomeCohortId <- gsub(oldLabels[i], newLabels[i], dat$outcomeCohortId)
   }
-  return(dat)
 
+  return(dat)
 }
+
 
 # For strata ----------------------
 
 plotKM <- function(dat) {
-
 
   plot_colors <- unname(grafify::graf_palettes$kelly)
 
@@ -134,11 +136,10 @@ plotKM <- function(dat) {
     )
 
   return(p)
-
 }
 
-findSurvProbAtTime <- function(dat, strata, t) {
 
+findSurvProbAtTime <- function(dat, strata, t) {
 
   label <- dplyr::case_when(
     t == 0.5 ~ "6 month",
@@ -159,11 +160,10 @@ findSurvProbAtTime <- function(dat, strata, t) {
       survivalTime = label
     ) %>%
     dplyr::select(
-      database, targetId, strata, survivalTime, estimate
+      database, `Cohort Name`, strata, survivalTime, estimate
     )
 
   return(survProb)
-
 }
 
 
@@ -205,22 +205,20 @@ makeSurvProbTab <- function(dat) {
   #                 "nsaids", "progestin", "tranexamicAcid", "ulipristalAcetate")
   # )
 
-
   survProbTab2 <- survProbTab %>%
     tidyr::pivot_wider(
-      id_cols = c(database, targetId, strata),
+      id_cols = c(database, `Cohort Name`, strata),
       names_from = survivalTime,
       values_from = estimate
     )
 
   return(survProbTab2)
-
 }
 
-# For outcome ----------------------------
-#
-plotKM2 <- function(dat) {
 
+# For outcome ----------------------------
+
+plotKM2 <- function(dat) {
 
   plot_colors <- unname(grafify::graf_palettes$kelly)
 
@@ -235,11 +233,10 @@ plotKM2 <- function(dat) {
     )
 
   return(p)
-
 }
 
-findSurvProbAtTime2 <- function(dat, outcome, t) {
 
+findSurvProbAtTime2 <- function(dat, outcome, t) {
 
   label <- dplyr::case_when(
     t == 0.5 ~ "6 month",
@@ -260,11 +257,10 @@ findSurvProbAtTime2 <- function(dat, outcome, t) {
       survivalTime = label
     ) %>%
     dplyr::select(
-      database, targetId, outcomeCohortId, survivalTime, estimate
+      database, `Cohort Name`, targetId, outcomeCohortId, survivalTime, estimate
     )
 
   return(survProb)
-
 }
 
 
@@ -306,14 +302,12 @@ makeSurvProbTab2 <- function(dat) {
   #                 "nsaids", "progestin", "tranexamicAcid", "ulipristalAcetate")
   # )
 
-
   survProbTab2 <- survProbTab %>%
     tidyr::pivot_wider(
-      id_cols = c(database, targetId, outcomeCohortId),
+      id_cols = c(database, `Cohort Name`, outcomeCohortId),
       names_from = survivalTime,
       values_from = estimate
     )
 
   return(survProbTab2)
-
 }

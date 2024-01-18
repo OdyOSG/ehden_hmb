@@ -1,9 +1,8 @@
-# A. Meta Info -----------------------
+# A. File Info -----------------------
 
 # Task: Treatment Patterns
-# Author: Carina
-# Date: 2023-07-26
 # Description: The purpose of the _treatmentPatterns.R script is to.....
+
 
 # B. Functions ------------------------
 
@@ -20,8 +19,10 @@ verboseSave <- function(object, saveName, saveLocation) {
                   bullet = "info", bullet_col = "blue")
   cli::cat_bullet(crayon::cyan(saveLocation), bullet = "pointer", bullet_col = "yellow")
   cli::cat_line()
+
   invisible(savePath)
 }
+
 
 cohortCovariates <- function(con,
                              cohortDatabaseSchema,
@@ -36,6 +37,7 @@ cohortCovariates <- function(con,
 
   targetId <- cohortKey$id
   eventId <- covariateKey$id
+
   #sql to get cohort covariates - period prevalence change
   sql <- "
     SELECT
@@ -60,8 +62,9 @@ cohortCovariates <- function(con,
       OR e.cohort_end_date BETWEEN
           DATEADD(day, @timeA, t.cohort_start_date) AND
           DATEADD(day, @timeB, t.cohort_start_date))
-    GROUP BY t.cohort_definition_id, e.cohort_definition_id
+    GROUP BY t.cohort_definition_id, e.cohort_definition_id;
 "
+
   # Render and translate sql
   cohortCovariateSql <- SqlRender::render(
     sql,
@@ -115,9 +118,8 @@ cohortCovariates <- function(con,
 
 
   invisible(cohortCovTbl)
-
-
 }
+
 
 executePostIndexDrugUtilization <- function(con,
                                             executionSettings,
@@ -145,7 +147,6 @@ executePostIndexDrugUtilization <- function(con,
   cohortId <- cohortKey$id
   covId <- covariateKey$id
 
-
   #Start execution talk
   cli::cat_boxx("Building Post-Index Covariates")
   cli::cat_line()
@@ -166,7 +167,7 @@ executePostIndexDrugUtilization <- function(con,
     cli::cat_bullet("Using cohorts ids:\n   ", crayon::green(cat_cohortId),
                     bullet = "info", bullet_col = "blue")
 
-    # Run post-index s
+    # Run post-index
     cohortCovariates(con = con,
                      cohortDatabaseSchema = workDatabaseSchema,
                      cohortTable = cohortTable,
@@ -176,8 +177,8 @@ executePostIndexDrugUtilization <- function(con,
                      timeB = timeB[i],
                      outputFolder = piduFolder)
 
-
   }
+
   tok <- Sys.time()
   cli::cat_bullet("Execution Completed at: ", crayon::red(tok),
                   bullet = "info", bullet_col = "blue")
@@ -185,8 +186,8 @@ executePostIndexDrugUtilization <- function(con,
   tok_format <- paste(scales::label_number(0.01)(as.numeric(tdif)), attr(tdif, "units"))
   cli::cat_bullet("Execution took: ", crayon::red(tok_format),
                   bullet = "info", bullet_col = "blue")
-  invisible(tok)
 
+  invisible(tok)
 }
 
 
@@ -236,45 +237,13 @@ prepSankey <- function(th, minNumPatterns) {
   )
 
   return(res)
-
 }
-#
-# getPersonIds <- function(con,
-#                          workDatabaseSchema,
-#                          cohortTable,
-#                          cohortIds) {
-#
-#   sql <- "
-#     SELECT cohort_definition_id, subject_id
-#     FROM @workDatabaseSchema.@cohortTable
-#     WHERE cohort_definition_id IN (@cohortIds)
-#   " %>%
-#     SqlRender::render(
-#       workDatabaseSchema = workDatabaseSchema,
-#       cohortTable = cohortTable,
-#       cohortIds = cohortIds
-#   ) %>%
-#     SqlRender::translate(targetDialect = con@dbms)
-#
-#   cohortTbl <-  DatabaseConnector::querySql(connection = con, sql = sql)
-#   colnames(cohortTbl) <- tolower(colnames(cohortTbl))
-#
-#   ll <- cohortTbl %>%
-#     dplyr::arrange(cohort_definition_id) %>%
-#     tidyr::nest(.by = cohort_definition_id) %>%
-#     dplyr::mutate(
-#       idx = as.integer(substr(cohort_definition_id, 1, 1))
-#     ) %>%
-#     dplyr::select(cohort_definition_id, idx, data)
-#
-#   return(ll)
-#
-# }
+
 
 
 executeTreatmentPatterns <- function(con,
-                                 executionSettings,
-                                 analysisSettings) {
+                                     executionSettings,
+                                     analysisSettings) {
 
   ## Prep
   ## get schema vars
@@ -327,9 +296,9 @@ executeTreatmentPatterns <- function(con,
 
   invisible(patterns)
 }
-#
-# ## Time to Event -----------------------
 
+
+## Time to Event -----------------------
 
 prepTte <- function(con,
                     th,
@@ -341,6 +310,7 @@ prepTte <- function(con,
 
   targetCohortIds <- targetCohorts$id
   targetCohortNames <- targetCohorts$name
+
   # get target cohort table
   sql <- "SELECT * FROM @write_schema.@cohort_table
           WHERE cohort_definition_id IN (@target_cohort_id);"  %>%
@@ -352,7 +322,6 @@ prepTte <- function(con,
     SqlRender::translate(con@dbms)
 
   targetTbl <- DatabaseConnector::querySql(connection = con, sql = sql)
-
   colnames(targetTbl) <- tolower(colnames(targetTbl))
 
   #prep treatment history table to tibble
@@ -403,16 +372,17 @@ prepTte <- function(con,
         targetCohortName = targetCohortNames[i]
       )
   }
+
   #bind data at the end
   survDat <- do.call('rbind', survDat)
-  return(survDat)
 
+  return(survDat)
 }
+
 
 executeTimeToEvent <- function(con,
                            executionSettings,
                            analysisSettings) {
-
 
   ## Prep
   ## get schema vars
@@ -480,6 +450,5 @@ executeTimeToEvent <- function(con,
   }
 
   invisible(tteDat)
-
 }
 

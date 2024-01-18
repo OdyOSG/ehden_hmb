@@ -1,9 +1,8 @@
-# A. Meta Info -----------------------
+# A. File Info -----------------------
 
 # Task: Execute Study
-# Author: Martin Lavallee
-# Date: 2023-07-14
 # Description: The purpose of the _executeStudy.R script is to provide functions to execute the study.
+
 
 # B. Functions ------------------------
 
@@ -15,9 +14,10 @@ find_config_block <- function(lines, startBlock = "# <<<", endBlock = "# >>>") {
   end <- which(lines == "# >>>")
 
   ll <- c(start + 1L, end - 1L)
-  return(ll)
 
+  return(ll)
 }
+
 
 prep_studyTask <- function(lines, value) {
 
@@ -31,6 +31,7 @@ prep_studyTask <- function(lines, value) {
 
   lines2 <- c(lines[rlang::seq2(1, start - 1L)], new_configBlock, lines[rlang::seq2(end + 1, length(lines))]) |>
     paste(collapse = "\n")
+
   return(lines2)
 }
 
@@ -46,5 +47,4 @@ runStudyTask <- function(file, configBlock, env = rlang::caller_env()) {
   }
 
   invisible(res)
-
 }

@@ -1,13 +1,10 @@
-# A. Meta Info -----------------------
+# A. File Info -----------------------
 
 # Task: Execution Settings
-# Author: Martin Lavallee
-# Date: 2023-04-12
-# Description: The purpose of the _executionSettings.R script is to
-# set the execution settings and initialize cohorts
+# Description: The purpose of the _executionSettings.R script is to set the execution settings and initialize cohorts
+
 
 # B. Functions ------------------------
-#
 
 getCohortManifest <- function(inputPath = here::here("cohortsToCreate")) {
 
@@ -36,11 +33,13 @@ getCohortManifest <- function(inputPath = here::here("cohortsToCreate")) {
     dplyr::mutate(
       id = dplyr::row_number(), .before = 1
     )
+
   return(tb)
 }
 
 
 startSnowflakeSession <- function(con, executionSettings) {
+
   sql <- "
   ALTER SESSION SET JDBC_QUERY_RESULT_FORMAT='JSON';
     USE ROLE @user_role;
@@ -88,11 +87,15 @@ readSettingsFile <- function(settingsFile) {
   return(tt)
 }
 
+
 listToTibble <- function(ll) {
+
   df <- do.call(rbind.data.frame, ll) |>
     tibble::as_tibble()
+
   return(df)
 }
+
 
 verboseSave <- function(object, saveName, saveLocation) {
 
@@ -103,5 +106,6 @@ verboseSave <- function(object, saveName, saveLocation) {
                   bullet = "info", bullet_col = "blue")
   cli::cat_bullet(crayon::cyan(saveLocation), bullet = "pointer", bullet_col = "yellow")
   cli::cat_line()
+
   invisible(savePath)
 }

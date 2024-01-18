@@ -1,27 +1,22 @@
-# Dependencies -------------------
+# Dependencies ----------------
+
 library(tidyverse)
 library(dplyr)
 library(readr)
 
-#source helper functions
 source("shiny/migration/helpers.R")
 
-#path to place app data
-appDataPath <- here::here("shiny", "data")
 
-# make new directory
-appDataPath %>% fs::dir_create()
+appDataPath <- here::here("shiny", "data_old") # Path to place app data
 
+appDataPath %>% fs::dir_create() # Create new directory
 
-# set path to the execution results
-resultsPath <- here::here("results")
+resultsPath <- here::here("results") # Set path to the execution results
 
-#list the databases used in the execution
-listOfDatabase <- fs::dir_ls(resultsPath) %>%
+listOfDatabase <- fs::dir_ls(resultsPath) %>% #list the databases used in the execution
   basename()
 
-
-#list the execution tasks
+### List the execution tasks
 listOfTasks <- c("01_buildCohorts",
                  "02_cohortDiagnostics",
                  "03_buildStrata",
@@ -37,16 +32,17 @@ listOfTasks <- c("01_buildCohorts",
                  "13_treatmentHistory2",
                  "14_treatmentPatterns")
 
-#create a dataframe of all permutations of paths
+### Create a data frame of all permutations of paths
 allPaths <- tidyr::expand_grid(listOfDatabase, listOfTasks) %>%
   dplyr::mutate(
     fullPath = fs::path(resultsPath, listOfDatabase, listOfTasks)
   )
 
-## 1. Bind and save Cohort Manifest for all databases-----------
+
+## 1. Bind and save Cohort Manifest for all databases ----------------
 
 cohortManifest <- bindCsv(allPaths = allPaths,
-                          task = listOfTasks[1], # cohorts
+                          task = listOfTasks[1],       # Cohorts
                           file = "cohortManifest.csv")
 cm2 <- cohortManifest %>%
   dplyr::select(databaseId, id, name, entries, subjects) %>%
@@ -67,9 +63,10 @@ cm2 <- cohortManifest %>%
 readr::write_csv(cm2, file = fs::path(appDataPath, "cohortCounts.csv"))
 
 
-## 2. Bind and save strata table for all databases--------------
+## 2. Bind and save strata table for all databases ----------------
+
 strataManifest <- bindCsv(allPaths = allPaths,
-                          task = listOfTasks[3], # strata
+                          task = listOfTasks[3],     # Strata
                           file = "strata_table.csv")
 
 sm2 <- strataManifest %>%
@@ -86,7 +83,7 @@ sm2 <- strataManifest %>%
 
 readr::write_csv(sm2, file = fs::path(appDataPath, "strataCounts.csv"))
 
-# bind all cohorts together for full list
+### Bind all cohorts together for full list
 allCohorts <- dplyr::bind_rows(
   cohortManifest %>%
     dplyr::rename(cohortName = name) %>%
@@ -100,15 +97,15 @@ allCohorts <- dplyr::bind_rows(
 )
 
 
-## 3) Baseline Demographics------------------
+## 3. Baseline Demographics ----------------
 `%notin%` <- Negate("%in%")
+
 demo <- bindCsv(allPaths = allPaths,
                 task = listOfTasks[5], # baseline char
                 file = "demographics_baseline.csv")
 
 demo2 <- demo %>%
   dplyr::mutate(
-    #pct = scales::label_percent(accuracy = 0.01, suffix ="")(pct),
     Covariate = dplyr::case_when(
       # gender
       analysisId == 1 & conceptId == 8507 ~ "Gender: Male",
@@ -235,20 +232,11 @@ demo2 <- demo %>%
     databaseId, cohortDefinitionId, id
   )
 
-# ) %>%
-# dplyr::rename(
-#   Database = databaseId,
-#   `Cohort Id` = cohortDefinitionId,
-#   `Cohort Name` = cohortName,
-#   `Covariate Id` = id,
-#   `Covariate Name` = Covariate,
-#   `Count` = n,
-#   `Percentage` = pct
-# )
+
 readr::write_csv(demo2, file = fs::path(appDataPath, "baselineDemographics.csv"))
 
 
-## 4) Baseline Continuous ------------
+## 4. Baseline Continuous ----------------
 
 cts <- bindCsv(allPaths = allPaths,
                task = listOfTasks[5], # baseline char
@@ -260,7 +248,6 @@ cts2 <- cts %>%
     allCohorts, by = c("cohortDefinitionId" ="id"), relationship = "many-to-many"
   ) %>%
   dplyr::mutate(
-    #iqr = glue::glue("({p25Value}, {p75Value})")
     iqr = p75Value - p25Value,
     name = stringr::str_to_title(name)
   ) %>%
@@ -269,21 +256,14 @@ cts2 <- cts %>%
   ) %>%
   dplyr::arrange(
     databaseId, cohortDefinitionId, covariateId
-  ) #%>%
-# dplyr::rename(
-#   Database = databaseId,
-#   `Cohort Id` = cohortDefinitionId,
-#   `Cohort Name` = cohortName,
-#   `Covariate Id` = covariateId,
-#   `Covariate Name` = name,
-#   `Median` = medianValue,
-#   `IQR` = iqr
-# )
+  )
+
 readr::write_csv(cts2, file = fs::path(appDataPath, "baselineContinuous.csv"))
 
-## 5) Baseline Concepts ------------
 
-# extract drug concepts
+## 5. Baseline Concepts ----------------
+
+### Extract drug concepts
 drug <- bindCsv(allPaths = allPaths,
                 task = listOfTasks[5], # baseline char
                 file = "drugs_baseline.csv") %>%
@@ -298,7 +278,7 @@ drug <- bindCsv(allPaths = allPaths,
     databaseId, domain, cohortDefinitionId, cohortName, conceptId, name,  n, pct
   )
 
-# extract condition concepts
+### Extract condition concepts
 cond <- bindCsv(allPaths = allPaths,
                 task = listOfTasks[5], # baseline char
                 file = "conditions_baseline.csv") %>%
@@ -313,11 +293,9 @@ cond <- bindCsv(allPaths = allPaths,
     databaseId, domain, cohortDefinitionId, cohortName, conceptId, name,  n, pct
   )
 
-# extract procedure concepts
-#skip THIN no procedures
+### Extract procedure concepts (exclude THINBE procedures)
 procPaths <- allPaths %>%
   dplyr::filter(listOfDatabase != "THINBE")
-
 
 proc <- bindCsv(allPaths = procPaths,
                 task = listOfTasks[5], # baseline char
@@ -335,26 +313,14 @@ proc <- bindCsv(allPaths = procPaths,
 
 conceptTab <- dplyr::bind_rows(
   drug, cond, proc
-) %>%
-  # dplyr::mutate(
-  #   pct = scales::label_percent(accuracy = 0.01, suffix = "")(pct)
-  # ) %>%
-  dplyr::arrange(databaseId, cohortDefinitionId, domain, conceptId)
+) %>% dplyr::arrange(databaseId, cohortDefinitionId, domain, conceptId)
 
-#%>%
-# dplyr::rename(
-#   Database = databaseId,
-#   `Cohort Id` = cohortDefinitionId,
-#   `Cohort Name` = cohortName,
-#   `Covariate Id` = conceptId,
-#   `Covariate Name` = name,
-#   `Count` = n,
-#   `Percentage` = pct
-# )
+
 readr::write_csv(conceptTab, file = fs::path(appDataPath, "baselineConcepts.csv"))
 
 
-## 6) Baseline Cohorts ------------
+## 6. Baseline Cohorts ----------------
+
 cohort365 <- bindCsv(allPaths = allPaths,
                      task = listOfTasks[5], # baseline char
                      file = "cohort_covariates_365_0.csv") %>%
@@ -373,7 +339,8 @@ cohort365 <- bindCsv(allPaths = allPaths,
 readr::write_csv(cohort365, file = fs::path(appDataPath, "baselineCohorts.csv"))
 
 
-## 7) ICD 10 Chapters Baseline ----------------
+## 7. ICD10 Chapters Baseline ----------------
+
 allCohorts2 <- dplyr::bind_rows(
   cohortManifest %>%
     dplyr::rename(cohortName = name,
@@ -387,7 +354,7 @@ allCohorts2 <- dplyr::bind_rows(
     dplyr::distinct()
 )
 
-# extract icd10
+### Extract ICD10
 icd10 <- bindCsv(allPaths = allPaths,
                  task = listOfTasks[5], # baseline char
                  file = "condition_chapters.csv") %>%
@@ -434,26 +401,17 @@ icd10 <- bindCsv(allPaths = allPaths,
   ) %>%
   dplyr::arrange(databaseId, COHORT_ID, CATEGORY_ID) %>%
   dplyr::mutate(
-    pct = COUNTVALUE / n#,
-    #pct = scales::label_percent(accuracy = 0.01, suffix = "")(pct)
+    pct = COUNTVALUE / n
   ) %>%
   dplyr::select(databaseId, COHORT_ID, cohortName,
-                CATEGORY_CODE, categoryName, COUNTVALUE, pct) #%>%
-# dplyr::rename(
-#   Database = databaseId,
-#   `Cohort Id` = COHORT_ID,
-#   `Cohort Name` = cohortName,
-#   `Concept Id` = CATEGORY_CODE,
-#   `Category Name` = categoryName,
-#   `Count` = COUNTVALUE,
-#   `Percentage` = pct
-# )
+                CATEGORY_CODE, categoryName, COUNTVALUE, pct)
 
 readr::write_csv(icd10, file = fs::path(appDataPath, "baselineChapters.csv"))
 
-## 8) Post Index Prevalence ---------------------
 
-### A) Post Index Conditions --------------------
+## 8. Post Index Prevalence ----------------
+
+### A. Post Index Conditions ----------------
 
 piPrevFilesCond <- c("cohort_covariates_1_365.csv",
                      "cohort_covariates_366_730.csv",
@@ -461,13 +419,13 @@ piPrevFilesCond <- c("cohort_covariates_1_365.csv",
 piPrevTimeFrameCond <- c("1d - 365d",
                          "366d - 730d",
                          "731d - 1825d")
-piPrevCond <- purrr::map2_dfr(piPrevFilesCond, # files to use
-                              piPrevTimeFrameCond, # time frame column to add
-                              ~bindCsv(# bind csv
+piPrevCond <- purrr::map2_dfr(piPrevFilesCond,         # files to use
+                              piPrevTimeFrameCond,     # time frame column to add
+                              ~bindCsv(                # bind csv
                                 allPaths = allPaths,
                                 task = listOfTasks[6], # postindex Conditions
                                 file = .x) %>%
-                                dplyr::mutate( # add timeWindow Column
+                                dplyr::mutate(         # add timeWindow Column
                                   timeWindow = .y
                                 ))  %>%
   dplyr::mutate(
@@ -486,9 +444,7 @@ piPrevCond <- purrr::map2_dfr(piPrevFilesCond, # files to use
   dplyr::rename(covariateName = name)
 
 
-
-
-### B) Post Index Drugs --------------------
+### B. Post Index Drugs ----------------
 
 piPrevFilesDrugs <- c(
   "cohort_covariates_1_183.csv",
@@ -497,6 +453,7 @@ piPrevFilesDrugs <- c(
   "cohort_covariates_366_730.csv",
   "cohort_covariates_731_1825.csv"
 )
+
 piPrevTimeFrameDrugs <- c(
   "1d - 183d",
   "184d - 365d",
@@ -504,13 +461,14 @@ piPrevTimeFrameDrugs <- c(
   "366d - 730d",
   "731d - 1825d"
 )
-piPrevDrugs <- purrr::map2_dfr(piPrevFilesDrugs, # files to use
-                               piPrevTimeFrameDrugs, # time frame column to add
-                               ~bindCsv(# bind csv
+
+piPrevDrugs <- purrr::map2_dfr(piPrevFilesDrugs,        # files to use
+                               piPrevTimeFrameDrugs,    # time frame column to add
+                               ~bindCsv(                # bind csv
                                  allPaths = allPaths,
                                  task = listOfTasks[7], # postindex Drugs
                                  file = .x) %>%
-                                 dplyr::mutate( # add timeWindow Column
+                                 dplyr::mutate(         # add timeWindow Column
                                    timeWindow = .y
                                  )) %>%
   dplyr::mutate(
@@ -518,8 +476,9 @@ piPrevDrugs <- purrr::map2_dfr(piPrevFilesDrugs, # files to use
   )
 
 
-### C) Post Index Procedures --------------------
-#skip THIN no procedures
+### C. Post Index Procedures ----------------
+# skip THIN no procedures
+
 piPrevFilesProc <- c("procedure_prevalence_1.csv",
                      "procedure_prevalence_1001.csv",
                      "procedure_prevalence_1002.csv",
@@ -527,10 +486,10 @@ piPrevFilesProc <- c("procedure_prevalence_1.csv",
 
 piPrevProcCohorts <- c(1L, 1001L, 1002L, 1003L)
 
-piPrevProc <- purrr::map2_dfr(piPrevFilesProc, # files to use
-                              piPrevProcCohorts, # cohorts
-                              ~bindCsv(# bind csv
-                                allPaths = procPaths,#skip THIN no procedures
+piPrevProc <- purrr::map2_dfr(piPrevFilesProc,          # files to use
+                              piPrevProcCohorts,        # cohorts
+                              ~bindCsv(                 # bind csv
+                                allPaths = procPaths,   # skip THIN no procedures
                                 task = listOfTasks[11], # postindex Proc
                                 file = .x) %>%
                                 dplyr::mutate(
@@ -574,13 +533,13 @@ postIndexPrev <- dplyr::bind_rows(
 
 readr::write_csv(postIndexPrev, file = fs::path(appDataPath, "postIndexPrevalence.csv"))
 
-## 9) Incidence -----------------------
+
+## 9. Incidence ----------------
 
 inicFiles <- glue::glue("incidence_analysis_ref_{1:4}.csv")
 
-
-inic <- purrr::map_dfr(inicFiles, # files to use
-                       ~bindCsv(# bind csv
+inic <- purrr::map_dfr(inicFiles,               # files to use
+                       ~bindCsv(                # bind csv
                          allPaths = allPaths,
                          task = listOfTasks[4],
                          file = .x))
@@ -589,43 +548,29 @@ fctOrder <- c("All", as.character(2000:2022))
 
 inic2 <- inic %>%
   dplyr::mutate(
-    # timeWindow = glue::glue("{TAR_START_OFFSET}d - {TAR_END_OFFSET}d"),
     START_YEAR = ifelse(is.na(START_YEAR), "All", as.character(START_YEAR)),
     START_YEAR = factor(START_YEAR, levels = fctOrder),
-    #INCIDENCE_PROPORTION_P100P = scales::label_number(accuracy = 0.01)(INCIDENCE_PROPORTION_P100P),
     INCIDENCE_RATE_P1000PY = INCIDENCE_RATE_P100PY * 10
   ) %>%
   dplyr::select(databaseId,
-                #TARGET_COHORT_DEFINITION_ID, TARGET_NAME,
                 START_YEAR,
                 OUTCOME_COHORT_DEFINITION_ID, OUTCOME_NAME,
                 PERSONS_AT_RISK, PERSON_DAYS, OUTCOMES,
                 INCIDENCE_PROPORTION_P100P,
                 INCIDENCE_RATE_P1000PY) %>%
-  dplyr::arrange(databaseId, OUTCOME_COHORT_DEFINITION_ID, START_YEAR) #%>%
-# dplyr::rename(
-#   Database = databaseId,
-#   `Year` = START_YEAR,
-#   # `Cohort Id` = TARGET_COHORT_DEFINITION_ID,
-#   # `Cohort Name` = TARGET_NAME,
-#   `Outcome Id` = OUTCOME_COHORT_DEFINITION_ID,
-#   `Outcome Name` = OUTCOME_NAME,
-#   `Persons at risk` = PERSONS_AT_RISK,
-#   `Person Days` = PERSON_DAYS,
-#   `Outcomes` = OUTCOMES,
-#   `Incidence Proportion` = INCIDENCE_PROPORTION_P100P,
-#   `Incidence Rate (per 1000 person-years)` = INCIDENCE_RATE_P1000PY
-# )
-readr::write_csv(inic2, file = fs::path(appDataPath, "incidence.csv"))
+  dplyr::arrange(databaseId, OUTCOME_COHORT_DEFINITION_ID, START_YEAR)
+
+ readr::write_csv(inic2, file = fs::path(appDataPath, "incidence.csv"))
 
 
-## 11) Treatment Patterns --------------
-### HMB normal----------------------
+## 10. Treatment Patterns ----------------
+
+### A. HMB normal ----------------
 
 txPath <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[9])
 
-## get treatment patterns table
+### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
   txPath,
   ~bindTxPathTab(path = ..3, database = ..1)
@@ -645,14 +590,15 @@ txPathDat <- purrr::pmap_dfr(
   ) %>%
   dplyr::select(databaseId, cohortId, cohortName, event_cohort_name1:event_cohort_name5, End, n) %>%
   dplyr::arrange(databaseId, cohortId, desc(n))
-# write to app
+
 readr::write_csv(txPathDat, file = fs::path(appDataPath, "treatmentPatterns.csv"))
 
-### HMB 2 --------------------------
+
+### B. HMB 2 ----------------
 txPath2 <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[14])
 
-## get treatment patterns table
+### Get treatment patterns table
 txPathDat2 <- purrr::pmap_dfr(
   txPath2,
   ~bindTxPathTab(path = ..3, database = ..1)
@@ -672,12 +618,11 @@ txPathDat2 <- purrr::pmap_dfr(
   ) %>%
   dplyr::select(databaseId, cohortId, cohortName, event_cohort_name1:event_cohort_name5, End, n) %>%
   dplyr::arrange(databaseId, cohortId, desc(n))
-# write to app
+
 readr::write_csv(txPathDat2, file = fs::path(appDataPath, "treatmentPatterns2.csv"))
 
 
 ## get sankey diagram
-
 # sankey <- purrr::pmap(
 #   txPath,
 #   ~groupSankey(path = ..3, database = ..1)
@@ -686,23 +631,22 @@ readr::write_csv(txPathDat2, file = fs::path(appDataPath, "treatmentPatterns2.cs
 # readr::write_rds(sankey, file = fs::path(appDataPath, "sankey.rds"))
 
 
-## 12) Time to event ----------------
+## 11. Time to event ----------------
 
-## Time to discontinuation
+### A. Time to discontinuation ----------------
 
-### list files to extract
+### List files to extract
 ttdFiles <- c("tte_1.csv",
               "tte_1001.csv",
               "tte_1002.csv",
               "tte_1003.csv")
-
 
 permutations <- tidyr::expand_grid(
   ttdFiles,
   listOfDatabase
 )
 
-#bind all in ttd
+### Bind all in ttd
 ttd <- purrr::pmap_dfr(
   permutations,
   ~bindTteData(
@@ -712,27 +656,26 @@ ttd <- purrr::pmap_dfr(
     file = ..1
   )
 )
+
 arrow::write_parquet(
   x = ttd,
   sink = fs::path(appDataPath, "ttd.parquet")
 )
-# readr::write_csv(ttd, file = fs::path(appDataPath, "ttd.csv"))
 
-### Time to intervention
+
+### B. Time to intervention ----------------
 
 ttiFiles <- c("procedure_survival_1.csv",
               "procedure_survival_1001.csv",
               "procedure_survival_1002.csv",
               "procedure_survival_1003.csv")
 
-
 permutations <- tidyr::expand_grid(
   ttiFiles,
   listOfDatabase
 )
 
-
-#bind all in ttd
+### Bind all in ttd
 tti <- purrr::pmap_dfr(
   permutations,
   ~bindTteData2(
@@ -742,9 +685,9 @@ tti <- purrr::pmap_dfr(
     file = ..1
   )
 )
+
 arrow::write_parquet(
   x = tti,
   sink = fs::path(appDataPath, "tti.parquet")
 )
 
-#readr::write_csv(tti, file = fs::path(appDataPath, "tti.csv"))

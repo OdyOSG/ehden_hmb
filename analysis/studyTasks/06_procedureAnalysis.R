@@ -1,17 +1,11 @@
-# 06_procedureAnalysis.R
-
 # A. File Info -----------------------
 
-# Study: Ehden Hmb
 # Name: Procedure Analysis
-# Author: Martin Lavallee
-# Date: 08/29/2023
-# Description: The purpose of this script is to run procedure analysis which includes prevalence
-# of procedure and time to initial treatment
+# Description: The purpose of this script is to run procedure analysis which includes prevalence of procedure and time to initial treatment
+
 
 # B. Dependencies ----------------------
 
-## include R libraries
 library(tidyverse, quietly = TRUE)
 library(DatabaseConnector)
 library(config)
@@ -19,14 +13,15 @@ library(config)
 source("analysis/private/_utilities.R")
 source("analysis/private/_procedureAnalysis.R")
 
+
 # C. Connection ----------------------
 
-# set connection Block
+### Set connection Block
 # <<<
 configBlock <- "[block]"
 # >>>
 
-# provide connection details
+### Provide connection details
 connectionDetails <- DatabaseConnector::createConnectionDetails(
   dbms = config::get("dbms", config = configBlock),
   user = config::get("user", config = configBlock),
@@ -34,7 +29,7 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
   connectionString = config::get("connectionString", config = configBlock)
 )
 
-# connect to database
+### Connect to database
 con <- DatabaseConnector::connect(connectionDetails)
 
 
@@ -44,14 +39,16 @@ con <- DatabaseConnector::connect(connectionDetails)
 executionSettings <- config::get(config = configBlock) %>%
   purrr::discard_at(c("dbms", "user", "password", "connectionString"))
 
-### Analysis Settings
+### Load analysis settings
 analysisSettings <- readSettingsFile(here::here("analysis/settings/procedureAnalysis.yml"))
+
 
 # E. Script --------------------
 
 executeProcedureAnalysis(con = con,
                      executionSettings = executionSettings,
                      analysisSettings = analysisSettings)
+
 
 # F. Session Info ------------------------
 

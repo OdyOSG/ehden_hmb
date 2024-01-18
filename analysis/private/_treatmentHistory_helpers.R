@@ -1,9 +1,8 @@
-# A. Meta Info -----------------------
+# A. File Info -----------------------
 
 # Task: Treatment History Helpers
-# Author: Martin Lavallee
-# Date: 2023-08-02
 # Description: The purpose of the _treatmentHistory_helpers.R script is to.....
+
 
 # B. Functions ------------------------
 
@@ -50,8 +49,6 @@ collect_cohorts <- function(con,
 
   return(current_cohorts)
 }
-
-
 
 
 # Internals --------------------
@@ -221,6 +218,7 @@ selectRowsCombinationWindow <- function(treatment_history) {
 
   return(treatment_history)
 }
+
 doStepDuration <- function(treatment_history, minPostCombinationDuration) {
   treatment_history <- treatment_history[(is.na(check_duration) | duration_era >= minPostCombinationDuration),]
   cli::cat_line(paste0("After minPostCombinationDuration: ", nrow(treatment_history)))
@@ -248,6 +246,7 @@ doEraCollapse <- function(treatment_history, eraCollapseSize) {
   treatment_history[,duration_era:=difftime(event_end_date , event_start_date, units = "days")]
 
   cli::cat_line(paste0("After eraCollapseSize: ", nrow(treatment_history)))
+
   return(treatment_history)
 }
 
@@ -288,11 +287,15 @@ doFilterTreatments <- function(treatment_history, filterTreatments) {
   return(treatment_history)
 }
 
+
 addDrugSequence <- function(treatment_history) {
+
   cli::cat_line("Adding drug sequence number.")
   treatment_history <- treatment_history[order(person_id, event_start_date, event_end_date),]
   treatment_history[, event_seq:=seq_len(.N), by= .(person_id)]
+
 }
+
 
 doMaxPathLength <- function(treatment_history, maxPathLength) {
 
@@ -303,6 +306,7 @@ doMaxPathLength <- function(treatment_history, maxPathLength) {
 
   return(treatment_history)
 }
+
 
 addLabels <- function(treatment_history, eventCohortIds, eventCohortNames) {
 
@@ -338,20 +342,25 @@ addLabels <- function(treatment_history, eventCohortIds, eventCohortNames) {
   return(th)
 }
 
+
 orderCombinations <- function(th) {
+
   cli::cat_line("Ordering the combinations.")
   #some clean up for the combination names
   combi <- grep("+", th$event_cohort_name, fixed=TRUE)
   cohort_names <- strsplit(th$event_cohort_name[combi], split="+", fixed=TRUE)
   th$event_cohort_name[combi] <- sapply(cohort_names, function(x) paste(sort(x), collapse = "+"))
   th$event_cohort_name <- unlist(th$event_cohort_name)
+
   return(th)
 }
+
 
 postProcess <- function(treatment_history,
                         eventCohortIds,
                         eventCohortNames,
                         maxPathLength) {
+
   if (nrow(treatment_history) != 0) {
     res <- addDrugSequence(treatment_history) %>%
       doMaxPathLength(maxPathLength) %>%
@@ -364,5 +373,4 @@ postProcess <- function(treatment_history,
 
   return(res)
 }
-
 

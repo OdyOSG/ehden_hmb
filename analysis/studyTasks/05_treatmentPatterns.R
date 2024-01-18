@@ -1,16 +1,11 @@
-# 05_treatmentLandscape.R
-
 # A. File Info -----------------------
 
-# Study: Ehden Hmb
-# Name: Treatment Landscape
-# Author: Martin Lavallee
-# Date: 08/29/2023
+# Name: Treatment Patterns
 # Description: The purpose of this script is to run the treatment patterns module
+
 
 # B. Dependencies ----------------------
 
-## include R libraries
 library(tidyverse, quietly = TRUE)
 library(DatabaseConnector)
 library(config)
@@ -19,6 +14,7 @@ source("analysis/private/_utilities.R")
 source("analysis/private/_treatmentPatterns.R")
 source("analysis/private/_treatmentHistory_helpers.R")
 source("analysis/private/_treatmentHistory.R")
+
 
 # C. Connection ----------------------
 
@@ -35,7 +31,7 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
   connectionString = config::get("connectionString", config = configBlock)
 )
 
-# connect to database
+### Connect to database
 con <- DatabaseConnector::connect(connectionDetails)
 
 
@@ -45,44 +41,45 @@ con <- DatabaseConnector::connect(connectionDetails)
 executionSettings <- config::get(config = configBlock) %>%
   purrr::discard_at(c("dbms", "user", "password", "connectionString"))
 
-### Analysis Settings
+### Load analysis settings
 analysisSettings1 <- readSettingsFile(here::here("analysis/settings/postIndexPrevalence1.yml"))
 analysisSettings2 <- readSettingsFile(here::here("analysis/settings/treatmentPatterns1.yml"))
 analysisSettings3 <- readSettingsFile(here::here("analysis/settings/treatmentPatterns2.yml"))
 
+
 # E. Script --------------------
 
-
-# execute post index prevalence
+### Post index prevalence
 executePostIndexDrugUtilization(con = con,
-                        executionSettings = executionSettings,
-                        analysisSettings = analysisSettings1)
+                                executionSettings = executionSettings,
+                                analysisSettings = analysisSettings1)
 
-# run treatment history
+### Treatment history
 runTreatmentHistory(con = con,
                     executionSettings = executionSettings,
                     analysisSettings = analysisSettings2)
 
-# get treatment patterns
+### Treatment patterns
 executeTreatmentPatterns(con = con,
-                     executionSettings = executionSettings,
-                     analysisSettings = analysisSettings2)
+                         executionSettings = executionSettings,
+                         analysisSettings = analysisSettings2)
 
-#get time to discontinuation
+## Time to discontinuation
 executeTimeToEvent(con = con,
-               executionSettings = executionSettings,
-               analysisSettings = analysisSettings2)
+                   executionSettings = executionSettings,
+                   analysisSettings = analysisSettings2)
 
 
-# run treatment history 2 --- all exposures censor hysterectomy
+### Treatment history 2 --- all exposures censor hysterectomy
 runTreatmentHistory(con = con,
                     executionSettings = executionSettings,
                     analysisSettings = analysisSettings3)
 
-# get treatment patterns --- all exposures censor hysterectomy
+### Treatment patterns --- all exposures censor hysterectomy
 executeTreatmentPatterns(con = con,
                          executionSettings = executionSettings,
                          analysisSettings = analysisSettings3)
+
 
 # F. Session Info ------------------------
 

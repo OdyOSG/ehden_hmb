@@ -1,14 +1,12 @@
-# A. Meta Info -----------------------
+# A. File Info -----------------------
 
 # Task: Build Strata
-# Author: Martin Lavallee
-# Date: 2023-07-26
 # Description: The purpose of the _buildStrata.R script is to build strata for the analysis
+
 
 # B. Functions ------------------------
 
 ## Strata Funcitons-------------
-
 
 ageStrata <- function(con,
                       cohortDatabaseSchema,
@@ -45,7 +43,7 @@ ageStrata <- function(con,
              c.cohort_start_date,
              c.cohort_end_date,
              p.year_of_birth,
-             abs(p.year_of_birth - EXTRACT(YEAR FROM c.cohort_start_date)) AS age
+             abs(p.year_of_birth - YEAR(c.cohort_start_date)) AS age
       FROM @cohortDatabaseSchema.@cohortTable c
       JOIN @cdmDatabaseSchema.person p
         ON p.person_id = c.subject_id
@@ -92,14 +90,11 @@ ageStrata <- function(con,
 }
 
 
-
-
 buildStrata <- function(con,
                         executionSettings,
                         analysisSettings) {
 
   # Step 0: Prep
-
   ## get schema vars
   cdmDatabaseSchema <- executionSettings$cdmDatabaseSchema
   workDatabaseSchema <- executionSettings$workDatabaseSchema
@@ -153,9 +148,7 @@ buildStrata <- function(con,
             ageMin = 45,
             ageMax = 56)
 
-
   strataKey <- tb1
-
 
   strataSummary <- dplyr::tbl(con, dbplyr::in_schema(workDatabaseSchema, cohortTable)) %>%
     dplyr::count(cohort_definition_id) %>%
@@ -176,7 +169,5 @@ buildStrata <- function(con,
   )
 
   invisible(dt)
-
-
 }
 

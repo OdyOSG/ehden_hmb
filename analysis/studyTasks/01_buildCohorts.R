@@ -1,10 +1,8 @@
-# A. Meta Info -----------------------
+# A. File Info -----------------------
 
 # Name: Build Cohorts
-# Author: Martin Lavallee
-# Date: 2023-06-15
-# Description: The purpose of 01_buildCohorts.R is to build the HMB cohorts needed
-# for the analysis.
+# Description: The purpose of 01_buildCohorts.R is to build the HMB cohorts needed for the analysis.
+
 
 # B. Dependencies ----------------------
 
@@ -19,13 +17,12 @@ source("analysis/private/_buildStrata.R")
 
 # C. Connection ----------------------
 
-# set connection Block
-
+### Set connection Block
 # <<<
 configBlock <- "[block]"
 # >>>
 
-# provide connection details
+### Provide connection details
 connectionDetails <- DatabaseConnector::createConnectionDetails(
   dbms = config::get("dbms", config = configBlock),
   user = config::get("user", config = configBlock),
@@ -33,8 +30,7 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
   connectionString = config::get("connectionString", config = configBlock)
 )
 
-
-#connect to database
+### Connect to database
 con <- DatabaseConnector::connect(connectionDetails)
 
 
@@ -48,20 +44,19 @@ outputFolder <- here::here("results") %>%
   fs::path(executionSettings$databaseName, "01_buildCohorts") %>%
   fs::dir_create()
 
-
 ### Add study variables or load from settings
 cohortManifest <- getCohortManifest()
 
-### Analysis Settings
+### Load analysis settings
 analysisSettings <- readSettingsFile(here::here("analysis/settings/strata.yml"))
+
 
 # E. Script --------------------
 
-### RUN ONCE - Initialize COhort table #########
+######### RUN ONCE - Initialize cohort tables #########
 initializeCohortTables(executionSettings = executionSettings, con = con)
 
-
-# Generate cohorts
+### Generate cohorts
 generatedCohorts <- generateCohorts(
   executionSettings = executionSettings,
   con = con,
@@ -69,12 +64,13 @@ generatedCohorts <- generateCohorts(
   outputFolder = outputFolder
 )
 
-
-# build strata
+### Build strata
 buildStrata(con = con,
             executionSettings = executionSettings,
             analysisSettings = analysisSettings)
 
+
 # F. Session Info ------------------------
+
 DatabaseConnector::disconnect(con)
 

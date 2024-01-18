@@ -18,9 +18,11 @@ bindCsv <- function(allPaths, task, file) {
 
 # function to bind csv within a subfolder
 bindFolder <- function(path, folder) {
+
   dat <- fs::path(path, folder) %>%
     fs::dir_ls(type = "file") %>%
     purrr::map_dfr(~readr::read_csv(.x, show_col_types = FALSE))
+
   return(dat)
 }
 
@@ -35,6 +37,21 @@ maskLowCount <- function(df, countLimit = 5L) {
 
   return(dfLow)
 }
+
+# Function to mask low counts. Default count is 5
+maskLowCountInci <- function(df, countLimit = 5L) {
+
+  dfLow <- df %>%
+    dplyr::mutate(
+      INCIDENCE_PROPORTION_P100P = dplyr::if_else(OUTCOMES <= countLimit, "-", format(round(INCIDENCE_PROPORTION_P100P, 2) , big.mark = ",", scientific = FALSE), "-"),
+      INCIDENCE_RATE_P1000PY = dplyr::if_else(OUTCOMES <= countLimit, "-", format(round(INCIDENCE_RATE_P1000PY, 2), big.mark = ",", scientific = FALSE), "-"),
+      OUTCOMES = dplyr::if_else(OUTCOMES <= countLimit, "<5", format(OUTCOMES, big.mark = ",", scientific = FALSE), "-")
+    )
+
+  return(dfLow)
+}
+
+
 
 # Treatment Patterns Functions -----------
 
@@ -60,8 +77,8 @@ bindTxPathTab <- function(path, database) {
                                          cohortName = !!.y))
 
   return(dat)
-
 }
+
 
 # function to plot treatment patterns
 plot_patterns <- function(sankey) {
@@ -79,7 +96,7 @@ plot_patterns <- function(sankey) {
 
   myCol <- glue::glue('d3.scaleOrdinal() .domain([{label2}]) .range([{col2}])')
 
-  #plot sankeyNetwork
+  # Plot sankeyNetwork
   sankey <- networkD3::sankeyNetwork(
     Links = links,
     Nodes = nodes,
@@ -93,7 +110,6 @@ plot_patterns <- function(sankey) {
   )
 
   return(sankey)
-
 }
 
 ## Group sankey data together to save
@@ -120,6 +136,7 @@ groupSankey <- function(path, database) {
 
   return(sankey)
 }
+
 
 # Time to event functions -----
 
@@ -168,6 +185,7 @@ bindTteData <- function(path,
 
   # subset tted Data to the specified strata lines
   subsetTteData <- tteData %>%
+    dplyr::mutate(strata = as.character(strata)) %>%
     dplyr::filter(
       strata %in% strataLines
     ) %>%
@@ -180,15 +198,14 @@ bindTteData <- function(path,
     )
 
   return(subsetTteData)
-
 }
+
 
 bindTteData2 <- function(path,
                          database,
                          task,
                          file,
                          nYears = 3) {
-
 
   # create path to file
   pathToFile <- fs::path(path, database, task, file)
@@ -203,7 +220,6 @@ bindTteData2 <- function(path,
       time <= 3
     )
 
-
   # subset tted Data to the specified strata lines
   updateTteData <- tteData %>%
     dplyr::mutate(
@@ -215,8 +231,9 @@ bindTteData2 <- function(path,
     )
 
   return(updateTteData)
-
 }
+
+
 # create KM plot
 plotKM <- function(kmData, # input data
                    targetCohortId, # select target cohort
@@ -259,7 +276,6 @@ plotKM <- function(kmData, # input data
     )
 
   # prep plot
-
   cols <- unname(grafify::graf_palettes$kelly) # get plotting colors
   plot_colors <- cols[1:nLines] # retrieve first nLines
 
@@ -276,6 +292,7 @@ plotKM <- function(kmData, # input data
     as.character()
 
   plotSave <- fs::path(saveLocation, plotName)
+
   # save plot
   ggplot2::ggsave(filename = plotSave,
                   plot = p,
@@ -287,10 +304,7 @@ plotKM <- function(kmData, # input data
                   bullet = "pointer", bullet_col = "yellow")
 
   invisible(p)
-
 }
-
-
 
 
 ## Run the plotKm in for loop or purrr walk to get all the plots in the www folder
@@ -316,8 +330,8 @@ findSurvProbAtTime <- function(dat, strata, t) {
     )
 
   return(survProb)
-
 }
+
 
 findSurvProbAtTime2 <- function(dat, t) {
 
@@ -338,7 +352,6 @@ findSurvProbAtTime2 <- function(dat, t) {
     )
 
   return(survProb)
-
 }
 
 
@@ -367,8 +380,8 @@ findTimeAtSurvProb <- function(dat, strata, p) {
     )
 
   return(timeEst)
-
 }
+
 
 getSurvProbTab <- function(kmData,
                            targetCohortId, # select target cohort
@@ -411,8 +424,8 @@ getSurvProbTab <- function(kmData,
   )
 
   return(survProbTab)
-
 }
+
 
 #test
 # getSurvProbTab(kmData = kmData,
@@ -425,7 +438,6 @@ getTimeTab <- function(kmData,
                        database, # select database
                        nLines = 10L # determine the number of lines to plot default is 8
 ) {
-
 
   # subset data based on targetId, database and era
   dat <- kmData %>%
@@ -462,7 +474,6 @@ getTimeTab <- function(kmData,
   )
 
   return(timeTab)
-
 }
 
 

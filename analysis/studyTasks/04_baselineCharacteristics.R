@@ -1,16 +1,11 @@
-# 04_baselineCharacteristics.R
-
 # A. File Info -----------------------
 
-# Study: Ehden Hmb
 # Name: Baseline Characteristics
-# Author: Martin Lavallee
-# Date: 07/20/2023
 # Description: The purpose of this script is to run baseline characteristics for the ehden study
+
 
 # B. Dependencies ----------------------
 
-## include R libraries
 library(tidyverse, quietly = TRUE)
 library(DatabaseConnector)
 library(config)
@@ -19,6 +14,8 @@ source("analysis/private/_utilities.R")
 source("analysis/private/_conceptPrevalence.R")
 source("analysis/private/_cohortPrevalence.R")
 source("analysis/private/_conditionRollup.R")
+
+
 # C. Connection ----------------------
 
 # set connection Block
@@ -44,32 +41,34 @@ con <- DatabaseConnector::connect(connectionDetails)
 executionSettings <- config::get(config = configBlock) %>%
   purrr::discard_at(c("dbms", "user", "password", "connectionString"))
 
-### Analysis Settings
+### Load analysis settings
 analysisSettings1 <- readSettingsFile(here::here("analysis/settings/baselineCharacteristics.yml"))
 analysisSettings2 <- readSettingsFile(here::here("analysis/settings/underlyingConditions.yml"))
+
+
 # E. Script --------------------
 
-## Get Baseline Covariates
-
-# run concept characterization
+### Concept characterization
 executeConceptCharacterization(con = con,
                                executionSettings = executionSettings,
                                analysisSettings = analysisSettings1)
 
-#run cohort characterization
+### Cohort characterization
 executeCohortPrevalence(con = con,
                         executionSettings = executionSettings,
                         analysisSettings = analysisSettings1)
 
-#run icd chapters rollup
+### ICD10 chapters rollup
 executeConditionRollup(con = con,
                        executionSettings = executionSettings,
                        analysisSettings = analysisSettings1)
 
-#run cohort prevalence for underlying
+### Cohort prevalence for underlying conditions
 executeCohortPrevalence(con = con,
                         executionSettings = executionSettings,
                         analysisSettings = analysisSettings2)
 
+
 # F. Session Info ------------------------
+
 DatabaseConnector::disconnect(con)

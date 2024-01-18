@@ -1,3 +1,15 @@
+# EHDEN HMB v0.9.0
+
+* Updated `.gitignore` with Github R template
+* Corrected links in `README.md` file
+* Corrected database names in `sap.qmd` and `index.qmd` file
+* Tidied up R scripts
+* Replaced SQL function `EXTRACT` with `YEAR` in the `_buildStrata.R` script to translate SQL code to Azure Synapse dialect
+* Converted `dbplyr` function to SQL code
+* Reworked `initializeCohortTables` function (Added `drop table` sql code)
+* Added database information Markdown in shiny app
+
+
 # EHDEN HMB v0.2.0
 
 * Add shiny app to preview results
@@ -21,7 +33,7 @@
 * Update package website
 * Add yearly incidence to `Incidence Analysis` (Issue #13)
 * Add R scripts for data exchange and CD preview (Issue #14)
-* update cohort definitions from Siir
+* Update cohort definitions from Siir
     - copperIUDproc
     - copperIUDdrug
     - disorderOfOvary
@@ -53,7 +65,7 @@
 * Add study website
 * Update cohort definitions for denominator
 * Addition of executeStudy.R file to automate execution
-* add age strata [under 30, 30-45, 45-55]
+* Add age strata [under 30, 30-45, 45-55]
 
 # EHDEN HMB v0.1.0
 
@@ -68,12 +80,12 @@
 * Add file `StoreResults` to upload cohort diagnostics zip to aws s3 bucket
 * Update `KeyringSetup` to match `Ulysses`
 * Update renv.lock to add `aws.s3` and `Ulysses` v0.0.2
-* minor correction to study task files
+* Minor correction to study task files
 
 # EHDEN HMB v0.0.5
 
-* Add in renv
-* minor correction to HMB cohort for cohort diagnostics
+* Added in `renv`
+* Minor correction to HMB cohort for cohort diagnostics
 
 # EHDEN HMB v0.0.4
 
@@ -91,11 +103,11 @@
 
 * Update cohort definition for HMB to fix error
 * Add cohort diagnostics script
-* Add How to Run file and key ring file
+* Add `HowToRun` file and `keyring` file
 
 # EHDEN HMB v0.0.1
 
 * Add HMB cohort definition to repo
 * Start preparing documentation about study
 * Initialize OHDSI study
-* Add `NEWS.md` to track changes to OHDSI study
+* Add `NEWS.md` to track changes

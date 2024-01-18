@@ -33,6 +33,7 @@
 -   **Odysseus Data Services**
     -   Asieh Golozar
     -   Martin Lavallee
+    -   George Argyriou
 -   **Boehringer Ingelheim**
     -   Ron Herrera
 
@@ -48,10 +49,16 @@ This study will be run on OMOP databases in the EHDEN Network. The table below l
 |-------------------------------------|--------------------|--------------------------|
 | CPRD GOLD                           | UK                 | Bayer                    |
 | CPRD AURUM                          | UK                 | Bayer                    |
+| Optum Clinformatics                 | US                 | Bayer                    |
+| MarketScan IBM                      | US                 | Bayer                    |
+| Cegedim THIN                        | Belgium            | Boehringer Ingelheim     |
+| Disease Analyzer                    | Germany            | Boehringer Ingelheim     |
 | Hospital del Mar (Barcelona)        | Spain              | Hospital del Mar         |
+| Semmelweis University               | Hungary            | Semmelweis University    |
+
 
 ## Study Documentation
 
--   [**Study SAP**](https://github.com/OdyOSG/ehden_hmb/blob/develop/documentation/StudySAP.pdf)
--   [**How To Run**](https://github.com/OdyOSG/ehden_hmb/blob/main/documentation/HowToRun.md)
--   **Contribution Guideline**
+-   [**Study SAP**](https://odyosg.github.io/ehden_hmb/sap.html)
+-   [**How To Run**](https://odyosg.github.io/ehden_hmb/howToRun.html)
+-   [**Contribution Guidelines**](https://odyosg.github.io/ehden_hmb/contribution.html)

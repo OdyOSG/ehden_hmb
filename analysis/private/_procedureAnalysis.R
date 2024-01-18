@@ -1,12 +1,10 @@
-# A. Meta Info -----------------------
+# A. File Info -----------------------
 
 # Task: Procedure Analysis
-# Author: Martin Lavallee
-# Date: 2023-07-21
-# Description: The purpose of the _procedureAnalysis.R script is to
-# provide underlying functions to run the procedure analysis for EHDEN HMB study.
+# Description: The purpose of the _procedureAnalysis.R script is to provide underlying functions to run the procedure analysis for EHDEN HMB study.
 
 source("analysis/private/_utilities.R")
+
 
 # B. Functions ------------------------
 
@@ -15,6 +13,7 @@ get_procedure_table <- function(con,
                                 cohortTable,
                                 targetCohortId,
                                 outcomeCohortIds) {
+
   sql <- "
     SELECT
         t.subject_id,
@@ -28,9 +27,9 @@ get_procedure_table <- function(con,
       	  AND o.cohort_start_date >= t.cohort_start_date
       	  AND o.cohort_start_date <= t.cohort_end_date
       	  AND o.cohort_definition_id IN (@outcomeId)
-    WHERE t.cohort_definition_id = @targetId
-  ;
+    WHERE t.cohort_definition_id = @targetId;
 "
+
   tteSql <- SqlRender::render(
     sql,
     workDatabaseSchema = workDatabaseSchema,
@@ -136,14 +135,12 @@ getTteRes <- function(tb, outcomeCohortId) {
   }
 
   return(survDat)
-
 }
 
 
 executeProcedureAnalysis <- function(con,
                                  executionSettings,
                                  analysisSettings) {
-
 
   # Step 0: Prep -----------
 
@@ -254,5 +251,4 @@ executeProcedureAnalysis <- function(con,
   } #iterate to strata
 
   invisible(tb)
-
 }

@@ -1,21 +1,14 @@
-# A. Meta Info -----------------------
+# A. File Info -----------------------
 
 # Task: Build Cohorts
-# Author: [Add Name of Author]
-# Date: 2023-04-12
-# Description: The purpose of the _buildCohorts.R script is to
-# build cohort functions
+# Description: The purpose of the _buildCohorts.R script is to build cohort functions
+
 
 # B. Functions ------------------------
 
-initializeCohortTables <- function(executionSettings, con) {
-
-  # if (con@dbms == "snowflake") {
-  #   workSchema <- paste(executionSettings$workDatabase, executionSettings$workSchema, sep = ".")
-  # } else {
-  #   workSchema <- executionSettings$workSchema
-  # }
-  #
+initializeCohortTables <- function(executionSettings,
+                                   con,
+                                   dropTables = FALSE) {
 
   name <- executionSettings$cohortTable
 
@@ -27,13 +20,41 @@ initializeCohortTables <- function(executionSettings, con) {
                            cohortCensorStatsTable = paste0(name, "_censor_stats"))
 
 
+  ## Drop cohort tables
+  if (dropTables == TRUE) {
+
+    ## Delete csv files from "01_buildCohorts" folder
+    manifestPath <- here::here("results", executionSettings$databaseName, "01_buildCohorts")
+    pathFiles <- list.files(manifestPath,  full.names = TRUE)
+    sapply(pathFiles, unlink)
+
+
+    ## Drop cohort tables
+    for (i in 1:length(cohortTableNames)) {
+
+      sql <- "DROP TABLE IF EXISTS @writeSchema.@tableName;"
+
+      dropSql <- SqlRender::render(
+        sql,
+        writeSchema = executionSettings$workDatabaseSchema,
+        tableName = cohortTableNames[i]
+      ) %>%
+        SqlRender::translate(targetDialect = "snowflake")
+
+      DatabaseConnector::executeSql(connection = con, dropSql, progressBar = FALSE)
+
+    }
+  }
+
+  ## Create cohort tables
   CohortGenerator::createCohortTables(connection = con,
                                       cohortDatabaseSchema = executionSettings$workDatabaseSchema,
                                       cohortTableNames = cohortTableNames,
                                       incremental = TRUE)
   invisible(cohortTableNames)
-
 }
+
+
 
 prepManifestForCohortGenerator <- function(cohortManifest) {
 
@@ -48,8 +69,8 @@ prepManifestForCohortGenerator <- function(cohortManifest) {
     cohortsToCreate$json,
     ~CirceR::buildCohortQuery(CirceR::cohortExpressionFromJson(.x),
                               CirceR::createGenerateOptions(generateStats = TRUE)))
-  return(cohortsToCreate)
 
+  return(cohortsToCreate)
 }
 
 
@@ -114,7 +135,6 @@ generateCohorts <- function(executionSettings,
                   bullet = "tick", bullet_col = "green")
 
   return(cohortCounts)
-
 }
 
 # Run Cohort Diagnostis

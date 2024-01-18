@@ -1,10 +1,8 @@
-# A. Meta Info -----------------------
+# A. File Info -----------------------
 
 # Title: ICD10Chapter Rollup
-# Author: Artem Gorbachev
-# Date: 2023-08-11
-# Version: 0.0.1
 # Description: These internal function that allow for the rollup to ICD10 chapters used in Odysseus table 1
+
 
 # B. Sql -----------------
 
@@ -112,7 +110,6 @@ ORDER BY category_id;
 "
 
 
-
 # C. R Funtions ------------------------
 getIcd10Chapters <- function(con,
                              cohortDatabaseSchema,
@@ -199,6 +196,7 @@ getIcd10Chapters <- function(con,
     targetDatabaseSchema = cohortDatabaseSchema
   )
   cli::cat_line()
+
   return(icdCovTab)
 
   # # save results
@@ -207,9 +205,8 @@ getIcd10Chapters <- function(con,
   #   fs::dir_create()
   # save_path <- fs::path(tmpDir, fname , ext = "csv")
   # readr::write_csv(icdCovTab, file = save_path)
-
-
 }
+
 
 executeConditionRollup <- function(con,
                                    executionSettings,
@@ -233,7 +230,6 @@ executeConditionRollup <- function(con,
   #extract time windows
   timeA <- analysisSettings$baselineCharacteristics$timeWindow$startDay[1]
   timeB <- analysisSettings$baselineCharacteristics$timeWindow$endDay[1]
-
 
 
   #get icd10 chapters

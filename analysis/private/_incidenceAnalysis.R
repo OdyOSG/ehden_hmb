@@ -1,10 +1,8 @@
-# A. Meta Info -----------------------
+# A. File Info -----------------------
 
 # Task: Incidence
-# Author: Martin Lavallee
-# Date: 2023-07-26
-# Description: The purpose of the _incidence.R script is to
-# provide functions for the incidence analysis portion of the study
+# Description: The purpose of the _incidence.R script is to provide functions for the incidence analysis portion of the study
+
 
 # B. Functions ------------------------
 
@@ -52,7 +50,6 @@ defineIncidenceAnalysis <- function(cohortId,
   )
 
 
-
   analysisList <- purrr::pmap(
     analysisMap,
     ~CohortIncidence::createIncidenceAnalysis(
@@ -74,8 +71,8 @@ defineIncidenceAnalysis <- function(cohortId,
   )
 
   return(irDesign)
-
 }
+
 
 generateIncidenceAnalysis <- function(con,
                                       executionSettings,
@@ -84,7 +81,6 @@ generateIncidenceAnalysis <- function(con,
                                       denomCohorts,
                                       irSettings,
                                       refId) {
-
 
   ## get schema vars
   cdmDatabaseSchema <- executionSettings$cdmDatabaseSchema
@@ -144,14 +140,12 @@ generateIncidenceAnalysis <- function(con,
   )
 
   invisible(executeResults)
-
 }
 
 
 executeIncidenceAnalysis <- function(con,
                                      executionSettings,
                                      analysisSettings) {
-
 
   ## get cohort Ids
   targetCohortId <- analysisSettings$incidenceAnalysis$cohorts$targetCohort$id
@@ -184,6 +178,5 @@ executeIncidenceAnalysis <- function(con,
                   bullet = "info", bullet_col = "blue")
 
   invisible(denomCohorts)
-
 }
 

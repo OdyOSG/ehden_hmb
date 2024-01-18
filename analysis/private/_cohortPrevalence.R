@@ -9,8 +9,10 @@ verboseSave <- function(object, saveName, saveLocation) {
                   bullet = "info", bullet_col = "blue")
   cli::cat_bullet(crayon::cyan(saveLocation), bullet = "pointer", bullet_col = "yellow")
   cli::cat_line()
+
   invisible(savePath)
 }
+
 
 cohortCovariates <- function(con,
                              cohortDatabaseSchema,
@@ -25,7 +27,8 @@ cohortCovariates <- function(con,
 
   targetId <- cohortKey$id
   eventId <- covariateKey$id
-  #sql to get cohort covariates - period prevalence change
+
+  # sql to get cohort covariates - period prevalence change
   sql <- "
     SELECT
       t.cohort_definition_id AS target_cohort_id,
@@ -47,8 +50,8 @@ cohortCovariates <- function(con,
           DATEADD(day, @timeA, t.cohort_start_date) AND
           DATEADD(day, @timeB, t.cohort_start_date)
           )
-    GROUP BY t.cohort_definition_id, e.cohort_definition_id
-"
+    GROUP BY t.cohort_definition_id, e.cohort_definition_id;"
+
   # Render and translate sql
   cohortCovariateSql <- SqlRender::render(
     sql,
@@ -102,8 +105,6 @@ cohortCovariates <- function(con,
 
 
   invisible(cohortCovTbl)
-
-
 }
 
 
@@ -154,7 +155,7 @@ executeCohortPrevalence <- function(con,
     cli::cat_bullet("Using cohorts ids:\n   ", crayon::green(cat_cohortId),
                     bullet = "info", bullet_col = "blue")
 
-    # Run post-index s
+    # Run post-index
     cohortCovariates(con = con,
                      cohortDatabaseSchema = workDatabaseSchema,
                      cohortTable = cohortTable,
@@ -166,6 +167,7 @@ executeCohortPrevalence <- function(con,
 
 
   }
+
   tok <- Sys.time()
   cli::cat_bullet("Execution Completed at: ", crayon::red(tok),
                   bullet = "info", bullet_col = "blue")
@@ -173,6 +175,6 @@ executeCohortPrevalence <- function(con,
   tok_format <- paste(scales::label_number(0.01)(as.numeric(tdif)), attr(tdif, "units"))
   cli::cat_bullet("Execution took: ", crayon::red(tok_format),
                   bullet = "info", bullet_col = "blue")
-  invisible(tok)
 
+  invisible(tok)
 }

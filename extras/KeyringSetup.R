@@ -1,46 +1,49 @@
 # Setup Credentials -------------
-# This file setups the credential library for your study. The function establishes
-# a config.yml file and creates a keyring for the study. Input your credentials
-# into the keyring. Keep your database credentials handy before running this script.
+# This file setups the credential library for your study.
+# The function establishes a config.yml file and creates a keyring for the study.
+# Input your credentials into the keyring. Keep your database credentials handy before running this script.
 # Ask your database administrator if you are unsure of your credentials.
 
-## A) Depedendencies ------------
+
+## A. Dependencies ------------
 
 library(tidyverse, quietly = TRUE)
 library(Ulysses)
 library(keyring)
 
-## B) Set Parameters ------------
 
-configBlock <- "[block_name]" # name of config block
+## B. Set Parameters ------------
 
-database <- "[database_name]" # the name of the database in the config block
+configBlock <- "[block_name]" # Name of config block
 
-keyringName <- "ehden_hmb" # the name of the keyring
+database <- "[database_name]" # Name of the database in the config block
 
-keyringPassword <- "ohdsi" # password for keyring
-# This password is simply to avoid a prompt when creating the keyring
+keyringName <- "ehden_hmb"   # Name of the keyring
 
-## c) Check or create Config File------------------------
+keyringPassword <- ""       # Password for keyring
 
-# check if config.yml file exists, make it if it does not exist
+
+## C. Check or create Config File ------------
+
+### Check if config.yml file exists; create it if it does not exist
 checkConfig()
 
-## D) Setup Keyring -----------------
 
-# set keyring
+## D. Setup Keyring ------------
+
+### Set keyring
 setStudyKeyring(keyringName = keyringName,
                 keyringPassword = keyringPassword)
 
-# set credential keys in keyring
-setMultipleCredentials(
-  cred = defaultCredentials(),
-  db = configBlock,
-  keyringName = keyringName,
-  keyringPassword = keyringPassword,
-  forceCheck = TRUE
+### Set credential keys in keyring
+setMultipleCredentials(cred = defaultCredentials(),
+                       db = configBlock,
+                       keyringName = keyringName,
+                       keyringPassword = keyringPassword,
+                       forceCheck = TRUE
 )
-# If a single credential is incorrect, change it
+
+### If a single credential is incorrect, change it
 # setCredential(cred = "dbms",
 #                       db = configBlock,
 #                       keyringName = keyringName,
@@ -48,8 +51,8 @@ setMultipleCredentials(
 #                       forceCheck = TRUE
 # )
 
-## E) Check (Optional) -----------------------
 
+## E. Check Credentials (Optional) ------------
 
 ### Test connection details
 connectionDetails <- DatabaseConnector::createConnectionDetails(
@@ -61,8 +64,7 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
 connectionDetails$dbms
 
 
-
-# G) Close out ------------------------
+# G. Close out ------------
 
 sessioninfo::session_info()
 rm(list=ls())
