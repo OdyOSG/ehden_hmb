@@ -1,6 +1,16 @@
 ---
 title: "News"
 ---
+# EHDEN HMB v0.9.0
+
+* Updated `.gitignore` with Github R template
+* Corrected links in `README.md` file
+* Corrected database names in `sap.qmd` and `index.qmd` file
+* Tidied up R scripts
+* Replaced SQL function `EXTRACT` with `YEAR` in the `_buildStrata.R` script to translate SQL code to Azure Synapse dialect
+* Converted `dbplyr` function to SQL code
+* Reworked `initializeCohortTables` function (Added `drop table` sql code)
+* Added database information Markdown in shiny app
 
 # EHDEN HMB v0.2.0
 

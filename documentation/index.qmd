@@ -11,7 +11,7 @@ Welcome the EHDEN Heavy-menstrual Bleeding Study! This study aims to describe pa
     * Siir Su Saydam [(email)](mailto:siirsu.saydam@bayer.com)
     * Marta Pineda Moncusi [(email)](mailto:marta.pinedamoncusi@ndorms.ox.ac.uk)
 * Study Code Developers:
-    * Martin Lavallee [(email)](mailto:martin.lavallee@odysseusinc.com)
+    * Martin Lavallee
     * George Argyriou [(email)](mailto:george.argyriou@odysseusinc.com)
 
 
