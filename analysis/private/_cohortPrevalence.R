@@ -91,10 +91,11 @@ cohortCovariates <- function(con,
     ) %>%
     dplyr::rename(covariateName = name) %>%
     dplyr::mutate(
-      pct = count / n
+      pct = count / n,
+      timeWindow = paste0(abs(timeA), "_" ,abs(timeB))
     ) %>%
     dplyr::select(
-      cohortId, cohortName, covariateId, covariateName, count, pct
+      cohortId, cohortName, covariateId, covariateName, count, pct, timeWindow
     )
 
   verboseSave(
@@ -134,14 +135,14 @@ executeCohortPrevalence <- function(con,
   cohortId <- cohortKey$id
   covId <- covariateKey$id
 
-
-  #Start execution talk
+  # Start execution talk
   cli::cat_boxx("Building Cohort Covariates")
   cli::cat_line()
-
   tik <- Sys.time()
-  #loop on time Windows
+
+  # Loop on time Windows
   for (i in seq_along(timeA)) {
+
     # Job Log
     cli::cat_rule(glue::glue("Cohort Covariate Analysis Job ", i))
     cli::cat_bullet("Running Cohort Covariate Analysis at window: [",
@@ -165,8 +166,13 @@ executeCohortPrevalence <- function(con,
                      timeB = timeB[i],
                      outputFolder = outputFolder)
 
-
   }
+
+  # # Bind "cohort_covariates" csv files together (deletes binded csvs)
+  # bindFiles(
+  #   inputPath = outputFolder,
+  #   pattern = "cohort_covariates"
+  # )
 
   tok <- Sys.time()
   cli::cat_bullet("Execution Completed at: ", crayon::red(tok),

@@ -3,11 +3,11 @@ underlyingConditions:
     targetCohort:
     - name: hmb
       id: 1
-    - name: hmb_age_lt_30
+    - name: hmb age_lt_30
       id: 1001
-    - name: hmb_age_30_45
+    - name: hmb age_30_45
       id: 1002
-    - name: hmb_age_45_55
+    - name: hmb age_45_55
       id: 1003
     covariateCohorts:
     - name: adenomyosis
@@ -34,9 +34,9 @@ underlyingConditions:
       id: 13
     - name: endoHyperplasia
       id: 14
-    - name: endometriosis
-      id: 15
     - name: endoPolyp
+      id: 15
+    - name: endometriosis
       id: 16
     - name: gonadalSteroids
       id: 17
@@ -48,16 +48,18 @@ underlyingConditions:
       id: 20
     - name: pain
       id: 21
-    - name: pcos
+    - name: pain_narrow
       id: 22
-    - name: pid
+    - name: pcos
       id: 23
-    - name: std
+    - name: pid
       id: 24
-    - name: tamoxifen
+    - name: std
       id: 25
-    - name: uterineLeiomyoma
+    - name: tamoxifen
       id: 26
+    - name: uterineLeiomyoma
+      id: 27
   timeWindow:
   - startDay: 1
     endDay: 365

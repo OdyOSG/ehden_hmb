@@ -137,7 +137,9 @@ getIcd10Chapters <- function(con,
 
   # if targetCovariate table persists for some reason:
   dropTableSql <- 'DROP TABLE IF EXISTS @targetDatabaseSchema.@targetCovariateTable'
+
   cli::cat_bullet("Drop covariates table", bullet = "info", bullet_col = "blue")
+
   DatabaseConnector::renderTranslateExecuteSql(connection = con,
                                                sql = dropTableSql,
                                                targetDatabaseSchema = cohortDatabaseSchema,
@@ -157,8 +159,10 @@ getIcd10Chapters <- function(con,
     aggregated = FALSE
   )
   cli::cat_line()
+
   # generate ICD Chapters features
   cli::cat_bullet("2) Rollup ICD Chapters features", bullet = "info", bullet_col = "blue")
+
   DatabaseConnector::renderTranslateExecuteSql(
     connection = con,
     sql = icd10AggSql,
@@ -167,6 +171,7 @@ getIcd10Chapters <- function(con,
     icdCodesTable = icdCodesTable
   )
   cli::cat_line()
+
   # retrieve ICD features
   cli::cat_bullet("3) Retrieve ICD Chapters features", bullet = "info", bullet_col = "blue")
   icdCovTab <- DatabaseConnector::renderTranslateQuerySql(
@@ -175,10 +180,16 @@ getIcd10Chapters <- function(con,
     targetDatabaseSchema = cohortDatabaseSchema,
     cohortId = cohortId,
     icdCodesTable = icdCodesTable
-  )
+  ) %>%
+    dplyr::mutate(
+      timeWindow = paste0(abs(timeA), "_" ,abs(timeB))
+    )
+
   cli::cat_line()
+
   # remove temporary tables
   tabs <- c(targetCovariateTable, icdCodesTable)
+
   # function to write drop table sql
   dropTableSql <- function(t) {
     paste0('DROP TABLE IF EXISTS @targetDatabaseSchema.', t, ';\n')
@@ -197,14 +208,8 @@ getIcd10Chapters <- function(con,
   )
   cli::cat_line()
 
-  return(icdCovTab)
 
-  # # save results
-  # fname <- paste("condition_chapters_", cohortId, sep = "_")
-  # tmpDir <- fs::path(outputFolder, "tmp") %>%
-  #   fs::dir_create()
-  # save_path <- fs::path(tmpDir, fname , ext = "csv")
-  # readr::write_csv(icdCovTab, file = save_path)
+  return(icdCovTab)
 }
 
 
@@ -220,19 +225,19 @@ executeConditionRollup <- function(con,
   cohortTable <- executionSettings$cohortTable
   databaseId <- executionSettings$databaseName
 
-  # create output folder
+  # Create output folder
   outputFolder <- fs::path(here::here("results"), databaseId, analysisSettings[[1]]$outputFolder) %>%
     fs::dir_create()
 
-  #extract cohorts for rollup
+  # Extract cohorts for rollup
   cohortKey <- analysisSettings$baselineCharacteristics$cohorts$targetCohort
 
-  #extract time windows
+  # Extract time windows
   timeA <- analysisSettings$baselineCharacteristics$timeWindow$startDay[1]
   timeB <- analysisSettings$baselineCharacteristics$timeWindow$endDay[1]
 
 
-  #get icd10 chapters
+  # get icd10 chapters
   icd10ChapDat <- purrr::map_dfr(cohortKey$id,
                                  ~getIcd10Chapters(con = con,
                                                    cohortDatabaseSchema = workDatabaseSchema,

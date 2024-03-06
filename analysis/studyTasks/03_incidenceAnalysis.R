@@ -9,7 +9,6 @@
 library(tidyverse, quietly = TRUE)
 library(DatabaseConnector)
 library(config)
-
 source("analysis/private/_utilities.R")
 source("analysis/private/_incidenceAnalysis.R")
 
@@ -18,7 +17,7 @@ source("analysis/private/_incidenceAnalysis.R")
 
 ### Set connection Block
 # <<<
-configBlock <- "[block]"
+configBlock <- "cprdGold"
 # >>>
 
 ### Provide connection details
@@ -44,6 +43,8 @@ analysisSettings <- readSettingsFile(here::here("analysis/settings/incidenceAnal
 
 
 # E. Script --------------------
+
+startSnowflakeSession(con = con, executionSettings = executionSettings)
 
 ### Incidence Analyses
 executeIncidenceAnalysis(con = con,

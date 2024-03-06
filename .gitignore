@@ -23,6 +23,7 @@ bindResults_Public.R
 bindResults_Private.R
 shiny/data_public
 shiny/data_private
+misc/
 
 # Mac files
 .DS_Store

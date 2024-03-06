@@ -108,8 +108,8 @@ baselineContinuous <- function(con,
                                cohortTable,
                                cdmDatabaseSchema,
                                cohortId,
-                               timeA = -365,
-                               timeB = -1,
+                               # timeA = -365,
+                               # timeB = -1,
                                outputFolder) {
 
   cli::cat_rule("Build Continuous Covariates")
@@ -163,6 +163,7 @@ baselineDrugs <- function(con,
   # Create Drugs settings
   covSettings <- FeatureExtraction::createCovariateSettings(
     useDrugGroupEraLongTerm = TRUE,
+    #useDrugGroupEraOverlapping = TRUE,
     excludedCovariateConceptIds = c(21600001, 21600959, 21601237, # Remove ATC 1st class
                                     21601907, 21602359, 21602681,
                                     21602795, 21601386, 21603931,
@@ -191,12 +192,13 @@ baselineDrugs <- function(con,
     dplyr::select(cohortDefinitionId, analysisId, conceptId, name, n, pct) %>%
     dplyr::collect() %>%
     dplyr::mutate(
-      name = gsub(".*: ", "", name)
+      name = gsub(".*: ", "", name),
+      timeWindow = paste0(abs(timeA), "_" ,abs(timeB))
     )
 
   verboseSave(
     object = drugTbl,
-    saveName = "drugs_baseline",
+    saveName = paste("drugs_baseline", abs(timeA), abs(timeB), sep = "_"),
     saveLocation = outputFolder
   )
 
@@ -241,12 +243,13 @@ baselineConditions <- function(con,
     dplyr::select(cohortDefinitionId, analysisId, conceptId, name, n, pct) %>%
     dplyr::collect() %>%
     dplyr::mutate(
-      name = gsub(".*: ", "", name)
+      name = gsub(".*: ", "", name),
+      timeWindow = paste0(abs(timeA), "_" ,abs(timeB))
     )
 
   verboseSave(
     object = condTbl,
-    saveName = "conditions_baseline",
+    saveName = paste("conditions_baseline", abs(timeA), abs(timeB), sep = "_"),
     saveLocation = outputFolder
   )
 
@@ -291,12 +294,13 @@ baselineProcedures <- function(con,
     dplyr::select(cohortDefinitionId, analysisId, conceptId, name, n, pct) %>%
     dplyr::collect() %>%
     dplyr::mutate(
-      name = gsub(".*: ", "", name)
+      name = gsub(".*: ", "", name),
+      timeWindow = paste0(abs(timeA), "_" ,abs(timeB))
     )
 
   verboseSave(
     object = procTbl,
-    saveName = "procedures_baseline",
+    saveName = paste("procedures_baseline", abs(timeA), abs(timeB), sep = "_"),
     saveLocation = outputFolder
   )
 
@@ -352,9 +356,11 @@ executeConceptCharacterization <- function(con,
                      cohortTable = cohortTable,
                      cohortDatabaseSchema = workDatabaseSchema,
                      cohortId = cohortId,
-                     timeA = -365,
-                     timeB = -1,
                      outputFolder = outputFolder)
+
+
+  ## Loop through different time window combos
+  for (i in seq_along(timeA)) {
 
   # Step 3: Run Baseline Drug
   baselineDrugs(con = con,
@@ -362,8 +368,8 @@ executeConceptCharacterization <- function(con,
                 cohortTable = cohortTable,
                 cohortDatabaseSchema = workDatabaseSchema,
                 cohortId = cohortId,
-                timeA = -365,
-                timeB = -1,
+                timeA = timeA[i],
+                timeB = timeB[i],
                 outputFolder = outputFolder)
 
   # Step 4: Run Baseline Conditions
@@ -372,8 +378,8 @@ executeConceptCharacterization <- function(con,
                      cohortTable = cohortTable,
                      cohortDatabaseSchema = workDatabaseSchema,
                      cohortId = cohortId,
-                     timeA = -365,
-                     timeB = -1,
+                     timeA = timeA[i],
+                     timeB = timeB[i],
                      outputFolder = outputFolder)
 
   # Step 5: Run Baseline Procedures
@@ -382,9 +388,28 @@ executeConceptCharacterization <- function(con,
                      cohortTable = cohortTable,
                      cohortDatabaseSchema = workDatabaseSchema,
                      cohortId = cohortId,
-                     timeA = -365,
-                     timeB = -1,
+                     timeA = timeA[i],
+                     timeB = timeB[i],
                      outputFolder = outputFolder)
+  }
+
+  # Bind "drug_baseline" csv files together (deletes binded csvs)
+  bindFiles(
+    inputPath = outputFolder,
+    pattern = "drugs_baseline"
+  )
+
+  # Bind "conditions_baseline" csv files together (deletes binded csvs)
+  bindFiles(
+    inputPath = outputFolder,
+    pattern = "conditions_baseline"
+  )
+
+  # Bind "procedures_baseline" csv files together (deletes binded csvs)
+  bindFiles(
+    inputPath = outputFolder,
+    pattern = "procedures_baseline"
+  )
 
 
   tok <- Sys.time()

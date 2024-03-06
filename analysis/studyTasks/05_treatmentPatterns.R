@@ -9,7 +9,7 @@
 library(tidyverse, quietly = TRUE)
 library(DatabaseConnector)
 library(config)
-
+library(ggsurvfit)
 source("analysis/private/_utilities.R")
 source("analysis/private/_treatmentPatterns.R")
 source("analysis/private/_treatmentHistory_helpers.R")
@@ -18,12 +18,12 @@ source("analysis/private/_treatmentHistory.R")
 
 # C. Connection ----------------------
 
-# set connection Block
+## Set connection Block
 # <<<
-configBlock <- "[block]"
+configBlock <- "cprdGold"
 # >>>
 
-# provide connection details
+## Provide connection details
 connectionDetails <- DatabaseConnector::createConnectionDetails(
   dbms = config::get("dbms",config = configBlock),
   user = config::get("user",config = configBlock),
@@ -31,55 +31,64 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
   connectionString = config::get("connectionString", config = configBlock)
 )
 
-### Connect to database
+## Connect to database
 con <- DatabaseConnector::connect(connectionDetails)
 
 
 # D. Variables -----------------------
 
-### Administrative Variables
+## Administrative Variables
 executionSettings <- config::get(config = configBlock) %>%
   purrr::discard_at(c("dbms", "user", "password", "connectionString"))
 
-### Load analysis settings
-analysisSettings1 <- readSettingsFile(here::here("analysis/settings/postIndexPrevalence1.yml"))
-analysisSettings2 <- readSettingsFile(here::here("analysis/settings/treatmentPatterns1.yml"))
-analysisSettings3 <- readSettingsFile(here::here("analysis/settings/treatmentPatterns2.yml"))
+## Load analysis settings
+analysisSettings1 <- readSettingsFile(here::here("analysis/settings/postIndexPrevalence.yml"))
+analysisSettings2 <- readSettingsFile(here::here("analysis/settings/treatmentPatternsAnalysis1.yml"))
+analysisSettings3 <- readSettingsFile(here::here("analysis/settings/treatmentPatternsAnalysis2.yml"))
 
 
 # E. Script --------------------
 
-### Post index prevalence
+startSnowflakeSession(con = con, executionSettings = executionSettings)
+
+## Post index prevalence
 executePostIndexDrugUtilization(con = con,
                                 executionSettings = executionSettings,
                                 analysisSettings = analysisSettings1)
 
-### Treatment history
-runTreatmentHistory(con = con,
-                    executionSettings = executionSettings,
-                    analysisSettings = analysisSettings2)
-
-### Treatment patterns
+# ### Without NSAIDS --------------------
+# ## Treatment history
+# runTreatmentHistory(con = con,
+#                     executionSettings = executionSettings,
+#                     analysisSettings = analysisSettings2)
+#
+## Treatment patterns
 executeTreatmentPatterns(con = con,
                          executionSettings = executionSettings,
                          analysisSettings = analysisSettings2)
 
 ## Time to discontinuation
+#debug(executeTimeToEvent)
 executeTimeToEvent(con = con,
                    executionSettings = executionSettings,
                    analysisSettings = analysisSettings2)
 
 
-### Treatment history 2 --- all exposures censor hysterectomy
+### With NSAIDS (Sensitivity analysis) --------------------
+## Treatment history
 runTreatmentHistory(con = con,
                     executionSettings = executionSettings,
                     analysisSettings = analysisSettings3)
 
-### Treatment patterns --- all exposures censor hysterectomy
+## Treatment patterns
 executeTreatmentPatterns(con = con,
                          executionSettings = executionSettings,
                          analysisSettings = analysisSettings3)
 
+## Time to discontinuation
+executeTimeToEvent(con = con,
+                   executionSettings = executionSettings,
+                   analysisSettings = analysisSettings3)
 
 # F. Session Info ------------------------
 

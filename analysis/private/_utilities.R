@@ -109,3 +109,33 @@ verboseSave <- function(object, saveName, saveLocation) {
 
   invisible(savePath)
 }
+
+
+bindFiles <- function(inputPath,
+                      pattern = NULL)  {
+
+  # Check if <pattern>.csv file exists. If it does, delete
+  if (file.exists(here::here(inputPath, paste0(pattern, ".csv"))) == TRUE) {
+        unlink(here::here(inputPath, paste0(pattern, ".csv")))
+  }
+
+  ## List all files with "pattern" in folder
+  filepath <- list.files(inputPath, full.names = TRUE, pattern = pattern, recursive = TRUE)
+
+  ## Read all the files and save in list
+  listed_files <- lapply(filepath, readr::read_csv, show_col_types = FALSE)
+
+  ## Bind all data frames of list together
+  binded_df <- dplyr::bind_rows(listed_files)
+
+  ## Save output
+  readr::write_csv(
+    x = binded_df,
+    file = file.path(here::here(inputPath, paste0(pattern, ".csv"))),
+    append = FALSE
+  )
+
+  ## Delete binded csv files
+  unlink(filepath)
+
+}

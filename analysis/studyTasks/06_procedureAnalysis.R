@@ -9,7 +9,6 @@
 library(tidyverse, quietly = TRUE)
 library(DatabaseConnector)
 library(config)
-
 source("analysis/private/_utilities.R")
 source("analysis/private/_procedureAnalysis.R")
 
@@ -18,7 +17,7 @@ source("analysis/private/_procedureAnalysis.R")
 
 ### Set connection Block
 # <<<
-configBlock <- "[block]"
+configBlock <- "cprdGold"
 # >>>
 
 ### Provide connection details
@@ -46,8 +45,8 @@ analysisSettings <- readSettingsFile(here::here("analysis/settings/procedureAnal
 # E. Script --------------------
 
 executeProcedureAnalysis(con = con,
-                     executionSettings = executionSettings,
-                     analysisSettings = analysisSettings)
+                         executionSettings = executionSettings,
+                         analysisSettings = analysisSettings)
 
 
 # F. Session Info ------------------------

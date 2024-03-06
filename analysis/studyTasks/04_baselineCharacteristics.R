@@ -9,7 +9,6 @@
 library(tidyverse, quietly = TRUE)
 library(DatabaseConnector)
 library(config)
-
 source("analysis/private/_utilities.R")
 source("analysis/private/_conceptPrevalence.R")
 source("analysis/private/_cohortPrevalence.R")
@@ -18,12 +17,12 @@ source("analysis/private/_conditionRollup.R")
 
 # C. Connection ----------------------
 
-# set connection Block
+## Set connection Block
 # <<<
-configBlock <- "[block]"
+configBlock <- "cprdGold"
 # >>>
 
-# provide connection details
+## Provide connection details
 connectionDetails <- DatabaseConnector::createConnectionDetails(
   dbms = config::get("dbms",config = configBlock),
   user = config::get("user",config = configBlock),
@@ -31,39 +30,41 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
   connectionString = config::get("connectionString", config = configBlock)
 )
 
-# connect to database
+## Connect to database
 con <- DatabaseConnector::connect(connectionDetails)
 
 
 # D. Variables -----------------------
 
-### Administrative Variables
+## Administrative Variables
 executionSettings <- config::get(config = configBlock) %>%
   purrr::discard_at(c("dbms", "user", "password", "connectionString"))
 
-### Load analysis settings
+## Load analysis settings
 analysisSettings1 <- readSettingsFile(here::here("analysis/settings/baselineCharacteristics.yml"))
 analysisSettings2 <- readSettingsFile(here::here("analysis/settings/underlyingConditions.yml"))
 
 
 # E. Script --------------------
 
-### Concept characterization
+startSnowflakeSession(con =con, executionSettings = executionSettings)
+
+## Concept characterization
 executeConceptCharacterization(con = con,
                                executionSettings = executionSettings,
                                analysisSettings = analysisSettings1)
 
-### Cohort characterization
+## Cohort characterization
 executeCohortPrevalence(con = con,
                         executionSettings = executionSettings,
                         analysisSettings = analysisSettings1)
 
-### ICD10 chapters rollup
+## ICD10 chapters rollup
 executeConditionRollup(con = con,
                        executionSettings = executionSettings,
                        analysisSettings = analysisSettings1)
 
-### Cohort prevalence for underlying conditions
+## Cohort prevalence for underlying conditions
 executeCohortPrevalence(con = con,
                         executionSettings = executionSettings,
                         analysisSettings = analysisSettings2)

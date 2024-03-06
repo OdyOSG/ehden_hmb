@@ -148,9 +148,9 @@ executeIncidenceAnalysis <- function(con,
                                      analysisSettings) {
 
   ## get cohort Ids
-  targetCohortId <- analysisSettings$incidenceAnalysis$cohorts$targetCohort$id
+  targetCohortId <- analysisSettings$incidenceAnalysis$cohorts$targetCohort$id %>% sort()
   targetCohortName <- analysisSettings$incidenceAnalysis$cohorts$targetCohort$name
-  denomCohorts <- analysisSettings$incidenceAnalysis$cohorts$denominatorCohort
+  denomCohorts <- analysisSettings$incidenceAnalysis$cohorts$denominatorCohort %>% dplyr::arrange(id)
   irSettings <- analysisSettings$incidenceAnalysis$incidenceSettings
 
   cli::cat_boxx("Building Incidence Analysis")
@@ -164,7 +164,7 @@ executeIncidenceAnalysis <- function(con,
       executionSettings = executionSettings,
       cohortId = targetCohortId[i],
       cohortName = targetCohortName[i],
-      denomCohorts = denomCohorts,
+      denomCohorts = denomCohorts[i,],
       irSettings = irSettings,
       refId = i
     )
