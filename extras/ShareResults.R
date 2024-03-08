@@ -35,7 +35,8 @@ siteName <- "test" # place your site name
 zipPathName <- paste(siteName, "results", sep = "_")
 
 ### List all files to zip
-filesToZip <-  fs::dir_ls(path = "results", recurse = TRUE, type = "file")
+filesToZipAll <-  fs::dir_ls(path = "results", recurse = TRUE, type = "file")
+filesToZip <- filesToZipAll[!grepl("treatmentHistory", filesToZipAll)]
 
 ### Zip files into a results zip folder
 utils::zip(zipPathName, files = filesToZip)

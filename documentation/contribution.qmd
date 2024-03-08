@@ -7,7 +7,7 @@ Welcome to the EHDEN HMB Study! Thank you for your interest in participating in 
 
 # Participation
 
-During the active maintenance of the EHDEN HMB study, If you would like to participate in the network study please contact [Siir Su Saydam](mailto:siirsu.saydam@bayer.com) or [Marta Pineda Moncusi](mailto:marta.pinedamoncusi@ndorms.ox.ac.uk). Please send us the following information when announcing your interest in participation:
+During the active maintenance of the EHDEN HMB study, If you would like to participate in the network study please contact [Gianmario Candore](mailto:gianmario.candore@bayer.com) or [Marta Pineda Moncusi](mailto:marta.pinedamoncusi@ndorms.ox.ac.uk). Please send us the following information when announcing your interest in participation:
 
 -   **Primary Contact** - person managing the network study participation
 -   **Analyst Contact** - person running the study code at the institution (can be same as primary)
