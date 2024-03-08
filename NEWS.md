@@ -1,3 +1,8 @@
+# EHDEN HMB v1.0.1
+
+* Corrected NEWS.md file
+* Added "result"" and "data"" folders in .gitignore file
+
 # EHDEN HMB v1.0.0
 
 * Removed `HMB2` cohort definition
