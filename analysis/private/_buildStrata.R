@@ -79,7 +79,6 @@ ageStrata <- function(con,
 
   DatabaseConnector::executeSql(connection = con, ageStrataSql, progressBar = FALSE)
 
-  #TODO Add timing
   cohortStrataId <- targetId * 1000 + strataId
   cohortSchemaTable <- paste(cohortDatabaseSchema, cohortTable, sep = ".")
   cli::cat_bullet("Age strata written to ", cohortSchemaTable,

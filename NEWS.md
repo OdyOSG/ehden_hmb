@@ -4,10 +4,13 @@
 * Added all drug cohorts to post-index utilization analysis
 * Split Oral Contraceptives concept set to 1) All oral contraceptives excluding estradiol+dienogest and 2) just estradiol+dienogest oral contraceptives
 * Added narrow definition of pain covariate (i.e. pain associated with HMB)
-* Added new Treatment Patterns analysis (without NSAIDs). Kept the original analysis as sensitivity (with NSAIDs)
+* Added new Treatment Patterns analysis (without NSAIDs). Kept the initial analysis as sensitivity (with NSAIDs).
+* Added new Time to discontinuation analysis (without NSAIDs). Kept the initial analysis as sensitivity (with NSAIDs).
 * Added risk table with people at risk and censored underneath KM plots
 * Fixed the denominator for incidence calculation i.e. looking at the same stratified cohort (age group)
 * Added subsets of Treatment Patterns analysis i.e. patterns of first 6 months, 1 year and 2 years after index date
+* Drug utilization has been extended to two different analyses: 'Within time window' and 'Complete follow-up'
+* Incidence analysis has been altered. Incidence rate is calculated by using the same stratified cohorts in both numerator and denominator
 
 # EHDEN HMB v0.9.0
 

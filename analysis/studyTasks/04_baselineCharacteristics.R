@@ -19,7 +19,7 @@ source("analysis/private/_conditionRollup.R")
 
 ## Set connection Block
 # <<<
-configBlock <- "cprdGold"
+configBlock <- "cprdAurum"
 # >>>
 
 ## Provide connection details

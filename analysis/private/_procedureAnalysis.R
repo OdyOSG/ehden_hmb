@@ -105,20 +105,23 @@ getTteRes <- function(tb, outcomeCohortId) {
         event == 1 ~ as.integer(eventDate - cohortStartDate) / 365.25
       )
     ) %>%
-    dplyr::select(duration, event)
+    dplyr::select(duration, event) %>%
+    dplyr::filter(duration <= 3)
 
 
   if (nrow(tab2) > 0) {
+
     # get surv fit object
     survFit <- ggsurvfit::survfit2(
       survival::Surv(duration, event) ~ 1, data = tab2
     )
+
     # retrieve tidy survfit
     survDat <- ggsurvfit::tidy_survfit(survFit) %>%
       dplyr::select(time, `n.risk`, `n.event`, estimate, std.error) %>%
-      dplyr::filter(
-        time <= 3 # only take first 3 years of data
-      ) %>%
+      # dplyr::filter(
+      #   time <= 3 # only take first 3 years of data
+      # ) %>%
       dplyr::mutate(
         outcomeCohortId = !!outcomeCohortId
       )
@@ -138,6 +141,36 @@ getTteRes <- function(tb, outcomeCohortId) {
 }
 
 
+getTteResKM <- function(tb, outcomeCohortId) {
+
+  ##CORRECTION needs to be time to event happening
+  tab2 <- tb %>%
+    dplyr::filter(cohortDefinitionId %in% outcomeCohortId$id) %>%
+    dplyr::mutate(
+      event = ifelse(is.na(cohortDefinitionId), 0, 1),
+      duration = dplyr::case_when(
+        event == 0 ~ as.integer(cohortEndDate - cohortStartDate) / 365.25,
+        event == 1 ~ as.integer(eventDate - cohortStartDate) / 365.25
+      )
+    ) %>%
+    dplyr::left_join(outcomeCohortId, by = c("cohortDefinitionId" = "id")) %>%
+    dplyr::select(duration, event, cohortDefinitionId, name) %>%
+    dplyr::filter(duration <= 3)
+
+
+  if (nrow(tab2) > 0) {
+
+    # get surv fit object
+    survFit <- ggsurvfit::survfit2(
+      survival::Surv(duration, event) ~ name, data = tab2
+    )
+
+  }
+
+  return(survFit)
+}
+
+
 executeProcedureAnalysis <- function(con,
                                  executionSettings,
                                  analysisSettings) {
@@ -152,7 +185,7 @@ executeProcedureAnalysis <- function(con,
 
   ## get cohort Ids
   targetCohortIds <- analysisSettings$procedureAnalysis$cohorts$targetCohort$id
-  procedureCohortIds <- analysisSettings$procedureAnalysis$cohorts$procCohorts$id
+  procedureCohort <- analysisSettings$procedureAnalysis$cohorts$procCohorts
 
   ## get time windows
   timeA <- analysisSettings$procedureAnalysis$timeWindow$startDay
@@ -171,6 +204,7 @@ executeProcedureAnalysis <- function(con,
   cli::cat_rule(txt)
 
   for (i in seq_along(targetCohortIds)) {
+
     idx <- targetCohortIds[i]
 
     txt <- glue::glue("Running procedure analysis for cohort id {crayon::magenta(idx)}")
@@ -187,7 +221,7 @@ executeProcedureAnalysis <- function(con,
       workDatabaseSchema = workDatabaseSchema,
       cohortTable = cohortTable,
       targetCohortId = idx,
-      outcomeCohortIds = procedureCohortIds
+      outcomeCohortIds = procedureCohort$id
     )
 
     # Step 2: Run Procedure prevalence ------------
@@ -233,15 +267,24 @@ executeProcedureAnalysis <- function(con,
     cli::cat_bullet("Step 3: Calculating time to intervention for procedures",
                     bullet = "checkbox_on", bullet_col = "green")
 
-    # subset table for survival analysis
+
+    # subset table for survival analysis (table)
     survDat <- purrr::map_dfr(
-      procedureCohortIds,
+      procedureCohort$id,
       ~getTteRes(tb, outcomeCohortId = .x)
     )
 
+    # subset table for survival analysis (survfit)
+    survDatKM <- getTteResKM(tb = tb, outcomeCohortId = procedureCohort)
+
+    # Export time to event tables (survfit)
+    readr::write_rds(survDatKM,
+                     here::here(ttiFolder, paste0("tti_", databaseId, "_", targetCohortIds[i], ".rds"))
+                     )
+
     fileNm2 <- glue::glue("procedure_survival_{idx}")
 
-    # save time to event obj
+    # Export time to event tables (csv)
     verboseSave(
       object = survDat,
       saveName = fileNm2,

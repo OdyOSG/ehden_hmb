@@ -80,8 +80,6 @@ baselineDemographics <- function(con,
                           cohortId = cohortId,
                           covSettings = covSettings)
 
-  # format
-  # TODO should we improve the covariateName format
   demoTbl <- cov$covariates %>%
     dplyr::left_join(cov$covariateRef, by = c("covariateId")) %>%
     dplyr::rename(
@@ -91,7 +89,6 @@ baselineDemographics <- function(con,
     ) %>%
     dplyr::select(cohortDefinitionId, analysisId, conceptId, name, n, pct) %>%
     dplyr::collect()
-
 
   verboseSave(
     object = demoTbl,
@@ -108,8 +105,6 @@ baselineContinuous <- function(con,
                                cohortTable,
                                cdmDatabaseSchema,
                                cohortId,
-                               # timeA = -365,
-                               # timeB = -1,
                                outputFolder) {
 
   cli::cat_rule("Build Continuous Covariates")
@@ -130,7 +125,6 @@ baselineContinuous <- function(con,
                           cohortId = cohortId,
                           covSettings = covSettings)
 
-  # format
   ctsTbl <- cov$covariatesContinuous %>%
     dplyr::left_join(cov$covariateRef, by = c("covariateId")) %>%
     dplyr::rename(
@@ -163,7 +157,6 @@ baselineDrugs <- function(con,
   # Create Drugs settings
   covSettings <- FeatureExtraction::createCovariateSettings(
     useDrugGroupEraLongTerm = TRUE,
-    #useDrugGroupEraOverlapping = TRUE,
     excludedCovariateConceptIds = c(21600001, 21600959, 21601237, # Remove ATC 1st class
                                     21601907, 21602359, 21602681,
                                     21602795, 21601386, 21603931,
@@ -181,7 +174,6 @@ baselineDrugs <- function(con,
                           cohortId = cohortId,
                           covSettings = covSettings)
 
-  # format
   drugTbl <- cov$covariates %>%
     dplyr::left_join(cov$covariateRef, by = c("covariateId")) %>%
     dplyr::rename(
@@ -232,7 +224,6 @@ baselineConditions <- function(con,
                           cohortId = cohortId,
                           covSettings = covSettings)
 
-  # format
   condTbl <- cov$covariates %>%
     dplyr::left_join(cov$covariateRef, by = c("covariateId")) %>%
     dplyr::rename(
@@ -283,7 +274,6 @@ baselineProcedures <- function(con,
                           cohortId = cohortId,
                           covSettings = covSettings)
 
-  # format
   procTbl <- cov$covariates %>%
     dplyr::left_join(cov$covariateRef, by = c("covariateId")) %>%
     dplyr::rename(

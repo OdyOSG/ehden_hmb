@@ -104,7 +104,6 @@ cohortCovariates <- function(con,
     saveLocation = outputFolder
   )
 
-
   invisible(cohortCovTbl)
 }
 
@@ -167,12 +166,6 @@ executeCohortPrevalence <- function(con,
                      outputFolder = outputFolder)
 
   }
-
-  # # Bind "cohort_covariates" csv files together (deletes binded csvs)
-  # bindFiles(
-  #   inputPath = outputFolder,
-  #   pattern = "cohort_covariates"
-  # )
 
   tok <- Sys.time()
   cli::cat_bullet("Execution Completed at: ", crayon::red(tok),

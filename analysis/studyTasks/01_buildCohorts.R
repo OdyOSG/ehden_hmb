@@ -18,7 +18,7 @@ source("analysis/private/_buildStrata.R")
 
 ## Set connection Block
 # <<<
-configBlock <- "cprdGold"
+configBlock <- "mrktscan"
 # >>>
 
 ## Provide connection details
@@ -55,7 +55,7 @@ analysisSettings <- readSettingsFile(here::here("analysis/settings/strata.yml"))
 startSnowflakeSession(con =con, executionSettings = executionSettings)
 
 ######### RUN ONCE - Initialize cohort tables #########
-initializeCohortTables(executionSettings = executionSettings, con = con, dropTables = TRUE)
+initializeCohortTables(executionSettings = executionSettings, con = con, dropTables = FALSE)
 
 ## Generate cohorts
 

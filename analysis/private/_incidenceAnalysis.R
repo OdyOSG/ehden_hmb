@@ -66,7 +66,6 @@ defineIncidenceAnalysis <- function(cohortId,
     outcomeDefs = list(o1),
     tars = tars,
     analysisList = analysisList,
-    # add year strata
     strataSettings = byYearStrata
   )
 

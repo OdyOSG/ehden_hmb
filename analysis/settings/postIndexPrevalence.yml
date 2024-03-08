@@ -59,4 +59,6 @@ treatmentPatterns:
     endDay: 730
   - startDay: 731
     endDay: 1825
-  outputFolder: 07_postIndexPrevalenceDrugs
+  outputFolder:
+  - 07_postIndexPrevalenceDrugs
+  - 07_postIndexPrevalenceDrugs2

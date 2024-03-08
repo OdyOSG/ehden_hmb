@@ -24,6 +24,7 @@ verboseSave <- function(object, saveName, saveLocation) {
 }
 
 
+# Covariate started and ended within time window
 cohortCovariates <- function(con,
                              cohortDatabaseSchema,
                              cohortTable,
@@ -105,10 +106,11 @@ cohortCovariates <- function(con,
     dplyr::rename(covariateName = name) %>%
     dplyr::mutate(
       pct = count / n,
-      timeWindow = paste0(abs(timeA), "_" ,abs(timeB))
+      timeWindow = paste0(abs(timeA), "_" ,abs(timeB)),
+      type = "within"
     ) %>%
     dplyr::select(
-      cohortId, cohortName, covariateId, covariateName, count, pct, timeWindow
+      cohortId, cohortName, covariateId, covariateName, count, pct, timeWindow, type
     )
 
   verboseSave(
@@ -117,6 +119,101 @@ cohortCovariates <- function(con,
     saveLocation = outputFolder
   )
 
+  invisible(cohortCovTbl)
+}
+
+
+# Covariate started at least on cohort start date + timeA and ended at least on cohort start date + timeB
+cohortCovariates2 <- function(con,
+                             cohortDatabaseSchema,
+                             cohortTable,
+                             cohortKey,
+                             covariateKey,
+                             timeA,
+                             timeB,
+                             outputFolder) {
+
+  cli::cat_rule("Build Cohort Covariates")
+
+  targetId <- cohortKey$id
+  eventId <- covariateKey$id
+
+  # SQL code
+  sql <- "
+    SELECT
+      t.cohort_definition_id AS target_cohort_id,
+      e.cohort_definition_id AS covariate_cohort_id,
+      count(e.subject_id) as n
+    FROM (
+      SELECT *
+      FROM @cohortDatabaseSchema.@cohortTable
+      WHERE cohort_definition_id IN (@targetId)
+    ) t
+    JOIN (
+      SELECT *
+      FROM @cohortDatabaseSchema.@cohortTable
+      WHERE cohort_definition_id IN (@eventId)
+    ) e
+    ON t.subject_id = e.subject_id
+    AND (
+      e.cohort_start_date <= DATEADD(day, @timeA, t.cohort_start_date) AND
+      e.cohort_end_date >= DATEADD(day, @timeB, t.cohort_start_date)
+          )
+    GROUP BY t.cohort_definition_id, e.cohort_definition_id;
+"
+
+  # Render and translate sql
+  cohortCovariateSql <- SqlRender::render(
+    sql,
+    cohortDatabaseSchema = cohortDatabaseSchema,
+    cohortTable = cohortTable,
+    targetId = targetId,
+    eventId = eventId,
+    timeA = timeA,
+    timeB = timeB
+  ) %>%
+    SqlRender::translate(targetDialect = con@dbms)
+
+  #run query on connection
+  tb <- dplyr::tbl(con, dbplyr::in_schema(cohortDatabaseSchema, cohortTable)) %>%
+    dplyr::filter(cohort_definition_id %in% targetId) %>%
+    dplyr::count(cohort_definition_id) %>%
+    dplyr::collect() %>%
+    dplyr::right_join(cohortKey, by = c("cohort_definition_id" = "id")) %>%
+    dplyr::rename(id = cohort_definition_id) %>%
+    dplyr::select(id, name, n) %>%
+    dplyr::arrange(id)
+
+
+  #run query on connection
+  cohortCovTbl <- DatabaseConnector::querySql(con, sql = cohortCovariateSql) %>%
+    rename(
+      cohortId = TARGET_COHORT_ID,
+      covariateId = COVARIATE_COHORT_ID,
+      count = N
+    ) %>%
+    dplyr::left_join(
+      tb, by = c("cohortId" = "id")
+    ) %>%
+    dplyr::rename(cohortName = name) %>%
+    dplyr::left_join(
+      covariateKey, by = c("covariateId" = "id")
+    ) %>%
+    dplyr::rename(covariateName = name) %>%
+    dplyr::mutate(
+      pct = count / n,
+      timeWindow = paste0(abs(timeA), "_" ,abs(timeB)),
+      type = "followUp"
+    ) %>%
+    dplyr::select(
+      cohortId, cohortName, covariateId, covariateName, count, pct, timeWindow, type
+    )
+
+  verboseSave(
+    object = cohortCovTbl,
+    saveName = paste("cohort_covariates", abs(timeA), abs(timeB), sep = "_"),
+    saveLocation = outputFolder
+  )
 
   invisible(cohortCovTbl)
 }
@@ -135,7 +232,9 @@ executePostIndexDrugUtilization <- function(con,
 
   outputFolder <- fs::path(here::here("results"), databaseId, analysisSettings[[1]]$outputFolder) %>%
     fs::dir_create()
+
   piduFolder <- outputFolder[[1]]
+  piduFolder2 <- outputFolder[[2]]
 
   ## get cohort Ids
   cohortKey <- analysisSettings$treatmentPatterns$cohorts$targetCohort
@@ -153,8 +252,10 @@ executePostIndexDrugUtilization <- function(con,
   cli::cat_line()
 
   tik <- Sys.time()
-  #loop on time Windows
+
+  # Loop on time Windows
   for (i in seq_along(timeA)) {
+
     # Job Log
     cli::cat_rule(glue::glue("Post-Index Analysis Job ", i))
     cli::cat_bullet("Running Post-Index Analysis at window: [",
@@ -168,7 +269,7 @@ executePostIndexDrugUtilization <- function(con,
     cli::cat_bullet("Using cohorts ids:\n   ", crayon::green(cat_cohortId),
                     bullet = "info", bullet_col = "blue")
 
-    # Run post-index
+
     cohortCovariates(con = con,
                      cohortDatabaseSchema = workDatabaseSchema,
                      cohortTable = cohortTable,
@@ -177,6 +278,15 @@ executePostIndexDrugUtilization <- function(con,
                      timeA = timeA[i],
                      timeB = timeB[i],
                      outputFolder = piduFolder)
+
+    cohortCovariates2(con = con,
+                     cohortDatabaseSchema = workDatabaseSchema,
+                     cohortTable = cohortTable,
+                     cohortKey = cohortKey,
+                     covariateKey = covariateKey,
+                     timeA = timeA[i],
+                     timeB = timeB[i],
+                     outputFolder = piduFolder2)
 
   }
 
@@ -266,7 +376,7 @@ executeTreatmentPatterns <- function(con,
 
   for (i in seq_along(thFiles)) {
 
-    #read parquet file - get treatment history
+    # read parquet file - get treatment history
     th <- arrow::read_parquet(file = thFiles[i])
 
     # # Extract common lead of directory
@@ -283,8 +393,8 @@ executeTreatmentPatterns <- function(con,
 
 
     ## All time ----------------------------------------------
+
     # Create object to export
-    #debug(prepSankey)
     patterns <- th %>%
       prepSankey(minNumPatterns = 30L)
 
@@ -297,6 +407,7 @@ executeTreatmentPatterns <- function(con,
 
 
     ## 6 months ----------------------------------------------
+
     # Create object to export
     patterns6m <- th %>%
       dplyr::filter(flag %in% c("6m")) %>%
@@ -311,6 +422,7 @@ executeTreatmentPatterns <- function(con,
 
 
     ## 1 year ----------------------------------------------
+
     # Create object to export
     patterns1y <- th %>%
       dplyr::filter(flag %in% c("6m", "1y")) %>%
@@ -325,6 +437,7 @@ executeTreatmentPatterns <- function(con,
 
 
     ## 2 years ----------------------------------------------
+
     # Create object to export
     patterns2y <- th %>%
       dplyr::filter(flag %in% c("6m", "1y", "2y")) %>%
@@ -382,7 +495,6 @@ prepTte <- function(con,
     tibble::as_tibble()
 
   # Create list to save results of survfit
-  survDat <- vector('list', length(targetCohortIds))
   survFitList <- vector('list', 2)
 
   # Loop on targetCohortIds
@@ -401,11 +513,10 @@ prepTte <- function(con,
         ),
         time_years = duration_era / 365.25
       ) %>%
-      #dplyr::select(event_cohort_id, time_years, event)
       dplyr::filter(time_years <= 3) %>%
       dplyr::select(event_cohort_id, event_cohort_name, time_years, event)
 
-    # Get single lines
+    ## Get single lines
     singleLineStrata <- tte %>%
       dplyr::filter(
         !grepl("\\+", event_cohort_name)
@@ -413,7 +524,7 @@ prepTte <- function(con,
       dplyr::pull(event_cohort_name) %>%
       unique()
 
-    # Get top 4 multi-lines
+    ## Get top 4 multi-lines
     top4MultiLineStrata <-tte %>%
       dplyr::filter(
         grepl("\\+", event_cohort_name)
@@ -424,80 +535,41 @@ prepTte <- function(con,
       dplyr::pull(event_cohort_name) %>%
       unique()
 
-    # Combine specified strata lines
+    ## Combine specified strata lines
     strataLines <- c(singleLineStrata, top4MultiLineStrata)
 
-    #######
+    ## All lines
     tteAll <- tte %>% dplyr::filter(event_cohort_name %in% strataLines)
-
-    # # Determine the number of persons in a combo
-    # keep_ids <- tte %>%
-    #   count(event_cohort_id) %>%
-    #   dplyr::mutate(
-    #     combo = ifelse(grepl("\\+", event_cohort_id), 1, 0)
-    #   ) %>%
-    #   dplyr::filter(
-    #     combo == 0 | (combo == 1 & n >= 5)
-    #   ) %>%
-    #   #dplyr::pull(event_cohort_id)
-    #   dplyr::select(event_cohort_id)
 
     # Create the surv fit object
     survFitAll <- ggsurvfit::survfit2(
-      #survival::Surv(time_years, event) ~ event_cohort_id, data = tte %>% filter(event_cohort_id %in% keep_ids)
       survival::Surv(time_years, event) ~ event_cohort_name, data = tteAll
     )
 
-    colors <- colorspace::rainbow_hcl(length(strataLines))
 
-    survFitAll |>
-      ggsurvfit(size = 1) +
-      add_risktable(risktable_stats = "{n.risk} ({cum.censor})") +
-      scale_ggsurvfit(x_scales=list(breaks=c(0.5, 0:3))) +
-      scale_color_manual(values = colors) +
-      scale_fill_manual(values = colors) +
-      add_risktable_strata_symbol(symbol = "\U25CF", size = 12)+
-      labs(x = "Follow-up time, years")
-
-
-    #######
+    ## Single lines only
     tteSingle <- tte %>% dplyr::filter(event_cohort_name %in% singleLineStrata)
 
-    # Create the surv fit object
+    ## Create the surv fit object
     survFitSingle <- ggsurvfit::survfit2(
-      #survival::Surv(time_years, event) ~ event_cohort_id, data = tte %>% filter(event_cohort_id %in% keep_ids)
       survival::Surv(time_years, event) ~ event_cohort_name, data = tteSingle
     )
 
-    colors <- colorspace::rainbow_hcl(length(singleLineStrata))
-
-    survFitSingle |>
-      ggsurvfit(size = 1) +
-      add_risktable(risktable_stats = "{n.risk} ({cum.censor})") +
-      scale_ggsurvfit(x_scales=list(breaks=c(0.5, 0:3))) +
-      scale_color_manual(values = colors) +
-      scale_fill_manual(values = colors) +
-      add_risktable_strata_symbol(symbol = "\U25CF", size = 12)+
-      labs(x = "Follow-up time, years")
-
-
-    survFitList <- list("all" = survFitAll,
-                        "single" = survFitSingle)
+    ## Add ggsurvfit objects to list
+    survFitList <- list("All" = survFitAll,
+                        "Single" = survFitSingle)
 
   }
 
-  # Bind data
-  #survDat <- do.call('rbind', survDat)
-
-  #return(survDat)
   return(survFitList)
 }
 
-prepTteUn <- function(con,
-                      th,
-                      workDatabaseSchema,
-                      cohortTable,
-                      targetCohorts) {
+
+prepTteTables <- function(con,
+                          th,
+                          workDatabaseSchema,
+                          cohortTable,
+                          targetCohorts) {
 
   cli::cat_line(crayon::blue("Extracting Survival Table..."))
 
@@ -522,8 +594,6 @@ prepTteUn <- function(con,
     tibble::as_tibble()
 
   # Loop on targetCohort Ids
-  survDat <- vector('list', length(targetCohortIds))
-
   for (i in seq_along(targetCohortIds)) {
 
     tte <- targetTbl %>%
@@ -539,7 +609,6 @@ prepTteUn <- function(con,
         ),
         time_years = duration_era / 365.25
       ) %>%
-      #dplyr::select(event_cohort_id, time_years, event)
       dplyr::filter(time_years <= 3) %>%
       dplyr::select(event_cohort_id, event_cohort_name, time_years, event)
 
@@ -565,50 +634,45 @@ prepTteUn <- function(con,
     # Combine specified strata lines
     strataLines <- c(singleLineStrata, top4MultiLineStrata)
 
-    #######
+
     tteAll <- tte %>% dplyr::filter(event_cohort_name %in% strataLines)
     tteSingle <- tte %>% dplyr::filter(event_cohort_name %in% singleLineStrata)
 
 
-    # Create the surv fit object
+    # Create the surv fit object - All lines
     survFitAll <- ggsurvfit::survfit2(
-      #survival::Surv(time_years, event) ~ event_cohort_id, data = tte %>% filter(event_cohort_id %in% keep_ids)
       survival::Surv(time_years, event) ~ event_cohort_name, data = tteAll
     )
 
+    # Create the surv fit object - Single lines only
     survFitSingle <- ggsurvfit::survfit2(
-      #survival::Surv(time_years, event) ~ event_cohort_id, data = tte %>% filter(event_cohort_id %in% keep_ids)
       survival::Surv(time_years, event) ~ event_cohort_name, data = tteSingle
     )
 
-    # Place the surv fit table into the list
+    # Place the surv fit table into the list - All lines
     survFitAllTbl <- ggsurvfit::tidy_survfit(survFitAll) %>%
       dplyr::select(time, `n.risk`, `n.event`, estimate:strata) %>%
       dplyr::mutate(
         targetCohortId = targetCohortIds[i],
         targetCohortName = targetCohortNames[i],
-        line = "all"
+        line = "All"
       )
 
-    # Place the surv fit table into the list
+    # Place the surv fit table into the list - Single lines only
     survFitSingleTbl <- ggsurvfit::tidy_survfit(survFitSingle) %>%
       dplyr::select(time, `n.risk`, `n.event`, estimate:strata) %>%
       dplyr::mutate(
         targetCohortId = targetCohortIds[i],
         targetCohortName = targetCohortNames[i],
-        line = "single"
+        line = "Single"
       )
 
 
-    survFitList <- list("all" = survFitAllTbl,
-                        "single" = survFitSingleTbl)
+    survFitTables <- dplyr::bind_rows(survFitAllTbl, survFitSingleTbl)
 
   }
 
-  # Bind data
-  survFitList <- do.call('rbind', survFitList)
-
-  return(survFitList)
+  return(survFitTables)
 }
 
 
@@ -659,6 +723,7 @@ executeTimeToEvent <- function(con,
         id == targetCohortId[i]
       )
 
+
     # Get TTE survfit objects (list)
     tteDat <- prepTte(con = con,
                       th = th,
@@ -666,12 +731,12 @@ executeTimeToEvent <- function(con,
                       cohortTable = cohortTable,
                       targetCohorts = tmp)
 
-    # Get TTE table (data frame)
-    tteDatUn <- prepTteUn(con = con,
-                          th = th,
-                          workDatabaseSchema = workDatabaseSchema,
-                          cohortTable = cohortTable,
-                          targetCohorts = tmp)
+    # Get TTE tables (data frame)
+    tteDatTables <- prepTteTables(con = con,
+                                  th = th,
+                                  workDatabaseSchema = workDatabaseSchema,
+                                  cohortTable = cohortTable,
+                                  targetCohorts = tmp)
 
 
     # Create output folder
@@ -681,10 +746,10 @@ executeTimeToEvent <- function(con,
     # Save TTE table
     file_name <- paste("tte", file_label, sep = "_")
     save_path2 <- fs::path(save_path, file_name, ext = "csv")
-    readr::write_csv(tteDatUn, file = save_path2)
+    readr::write_csv(tteDatTables, file = save_path2)
 
-    # Save TTE survfit data
-    file_name <- paste("tte", file_label, sep = "_")
+    # Save TTE survfit
+    file_name <- paste("tte", databaseId, file_label, sep = "_")
     save_path2 <- fs::path(save_path, file_name, ext = "rds")
     readr::write_rds(tteDat, file = save_path2)
 

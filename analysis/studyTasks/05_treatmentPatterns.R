@@ -20,7 +20,7 @@ source("analysis/private/_treatmentHistory.R")
 
 ## Set connection Block
 # <<<
-configBlock <- "cprdGold"
+configBlock <- "cprdAurum"
 # >>>
 
 ## Provide connection details
@@ -56,19 +56,18 @@ executePostIndexDrugUtilization(con = con,
                                 executionSettings = executionSettings,
                                 analysisSettings = analysisSettings1)
 
-# ### Without NSAIDS --------------------
-# ## Treatment history
-# runTreatmentHistory(con = con,
-#                     executionSettings = executionSettings,
-#                     analysisSettings = analysisSettings2)
-#
+### Without NSAIDS --------------------
+## Treatment history
+runTreatmentHistory(con = con,
+                    executionSettings = executionSettings,
+                    analysisSettings = analysisSettings2)
+
 ## Treatment patterns
 executeTreatmentPatterns(con = con,
                          executionSettings = executionSettings,
                          analysisSettings = analysisSettings2)
 
 ## Time to discontinuation
-#debug(executeTimeToEvent)
 executeTimeToEvent(con = con,
                    executionSettings = executionSettings,
                    analysisSettings = analysisSettings2)
