@@ -155,46 +155,48 @@ bindTteData <- function(path,
     tools::file_path_sans_ext()
 
   #read in data
-  tteData <- readr::read_csv(file = pathToFile, show_col_types = FALSE) %>%
-    dplyr::filter(
-      time <= 3
-    )
+  tteData <- readr::read_csv(file = pathToFile, show_col_types = FALSE)
 
-  #remove singleLine Strata
-  singleLineStrata <- tteData %>%
-    dplyr::filter(
-      !grepl("\\+", strata)
-    ) %>%
-    dplyr::pull(strata) %>%
-    unique()
-
-  #get top 4 multi lines
-  top4MultiLineStrata <-tteData %>%
-    dplyr::filter(
-      grepl("\\+", strata)
-    ) %>%
-    count(strata) %>%
-    dplyr::arrange(desc(n)) %>%
-    dplyr::slice(1:4) %>%
-    dplyr::pull(strata) %>%
-    unique()
-
-  # combine specified strata lines
-  strataLines <- c(singleLineStrata, top4MultiLineStrata)
+  # %>%
+  #   dplyr::filter(
+  #     time <= 3
+  #   )
+  #
+  # #remove singleLine Strata
+  # singleLineStrata <- tteData %>%
+  #   dplyr::filter(
+  #     !grepl("\\+", strata)
+  #   ) %>%
+  #   dplyr::pull(strata) %>%
+  #   unique()
+  #
+  # #get top 4 multi lines
+  # top4MultiLineStrata <-tteData %>%
+  #   dplyr::filter(
+  #     grepl("\\+", strata)
+  #   ) %>%
+  #   count(strata) %>%
+  #   dplyr::arrange(desc(n)) %>%
+  #   dplyr::slice(1:4) %>%
+  #   dplyr::pull(strata) %>%
+  #   unique()
+  #
+  # # combine specified strata lines
+  # strataLines <- c(singleLineStrata, top4MultiLineStrata)
 
 
   # subset tted Data to the specified strata lines
   subsetTteData <- tteData %>%
     dplyr::mutate(strata = as.character(strata)) %>%
-    dplyr::filter(
-      strata %in% strataLines
-    ) %>%
+    # dplyr::filter(
+    #   strata %in% strataLines
+    # ) %>%
     dplyr::mutate(
       database = !!database,
       targetId = !!targetId
     ) %>%
     dplyr::select(
-      database, targetId, strata, time, n.risk, n.event, estimate, std.error
+      database, targetId, strata, time, n.risk, n.event, estimate, std.error, line
     )
 
   return(subsetTteData)
@@ -215,10 +217,11 @@ bindTteData2 <- function(path,
     tools::file_path_sans_ext()
 
   #read in data
-  tteData <- readr::read_csv(file = pathToFile, show_col_types = FALSE) %>%
-    dplyr::filter(
-      time <= 3
-    )
+  tteData <- readr::read_csv(file = pathToFile, show_col_types = FALSE)
+  # %>%
+  #   dplyr::filter(
+  #     time <= 3
+  #   )
 
   # subset tted Data to the specified strata lines
   updateTteData <- tteData %>%

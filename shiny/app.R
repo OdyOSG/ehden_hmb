@@ -11,6 +11,7 @@ library(reactable)
 library(ggplot2)
 library(grafify)
 library(markdown)
+library(ggsurvfit)
 options(shiny.fullstacktrace = FALSE)
 
 
@@ -19,15 +20,16 @@ title <- "EHDEN HMB"
 
 underlyingDescription <- "Counts equal to 5 and below have been masked and replaced with '<5'."
 drugUtilizationDescription <- "Counts equal to 5 and below have been masked and replaced with '<5."
-clinicalCharacteristicsDescription <- "Counts equal to 5 and below have been masked and replaced with '<5'."
+drugUtilizationDescription2 <-  "Category 'Within time window' means that a drug exposure started and ended within the specified time window."
+drugUtilizationDescription3 <-  "Category 'Complete follow-up' means that a drug exposure spanned throughout the specified time window."
+clinicalCharacteristicsDescription <- "Counts equal to 5 and below have been masked and replaced with '<5'. Characteristics are assessed within a time window of 365 to 0 days prior to index date"
 
-incidenceDescription <- "Incidence rate is calculated by 'Outcome Count'/'Person Days' * 100."
+incidenceDescription <- "Incidence rate is defined as Outcome Count/Person Years * 1000."
 
-treatmentPatternsDescription <- "Treatment Patterns counts (Sequences) are restricted to 30. HMB cohort is the population whose index event is HMB and are censored by hysterectomy. Thus we consider only drugs.
-HMB2 cohort are those whose index event is HMB where there is no censoring for hysterectomy. Therefore we consider both drugs and procedures."
+treatmentPatternsDescription <- "Treatment Patterns counts (Sequences) are restricted to 30. HMB cohort is the population whose index event is HMB and are censored by hysterectomy. Thus we consider only drugs."
 
 procedureAnalysisDescription <- "Counts equal to 5 and below have been masked and replaced with '<5'.
-In the Time to Intervention tab we consider the time for only those who experienced the event, not the entire cohort population."
+In the 'Time to Intervention' tab we consider the time for only those who experienced the event, not the entire cohort population."
 
 dashboardVersion <- "0.3.0"
 dashboardDate <- Sys.Date()
@@ -79,6 +81,7 @@ body <- dashboardBody(
     ### About Tab------
     tabItem(
       tabName = "about",
+
       #### Study description
       fluidRow(
         box(
@@ -88,6 +91,7 @@ body <- dashboardBody(
           includeMarkdown("StudyDescription.md")
         )
       ),
+
       #### Study Information
       fluidRow(
         box(
@@ -99,6 +103,7 @@ body <- dashboardBody(
           "SAP Link:",a(href= "https://odyosg.github.io/ehden_hmb/sap.html", "https://odyosg.github.io/ehden_hmb/sap.html")
         )
       ),
+
       #### Database Information
       fluidRow(
         box(
@@ -125,9 +130,10 @@ body <- dashboardBody(
 
       fluidRow(
         tabBox(
-          #title = "Cohort Counts",
           id = "cohortCounts",
           width = 12,
+
+          #### Cohort Counts
           tabPanel("Cohort Counts",
                    fluidRow(
                      box(
@@ -151,6 +157,8 @@ body <- dashboardBody(
                      )
                    )
           ),
+
+          #### Strata Counts
           tabPanel("Strata Counts",
                    fluidRow(
                      box(
@@ -199,6 +207,7 @@ body <- dashboardBody(
                      box(
                        status = "success",
                        column(width = 6,
+
                               pickerInput(
                                 inputId = "databaseNameDemo",
                                 label = "Database Name",
@@ -233,6 +242,7 @@ body <- dashboardBody(
                      box(
                        status = "success",
                        column(width = 6,
+
                               pickerInput(
                                 inputId = "databaseNameCts",
                                 label = "Database Name",
@@ -267,6 +277,7 @@ body <- dashboardBody(
                      box(
                        status = "success",
                        column(width = 6,
+
                               pickerInput(
                                 inputId = "databaseNameConcept",
                                 label = "Database Name",
@@ -286,6 +297,7 @@ body <- dashboardBody(
                               ),
                        ),
                        column(width = 6,
+
                               pickerInput(
                                 inputId = "domainConcept",
                                 label = "Domain",
@@ -310,6 +322,7 @@ body <- dashboardBody(
                      box(
                        status = "success",
                        column(width = 6,
+
                               pickerInput(
                                 inputId = "databaseNameCohortCov",
                                 label = "Database Name",
@@ -329,6 +342,7 @@ body <- dashboardBody(
                               )
                        ),
                        column(width = 6,
+
                               pickerInput(
                                 inputId = "domainCohortCov",
                                 label = "Domain",
@@ -354,6 +368,7 @@ body <- dashboardBody(
                      box(
                        status = "success",
                        column(width = 6,
+
                               pickerInput(
                                 inputId = "databaseNameIcd",
                                 label = "Database Name",
@@ -407,14 +422,12 @@ body <- dashboardBody(
           id = "baselineChar",
           width = 12,
 
-          tabPanel(
-            "Table",
+          tabPanel("Table",
             fluidRow(
               box(
                 status = "success",
                 column(width = 6,
 
-                       # pick database
                        pickerInput(
                          inputId = "databaseNameInci",
                          label = "Database Name",
@@ -424,7 +437,6 @@ body <- dashboardBody(
                          multiple = TRUE
                        ),
 
-                       # pick cohortName
                        pickerInput(
                          inputId = "cohortNameInci",
                          label = "Cohort Name",
@@ -438,7 +450,6 @@ body <- dashboardBody(
                 ),
                 column(width = 6,
 
-                       # pick year
                        pickerInput(
                          inputId = "yearInci",
                          label = "Year",
@@ -462,10 +473,7 @@ body <- dashboardBody(
 
                    fluidRow(
                      column(width = 6,
-
-                            box(
-
-                              status = "success",
+                            box(status = "success",
 
                               pickerInput(
                                 inputId = "databaseNameYrInci",
@@ -489,7 +497,6 @@ body <- dashboardBody(
                    ),
 
                    fluidRow(
-
                      box(
                        width = 12,
                        plotOutput("inciYearPlot")
@@ -518,7 +525,7 @@ body <- dashboardBody(
         box(
           status = "success",
           column(width = 6,
-                 # pick database
+
                  pickerInput(
                    inputId = "databaseNameCondPi",
                    label = "Database Name",
@@ -527,7 +534,7 @@ body <- dashboardBody(
                    options = shinyWidgets::pickerOptions(actionsBox = TRUE),
                    multiple = TRUE
                  ),
-                 # pick cohort
+
                  pickerInput(
                    inputId = "cohortNameCondPi",
                    label = "Cohort Name",
@@ -539,7 +546,7 @@ body <- dashboardBody(
 
           ),
           column(width = 6,
-                 # pick outcome
+
                  pickerInput(
                    inputId = "conditionNameCondPi",
                    label = "Condition Name",
@@ -549,7 +556,7 @@ body <- dashboardBody(
                    multiple = TRUE
                  ),
 
-                 # pick year
+
                  pickerInput(
                    inputId = "timeWindowCondPi",
                    label = "Time Window",
@@ -582,6 +589,8 @@ body <- dashboardBody(
           width = 12,
           background = "light-blue",
           textOutput("treatmentPatternsDescription"),
+          textOutput("drugUtilizationDescription2"),
+          textOutput("drugUtilizationDescription3"),
           textOutput("drugUtilizationDescription")
         )
       ),
@@ -595,7 +604,8 @@ body <- dashboardBody(
                    fluidRow(
                      box(
                        status = "success",
-                       column(width = 6,
+                       column(width = 4,
+
                               pickerInput(
                                 inputId = "databaseNameDuPi",
                                 label = "Database Name",
@@ -604,6 +614,7 @@ body <- dashboardBody(
                                 options = shinyWidgets::pickerOptions(actionsBox = TRUE),
                                 multiple = TRUE
                               ),
+
                               pickerInput(
                                 inputId = "cohortNameDuPi",
                                 label = "Cohort Name",
@@ -613,7 +624,8 @@ body <- dashboardBody(
                                 multiple = TRUE
                               )
                        ),
-                       column(width = 6,
+                       column(width = 4,
+
                               pickerInput(
                                 inputId = "drugNameDuPi",
                                 label = "Drug Name",
@@ -622,11 +634,23 @@ body <- dashboardBody(
                                 options = shinyWidgets::pickerOptions(actionsBox = TRUE),
                                 multiple = TRUE
                               ),
+
                               pickerInput(
                                 inputId = "timeWindowDuPi",
                                 label = "Time Window",
                                 choices = drugTimeWindow,
                                 selected = drugTimeWindow,
+                                options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+                                multiple = TRUE
+                              )
+                       ),
+                       column(width = 4,
+
+                              pickerInput(
+                                inputId = "drugCat",
+                                label = "Category",
+                                choices = drugCategory,
+                                selected = drugCategory,
                                 options = shinyWidgets::pickerOptions(actionsBox = TRUE),
                                 multiple = TRUE
                               )
@@ -646,18 +670,36 @@ body <- dashboardBody(
           tabPanel("Sequences",
                    fluidRow(
                      box(
-                       status = "success",
-                       width = 4,
+                      status = "success",
+                      width = 4,
+                      column(width = 6,
+
                        pickerInput(
                          inputId = "databaseNameSankey",
                          label = "Database Name",
                          choices = databaseName
                        ),
+
                        pickerInput(
                          inputId = "cohortNameSankey",
                          label = "Cohort Name",
                          choices = cohortName2
+                       ),
+                      ),
+                      column(width = 6,
+
+                       pickerInput(
+                         inputId = "txTime",
+                         label = "Time from index date",
+                         choices = txTime
+                       ),
+
+                       pickerInput(
+                         inputId = "txType",
+                         label = "Type",
+                         choices = txType
                        )
+                      )
                      )
                    ),
                    fluidRow(
@@ -673,40 +715,102 @@ body <- dashboardBody(
                        reactableOutput("txPatDat"))
                    )
           ),
-          ### TTD Panel
-          tabPanel("Time to Discontinuation",
+
+          ### TTD Panel (without)
+          tabPanel("Time to Discontinuation (without NSAIDs)",
                    fluidRow(
-                     column(width = 9,
-                            status = "success",
-                            plotOutput("ttdKmPlot")
+                     box(
+                      status = "success",
+                      column(width = 6,
+                       height = "230px",
+                       background = "light-blue",
+
+                       pickerInput(
+                         inputId = "databaseNameTtd",
+                         label = "Database Name",
+                         choices = databaseName
+                       ),
+
+                       pickerInput(
+                         inputId = "cohortNameTtd",
+                         label = "Cohort Name",
+                         choices = ttdCohorts
+                       ),
+                      ),
+                      column(width = 6,
+
+                       pickerInput(
+                         inputId = "strataTtd",
+                         label = "Drugs",
+                         choices = c("Single", "All")
+                       )
+                      )
+                     )
+                   ),
+                   fluidRow(
+                     column(width = 12,
+                       box(
+                        width = NULL,
+                        plotOutput(height = "1000px",
+                                   "ttdKmPlot")
+                      )
                      ),
-                     column(width = 3,
-                            box(
-                              width = 9,
-                              height = "230px",
-                              background = "light-blue",
-                              pickerInput(
-                                inputId = "databaseNameTtd",
-                                label = "Database Name",
-                                choices = databaseName
-                              ),
-                              pickerInput(
-                                inputId = "cohortNameTtd",
-                                label = "Cohort Name",
-                                choices = ttdCohorts
-                              ),
-                              pickerInput(
-                                inputId = "strataTtd",
-                                label = "Drugs",
-                                choices = c("Single", "All")
-                              )
-                            )
-                     ),
+
                    ),
                    fluidRow(
                      box(
                        width = 12,
                        reactableOutput("ttdSurvTab")
+                     )
+                   )
+          ),
+
+          ### TTD Panel (with)
+          tabPanel("Time to Discontinuation (with NSAIDs)",
+                   fluidRow(
+                     box(
+                       status = "success",
+                       column(width = 6,
+                              height = "230px",
+                              background = "light-blue",
+
+                              pickerInput(
+                                inputId = "databaseNameTtd2",
+                                label = "Database Name",
+                                choices = databaseName
+                              ),
+
+                              pickerInput(
+                                inputId = "cohortNameTtd2",
+                                label = "Cohort Name",
+                                choices = ttdCohorts
+                              ),
+                       ),
+                       column(width = 6,
+
+                              pickerInput(
+                                inputId = "strataTtd2",
+                                label = "Drugs",
+                                choices = c("Single", "All")
+                              )
+                       )
+                     )
+                   ),
+                   fluidRow(
+                     column(width = 12,
+                            box(
+                              width = NULL,
+                              #height = "1000px",
+                              plotOutput(height = "1000px",
+                                         "ttdKmPlot2")
+                            )
+                     ),
+
+                   ),
+                   fluidRow(
+                     box(
+                       width = 12,
+                       reactableOutput("ttdSurvTab2")
                      )
                    )
           )
@@ -737,6 +841,7 @@ body <- dashboardBody(
                      box(
                        status = "success",
                        column(width = 6,
+
                               pickerInput(
                                 inputId = "databaseNameProcPi",
                                 label = "Database Name",
@@ -745,6 +850,7 @@ body <- dashboardBody(
                                 options = shinyWidgets::pickerOptions(actionsBox = TRUE),
                                 multiple = TRUE
                               ),
+
                               pickerInput(
                                 inputId = "cohortNameProcPi",
                                 label = "Cohort Name",
@@ -755,6 +861,7 @@ body <- dashboardBody(
                               )
                        ),
                        column(width = 6,
+
                               pickerInput(
                                 inputId = "procNameProcPi",
                                 label = "Procedure Name",
@@ -763,6 +870,7 @@ body <- dashboardBody(
                                 options = shinyWidgets::pickerOptions(actionsBox = TRUE),
                                 multiple = TRUE
                               ),
+
                               pickerInput(
                                 inputId = "timeWindowProcPi",
                                 label = "Time Window",
@@ -782,36 +890,46 @@ body <- dashboardBody(
                      )
                    )
           ),
+
+          ## Time to intervention
           tabPanel("Time to Intervention",
                    fluidRow(
-                     column(width = 9,
-                            status = "success",
-                            plotOutput("ttiKmPlot")
-                     ),
-                     column(width = 3,
-                            box(
-                              width = 9,
+                     box(
+                     status = "success",
+                     column(width = 6,
                               height = "180px",
                               background = "light-blue",
+
                               pickerInput(
                                 inputId = "databaseNameTti",
                                 label = "Database Name",
                                 choices = databaseName
                               ),
+
                               pickerInput(
                                 inputId = "cohortNameTti",
                                 label = "Cohort Name",
                                 choices = ttiCohorts
                               )
-                            )
-                     ),
+                      ),
+                    ),
                    ),
                    fluidRow(
-                     box(
-                       width = 12,
-                       reactableOutput("ttiSurvTab")
+                     column(width = 12,
+                            box(
+                             width = NULL,
+                             plotOutput(height = "1000px",
+                                          "ttiKmPlot")
+
                      )
                    )
+                  ),
+                  fluidRow(
+                    box(
+                       width = 12,
+                       reactableOutput("ttiSurvTab")
+                    )
+                )
           )
         )
       )
@@ -838,12 +956,6 @@ server <- function(input, output, session){
   output$studyDescription <- renderText({
     description
   })
-
-  ## Database Information
-  # output$databaseInformation <- renderReactable(
-  #   databaseMeta %>% reactable()
-  # )
-
 
   # Cohorts ----------------
 
@@ -949,6 +1061,7 @@ server <- function(input, output, session){
         columns = list(
           databaseId = colDef(name = "Database Name"),
           domain = colDef(name = "Domain"),
+          #timeWindow = colDef(name = "Time Window"),
           cohortName = colDef(name = "Cohort Name"),
           conceptId = colDef(name = "Concept Id"),
           name = colDef(name = "Concept Name"),
@@ -974,7 +1087,7 @@ server <- function(input, output, session){
       reactable(
         columns = list(
           databaseId = colDef(name = "Database Name"),
-          timeWindow = colDef(name = "Time Window"),
+          #timeWindow = colDef(name = "Time Window"),
           cohortName = colDef(name = "Cohort Name"),
           domain = colDef(name = "Domain"),
           covariateName = colDef(name = "Covariate Name"),
@@ -999,6 +1112,7 @@ server <- function(input, output, session){
       reactable(
         columns = list(
           databaseId = colDef(name = "Database Name"),
+          #timeWindow = colDef(name = "Time Window"),
           cohortName = colDef(name = "Cohort Name"),
           CATEGORY_CODE = colDef(name = "Concept Id"),
           categoryName = colDef(name = "Concept Name"),
@@ -1028,7 +1142,7 @@ server <- function(input, output, session){
     incTab %>%
       dplyr::filter(databaseId %in% input$databaseNameInci,
                     START_YEAR %in% input$yearInci,
-                    OUTCOME_NAME %in% snakecase::to_snake_case(input$cohortNameInci)) %>%
+                    OUTCOME_NAME %in% input$cohortNameInci) %>%
       reactable(
         columns = list(
           databaseId = colDef(name = "Database Name"),
@@ -1036,6 +1150,7 @@ server <- function(input, output, session){
           OUTCOME_NAME = colDef(name = "Cohort Name"),
           PERSONS_AT_RISK = colDef(name = "Persons at Risk", format = colFormat(separators = TRUE)),
           PERSON_DAYS = colDef(name = "Person Days", format = colFormat(separators = TRUE)),
+          PERSON_YEARS = colDef(name = "Person Years", format = colFormat(separators = TRUE)),
           OUTCOMES = colDef(name = "Outcome Count", format = colFormat(separators = TRUE)),
           INCIDENCE_PROPORTION_P100P = colDef(name = "Incidence Proportion (per 100p)", format = colFormat(digits = 2)),
           INCIDENCE_RATE_P1000PY = colDef(name = "Incidence Rate (per 1000yrs)", format = colFormat(digits = 2))
@@ -1055,7 +1170,8 @@ server <- function(input, output, session){
       dplyr::filter(
         START_YEAR != "All",
         databaseId %in% input$databaseNameYrInci,
-        OUTCOME_NAME %in% snakecase::to_snake_case(input$cohortNameYrInci)
+        OUTCOME_NAME %in% input$cohortNameYrInci
+        #OUTCOME_NAME %in% snakecase::to_snake_case(input$cohortNameYrInci)
       )
   })
 
@@ -1109,11 +1225,20 @@ server <- function(input, output, session){
     drugUtilizationDescription
   })
 
+  output$drugUtilizationDescription2 <- renderText({
+    drugUtilizationDescription2
+  })
+
+  output$drugUtilizationDescription3 <- renderText({
+    drugUtilizationDescription3
+  })
+
 
   ## Utilization
   duPiRe <- reactive({
     drugPi %>%
       dplyr::filter(
+        cat %in% input$drugCat,
         databaseId %in% input$databaseNameDuPi,
         cohortName %in% input$cohortNameDuPi,
         covariateName %in% input$drugNameDuPi,
@@ -1126,6 +1251,7 @@ server <- function(input, output, session){
       columns = list(
         databaseId = colDef(name = "Database Name"),
         timeWindow = colDef(name = "Time Window"),
+        cat = colDef(name = "Category"),
         cohortName = colDef(name = "Cohort Name"),
         covariateName = colDef(name = "Drug Cohort Name"),
         count = colDef(name = "Person Count", format = colFormat(separators = TRUE)),
@@ -1154,6 +1280,8 @@ server <- function(input, output, session){
     txPatDatAll %>%
       dplyr::filter(
         databaseId == input$databaseNameSankey,
+        time == input$txTime,
+        type == input$txType,
         cohortId == sankeyPick()) %>%
       dplyr::slice(1:20) %>%
       buildSankeyData() %>%
@@ -1165,6 +1293,8 @@ server <- function(input, output, session){
     txPatDatAll %>%
       dplyr::filter(
         databaseId == input$databaseNameSankey,
+        time == input$txTime,
+        type == input$txType,
         cohortId == sankeyPick()
       ) %>%
       dplyr::arrange(desc(n)) %>%
@@ -1214,7 +1344,7 @@ server <- function(input, output, session){
       dplyr::pull(name)
   })
 
-  # subset to those with strata
+  # subset to those with strata (without)
   ttdSubset <- reactive({
 
     dt1 <- ttd %>%
@@ -1222,6 +1352,7 @@ server <- function(input, output, session){
         database == input$databaseNameTtd,
         `Cohort Name` == input$cohortNameTtd
       )
+
     if (input$strataTtd == "Single") {
       dt1 <- dt1 %>%
         dplyr::filter(
@@ -1233,14 +1364,154 @@ server <- function(input, output, session){
 
   })
 
-  # make km plot
-  output$ttdKmPlot <- renderPlot({
-    plotKM(ttdSubset())
+  # subset to those with strata (with)
+  ttdSubset2 <- reactive({
+
+    dt1 <- ttd2 %>%
+      dplyr::filter(
+        database == input$databaseNameTtd2,
+        `Cohort Name` == input$cohortNameTtd2
+      )
+
+    if (input$strataTtd2 == "Single") {
+      dt1 <- dt1 %>%
+        dplyr::filter(
+          !grepl("\\+", strata)
+        )
+    }
+
+    dt1
+
   })
 
-  ## get survProb table
+
+  ## Find rds file (without)
+  ttdKMRds <- reactive ({
+
+    if (input$cohortNameTtd == "hmb") {
+      lineKM <- "1"
+    } else if (input$cohortNameTtd == "hmb age_lt_30"){
+      lineKM <- "1001"
+    } else if (input$cohortNameTtd == "hmb age_30_45") {
+      lineKM <- "1002"
+    } else if (input$cohortNameTtd == "hmb age_45_55") {
+      lineKM <- "1003"
+    }
+
+    ttd_km_name <- here::here(glue::glue('shiny/data_0603/ttd/wo/tte_{input$databaseNameTtd}_{lineKM}.rds'))
+
+    ttd_km <- readr::read_rds(ttd_km_name)
+
+    ttd_km_final <- ttd_km[[glue::glue("{input$strataTtd}")]]
+
+    return(ttd_km_final)
+  })
+
+
+  output$ttdKmPlot <- renderPlot(
+    res = 80,
+    {
+
+    tte <- ttdKMRds()
+
+    ## Number of colors for lines
+    colors <- colorspace::rainbow_hcl(unique(length(tte$strata)))
+
+    tte |>
+      ggsurvfit(size = 1) +
+      scale_ggsurvfit(x_scales=list(breaks=c(0.5, 0:3))) +  # Breaks at 6m and 1-3 years
+      scale_color_manual(values = colors) +
+      scale_fill_manual(values = colors) +
+      add_risktable(risktable_stats = "{n.risk} ({cum.censor})",
+                    risktable_height = 0.4,
+                    size = 4, # increase font size of risk table statistics
+                    theme =   # increase font size of risk table title and y-axis label
+                      list(
+                        theme_risktable_default(axis.text.y.size = 11,
+                                                plot.title.size = 11),
+                        theme(plot.title = element_text(face = "bold"))
+                      )) +
+      #add_risktable_strata_symbol(symbol = "\U25CF", size = 18) +
+      labs(x = "Follow-up time, years")
+
+  })
+
+  ## Find rds file (with)
+  ttdKMRds2 <- reactive ({
+
+    if (input$cohortNameTtd2 == "hmb") {
+      lineKM <- "1"
+    } else if (input$cohortNameTtd2 == "hmb age_lt_30"){
+      lineKM <- "1001"
+    } else if (input$cohortNameTtd2 == "hmb age_30_45") {
+      lineKM <- "1002"
+    } else if (input$cohortNameTtd2 == "hmb age_45_55") {
+      lineKM <- "1003"
+    }
+
+    ttd_km_name <- here::here(glue::glue('shiny/data_0603/ttd/with/tte_{input$databaseNameTtd2}_{lineKM}.rds'))
+
+    ttd_km <- readr::read_rds(ttd_km_name)
+
+    ttd_km_final <- ttd_km[[glue::glue("{input$strataTtd2}")]]
+
+    return(ttd_km_final)
+  })
+
+
+  output$ttdKmPlot2 <- renderPlot(
+    res = 80,
+    {
+
+      tte <- ttdKMRds2()
+
+      ## Number of colors for lines
+      colors <- colorspace::rainbow_hcl(unique(length(tte$strata)))
+
+      tte |>
+        ggsurvfit(size = 1) +
+        scale_ggsurvfit(x_scales=list(breaks=c(0.5, 0:3))) +  # Breaks at 6m and 1-3 years
+        scale_color_manual(values = colors) +
+        scale_fill_manual(values = colors) +
+        add_risktable(risktable_stats = "{n.risk} ({cum.censor})",
+                      risktable_height = 0.4,
+                      size = 4, # increase font size of risk table statistics
+                      theme =   # increase font size of risk table title and y-axis label
+                        list(
+                          theme_risktable_default(axis.text.y.size = 11,
+                                                  plot.title.size = 11),
+                          theme(plot.title = element_text(face = "bold"))
+                        )) +
+        #add_risktable_strata_symbol(symbol = "\U25CF", size = 18) +
+        labs(x = "Follow-up time, years")
+
+    })
+
+
+  ## get survProb table (without)
   output$ttdSurvTab <- renderReactable(
     makeSurvProbTab(ttdSubset()) %>%
+      reactable(
+        columns = list(
+          database = colDef(name = "Database Name"),
+          `Cohort Name` = colDef(name = "Cohort Name"),
+          strata = colDef(name = "Drug Cohort Name"),
+          `6 month` = colDef(name = "6 month Survival", format = colFormat(digits = 1, percent = TRUE)),
+          `1 year` = colDef(name = "1 year Survival", format = colFormat(digits = 1, percent = TRUE)),
+          `2 year` = colDef(name = "2 year Survival", format = colFormat(digits = 1, percent = TRUE))
+        ),
+        filterable = TRUE,
+        searchable = TRUE,
+        outlined = TRUE,
+        bordered = TRUE,
+        striped = TRUE,
+        defaultPageSize = 20
+      )
+  )
+
+  ## get survProb table (with)
+  output$ttdSurvTab2 <- renderReactable(
+    makeSurvProbTab(ttdSubset2()) %>%
       reactable(
         columns = list(
           database = colDef(name = "Database Name"),
@@ -1317,10 +1588,57 @@ server <- function(input, output, session){
       )
   })
 
-  # make km plot
-  output$ttiKmPlot <- renderPlot({
-    plotKM2(ttiSubset())
+
+  ## Find rds file
+  ttiKMRds <- reactive ({
+
+    if (input$cohortNameTti == "hmb") {
+      lineKM <- "1"
+    } else if (input$cohortNameTti == "hmb age_lt_30"){
+      lineKM <- "1001"
+    } else if (input$cohortNameTti == "hmb age_30_45") {
+      lineKM <- "1002"
+    } else if (input$cohortNameTti == "hmb age_45_55") {
+      lineKM <- "1003"
+    }
+
+    ttd_km_name <- here::here(glue::glue('shiny/data_0603/tti/tti_{input$databaseNameTti}_{lineKM}.rds'))
+
+    ttd_km <- readr::read_rds(ttd_km_name)
+
+    return(ttd_km)
   })
+
+
+  output$ttiKmPlot <- renderPlot(
+    res = 80,
+    {
+
+      tti <- ttiKMRds()
+
+      ## Number of colors for lines
+      colors <- colorspace::rainbow_hcl(unique(length(tti$strata)))
+
+      tti |>
+        ggsurvfit(size = 1) +
+        scale_ggsurvfit(x_scales=list(breaks=c(0.5, 0:3))) +  # Breaks at 6m and 1-3 years
+        scale_color_manual(values = colors) +
+        scale_fill_manual(values = colors) +
+        add_risktable(risktable_stats = "{n.risk} ({cum.censor})",
+                      risktable_height = 0.4,
+                      size = 4, # increase font size of risk table statistics
+                      theme =   # increase font size of risk table title and y-axis label
+                        list(
+                          theme_risktable_default(axis.text.y.size = 11,
+                                                  plot.title.size = 11),
+                          theme(plot.title = element_text(face = "bold"))
+                        )) +
+        #add_risktable_strata_symbol(symbol = "\U25CF", size = 18) +
+        labs(x = "Follow-up time, years")
+
+    })
+
+
 
   ## get survProb table
   output$ttiSurvTab <- renderReactable(

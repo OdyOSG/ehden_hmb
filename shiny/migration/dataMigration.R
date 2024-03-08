@@ -7,13 +7,13 @@ library(readr)
 source("shiny/migration/helpers.R")
 
 
-appDataPath <- here::here("shiny", "data_old") # Path to place app data
+appDataPath <- here::here("shiny", "data_0603") # Path to place app data
 
 appDataPath %>% fs::dir_create() # Create new directory
 
-resultsPath <- here::here("results") # Set path to the execution results
+resultsPath <- here::here("results_0603") # Set path to the execution results
 
-listOfDatabase <- fs::dir_ls(resultsPath) %>% #list the databases used in the execution
+listOfDatabase <- fs::dir_ls(resultsPath) %>% # List the databases used in the execution
   basename()
 
 ### List the execution tasks
@@ -24,13 +24,14 @@ listOfTasks <- c("01_buildCohorts",
                  "05_baselineCharacteristics",
                  "06_postIndexPrevalenceConditions",
                  "07_postIndexPrevalenceDrugs",
-                 "08_treatmentHistory",
+                 "07_postIndexPrevalenceDrugs2",
                  "09_treatmentPatterns",
+                 "09_treatmentPatterns2",
                  "10_timeToDiscontinuation",
+                 "10_timeToDiscontinuation2",
                  "11_postIndexPrevalenceProcedures",
-                 "12_timeToIntervention",
-                 "13_treatmentHistory2",
-                 "14_treatmentPatterns")
+                 "12_timeToIntervention"
+                 )
 
 ### Create a data frame of all permutations of paths
 allPaths <- tidyr::expand_grid(listOfDatabase, listOfTasks) %>%
@@ -242,7 +243,6 @@ cts <- bindCsv(allPaths = allPaths,
                task = listOfTasks[5], # baseline char
                file = "continuous_baseline.csv")
 
-
 cts2 <- cts %>%
   dplyr::left_join(
     allCohorts, by = c("cohortDefinitionId" ="id"), relationship = "many-to-many"
@@ -264,6 +264,7 @@ readr::write_csv(cts2, file = fs::path(appDataPath, "baselineContinuous.csv"))
 ## 5. Baseline Concepts ----------------
 
 ### Extract drug concepts
+
 drug <- bindCsv(allPaths = allPaths,
                 task = listOfTasks[5], # baseline char
                 file = "drugs_baseline.csv") %>%
@@ -275,7 +276,7 @@ drug <- bindCsv(allPaths = allPaths,
     domain = "Drugs"
   ) %>%
   dplyr::select(
-    databaseId, domain, cohortDefinitionId, cohortName, conceptId, name,  n, pct
+    databaseId, domain, cohortDefinitionId, cohortName, conceptId, name,  n, pct, timeWindow
   )
 
 ### Extract condition concepts
@@ -290,7 +291,7 @@ cond <- bindCsv(allPaths = allPaths,
     domain = "Conditions"
   ) %>%
   dplyr::select(
-    databaseId, domain, cohortDefinitionId, cohortName, conceptId, name,  n, pct
+    databaseId, domain, cohortDefinitionId, cohortName, conceptId, name,  n, pct, timeWindow
   )
 
 ### Extract procedure concepts (exclude THINBE procedures)
@@ -308,7 +309,7 @@ proc <- bindCsv(allPaths = procPaths,
     domain = "Procedures"
   ) %>%
   dplyr::select(
-    databaseId, domain, cohortDefinitionId, cohortName, conceptId, name,  n, pct
+    databaseId, domain, cohortDefinitionId, cohortName, conceptId, name,  n, pct, timeWindow
   )
 
 conceptTab <- dplyr::bind_rows(
@@ -330,7 +331,7 @@ cohort365 <- bindCsv(allPaths = allPaths,
   ) %>%
   dplyr::mutate(
     covariateName = name,
-    timeWindow = "[-365 : 0]"
+    timeWindow = "-365d to 0d"
     ) %>%
   dplyr::select(databaseId, timeWindow, cohortId, cohortName,
                 covariateId, covariateName, count, pct) %>%
@@ -404,7 +405,7 @@ icd10 <- bindCsv(allPaths = allPaths,
     pct = COUNTVALUE / n
   ) %>%
   dplyr::select(databaseId, COHORT_ID, cohortName,
-                CATEGORY_CODE, categoryName, COUNTVALUE, pct)
+                CATEGORY_CODE, categoryName, COUNTVALUE, pct, timeWindow)
 
 readr::write_csv(icd10, file = fs::path(appDataPath, "baselineChapters.csv"))
 
@@ -416,9 +417,11 @@ readr::write_csv(icd10, file = fs::path(appDataPath, "baselineChapters.csv"))
 piPrevFilesCond <- c("cohort_covariates_1_365.csv",
                      "cohort_covariates_366_730.csv",
                      "cohort_covariates_731_1825.csv")
-piPrevTimeFrameCond <- c("1d - 365d",
-                         "366d - 730d",
-                         "731d - 1825d")
+
+piPrevTimeFrameCond <- c("1d to 365d",
+                         "366d to 730d",
+                         "731d to 1825d")
+
 piPrevCond <- purrr::map2_dfr(piPrevFilesCond,         # files to use
                               piPrevTimeFrameCond,     # time frame column to add
                               ~bindCsv(                # bind csv
@@ -429,6 +432,7 @@ piPrevCond <- purrr::map2_dfr(piPrevFilesCond,         # files to use
                                   timeWindow = .y
                                 ))  %>%
   dplyr::mutate(
+    cat = "-",
     type = "conditions"
   ) %>%
   dplyr::select(-covariateName) %>%
@@ -447,22 +451,30 @@ piPrevCond <- purrr::map2_dfr(piPrevFilesCond,         # files to use
 ### B. Post Index Drugs ----------------
 
 piPrevFilesDrugs <- c(
+  "cohort_covariates_183_1.csv",
+  "cohort_covariates_365_1.csv",
+  "cohort_covariates_730_1.csv",
   "cohort_covariates_1_183.csv",
-  "cohort_covariates_184_365.csv",
   "cohort_covariates_1_365.csv",
+  "cohort_covariates_1_730.csv",
+  "cohort_covariates_184_365.csv",
   "cohort_covariates_366_730.csv",
   "cohort_covariates_731_1825.csv"
 )
 
 piPrevTimeFrameDrugs <- c(
-  "1d - 183d",
-  "184d - 365d",
-  "1d - 365d",
-  "366d - 730d",
-  "731d - 1825d"
+  "-183d to -1d",
+  "-365d to -1d",
+  "-730d to -1d",
+  "1d to 183d",
+  "1d to 365d",
+  "1d to 730d",
+  "184d to 365d",
+  "366d to 730d",
+  "731d to 1825d"
 )
 
-piPrevDrugs <- purrr::map2_dfr(piPrevFilesDrugs,        # files to use
+piPrevDrugsWithin <- purrr::map2_dfr(piPrevFilesDrugs,        # files to use
                                piPrevTimeFrameDrugs,    # time frame column to add
                                ~bindCsv(                # bind csv
                                  allPaths = allPaths,
@@ -471,9 +483,27 @@ piPrevDrugs <- purrr::map2_dfr(piPrevFilesDrugs,        # files to use
                                  dplyr::mutate(         # add timeWindow Column
                                    timeWindow = .y
                                  )) %>%
+  dplyr::rename(cat = type) %>%
   dplyr::mutate(
     type = "drugs"
   )
+
+
+piPrevDrugsFollowUp <- purrr::map2_dfr(piPrevFilesDrugs, # files to use
+                               piPrevTimeFrameDrugs,     # time frame column to add
+                               ~bindCsv(                 # bind csv
+                                 allPaths = allPaths,
+                                 task = listOfTasks[8],  # postindex Drugs
+                                 file = .x) %>%
+                                 dplyr::mutate(          # add timeWindow Column
+                                   timeWindow = .y
+                                 )) %>%
+  dplyr::rename(cat = type) %>%
+  dplyr::mutate(
+    type = "drugs"
+  )
+
+piPrevDrugs <- dplyr::bind_rows(piPrevDrugsWithin, piPrevDrugsFollowUp)
 
 
 ### C. Post Index Procedures ----------------
@@ -490,12 +520,13 @@ piPrevProc <- purrr::map2_dfr(piPrevFilesProc,          # files to use
                               piPrevProcCohorts,        # cohorts
                               ~bindCsv(                 # bind csv
                                 allPaths = procPaths,   # skip THIN no procedures
-                                task = listOfTasks[11], # postindex Proc
+                                task = listOfTasks[13], # postindex Proc
                                 file = .x) %>%
                                 dplyr::mutate(
                                   cohortId = .y
                                 )) %>%
   dplyr::mutate(
+    cat = "-",
     cohortName = dplyr::case_when(
       cohortId == 1 ~ "hmb",
       cohortId == 1001L ~ "hmb_age_lt_30",
@@ -525,7 +556,7 @@ piPrevProc <- purrr::map2_dfr(piPrevFilesProc,          # files to use
     type = "procedures"
   ) %>%
   dplyr::select(databaseId, cohortId, cohortName, covariateId, covariateName,
-                count, pct, timeWindow, type)
+                count, pct, timeWindow, type, cat)
 
 postIndexPrev <- dplyr::bind_rows(
   piPrevCond, piPrevDrugs, piPrevProc
@@ -565,10 +596,11 @@ inic2 <- inic %>%
 
 ## 10. Treatment Patterns ----------------
 
-### A. HMB normal ----------------
-
+### A. HMB ----------------
+#### All ----------------
 txPath <- allPaths %>%
-  dplyr::filter(listOfTasks == listOfTasks[9])
+  dplyr::filter(listOfTasks == listOfTasks[9]) %>%
+  dplyr::mutate(fullPath = fs::path(fullPath, "/all"))
 
 ### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
@@ -589,18 +621,20 @@ txPathDat <- purrr::pmap_dfr(
     )
   ) %>%
   dplyr::select(databaseId, cohortId, cohortName, event_cohort_name1:event_cohort_name5, End, n) %>%
+  dplyr::mutate(time = "All time",
+                type = "Without NSAIDS") %>%
   dplyr::arrange(databaseId, cohortId, desc(n))
 
-readr::write_csv(txPathDat, file = fs::path(appDataPath, "treatmentPatterns.csv"))
+readr::write_csv(txPathDat, file = fs::path(appDataPath, "treatmentPatternsAll.csv"))
 
-
-### B. HMB 2 ----------------
-txPath2 <- allPaths %>%
-  dplyr::filter(listOfTasks == listOfTasks[14])
+#### 6m ----------------
+txPath <- allPaths %>%
+  dplyr::filter(listOfTasks == listOfTasks[9]) %>%
+  dplyr::mutate(fullPath = fs::path(fullPath, "/6m"))
 
 ### Get treatment patterns table
-txPathDat2 <- purrr::pmap_dfr(
-  txPath2,
+txPathDat <- purrr::pmap_dfr(
+  txPath,
   ~bindTxPathTab(path = ..3, database = ..1)
 ) %>%
   tidyr::separate_wider_delim(
@@ -610,30 +644,205 @@ txPathDat2 <- purrr::pmap_dfr(
   ) %>%
   dplyr::mutate(
     cohortName = dplyr::case_when(
-      cohortId == 44 ~ "hmb2",
-      cohortId == 44001L ~ "hmb2_age_lt_30",
-      cohortId == 44002L ~ "hmb2_age_30_45",
-      cohortId == 44003L ~ "hmb2_age_45_55"
+      cohortId == 1 ~ "hmb",
+      cohortId == 1001L ~ "hmb_age_lt_30",
+      cohortId == 1002L ~ "hmb_age_30_45",
+      cohortId == 1003L ~ "hmb_age_45_55"
     )
   ) %>%
   dplyr::select(databaseId, cohortId, cohortName, event_cohort_name1:event_cohort_name5, End, n) %>%
+  dplyr::mutate(time = "6 months",
+                type = "Without NSAIDS") %>%
   dplyr::arrange(databaseId, cohortId, desc(n))
 
-readr::write_csv(txPathDat2, file = fs::path(appDataPath, "treatmentPatterns2.csv"))
+readr::write_csv(txPathDat, file = fs::path(appDataPath, "treatmentPatterns6m.csv"))
+
+#### 1y ----------------
+txPath <- allPaths %>%
+  dplyr::filter(listOfTasks == listOfTasks[9]) %>%
+  dplyr::mutate(fullPath = fs::path(fullPath, "/1y"))
+
+### Get treatment patterns table
+txPathDat <- purrr::pmap_dfr(
+  txPath,
+  ~bindTxPathTab(path = ..3, database = ..1)
+) %>%
+  tidyr::separate_wider_delim(
+    cols = cohortName,
+    delim = "_",
+    names = c("type", "cohortId")
+  ) %>%
+  dplyr::mutate(
+    cohortName = dplyr::case_when(
+      cohortId == 1 ~ "hmb",
+      cohortId == 1001L ~ "hmb_age_lt_30",
+      cohortId == 1002L ~ "hmb_age_30_45",
+      cohortId == 1003L ~ "hmb_age_45_55"
+    )
+  ) %>%
+  dplyr::select(databaseId, cohortId, cohortName, event_cohort_name1:event_cohort_name5, End, n) %>%
+  dplyr::mutate(time = "1 year",
+                type = "Without NSAIDS") %>%
+  dplyr::arrange(databaseId, cohortId, desc(n))
+
+readr::write_csv(txPathDat, file = fs::path(appDataPath, "treatmentPatterns1y.csv"))
+
+#### 2y ----------------
+txPath <- allPaths %>%
+  dplyr::filter(listOfTasks == listOfTasks[9]) %>%
+  dplyr::mutate(fullPath = fs::path(fullPath, "/2y"))
+
+### Get treatment patterns table
+txPathDat <- purrr::pmap_dfr(
+  txPath,
+  ~bindTxPathTab(path = ..3, database = ..1)
+) %>%
+  tidyr::separate_wider_delim(
+    cols = cohortName,
+    delim = "_",
+    names = c("type", "cohortId")
+  ) %>%
+  dplyr::mutate(
+    cohortName = dplyr::case_when(
+      cohortId == 1 ~ "hmb",
+      cohortId == 1001L ~ "hmb_age_lt_30",
+      cohortId == 1002L ~ "hmb_age_30_45",
+      cohortId == 1003L ~ "hmb_age_45_55"
+    )
+  ) %>%
+  dplyr::select(databaseId, cohortId, cohortName, event_cohort_name1:event_cohort_name5, End, n) %>%
+  dplyr::mutate(time = "2 years",
+                type = "Without NSAIDS") %>%
+  dplyr::arrange(databaseId, cohortId, desc(n))
+
+readr::write_csv(txPathDat, file = fs::path(appDataPath, "treatmentPatterns2y.csv"))
 
 
-## get sankey diagram
-# sankey <- purrr::pmap(
-#   txPath,
-#   ~groupSankey(path = ..3, database = ..1)
-# )
-# names(sankey) <- listOfDatabase
-# readr::write_rds(sankey, file = fs::path(appDataPath, "sankey.rds"))
+### A. HMB (with NSAIDs) ----------------
+#### All ----------------
+txPath <- allPaths %>%
+  dplyr::filter(listOfTasks == listOfTasks[10]) %>%
+  dplyr::mutate(fullPath = fs::path(fullPath, "/all"))
+
+### Get treatment patterns table
+txPathDat <- purrr::pmap_dfr(
+  txPath,
+  ~bindTxPathTab(path = ..3, database = ..1)
+) %>%
+  tidyr::separate_wider_delim(
+    cols = cohortName,
+    delim = "_",
+    names = c("type", "cohortId")
+  ) %>%
+  dplyr::mutate(
+    cohortName = dplyr::case_when(
+      cohortId == 1 ~ "hmb",
+      cohortId == 1001L ~ "hmb_age_lt_30",
+      cohortId == 1002L ~ "hmb_age_30_45",
+      cohortId == 1003L ~ "hmb_age_45_55"
+    )
+  ) %>%
+  dplyr::select(databaseId, cohortId, cohortName, event_cohort_name1:event_cohort_name5, End, n) %>%
+  dplyr::mutate(time = "All time",
+                type = "With NSAIDS") %>%
+  dplyr::arrange(databaseId, cohortId, desc(n))
+
+readr::write_csv(txPathDat, file = fs::path(appDataPath, "treatmentPatternsAllNsaids.csv"))
+
+#### 6m ----------------
+txPath <- allPaths %>%
+  dplyr::filter(listOfTasks == listOfTasks[10]) %>%
+  dplyr::mutate(fullPath = fs::path(fullPath, "/6m"))
+
+### Get treatment patterns table
+txPathDat <- purrr::pmap_dfr(
+  txPath,
+  ~bindTxPathTab(path = ..3, database = ..1)
+) %>%
+  tidyr::separate_wider_delim(
+    cols = cohortName,
+    delim = "_",
+    names = c("type", "cohortId")
+  ) %>%
+  dplyr::mutate(
+    cohortName = dplyr::case_when(
+      cohortId == 1 ~ "hmb",
+      cohortId == 1001L ~ "hmb_age_lt_30",
+      cohortId == 1002L ~ "hmb_age_30_45",
+      cohortId == 1003L ~ "hmb_age_45_55"
+    )
+  ) %>%
+  dplyr::select(databaseId, cohortId, cohortName, event_cohort_name1:event_cohort_name5, End, n) %>%
+  dplyr::mutate(time = "6 months",
+                type = "With NSAIDS") %>%
+  dplyr::arrange(databaseId, cohortId, desc(n))
+
+readr::write_csv(txPathDat, file = fs::path(appDataPath, "treatmentPatterns6mNsaids.csv"))
+
+#### 1y ----------------
+txPath <- allPaths %>%
+  dplyr::filter(listOfTasks == listOfTasks[10]) %>%
+  dplyr::mutate(fullPath = fs::path(fullPath, "/1y"))
+
+### Get treatment patterns table
+txPathDat <- purrr::pmap_dfr(
+  txPath,
+  ~bindTxPathTab(path = ..3, database = ..1)
+) %>%
+  tidyr::separate_wider_delim(
+    cols = cohortName,
+    delim = "_",
+    names = c("type", "cohortId")
+  ) %>%
+  dplyr::mutate(
+    cohortName = dplyr::case_when(
+      cohortId == 1 ~ "hmb",
+      cohortId == 1001L ~ "hmb_age_lt_30",
+      cohortId == 1002L ~ "hmb_age_30_45",
+      cohortId == 1003L ~ "hmb_age_45_55"
+    )
+  ) %>%
+  dplyr::select(databaseId, cohortId, cohortName, event_cohort_name1:event_cohort_name5, End, n) %>%
+  dplyr::mutate(time = "1 year",
+                type = "With NSAIDS") %>%
+  dplyr::arrange(databaseId, cohortId, desc(n))
+
+readr::write_csv(txPathDat, file = fs::path(appDataPath, "treatmentPatterns1yNsaids.csv"))
+
+#### 2y ----------------
+txPath <- allPaths %>%
+  dplyr::filter(listOfTasks == listOfTasks[10]) %>%
+  dplyr::mutate(fullPath = fs::path(fullPath, "/2y"))
+
+### Get treatment patterns table
+txPathDat <- purrr::pmap_dfr(
+  txPath,
+  ~bindTxPathTab(path = ..3, database = ..1)
+) %>%
+  tidyr::separate_wider_delim(
+    cols = cohortName,
+    delim = "_",
+    names = c("type", "cohortId")
+  ) %>%
+  dplyr::mutate(
+    cohortName = dplyr::case_when(
+      cohortId == 1 ~ "hmb",
+      cohortId == 1001L ~ "hmb_age_lt_30",
+      cohortId == 1002L ~ "hmb_age_30_45",
+      cohortId == 1003L ~ "hmb_age_45_55"
+    )
+  ) %>%
+  dplyr::select(databaseId, cohortId, cohortName, event_cohort_name1:event_cohort_name5, End, n) %>%
+  dplyr::mutate(time = "2 years",
+                type = "With NSAIDS") %>%
+  dplyr::arrange(databaseId, cohortId, desc(n))
+
+readr::write_csv(txPathDat, file = fs::path(appDataPath, "treatmentPatterns2yNsaids.csv"))
 
 
 ## 11. Time to event ----------------
 
-### A. Time to discontinuation ----------------
+### A.1 TTD without NSAIDs (Tables) ----------------
 
 ### List files to extract
 ttdFiles <- c("tte_1.csv",
@@ -647,12 +856,13 @@ permutations <- tidyr::expand_grid(
 )
 
 ### Bind all in ttd
+#debug(bindTteData)
 ttd <- purrr::pmap_dfr(
   permutations,
   ~bindTteData(
     path = resultsPath,
     database = ..2,
-    task = listOfTasks[10],
+    task = listOfTasks[11], ## Change number
     file = ..1
   )
 )
@@ -662,8 +872,88 @@ arrow::write_parquet(
   sink = fs::path(appDataPath, "ttd.parquet")
 )
 
+### A.2 TTD with NSAIDs (Tables) ----------------
 
-### B. Time to intervention ----------------
+### List files to extract
+ttdFiles <- c("tte_1.csv",
+              "tte_1001.csv",
+              "tte_1002.csv",
+              "tte_1003.csv")
+
+permutations <- tidyr::expand_grid(
+  ttdFiles,
+  listOfDatabase
+)
+
+### Bind all in ttd
+#debug(bindTteData)
+ttd <- purrr::pmap_dfr(
+  permutations,
+  ~bindTteData(
+    path = resultsPath,
+    database = ..2,
+    task = listOfTasks[12],
+    file = ..1
+  )
+)
+
+arrow::write_parquet(
+  x = ttd,
+  sink = fs::path(appDataPath, "ttd2.parquet")
+)
+
+### B.1 TTD without NSAIDs (survfit) ----------------
+
+## Create output folder
+outputPath <- here::here(appDataPath, "ttd/wo") %>%
+  fs::dir_create()
+
+outputPath <- here::here(appDataPath, "ttd/wo")
+
+for (i in 1:length(listOfDatabase)) {
+
+  db <- listOfDatabase[i]
+
+  path <- allPaths %>%
+    dplyr::filter(listOfTasks == listOfTasks[11] & listOfDatabase == db) %>%
+    dplyr::pull(fullPath)
+
+  listOfFiles <- list.files(path, full.names = FALSE, pattern = ".rds", recursive = TRUE)
+
+  inputPath <- here::here("results_0603", db, listOfTasks[11])
+
+  fs::file_copy(here::here(inputPath, listOfFiles),
+                here::here(outputPath, listOfFiles), overwrite = TRUE)
+
+}
+
+### B.2 TTD with NSAIDs (survfit) ----------------
+
+## Create output folder
+outputPath <- here::here(appDataPath, "ttd/with") %>%
+  fs::dir_create()
+
+outputPath <- here::here(appDataPath, "ttd/with")
+
+for (i in 1:length(listOfDatabase)) {
+
+  db <- listOfDatabase[i]
+
+  path <- allPaths %>%
+    dplyr::filter(listOfTasks == listOfTasks[12] & listOfDatabase == db) %>%
+    dplyr::pull(fullPath)
+
+  listOfFiles <- list.files(path, full.names = FALSE, pattern = ".rds", recursive = TRUE)
+
+  inputPath <- here::here("results_0603", db, listOfTasks[12])
+
+  fs::file_copy(here::here(inputPath, listOfFiles),
+                here::here(outputPath, listOfFiles), overwrite = TRUE)
+
+}
+
+
+### C.1 Time to intervention (Tables) ----------------
 
 ttiFiles <- c("procedure_survival_1.csv",
               "procedure_survival_1001.csv",
@@ -681,7 +971,7 @@ tti <- purrr::pmap_dfr(
   ~bindTteData2(
     path = resultsPath,
     database = ..2,
-    task = listOfTasks[12],
+    task = listOfTasks[14],
     file = ..1
   )
 )
@@ -690,4 +980,30 @@ arrow::write_parquet(
   x = tti,
   sink = fs::path(appDataPath, "tti.parquet")
 )
+
+
+### C.2 Time to intervention (survfit) ----------------
+
+## Create output folder
+outputPath <- here::here(appDataPath, "tti") %>%
+  fs::dir_create()
+
+outputPath <- here::here(appDataPath, "tti")
+
+for (i in 1:length(listOfDatabase)) {
+
+  db <- listOfDatabase[i]
+
+  path <- allPaths %>%
+    dplyr::filter(listOfTasks == listOfTasks[14] & listOfDatabase == db) %>%
+    dplyr::pull(fullPath)
+
+  listOfFiles <- list.files(path, full.names = FALSE, pattern = ".rds", recursive = TRUE)
+
+  inputPath <- here::here("results_0603", db, listOfTasks[14])
+
+  fs::file_copy(here::here(inputPath, listOfFiles),
+                here::here(outputPath, listOfFiles), overwrite = TRUE)
+
+}
 

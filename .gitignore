@@ -1,5 +1,6 @@
 # Project specific files and folders
 results/
+results_0603/
 results_old/
 logs/
 config.yml
@@ -17,6 +18,7 @@ hidden/
 results.zip
 scratchDiagnostics
 shiny/data/
+shiny/data_0603/
 shiny/data_old/
 bindResults.R
 bindResults_Public.R

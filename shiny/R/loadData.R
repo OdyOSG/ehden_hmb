@@ -8,7 +8,7 @@ library(readr)
 source(here::here("shiny", "R", "fn.R"))
 source(here::here("shiny", "migration", "helpers.R"))
 
-dataPath <- here::here("shiny", "data")
+dataPath <- here::here("shiny", "data_0603")
 
 
 # About -----------------
@@ -50,7 +50,7 @@ ctsChar <- readr::read_csv(fs::path(dataPath, "baselineContinuous.csv"),
 conceptChar <- readr::read_csv(fs::path(dataPath, "baselineConcepts.csv"),
                                show_col_types = FALSE) %>%
   dplyr::rename(count = n) %>%
-  dplyr::select(-cohortDefinitionId) %>%
+  dplyr::select(-cohortDefinitionId, -timeWindow) %>%
   maskLowCount()
 
 ## Cohort baseline
@@ -63,17 +63,13 @@ cohortChar <- readr::read_csv(fs::path(dataPath, "baselineCohorts.csv"),
       TRUE ~ "Conditions"
     )
   ) %>%
-  dplyr::select(databaseId, timeWindow, cohortName, domain, covariateName, count, pct) %>%
-  dplyr::mutate(timeWindow = dplyr::case_when(
-    timeWindow == "[-365 : 0]" ~ "T(-365d to 0d)",
-    TRUE ~ timeWindow
-  )) %>%
+  dplyr::select(databaseId, cohortName, domain, covariateName, count, pct) %>%
   maskLowCount()
 
 ## Chapters baseline
 icdChar <- readr::read_csv(fs::path(dataPath, "baselineChapters.csv"),
                            show_col_types = FALSE) %>%
-  dplyr::select(-COHORT_ID) %>%
+  dplyr::select(-COHORT_ID, -timeWindow) %>%
   dplyr::rename(count = COUNTVALUE) %>%
   maskLowCount()
 
@@ -88,6 +84,7 @@ domainConceptChar <- sort(unique(conceptChar$domain))
 incTab <- readr::read_csv(fs::path(dataPath, "incidence.csv"),
                           show_col_types = FALSE) %>%
   dplyr::select(-OUTCOME_COHORT_DEFINITION_ID)  %>%
+  dplyr::mutate(PERSON_YEARS = as.integer(PERSON_DAYS/365.25), .before =6) %>%
   maskLowCountInci()
 
 ### Incidence Pickers
@@ -99,15 +96,6 @@ yearInci <- c("All", as.character(2000:2022))
 postIndex <- readr::read_csv(fs::path(dataPath, "postIndexPrevalence.csv"),
                              show_col_types = FALSE) %>%
   dplyr::select(-cohortId, -covariateId) %>%
-  dplyr::mutate(timeWindow = dplyr::case_when(
-    timeWindow == "1d - 365d" ~ "T(1d to 365d)",
-    timeWindow == "1d - 183d" ~ "T(1d to 183d)",
-    timeWindow == "184d - 365d" ~ "T(184d to 365d)",
-    timeWindow == "366d - 730d" ~ "T(366d to 730d)",
-    timeWindow == "731d - 1825d" ~ "T(731d to 1825d)",
-    timeWindow == "1d - 9999d" ~ "T(1d to 9999d)",
-    TRUE ~ timeWindow
-  )) %>%
   maskLowCount()
 
 
@@ -130,14 +118,19 @@ drugPi <- postIndex %>%
   # dplyr::mutate(
   #   timeWindow = factor(timeWindow, levels = c("1d - 183d", "184d - 365d", "1d - 365d", "366d - 730d", "731d - 1825d"))
   # ) %>%
-  dplyr::select(databaseId, timeWindow, cohortName, covariateName, count, pct) %>%
+  dplyr::select(databaseId, timeWindow, cohortName, covariateName, count, pct, cat) %>%
   dplyr::arrange(databaseId, timeWindow) %>%
-  dplyr::mutate(timeWindow = as.character(timeWindow))
+  dplyr::mutate(timeWindow = as.character(timeWindow),
+                cat = dplyr::case_when(
+                  cat == "within" ~ "Within time window",
+                  cat == "followUp" ~ "Complete follow-up"
+                  )
+                )
 
 ### Pickers
 drugCohorts <- unique(drugPi$covariateName)
 drugTimeWindow <- unique(drugPi$timeWindow)
-
+drugCategory <- unique(drugPi$cat)
 
 ## Procedures -----------------
 
@@ -154,28 +147,51 @@ procTimeWindow <- unique(procPi$timeWindow)
 # 5. Treatment Patterns -----------------
 
 ## Load treatment patterns table
-txPatDat <- readr::read_csv(fs::path(dataPath, "treatmentPatterns.csv"),
+txPatDat <- readr::read_csv(fs::path(dataPath, "treatmentPatternsAll.csv"),
                             show_col_types = FALSE)
 
-
-txPatDat2 <- readr::read_csv(fs::path(dataPath, "treatmentPatterns2.csv"),
+txPatDat6m <- readr::read_csv(fs::path(dataPath, "treatmentPatterns6m.csv"),
                              show_col_types = FALSE)
+
+txPatDat1y <- readr::read_csv(fs::path(dataPath, "treatmentPatterns1y.csv"),
+                              show_col_types = FALSE)
+
+txPatDat2y <- readr::read_csv(fs::path(dataPath, "treatmentPatterns2y.csv"),
+                              show_col_types = FALSE)
+
+txPatDatNsaids <- readr::read_csv(fs::path(dataPath, "treatmentPatternsAllNsaids.csv"),
+                            show_col_types = FALSE)
+
+txPatDat6mNsaids <- readr::read_csv(fs::path(dataPath, "treatmentPatterns6mNsaids.csv"),
+                              show_col_types = FALSE)
+
+txPatDat1yNsaids <- readr::read_csv(fs::path(dataPath, "treatmentPatterns1yNsaids.csv"),
+                              show_col_types = FALSE)
+
+txPatDat2yNsaids <- readr::read_csv(fs::path(dataPath, "treatmentPatterns2yNsaids.csv"),
+                              show_col_types = FALSE)
 
 txPatDatAll <- dplyr::bind_rows(
   txPatDat,
-  txPatDat2
+  txPatDat6m,
+  txPatDat1y,
+  txPatDat2y,
+  txPatDatNsaids,
+  txPatDat6mNsaids,
+  txPatDat1yNsaids,
+  txPatDat2yNsaids
 )
 
 ### Sankey pickers
-cohortName2 <- c(
-  cohortName,
-  "hmb2", "hmb2_age_lt_30", "hmb2_age_30_45", "hmb2_age_45_55"
-)
+cohortName2 <- c(cohortName)
 
 sankeyCohorts <- tibble::tibble(
-  id = c(1L, 1001L, 1002L, 1003L, 44L, 44001L, 44002L, 44003L),
+  id = c(1L, 1001L, 1002L, 1003L),
   name = cohortName2
 )
+
+txTime <- unique(txPatDatAll$time)
+txType <- unique(txPatDatAll$type)
 
 
 # 6. Time to Event -----------------
@@ -192,13 +208,23 @@ ttd <- arrow::read_parquet(file = fs::path(here::here(dataPath ,"ttd.parquet")))
     TRUE ~ `Cohort Name`)
   )
 
+ttd2 <- arrow::read_parquet(file = fs::path(here::here(dataPath ,"ttd2.parquet"))) %>%
+  dplyr::mutate(targetId = as.double(targetId)) %>%
+  dplyr::left_join(strataCounts, by = c("targetId" = "Strata Cohort Id", "database" = "Database")) %>%
+  dplyr::rename(`Cohort Name` = `Strata Cohort Name`) %>%
+  dplyr::select(database:`Cohort Name`) %>%
+  dplyr::mutate(`Cohort Name` = dplyr::case_when(
+    targetId == 1 ~ "hmb",
+    TRUE ~ `Cohort Name`)
+  )
+
 ### Relabel strata
-ttd <- relabelStrata(
-  ttd,
-  oldLabels = as.character(c(27:29, 31:35)),
-  newLabels = c("oc", "danazol", "grha", "lglIUD",
-                "nsaids", "progestin", "tranexamicAcid", "ulipristalAcetate")
-)
+# ttd <- relabelStrata(
+#   ttd,
+#   oldLabels = as.character(c(27:29, 31:35)),
+#   newLabels = c("oc", "danazol", "grha", "lglIUD",
+#                 "nsaids", "progestin", "tranexamicAcid", "ulipristalAcetate")
+# )
 
 ### TTE cohort pickers
 ttdCohorts <- unique(ttd$`Cohort Name`)
@@ -208,6 +234,9 @@ tteCohorts <- tibble::tibble(
   id = c(1, 1001L, 1002L, 1003L),
   name = cohortName
 )
+
+## TTD Line pickers
+ttdLine <- unique(ttd$line)
 
 
 ## Time to Intervention -----------------
@@ -222,15 +251,14 @@ tti <- arrow::read_parquet(file = fs::path(here::here(dataPath ,"tti.parquet")))
     TRUE ~ `Cohort Name`)
     )
 
-
-
 ### Relabel strata
 tti <- relabelOutcome(
   tti,
-  oldLabels = as.character(36:43),
+  oldLabels = as.character(38:45),
   newLabels = c("bloodTransfusion", "copperIUD", "endometrialAblation", "hormonalIUD",
                 "hysterectomy", "myomectomy", "uae", "undefinedIUD")
 )
 
 ### TTI cohort pickers
 ttiCohorts <- unique(tti$`Cohort Name`)
+
