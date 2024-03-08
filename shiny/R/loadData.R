@@ -8,7 +8,7 @@ library(readr)
 source(here::here("shiny", "R", "fn.R"))
 source(here::here("shiny", "migration", "helpers.R"))
 
-dataPath <- here::here("shiny", "data_0603")
+dataPath <- here::here("shiny", "data")
 
 
 # About -----------------

@@ -430,12 +430,6 @@ getSurvProbTab <- function(kmData,
 }
 
 
-#test
-# getSurvProbTab(kmData = kmData,
-#                targetCohortId = 1L,
-#                database = "cprdAurum",
-#                era = "era_30")
-
 getTimeTab <- function(kmData,
                        targetCohortId, # select target cohort
                        database, # select database
@@ -479,8 +473,3 @@ getTimeTab <- function(kmData,
   return(timeTab)
 }
 
-
-# getTimeTab(kmData = kmData,
-#            targetCohortId = 1L,
-#            database = "cprdAurum",
-#            era = "era_30")

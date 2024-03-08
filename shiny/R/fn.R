@@ -223,7 +223,6 @@ plotKM2 <- function(dat) {
   plot_colors <- unname(grafify::graf_palettes$kelly)
 
   p <- ggplot(dat, aes(x = time, y = estimate, color = outcomeCohortId)) +
-    #ggsurvfit::add_risktable(risktable_stats = c("n.risk", "cum.censor", "cum.event")) +   ## ADDED
     geom_step(linewidth = 1.5) +
     scale_color_manual(values = plot_colors) + #scale colors to kelly
     scale_y_continuous(labels = scales::percent_format()) + # convert y axis to percent

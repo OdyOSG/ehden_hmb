@@ -7,11 +7,11 @@ library(readr)
 source("shiny/migration/helpers.R")
 
 
-appDataPath <- here::here("shiny", "data_0603") # Path to place app data
+appDataPath <- here::here("shiny", "data") # Path to place app data
 
 appDataPath %>% fs::dir_create() # Create new directory
 
-resultsPath <- here::here("results_0603") # Set path to the execution results
+resultsPath <- here::here("results") # Set path to the execution results
 
 listOfDatabase <- fs::dir_ls(resultsPath) %>% # List the databases used in the execution
   basename()
@@ -920,7 +920,7 @@ for (i in 1:length(listOfDatabase)) {
 
   listOfFiles <- list.files(path, full.names = FALSE, pattern = ".rds", recursive = TRUE)
 
-  inputPath <- here::here("results_0603", db, listOfTasks[11])
+  inputPath <- here::here("results", db, listOfTasks[11])
 
   fs::file_copy(here::here(inputPath, listOfFiles),
                 here::here(outputPath, listOfFiles), overwrite = TRUE)
@@ -945,7 +945,7 @@ for (i in 1:length(listOfDatabase)) {
 
   listOfFiles <- list.files(path, full.names = FALSE, pattern = ".rds", recursive = TRUE)
 
-  inputPath <- here::here("results_0603", db, listOfTasks[12])
+  inputPath <- here::here("results", db, listOfTasks[12])
 
   fs::file_copy(here::here(inputPath, listOfFiles),
                 here::here(outputPath, listOfFiles), overwrite = TRUE)
@@ -1000,7 +1000,7 @@ for (i in 1:length(listOfDatabase)) {
 
   listOfFiles <- list.files(path, full.names = FALSE, pattern = ".rds", recursive = TRUE)
 
-  inputPath <- here::here("results_0603", db, listOfTasks[14])
+  inputPath <- here::here("results", db, listOfTasks[14])
 
   fs::file_copy(here::here(inputPath, listOfFiles),
                 here::here(outputPath, listOfFiles), overwrite = TRUE)
