@@ -17,7 +17,7 @@ source("analysis/private/_incidenceAnalysis.R")
 
 ### Set connection Block
 # <<<
-configBlock <- "cprdAurum"
+configBlock <- "[block]"
 # >>>
 
 ### Provide connection details
@@ -44,7 +44,7 @@ analysisSettings <- readSettingsFile(here::here("analysis/settings/incidenceAnal
 
 # E. Script --------------------
 
-startSnowflakeSession(con = con, executionSettings = executionSettings)
+#startSnowflakeSession(con = con, executionSettings = executionSettings)
 
 ### Incidence Analyses
 executeIncidenceAnalysis(con = con,
