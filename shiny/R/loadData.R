@@ -183,7 +183,7 @@ txPatDatAll <- dplyr::bind_rows(
 )
 
 ### Sankey pickers
-cohortName2 <- c(cohortName)
+cohortName2 <- c("hmb", "hmb_age_lt_30", "hmb_age_30_45", "hmb_age_45_55")
 
 sankeyCohorts <- tibble::tibble(
   id = c(1L, 1001L, 1002L, 1003L),

@@ -1398,7 +1398,7 @@ server <- function(input, output, session){
       lineKM <- "1003"
     }
 
-    ttd_km_name <- here::here(glue::glue('shiny/data_0603/ttd/wo/tte_{input$databaseNameTtd}_{lineKM}.rds'))
+    ttd_km_name <- here::here(glue::glue('shiny/data/ttd/wo/tte_{input$databaseNameTtd}_{lineKM}.rds'))
 
     ttd_km <- readr::read_rds(ttd_km_name)
 
@@ -1449,7 +1449,7 @@ server <- function(input, output, session){
       lineKM <- "1003"
     }
 
-    ttd_km_name <- here::here(glue::glue('shiny/data_0603/ttd/with/tte_{input$databaseNameTtd2}_{lineKM}.rds'))
+    ttd_km_name <- here::here(glue::glue('shiny/data/ttd/with/tte_{input$databaseNameTtd2}_{lineKM}.rds'))
 
     ttd_km <- readr::read_rds(ttd_km_name)
 
@@ -1602,7 +1602,7 @@ server <- function(input, output, session){
       lineKM <- "1003"
     }
 
-    ttd_km_name <- here::here(glue::glue('shiny/data_0603/tti/tti_{input$databaseNameTti}_{lineKM}.rds'))
+    ttd_km_name <- here::here(glue::glue('shiny/data/tti/tti_{input$databaseNameTti}_{lineKM}.rds'))
 
     ttd_km <- readr::read_rds(ttd_km_name)
 
