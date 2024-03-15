@@ -44,8 +44,9 @@ get_tx_history <- function(con,
 
   # Extract person ids and start date of target cohort index(start) date (hmb diagnosis)
   pids <- current_cohorts %>%
-    dplyr::filter(cohort_id == 1) %>%
-    dplyr::select(person_id, start_date)
+    dplyr::filter(cohort_id == 1 & rnk == 1) %>%
+    dplyr::select(person_id, start_date) %>%
+    dplyr::distinct()
 
   # Add target cohort index date in Treatment History data frame
   resIdDate <- res %>%

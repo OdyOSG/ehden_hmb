@@ -496,14 +496,14 @@
     },
     "Ulysses": {
       "Package": "Ulysses",
-      "Version": "0.0.4",
+      "Version": "0.0.2",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "Ulysses",
       "RemoteUsername": "ohdsi",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "72963e7edc6ee2604f6feaa963a43aecf6441515",
+      "RemoteRef": "v0.0.2",
+      "RemoteSha": "c3c513a683ea4ecdc12b7ceac1a9053aa6ebd23a",
       "Requirements": [
         "cli",
         "crayon",
@@ -525,7 +525,7 @@
         "withr",
         "yaml"
       ],
-      "Hash": "0325633f166534d87b2ff4c3feecac15"
+      "Hash": "69b2935ecbd7409be44cf489d88341de"
     },
     "abind": {
       "Package": "abind",

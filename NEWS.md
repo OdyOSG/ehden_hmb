@@ -1,3 +1,8 @@
+# EHDEN HMB v1.0.2
+
+* Fixed cohort picker in shiny app
+* Updated renv.lock file for package dependency
+
 # EHDEN HMB v1.0.1
 
 * Corrected NEWS.md file

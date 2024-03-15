@@ -24,15 +24,16 @@ collect_cohorts <- function(con,
     FROM @write_schema.@cohort_table
     WHERE cohort_definition_id = @cohortId
   )
-  SELECT a.*
+  SELECT a.*,
+  rank() over(partition by a.subject_id, a.cohort_definition_id order by a.cohort_start_date) as rnk
   FROM (
-  SELECT * FROM
-  @write_schema.@cohort_table
-  WHERE cohort_definition_id in (@allIds)
+    SELECT * FROM
+    @write_schema.@cohort_table
+    WHERE cohort_definition_id in (@allIds)
   ) a
   JOIN T1
     ON a.subject_id = t1.subject_id
-  " %>%
+    order by subject_id, cohort_definition_id, rnk;" %>%
     SqlRender::render(
       write_schema = workDatabaseSchema,
       cohort_table = cohortTable,
@@ -44,7 +45,7 @@ collect_cohorts <- function(con,
     )
 
   current_cohorts <- DatabaseConnector::querySql(connection = con, sql = sql)
-  names(current_cohorts) <- c("cohort_id", "person_id", "start_date", "end_date")
+  names(current_cohorts) <- c("cohort_id", "person_id", "start_date", "end_date", "rnk")
   current_cohorts <- data.table::as.data.table(current_cohorts)
 
   return(current_cohorts)
