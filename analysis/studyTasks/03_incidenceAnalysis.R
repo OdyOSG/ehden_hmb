@@ -17,7 +17,7 @@ source("analysis/private/_incidenceAnalysis.R")
 
 ### Set connection Block
 # <<<
-configBlock <- "optum"
+configBlock <- "cprdGold"
 # >>>
 
 ### Provide connection details

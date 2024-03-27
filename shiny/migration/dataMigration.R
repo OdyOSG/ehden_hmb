@@ -568,6 +568,7 @@ readr::write_csv(postIndexPrev, file = fs::path(appDataPath, "postIndexPrevalenc
 ## 9. Incidence ----------------
 
 inicFiles <- glue::glue("incidence_analysis_ref_{1:4}.csv")
+inicFiles <- "incidence_analysis_ref_1.csv"
 
 inic <- purrr::map_dfr(inicFiles,               # files to use
                        ~bindCsv(                # bind csv
@@ -580,7 +581,7 @@ fctOrder <- c("All", as.character(2000:2022))
 inic2 <- inic %>%
   dplyr::mutate(
     START_YEAR = ifelse(is.na(START_YEAR), "All", as.character(START_YEAR)),
-    #START_YEAR = factor(START_YEAR, levels = fctOrder),
+    START_YEAR = factor(START_YEAR, levels = fctOrder),
     INCIDENCE_RATE_P1000PY = INCIDENCE_RATE_P100PY * 10
   ) %>%
   dplyr::select(databaseId,
