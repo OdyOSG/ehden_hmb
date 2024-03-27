@@ -12,6 +12,7 @@ get_tx_history <- function(con,
                            targetId,
                            targetName,
                            treatmentCohorts,
+                           database,
                            thSettings,
                            outputFolder) {
 
@@ -42,9 +43,15 @@ get_tx_history <- function(con,
 
   res$duration_era <- as.integer(res$duration_era)
 
+  #res <- arrow::read_parquet(here::here("results", database, "08_treatmentHistory", paste0("th_", targetId, ".parquet")))
+  #res <- arrow::read_parquet(here::here("results", database, "08_treatmentHistory2", paste0("th_", targetId, ".parquet")))
+
+  #res$flag <- NULL
+  #res$start_date <- NULL
+
   # Extract person ids and start date of target cohort index(start) date (hmb diagnosis)
   pids <- current_cohorts %>%
-    dplyr::filter(cohort_id == 1 & rnk == 1) %>%
+    dplyr::filter(cohort_id == targetId & rnk == 1) %>%
     dplyr::select(person_id, start_date) %>%
     dplyr::distinct()
 
@@ -137,6 +144,7 @@ runTreatmentHistory <- function(con,
                        targetId = tmp_targetId,
                        targetName = tmp_targetName,
                        treatmentCohorts = txCohorts,
+                       database = executionSettings$databaseName,
                        thSettings = thSettings,
                        outputFolder = save_path)
 

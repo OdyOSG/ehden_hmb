@@ -14,9 +14,9 @@ library(keyring)
 
 ## B. Set Parameters ------------
 
-configBlock <- "[block_name]" # Name of config block
+configBlock <- "" # Name of config block
 
-database <- "[database_name]" # Name of the database in the config block
+database <- "" # Name of the database in the config block
 
 keyringName <- "ehden_hmb"   # Name of the keyring
 

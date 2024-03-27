@@ -17,7 +17,7 @@ source("analysis/private/_incidenceAnalysis.R")
 
 ### Set connection Block
 # <<<
-configBlock <- "[block]"
+configBlock <- "optum"
 # >>>
 
 ### Provide connection details
@@ -44,9 +44,10 @@ analysisSettings <- readSettingsFile(here::here("analysis/settings/incidenceAnal
 
 # E. Script --------------------
 
-#startSnowflakeSession(con = con, executionSettings = executionSettings)
+startSnowflakeSession(con = con, executionSettings = executionSettings)
 
 ### Incidence Analyses
+#debug(executeIncidenceAnalysis)
 executeIncidenceAnalysis(con = con,
                          executionSettings = executionSettings,
                          analysisSettings = analysisSettings)

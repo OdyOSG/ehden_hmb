@@ -59,14 +59,15 @@ defineIncidenceAnalysis <- function(cohortId,
     )
   )
 
-  byYearStrata <- CohortIncidence::createStrataSettings(byYear = TRUE)
+  #strataSettings <- CohortIncidence::createStrataSettings(byYear = TRUE)
+  strataSettings <- CohortIncidence::createStrataSettings(byYear = TRUE, byAge = TRUE, ageBreaks = c(0,30,45,56))
 
   irDesign <- CohortIncidence::createIncidenceDesign(
     targetDefs = targets,
     outcomeDefs = list(o1),
     tars = tars,
     analysisList = analysisList,
-    strataSettings = byYearStrata
+    strataSettings = strataSettings
   )
 
   return(irDesign)

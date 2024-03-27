@@ -20,7 +20,7 @@ source("analysis/private/_treatmentHistory.R")
 
 ## Set connection Block
 # <<<
-configBlock <- "[block]"
+configBlock <- "cprdAurum"
 # >>>
 
 ## Provide connection details
@@ -49,15 +49,16 @@ analysisSettings3 <- readSettingsFile(here::here("analysis/settings/treatmentPat
 
 # E. Script --------------------
 
-#startSnowflakeSession(con = con, executionSettings = executionSettings)
+startSnowflakeSession(con = con, executionSettings = executionSettings)
 
-## Post index prevalence
-executePostIndexDrugUtilization(con = con,
-                                executionSettings = executionSettings,
-                                analysisSettings = analysisSettings1)
-
-### Without NSAIDS --------------------
-## Treatment history
+# ## Post index prevalence
+# executePostIndexDrugUtilization(con = con,
+#                                 executionSettings = executionSettings,
+#                                 analysisSettings = analysisSettings1)
+#
+# ### Without NSAIDS --------------------
+# ## Treatment history
+#
 runTreatmentHistory(con = con,
                     executionSettings = executionSettings,
                     analysisSettings = analysisSettings2)
@@ -66,28 +67,28 @@ runTreatmentHistory(con = con,
 executeTreatmentPatterns(con = con,
                          executionSettings = executionSettings,
                          analysisSettings = analysisSettings2)
-
-## Time to discontinuation
-executeTimeToEvent(con = con,
-                   executionSettings = executionSettings,
-                   analysisSettings = analysisSettings2)
-
-
+#
+# ## Time to discontinuation
+# executeTimeToEvent(con = con,
+#                    executionSettings = executionSettings,
+#                    analysisSettings = analysisSettings2)
+#
+#
 ### With NSAIDS (Sensitivity analysis) --------------------
 ## Treatment history
-runTreatmentHistory(con = con,
-                    executionSettings = executionSettings,
-                    analysisSettings = analysisSettings3)
+# runTreatmentHistory(con = con,
+#                     executionSettings = executionSettings,
+#                     analysisSettings = analysisSettings3)
+#
+# ## Treatment patterns
+# executeTreatmentPatterns(con = con,
+#                          executionSettings = executionSettings,
+#                          analysisSettings = analysisSettings3)
 
-## Treatment patterns
-executeTreatmentPatterns(con = con,
-                         executionSettings = executionSettings,
-                         analysisSettings = analysisSettings3)
-
-## Time to discontinuation
-executeTimeToEvent(con = con,
-                   executionSettings = executionSettings,
-                   analysisSettings = analysisSettings3)
+# ## Time to discontinuation
+# executeTimeToEvent(con = con,
+#                    executionSettings = executionSettings,
+#                    analysisSettings = analysisSettings3)
 
 # F. Session Info ------------------------
 

@@ -304,29 +304,33 @@ executePostIndexDrugUtilization <- function(con,
 
 ## Treatment Patterns -------------------------
 
-#prepSankey <- function(th, minNumPatterns, flag = c("6m","1y","2y","end")) {
+prepSankey <- function(th, minNumPatterns, flag = c("6m","1y","2y","end")) {
 
-prepSankey <- function(th, minNumPatterns) {
-
-  treatment_pathways <- th %>%
-    tidyr::pivot_wider(id_cols = person_id,
-                       names_from = event_seq,
-                       names_prefix = "event_cohort_name",
-                       values_from = event_cohort_name) %>%
-    dplyr::count(dplyr::across(tidyselect::starts_with("event_cohort_name"))) %>%
-    dplyr::mutate(End = "end", .before = "n") %>%
-    dplyr::filter(n >= minNumPatterns)
+#prepSankey <- function(th, minNumPatterns) {
 
   # treatment_pathways <- th %>%
   #   tidyr::pivot_wider(id_cols = person_id,
   #                      names_from = event_seq,
   #                      names_prefix = "event_cohort_name",
-  #                      values_from = event_cohort_name,
-  #                      unused_fn = min) %>%
-  #   dplyr::filter(flag %in% flag) %>%
+  #                      values_from = event_cohort_name) %>%
   #   dplyr::count(dplyr::across(tidyselect::starts_with("event_cohort_name"))) %>%
   #   dplyr::mutate(End = "end", .before = "n") %>%
   #   dplyr::filter(n >= minNumPatterns)
+
+  treatment_pathways_in <- th %>%
+    tidyr::pivot_wider(id_cols = person_id,
+                       names_from = event_seq,
+                       names_prefix = "event_cohort_name",
+                       values_from = event_cohort_name,
+                       unused_fn = min)
+
+  treatment_pathways2 <- treatment_pathways_in[treatment_pathways_in$flag %in% flag, ]
+
+  treatment_pathways <- treatment_pathways2 %>%
+    #dplyr::filter(flag %in% flag) %>%
+    dplyr::count(dplyr::across(tidyselect::starts_with("event_cohort_name"))) %>%
+    dplyr::mutate(End = "end", .before = "n") %>%
+    dplyr::filter(n >= minNumPatterns)
 
   links <- treatment_pathways %>%
     dplyr::mutate(row = dplyr::row_number()) %>%
@@ -407,7 +411,7 @@ executeTreatmentPatterns <- function(con,
     ## All time ----------------------------------------------
 
     # Create object to export
-    #debug(prepSankey)
+
     patterns <- th %>%
       prepSankey(minNumPatterns = 30L)
 
@@ -423,9 +427,9 @@ executeTreatmentPatterns <- function(con,
 
     # Create object to export
     patterns6m <- th %>%
-      dplyr::filter(flag %in% c("6m")) %>%
-      prepSankey(minNumPatterns = 30L)
-      #prepSankey(minNumPatterns = 30L, flag %in% c("6m"))
+      #dplyr::filter(flag %in% c("6m")) %>%
+      #prepSankey(minNumPatterns = 30L)
+      prepSankey(minNumPatterns = 30L, flag = c("6m"))
 
     # Save file
     save_path_6m <- fs::path(paste0(txPatFolder, "/6m")) %>%
@@ -439,9 +443,9 @@ executeTreatmentPatterns <- function(con,
 
     # Create object to export
     patterns1y <- th %>%
-      dplyr::filter(flag %in% c("6m", "1y")) %>%
-      prepSankey(minNumPatterns = 30L)
-    #prepSankey(minNumPatterns = 30L, flag %in% c("6m", "1y"))
+      #dplyr::filter(flag %in% c("6m", "1y")) %>%
+      #prepSankey(minNumPatterns = 30L)
+      prepSankey(minNumPatterns = 30L, flag = c("6m", "1y"))
 
     # Save file
     save_path_1y <- fs::path(paste0(txPatFolder, "/1y")) %>%
@@ -455,9 +459,9 @@ executeTreatmentPatterns <- function(con,
 
     # Create object to export
     patterns2y <- th %>%
-      dplyr::filter(flag %in% c("6m", "1y", "2y")) %>%
-      prepSankey(minNumPatterns = 30L)
-    #prepSankey(minNumPatterns = 30L, flag %in% c("6m", "1y", "2y))
+      #dplyr::filter(flag %in% c("6m", "1y", "2y")) %>%
+      #prepSankey(minNumPatterns = 30L)
+      prepSankey(minNumPatterns = 30L, flag = c("6m", "1y", "2y"))
 
     # Save file
     save_path_2y <- fs::path(paste0(txPatFolder, "/2y")) %>%

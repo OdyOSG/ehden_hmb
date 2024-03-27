@@ -278,8 +278,9 @@ executeProcedureAnalysis <- function(con,
     survDatKM <- getTteResKM(tb = tb, outcomeCohortId = procedureCohort)
 
     # Export time to event tables (survfit)
-    readr::write_rds(survDatKM,
-                     here::here(ttiFolder, paste0("tti_", databaseId, "_", targetCohortIds[i], ".rds"))
+    readr::write_rds(
+      survDatKM,
+      here::here(ttiFolder, paste0("tti_", databaseId, "_", targetCohortIds[i], ".rds"))
                      )
 
     fileNm2 <- glue::glue("procedure_survival_{idx}")

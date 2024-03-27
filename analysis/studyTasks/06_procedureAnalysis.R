@@ -44,7 +44,7 @@ analysisSettings <- readSettingsFile(here::here("analysis/settings/procedureAnal
 
 # E. Script --------------------
 
-#startSnowflakeSession(con = con, executionSettings = executionSettings)
+startSnowflakeSession(con = con, executionSettings = executionSettings)
 
 executeProcedureAnalysis(con = con,
                          executionSettings = executionSettings,
