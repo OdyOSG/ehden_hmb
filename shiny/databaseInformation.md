@@ -16,6 +16,4 @@
 
 #### University of Oslo
 
-#### Optum Claims
-
 #### Helsinki University Hospital Finland

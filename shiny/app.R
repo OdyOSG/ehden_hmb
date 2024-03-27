@@ -977,6 +977,7 @@ server <- function(input, output, session){
       )
   )
 
+
   ## Strata Counts
   output$strataCountsTab <- renderReactable(
     strataCounts %>%
@@ -1279,15 +1280,17 @@ server <- function(input, output, session){
   trtSankeyPlot <- reactive({
     txPatDatAll %>%
       dplyr::filter(
-        databaseId == input$databaseNameSankey,
-        time == input$txTime,
-        type == input$txType,
-        cohortId == sankeyPick()) %>%
+          databaseId == input$databaseNameSankey,
+          time == input$txTime,
+          type == input$txType,
+          cohortId == sankeyPick()
+        ) %>%
       dplyr::slice(1:20) %>%
       buildSankeyData() %>%
       plotSankey()
 
   })
+
 
   trtSankeyTab <- reactive({
     txPatDatAll %>%
@@ -1422,8 +1425,10 @@ server <- function(input, output, session){
       scale_ggsurvfit(x_scales=list(breaks=c(0.5, 0:3))) +  # Breaks at 6m and 1-3 years
       scale_color_manual(values = colors) +
       scale_fill_manual(values = colors) +
-      add_risktable(risktable_stats = "{n.risk} ({cum.censor})",
+      add_risktable(risktable_stats = "{n.risk} ({cum.event})",
+      #add_risktable(risktable_stats = "{n.risk} ({cum.censor})",
                     risktable_height = 0.4,
+                    hjust = 0,
                     size = 4, # increase font size of risk table statistics
                     theme =   # increase font size of risk table title and y-axis label
                       list(
@@ -1431,7 +1436,7 @@ server <- function(input, output, session){
                                                 plot.title.size = 11),
                         theme(plot.title = element_text(face = "bold"))
                       )) +
-      #add_risktable_strata_symbol(symbol = "\U25CF", size = 18) +
+      theme(axis.text.x = element_text(hjust = 0)) +
       labs(x = "Follow-up time, years")
 
   })
@@ -1473,8 +1478,10 @@ server <- function(input, output, session){
         scale_ggsurvfit(x_scales=list(breaks=c(0.5, 0:3))) +  # Breaks at 6m and 1-3 years
         scale_color_manual(values = colors) +
         scale_fill_manual(values = colors) +
-        add_risktable(risktable_stats = "{n.risk} ({cum.censor})",
+        add_risktable(risktable_stats = "{n.risk} ({cum.event})",
+        #add_risktable(risktable_stats = "{n.risk} ({cum.censor})",
                       risktable_height = 0.4,
+                      hjust = 0,
                       size = 4, # increase font size of risk table statistics
                       theme =   # increase font size of risk table title and y-axis label
                         list(
@@ -1482,7 +1489,7 @@ server <- function(input, output, session){
                                                   plot.title.size = 11),
                           theme(plot.title = element_text(face = "bold"))
                         )) +
-        #add_risktable_strata_symbol(symbol = "\U25CF", size = 18) +
+        theme(axis.text.x = element_text(hjust = 0)) +
         labs(x = "Follow-up time, years")
 
     })
@@ -1624,8 +1631,10 @@ server <- function(input, output, session){
         scale_ggsurvfit(x_scales=list(breaks=c(0.5, 0:3))) +  # Breaks at 6m and 1-3 years
         scale_color_manual(values = colors) +
         scale_fill_manual(values = colors) +
-        add_risktable(risktable_stats = "{n.risk} ({cum.censor})",
+        add_risktable(risktable_stats = "{n.risk} ({cum.event})",
+        #add_risktable(risktable_stats = "{n.risk} ({cum.censor})",
                       risktable_height = 0.4,
+                      hjust = 0,
                       size = 4, # increase font size of risk table statistics
                       theme =   # increase font size of risk table title and y-axis label
                         list(
@@ -1633,7 +1642,7 @@ server <- function(input, output, session){
                                                   plot.title.size = 11),
                           theme(plot.title = element_text(face = "bold"))
                         )) +
-        #add_risktable_strata_symbol(symbol = "\U25CF", size = 18) +
+        theme(axis.text.x = element_text(hjust = 0)) +
         labs(x = "Follow-up time, years")
 
     })
