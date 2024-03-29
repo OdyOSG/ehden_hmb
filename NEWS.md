@@ -1,3 +1,7 @@
+# EHDEN HMB v1.1.0
+
+* Reworked incidence analysis. Age groups' incidence is calclulated by the CohortIncidence package and not by stratified cohorts.
+
 # EHDEN HMB v1.0.2
 
 * Fixed cohort picker in shiny app
