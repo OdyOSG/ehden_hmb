@@ -457,6 +457,15 @@ body <- dashboardBody(
                          selected = yearInci[1],
                          options = shinyWidgets::pickerOptions(actionsBox = TRUE),
                          multiple = TRUE
+                       ),
+
+                       pickerInput(
+                         inputId = "ageInci",
+                         label = "Age Group",
+                         choices = ageInci,
+                         selected = "Total",
+                         options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+                         multiple = TRUE
                        )
                 )
               )
@@ -472,8 +481,11 @@ body <- dashboardBody(
           tabPanel("Yearly Trend",
 
                    fluidRow(
-                     column(width = 6,
-                            box(status = "success",
+                    box(
+                     status = "success",
+                     column(
+                            width = 6,
+                            #box(status = "success",
 
                               pickerInput(
                                 inputId = "databaseNameYrInci",
@@ -487,13 +499,30 @@ body <- dashboardBody(
                               pickerInput(
                                 inputId = "cohortNameYrInci",
                                 label = "Cohort Name",
-                                choices = cohortName,
-                                selected = cohortName,
+                                choices = cohortNameInciPlot,
+                                selected = cohortNameInciPlot,
                                 options = shinyWidgets::pickerOptions(actionsBox = TRUE),
                                 multiple = TRUE
                               )
-                            )
+                            #)
+                     ),
+
+                     column(
+                       width = 6,
+                       #box(status = "success",
+
+                           pickerInput(
+                             inputId = "ageGroupYrInci",
+                             label = "Age Group",
+                             choices = ageGroupInciPlot,
+                             selected = ageGroupInciPlot,
+                             options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+                             multiple = TRUE
+                           )
+
+                      #)
                      )
+                    )
                    ),
 
                    fluidRow(
@@ -1143,11 +1172,13 @@ server <- function(input, output, session){
     incTab %>%
       dplyr::filter(databaseId %in% input$databaseNameInci,
                     START_YEAR %in% input$yearInci,
+                    AGE_GROUP_NAME %in% input$ageInci,
                     OUTCOME_NAME %in% input$cohortNameInci) %>%
       reactable(
         columns = list(
           databaseId = colDef(name = "Database Name"),
           START_YEAR = colDef(name = "Year"),
+          AGE_GROUP_NAME = colDef(name = "Age Group"),
           OUTCOME_NAME = colDef(name = "Cohort Name"),
           PERSONS_AT_RISK = colDef(name = "Persons at Risk", format = colFormat(separators = TRUE)),
           PERSON_DAYS = colDef(name = "Person Days", format = colFormat(separators = TRUE)),
@@ -1170,9 +1201,9 @@ server <- function(input, output, session){
     incTab %>%
       dplyr::filter(
         START_YEAR != "All",
+        AGE_GROUP_NAME %in% input$ageGroupYrInci,
         databaseId %in% input$databaseNameYrInci,
         OUTCOME_NAME %in% input$cohortNameYrInci
-        #OUTCOME_NAME %in% snakecase::to_snake_case(input$cohortNameYrInci)
       )
   })
 

@@ -83,13 +83,15 @@ domainConceptChar <- sort(unique(conceptChar$domain))
 ## Incidence
 incTab <- readr::read_csv(fs::path(dataPath, "incidence.csv"),
                           show_col_types = FALSE) %>%
-  dplyr::select(-OUTCOME_COHORT_DEFINITION_ID)  %>%
+  dplyr::select(-c(OUTCOME_COHORT_DEFINITION_ID, AGE_ID)) %>%
   dplyr::mutate(PERSON_YEARS = as.integer(PERSON_DAYS/365.25), .before =6) %>%
   maskLowCountInci()
 
 ### Incidence Pickers
 yearInci <- c("All", as.character(2000:2022))
-
+ageInci <- unique(incTab$AGE_GROUP_NAME) %>% sort(decreasing = TRUE)
+cohortNameInciPlot <- "hmb"
+ageGroupInciPlot <- unique(incTab$AGE_GROUP_NAME) %>% sort(decreasing = TRUE)
 
 # 4. PostIndex Prevalence -----------------
 

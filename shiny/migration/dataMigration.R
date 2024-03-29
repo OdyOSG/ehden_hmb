@@ -580,12 +580,17 @@ fctOrder <- c("All", as.character(2000:2022))
 
 inic2 <- inic %>%
   dplyr::mutate(
+    AGE_ID = dplyr::if_else(is.na(AGE_ID), 0, AGE_ID, AGE_ID),
+    AGE_GROUP_NAME = dplyr::if_else(is.na(AGE_GROUP_NAME), "Total", AGE_GROUP_NAME, AGE_GROUP_NAME),
+    ) %>%
+  dplyr::filter(AGE_ID != 5) %>%
+  dplyr::mutate(
     START_YEAR = ifelse(is.na(START_YEAR), "All", as.character(START_YEAR)),
     START_YEAR = factor(START_YEAR, levels = fctOrder),
     INCIDENCE_RATE_P1000PY = INCIDENCE_RATE_P100PY * 10
   ) %>%
   dplyr::select(databaseId,
-                START_YEAR,
+                START_YEAR, AGE_ID, AGE_GROUP_NAME,
                 OUTCOME_COHORT_DEFINITION_ID, OUTCOME_NAME,
                 PERSONS_AT_RISK, PERSON_DAYS, OUTCOMES,
                 INCIDENCE_PROPORTION_P100P,

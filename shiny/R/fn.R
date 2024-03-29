@@ -76,17 +76,20 @@ plotYearlyIncidence <- function(dat) {
   plot_colors <- unname(grafify::graf_palettes$kelly)
 
   p <- dat %>%
+    dplyr::rename(`Age Group` = AGE_GROUP_NAME) %>%
     dplyr::mutate(
       grp = paste(databaseId, OUTCOME_NAME, sep = "_"),
       START_YEAR = lubridate::ymd(START_YEAR, truncated = 2L),
       `Cohort Name` = OUTCOME_NAME
     ) %>%
-    ggplot(aes(x = START_YEAR, y = INCIDENCE_RATE_P1000PY, color = `Cohort Name`)) +
+    #ggplot(aes(x = START_YEAR, y = INCIDENCE_RATE_P1000PY, color = `Cohort Name`)) +
+    ggplot(aes(x = START_YEAR, y = INCIDENCE_RATE_P1000PY, color = `Age Group`)) +
     geom_point() +
     geom_line(aes(group = grp)) +
     scale_x_date(name = "Year", date_labels = "%Y") +
     scale_color_manual(values = plot_colors) + #scale colors to kelly
-    facet_grid(rows = vars(databaseId), cols = vars(`Cohort Name`)) +
+    facet_grid(rows = vars(databaseId), cols = vars(`Age Group`)) +
+    #facet_wrap(vars(databaseId)) +
     labs(
       y = "Incidence Rate (per 1000 person-years)"
     ) +
