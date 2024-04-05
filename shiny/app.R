@@ -486,7 +486,6 @@ body <- dashboardBody(
                      column(
                             width = 6,
                             #box(status = "success",
-
                               pickerInput(
                                 inputId = "databaseNameYrInci",
                                 label = "Database Name",
@@ -510,7 +509,6 @@ body <- dashboardBody(
                      column(
                        width = 6,
                        #box(status = "success",
-
                            pickerInput(
                              inputId = "ageGroupYrInci",
                              label = "Age Group",
@@ -519,7 +517,6 @@ body <- dashboardBody(
                              options = shinyWidgets::pickerOptions(actionsBox = TRUE),
                              multiple = TRUE
                            )
-
                       #)
                      )
                     )
@@ -771,17 +768,18 @@ body <- dashboardBody(
                        pickerInput(
                          inputId = "strataTtd",
                          label = "Drugs",
-                         choices = c("Single", "All")
+                         choices = ttdLine
                        )
                       )
                      )
                    ),
                    fluidRow(
-                     column(width = 12,
+                     column(width = 12, align = "center",
                        box(
-                        width = NULL,
-                        plotOutput(height = "1000px",
-                                   "ttdKmPlot")
+                        width = 12,
+                        plotOutput(height = "750px",
+                                   width = "auto",
+                                   "ttd_km_without")
                       )
                      ),
 
@@ -820,18 +818,18 @@ body <- dashboardBody(
                               pickerInput(
                                 inputId = "strataTtd2",
                                 label = "Drugs",
-                                choices = c("Single", "All")
+                                choices = ttdLine
                               )
                        )
                      )
                    ),
                    fluidRow(
-                     column(width = 12,
+                     column(width = 12, align = "center",
                             box(
-                              width = NULL,
-                              #height = "1000px",
-                              plotOutput(height = "1000px",
-                                         "ttdKmPlot2")
+                              width = 12,
+                              plotOutput(height = "750px",
+                                         width = "auto",
+                                         "ttd_km_with")
                             )
                      ),
 
@@ -944,13 +942,15 @@ body <- dashboardBody(
                     ),
                    ),
                    fluidRow(
-                     column(width = 12,
+                     column(width = 12, align = "center",
                             box(
-                             width = NULL,
-                             plotOutput(height = "1000px",
-                                          "ttiKmPlot")
+                             width = 12,
+                                    #shiny::imageOutput("tte_km")
+                             plotOutput(height = "750px",
+                                        width = "auto",
+                                        "tti_km")
 
-                     )
+                    )
                    )
                   ),
                   fluidRow(
@@ -1370,15 +1370,47 @@ server <- function(input, output, session){
   )
 
 
-  ## Time To discontinuation
-  # convert cohort name to an id
+  ### Time To Discontinuation (TTD)
+
+  ## Pickers
+
+  # Cohort name
   ttdPick <- reactive({
     tteCohorts %>%
       dplyr::filter(name == input$cohortNameTtd) %>%
       dplyr::pull(name)
   })
 
-  # subset to those with strata (without)
+  # Cohort ID (with)
+  ttdPickIdWith <- reactive({
+    tteCohorts %>%
+      dplyr::filter(name == input$cohortNameTtd2) %>%
+      dplyr::pull(id)
+  })
+
+  # Cohort ID (without)
+  ttdPickIdWithout <- reactive({
+    tteCohorts %>%
+      dplyr::filter(name == input$cohortNameTtd) %>%
+      dplyr::pull(id)
+  })
+
+
+  # Drug Line (with)
+  ttdPickLineWith <- reactive ({
+
+    tolower(ttdLine[ttdLine %in% c(input$strataTtd2)])
+
+  })
+
+  # Drug Line (without)
+  ttdPickLineWithout <- reactive ({
+
+    tolower(ttdLine[ttdLine %in% c(input$strataTtd)])
+
+  })
+
+  # Survprob table subset (without)
   ttdSubset <- reactive({
 
     dt1 <- ttd %>%
@@ -1398,7 +1430,7 @@ server <- function(input, output, session){
 
   })
 
-  # subset to those with strata (with)
+  # Survprob table subset (with)
   ttdSubset2 <- reactive({
 
     dt1 <- ttd2 %>%
@@ -1419,114 +1451,159 @@ server <- function(input, output, session){
   })
 
 
-  ## Find rds file (without)
-  ttdKMRds <- reactive ({
+  ### KM Plot (With)
+  ttdKMPlotWith <- reactive ({
 
-    if (input$cohortNameTtd == "hmb") {
-      lineKM <- "1"
-    } else if (input$cohortNameTtd == "hmb age_lt_30"){
-      lineKM <- "1001"
-    } else if (input$cohortNameTtd == "hmb age_30_45") {
-      lineKM <- "1002"
-    } else if (input$cohortNameTtd == "hmb age_45_55") {
-      lineKM <- "1003"
-    }
+    ttd_km <- glue::glue('shiny/data/plots/ttd/with/ttd_{ttdPickLineWith()}_{input$databaseNameTtd2}_{ttdPickIdWith()}.png')
 
-    ttd_km_name <- here::here(glue::glue('shiny/data/ttd/wo/tte_{input$databaseNameTtd}_{lineKM}.rds'))
-
-    ttd_km <- readr::read_rds(ttd_km_name)
-
-    ttd_km_final <- ttd_km[[glue::glue("{input$strataTtd}")]]
-
-    return(ttd_km_final)
-  })
-
-
-  output$ttdKmPlot <- renderPlot(
-    res = 80,
-    {
-
-    tte <- ttdKMRds()
-
-    ## Number of colors for lines
-    colors <- colorspace::rainbow_hcl(unique(length(tte$strata)))
-
-    tte |>
-      ggsurvfit(size = 1) +
-      scale_ggsurvfit(x_scales=list(breaks=c(0.5, 0:3))) +  # Breaks at 6m and 1-3 years
-      scale_color_manual(values = colors) +
-      scale_fill_manual(values = colors) +
-      add_risktable(risktable_stats = "{n.risk} ({cum.event})",
-      #add_risktable(risktable_stats = "{n.risk} ({cum.censor})",
-                    risktable_height = 0.4,
-                    hjust = 0,
-                    size = 4, # increase font size of risk table statistics
-                    theme =   # increase font size of risk table title and y-axis label
-                      list(
-                        theme_risktable_default(axis.text.y.size = 11,
-                                                plot.title.size = 11),
-                        theme(plot.title = element_text(face = "bold"))
-                      )) +
-      theme(axis.text.x = element_text(hjust = 0)) +
-      labs(x = "Follow-up time, years")
+    return(ttd_km)
 
   })
 
-  ## Find rds file (with)
-  ttdKMRds2 <- reactive ({
+  output$ttd_km_with <- shiny::renderImage({
 
-    if (input$cohortNameTtd2 == "hmb") {
-      lineKM <- "1"
-    } else if (input$cohortNameTtd2 == "hmb age_lt_30"){
-      lineKM <- "1001"
-    } else if (input$cohortNameTtd2 == "hmb age_30_45") {
-      lineKM <- "1002"
-    } else if (input$cohortNameTtd2 == "hmb age_45_55") {
-      lineKM <- "1003"
-    }
+    filename <- normalizePath(file.path(here::here({ttdKMPlotWith()})))
 
-    ttd_km_name <- here::here(glue::glue('shiny/data/ttd/with/tte_{input$databaseNameTtd2}_{lineKM}.rds'))
+    list(src = filename, width = "85%", height = "750px")
 
-    ttd_km <- readr::read_rds(ttd_km_name)
+    }, deleteFile = FALSE
+  )
 
-    ttd_km_final <- ttd_km[[glue::glue("{input$strataTtd2}")]]
+  ### KM Plot (Without)
+  ttdKMPlotWithout <- reactive ({
 
-    return(ttd_km_final)
+    ttd_km <- glue::glue('shiny/data/plots/ttd/wo/ttd_{ttdPickLineWithout()}_{input$databaseNameTtd}_{ttdPickIdWithout()}.png')
+
+    return(ttd_km)
+
   })
 
+  output$ttd_km_without <- shiny::renderImage({
 
-  output$ttdKmPlot2 <- renderPlot(
-    res = 80,
-    {
+    filename <- normalizePath(file.path(here::here({ttdKMPlotWithout()})))
 
-      tte <- ttdKMRds2()
+    list(src = filename, width = "85%", height = "750px")
 
-      ## Number of colors for lines
-      colors <- colorspace::rainbow_hcl(unique(length(tte$strata)))
-
-      tte |>
-        ggsurvfit(size = 1) +
-        scale_ggsurvfit(x_scales=list(breaks=c(0.5, 0:3))) +  # Breaks at 6m and 1-3 years
-        scale_color_manual(values = colors) +
-        scale_fill_manual(values = colors) +
-        add_risktable(risktable_stats = "{n.risk} ({cum.event})",
-        #add_risktable(risktable_stats = "{n.risk} ({cum.censor})",
-                      risktable_height = 0.4,
-                      hjust = 0,
-                      size = 4, # increase font size of risk table statistics
-                      theme =   # increase font size of risk table title and y-axis label
-                        list(
-                          theme_risktable_default(axis.text.y.size = 11,
-                                                  plot.title.size = 11),
-                          theme(plot.title = element_text(face = "bold"))
-                        )) +
-        theme(axis.text.x = element_text(hjust = 0)) +
-        labs(x = "Follow-up time, years")
-
-    })
+    }, deleteFile = FALSE
+  )
 
 
-  ## get survProb table (without)
+
+  ## Observer
+  # observe({print(ttdKMPlotWith())})
+  # observe({print(ttdPickLine())})
+  # observe({print(ttdPickId())})
+  # observe({print(ttiKMPlot())})
+
+
+  # ## Find rds file (Without)
+  # ttdKMRds <- reactive ({
+  #
+  #   if (input$cohortNameTtd == "hmb") {
+  #     lineKM <- "1"
+  #   } else if (input$cohortNameTtd == "hmb age_lt_30"){
+  #     lineKM <- "1001"
+  #   } else if (input$cohortNameTtd == "hmb age_30_45") {
+  #     lineKM <- "1002"
+  #   } else if (input$cohortNameTtd == "hmb age_45_55") {
+  #     lineKM <- "1003"
+  #   }
+  #
+  #   ttd_km_name <- here::here(glue::glue('shiny/data/ttd/wo/tte_{input$databaseNameTtd}_{lineKM}.rds'))
+  #
+  #   ttd_km <- readr::read_rds(ttd_km_name)
+  #
+  #   ttd_km_final <- ttd_km[[glue::glue("{input$strataTtd}")]]
+  #
+  #   return(ttd_km_final)
+  # })
+  #
+  #
+  # output$ttdKmPlot <- renderPlot(
+  #   res = 80,
+  #   {
+  #
+  #   tte <- ttdKMRds()
+  #
+  #   ## Number of colors for lines
+  #   colors <- colorspace::rainbow_hcl(unique(length(tte$strata)))
+  #
+  #   tte |>
+  #     ggsurvfit(size = 1) +
+  #     scale_ggsurvfit(x_scales=list(breaks=c(0.5, 0:3))) +  # Breaks at 6m and 1-3 years
+  #     scale_color_manual(values = colors) +
+  #     scale_fill_manual(values = colors) +
+  #     add_risktable(risktable_stats = "{n.risk} ({cum.event})",
+  #     #add_risktable(risktable_stats = "{n.risk} ({cum.censor})",
+  #                   risktable_height = 0.4,
+  #                   hjust = 0,
+  #                   size = 4, # increase font size of risk table statistics
+  #                   theme =   # increase font size of risk table title and y-axis label
+  #                     list(
+  #                       theme_risktable_default(axis.text.y.size = 11,
+  #                                               plot.title.size = 11),
+  #                       theme(plot.title = element_text(face = "bold"))
+  #                     )) +
+  #     theme(axis.text.x = element_text(hjust = 0)) +
+  #     labs(x = "Follow-up time, years")
+  #
+  # })
+  #
+  # ## Find rds file (With)
+  # ttdKMRds2 <- reactive ({
+  #
+  #   if (input$cohortNameTtd2 == "hmb") {
+  #     lineKM <- "1"
+  #   } else if (input$cohortNameTtd2 == "hmb age_lt_30"){
+  #     lineKM <- "1001"
+  #   } else if (input$cohortNameTtd2 == "hmb age_30_45") {
+  #     lineKM <- "1002"
+  #   } else if (input$cohortNameTtd2 == "hmb age_45_55") {
+  #     lineKM <- "1003"
+  #   }
+  #
+  #   ttd_km_name <- here::here(glue::glue('shiny/data/ttd/with/tte_{input$databaseNameTtd2}_{lineKM}.rds'))
+  #
+  #   ttd_km <- readr::read_rds(ttd_km_name)
+  #
+  #   ttd_km_final <- ttd_km[[glue::glue("{input$strataTtd2}")]]
+  #
+  #   return(ttd_km_final)
+  # })
+  #
+  #
+  # output$ttdKmPlot2 <- renderPlot(
+  #   res = 80,
+  #   {
+  #
+  #     tte <- ttdKMRds2()
+  #
+  #     ## Number of colors for lines
+  #     colors <- colorspace::rainbow_hcl(unique(length(tte$strata)))
+  #
+  #     tte |>
+  #       ggsurvfit(size = 1) +
+  #       scale_ggsurvfit(x_scales=list(breaks=c(0.5, 0:3))) +  # Breaks at 6m and 1-3 years
+  #       scale_color_manual(values = colors) +
+  #       scale_fill_manual(values = colors) +
+  #       add_risktable(risktable_stats = "{n.risk} ({cum.event})",
+  #       #add_risktable(risktable_stats = "{n.risk} ({cum.censor})",
+  #                     risktable_height = 0.4,
+  #                     hjust = 0,
+  #                     size = 4, # increase font size of risk table statistics
+  #                     theme =   # increase font size of risk table title and y-axis label
+  #                       list(
+  #                         theme_risktable_default(axis.text.y.size = 11,
+  #                                                 plot.title.size = 11),
+  #                         theme(plot.title = element_text(face = "bold"))
+  #                       )) +
+  #       theme(axis.text.x = element_text(hjust = 0)) +
+  #       labs(x = "Follow-up time, years")
+  #
+  #   })
+
+
+  ### SurvProb table (Without)
   output$ttdSurvTab <- renderReactable(
     makeSurvProbTab(ttdSubset()) %>%
       reactable(
@@ -1547,7 +1624,7 @@ server <- function(input, output, session){
       )
   )
 
-  ## get survProb table (with)
+  ### SurvProb table (With)
   output$ttdSurvTab2 <- renderReactable(
     makeSurvProbTab(ttdSubset2()) %>%
       reactable(
@@ -1607,16 +1684,25 @@ server <- function(input, output, session){
   )
 
 
-  ## Procedure Time To intervention
+  ### Time To Intervention (TTI)
 
-  # convert cohort name to an id
+  ## Pickers
+
+  # Cohort Name
   ttiPick <- reactive({
     tteCohorts %>%
       dplyr::filter(name == input$cohortNameTti) %>%
       dplyr::pull(name)
   })
 
-  # subset to those with strata
+  # Cohort ID
+  ttiPickId <- reactive({
+    tteCohorts %>%
+      dplyr::filter(name == input$cohortNameTti) %>%
+      dplyr::pull(id)
+  })
+
+  # Survprob table subset (Database, Cohort)
   ttiSubset <- reactive({
 
     tti %>%
@@ -1627,60 +1713,79 @@ server <- function(input, output, session){
   })
 
 
-  ## Find rds file
-  ttiKMRds <- reactive ({
+  # ## Find rds file
+  # ttiKMRds <- reactive ({
+  #
+  #   if (input$cohortNameTti == "hmb") {
+  #     lineKM <- "1"
+  #   } else if (input$cohortNameTti == "hmb age_lt_30"){
+  #     lineKM <- "1001"
+  #   } else if (input$cohortNameTti == "hmb age_30_45") {
+  #     lineKM <- "1002"
+  #   } else if (input$cohortNameTti == "hmb age_45_55") {
+  #     lineKM <- "1003"
+  #   }
+  #
+  #   ttd_km_name <- here::here(glue::glue('shiny/data/tti/tti_{input$databaseNameTti}_{lineKM}.rds'))
+  #
+  #   ttd_km <- readr::read_rds(ttd_km_name)
+  #
+  #   return(ttd_km)
+  # })
+  #
+  #
+  # output$ttiKmPlot <- renderPlot(
+  #   res = 80,
+  #   {
+  #
+  #     tti <- ttiKMRds()
+  #
+  #     ## Number of colors for lines
+  #     colors <- colorspace::rainbow_hcl(unique(length(tti$strata)))
+  #
+  #     tti |>
+  #       ggsurvfit(size = 1) +
+  #       scale_ggsurvfit(x_scales=list(breaks=c(0.5, 0:3))) +  # Breaks at 6m and 1-3 years
+  #       scale_color_manual(values = colors) +
+  #       scale_fill_manual(values = colors) +
+  #       add_risktable(risktable_stats = "{n.risk} ({cum.event})",
+  #       #add_risktable(risktable_stats = "{n.risk} ({cum.censor})",
+  #                     risktable_height = 0.4,
+  #                     hjust = 0,
+  #                     size = 4, # increase font size of risk table statistics
+  #                     theme =   # increase font size of risk table title and y-axis label
+  #                       list(
+  #                         theme_risktable_default(axis.text.y.size = 11,
+  #                                                 plot.title.size = 11),
+  #                         theme(plot.title = element_text(face = "bold"))
+  #                       )) +
+  #       theme(axis.text.x = element_text(hjust = 0)) +
+  #       labs(x = "Follow-up time, years")
+  #
+  #   })
 
-    if (input$cohortNameTti == "hmb") {
-      lineKM <- "1"
-    } else if (input$cohortNameTti == "hmb age_lt_30"){
-      lineKM <- "1001"
-    } else if (input$cohortNameTti == "hmb age_30_45") {
-      lineKM <- "1002"
-    } else if (input$cohortNameTti == "hmb age_45_55") {
-      lineKM <- "1003"
-    }
 
-    ttd_km_name <- here::here(glue::glue('shiny/data/tti/tti_{input$databaseNameTti}_{lineKM}.rds'))
+  ### KM Plot
+  ttiKMPlot <- reactive ({
 
-    ttd_km <- readr::read_rds(ttd_km_name)
+    tti_km <- glue::glue('shiny/data/plots/tti/tti_{input$databaseNameTti}_{ttiPickId()}.png')
 
-    return(ttd_km)
+    return(tti_km)
+
   })
 
+  output$tti_km <- shiny::renderImage({
 
-  output$ttiKmPlot <- renderPlot(
-    res = 80,
-    {
+    filename <- normalizePath(file.path(here::here({ttiKMPlot()})))
 
-      tti <- ttiKMRds()
+    list(src = filename, width = "85%", height = "750px")
 
-      ## Number of colors for lines
-      colors <- colorspace::rainbow_hcl(unique(length(tti$strata)))
+    }, deleteFile = FALSE
 
-      tti |>
-        ggsurvfit(size = 1) +
-        scale_ggsurvfit(x_scales=list(breaks=c(0.5, 0:3))) +  # Breaks at 6m and 1-3 years
-        scale_color_manual(values = colors) +
-        scale_fill_manual(values = colors) +
-        add_risktable(risktable_stats = "{n.risk} ({cum.event})",
-        #add_risktable(risktable_stats = "{n.risk} ({cum.censor})",
-                      risktable_height = 0.4,
-                      hjust = 0,
-                      size = 4, # increase font size of risk table statistics
-                      theme =   # increase font size of risk table title and y-axis label
-                        list(
-                          theme_risktable_default(axis.text.y.size = 11,
-                                                  plot.title.size = 11),
-                          theme(plot.title = element_text(face = "bold"))
-                        )) +
-        theme(axis.text.x = element_text(hjust = 0)) +
-        labs(x = "Follow-up time, years")
-
-    })
+  )
 
 
-
-  ## get survProb table
+  ### SurvProb table
   output$ttiSurvTab <- renderReactable(
     makeSurvProbTab2(ttiSubset()) %>%
       reactable(

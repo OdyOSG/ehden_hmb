@@ -1,3 +1,7 @@
+# EHDEN HMB v1.1.1
+
+* Adjusted height and width parameters for KM plots pictures in the shiny app
+
 # EHDEN HMB v1.1.0
 
 * Reworked incidence analysis. Age groups' incidence is calclulated by the CohortIncidence package and not by stratified cohorts.
