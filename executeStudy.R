@@ -13,7 +13,7 @@ source(here::here("analysis/private/_executeStudy.R"))
 # C. Variables -----------------------
 
 ### Edit to respective config block
-configBlock <- "optum"
+configBlock <- "[block]"
 
 ### Provide path to tasks
 studyTaskFolder <- here::here("analysis/studyTasks")
