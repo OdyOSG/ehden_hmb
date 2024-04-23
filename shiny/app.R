@@ -431,8 +431,8 @@ body <- dashboardBody(
                        pickerInput(
                          inputId = "databaseNameInci",
                          label = "Database Name",
-                         choices = databaseName,
-                         selected = databaseName,
+                         choices = databaseInci,
+                         selected = databaseInci,
                          options = shinyWidgets::pickerOptions(actionsBox = TRUE),
                          multiple = TRUE
                        ),
@@ -1166,6 +1166,7 @@ server <- function(input, output, session){
     incidenceDescription
   })
 
+  #observe({print(input$databaseNameInci)})
 
   ## Incidence
   output$inciTab <- renderReactable(

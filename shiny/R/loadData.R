@@ -28,6 +28,7 @@ strataCounts <- readr::read_csv(fs::path(dataPath, "strataCounts.csv"),
 
 ### Global Pickers ---------------------------
 databaseName <- unique(cohortCounts$Database)
+#databaseNameInci <- c(databaseName, "mrktscan2")
 cohortName <- c("hmb", "hmb age_lt_30", "hmb age_30_45", "hmb age_45_55")
 
 
@@ -92,6 +93,7 @@ yearInci <- c("All", as.character(2000:2022))
 ageInci <- unique(incTab$AGE_GROUP_NAME) %>% sort(decreasing = TRUE)
 cohortNameInciPlot <- "hmb"
 ageGroupInciPlot <- unique(incTab$AGE_GROUP_NAME) %>% sort(decreasing = TRUE)
+databaseInci <- unique(incTab$databaseId)
 
 # 4. PostIndex Prevalence -----------------
 
