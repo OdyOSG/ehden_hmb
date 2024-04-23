@@ -9,7 +9,8 @@
 defineIncidenceAnalysis <- function(cohortId,
                                     cohortName,
                                     denomCohorts,
-                                    irSettings) {
+                                    irSettings,
+                                    windowYear) {
 
   targets <- purrr::pmap(
     denomCohorts,
@@ -18,13 +19,13 @@ defineIncidenceAnalysis <- function(cohortId,
       name = ..1
     )
   )
+
   o1 <- CohortIncidence::createOutcomeDef(
     id = cohortId,
     name = cohortName,
     cohortId = cohortId,
     cleanWindow = irSettings$cleanWindow
   )
-
 
   timeMap <- tibble::tibble(
     id = seq_along(irSettings$startOffset),
@@ -43,12 +44,11 @@ defineIncidenceAnalysis <- function(cohortId,
     )
   )
 
-  # make all permutations of denominotor pop and tar
+  # Create all permutations of denominator pop and tar
   analysisMap <- tidyr::expand_grid(
-    't' = purrr::map_int(targets, ~.x$id), # this needs to be the cohort Id of the denom cohort to be used
+    't' = purrr::map_int(targets, ~.x$id),  # this needs to be the cohort Id of the denom cohort to be used
     'tar' = seq_along(tars)
   )
-
 
   analysisList <- purrr::pmap(
     analysisMap,
@@ -59,15 +59,21 @@ defineIncidenceAnalysis <- function(cohortId,
     )
   )
 
-  #strataSettings <- CohortIncidence::createStrataSettings(byYear = TRUE)
-  strataSettings <- CohortIncidence::createStrataSettings(byYear = TRUE, byAge = TRUE, ageBreaks = c(0,30,45,56))
+
+  #strataSettings <- CohortIncidence::createStrataSettings(byYear = TRUE, byAge = TRUE, ageBreaks = c(0,30,45,56))
+  strataSettings <- CohortIncidence::createStrataSettings(byYear = TRUE, byAge = FALSE)
+
+  studyWindowStart <- paste(windowYear, "01", "01", sep = "-")
+  studyWindowEnd   <- paste(windowYear, "12", "31", sep = "-")
+  studyWindow      <- CohortIncidence::createDateRange(studyWindowStart, studyWindowEnd)
 
   irDesign <- CohortIncidence::createIncidenceDesign(
     targetDefs = targets,
     outcomeDefs = list(o1),
     tars = tars,
     analysisList = analysisList,
-    strataSettings = strataSettings
+    strataSettings = strataSettings,
+    studyWindow = studyWindow
   )
 
   return(irDesign)
@@ -80,7 +86,8 @@ generateIncidenceAnalysis <- function(con,
                                       cohortName,
                                       denomCohorts,
                                       irSettings,
-                                      refId) {
+                                      refId,
+                                      windowYear) {
 
   ## get schema vars
   cdmDatabaseSchema <- executionSettings$cdmDatabaseSchema
@@ -100,7 +107,8 @@ generateIncidenceAnalysis <- function(con,
   irDesign <- defineIncidenceAnalysis(cohortId = cohortId,
                                       cohortName = cohortName,
                                       denomCohorts = denomCohorts,
-                                      irSettings = irSettings)
+                                      irSettings = irSettings,
+                                      windowYear = windowYear)
 
 
   buildOptions <- CohortIncidence::buildOptions(
@@ -111,6 +119,13 @@ generateIncidenceAnalysis <- function(con,
     vocabularySchema = cdmDatabaseSchema,
     useTempTables = FALSE,
     refId = refId)
+
+  ## IR SQL code
+  analysisSql <- CohortIncidence::buildQuery(incidenceDesign = as.character(irDesign$asJSON()),
+                                             buildOptions = buildOptions)
+
+  analysisSql <- SqlRender::translate(analysisSql, targetDialect = "snowflake")
+  #cat(analysisSql)
 
   cli::cat_line()
   cli::cat_bullet("Executing Incidence Analysis Id: ", crayon::green(refId),
@@ -135,7 +150,7 @@ generateIncidenceAnalysis <- function(con,
 
   verboseSave(
     object = executeResults,
-    saveName = paste("incidence_analysis_ref", refId, sep = "_"),
+    saveName = paste("incidence_analysis_ref", refId, windowYear, sep = "_"),
     saveLocation = outputFolder
   )
 
@@ -157,18 +172,24 @@ executeIncidenceAnalysis <- function(con,
   cli::cat_line()
 
   tik <- Sys.time()
-  for (i in seq_along(targetCohortId)) {
 
-    generateIncidenceAnalysis(
-      con = con,
-      executionSettings = executionSettings,
-      cohortId = targetCohortId[i],
-      cohortName = targetCohortName[i],
-      denomCohorts = denomCohorts[i,],
-      irSettings = irSettings,
-      refId = i
-    )
+  for (i in seq_along(targetCohortId)) {
+    for (j in seq_along(irSettings$studyWindow)) {
+
+      generateIncidenceAnalysis(
+        con = con,
+        executionSettings = executionSettings,
+        cohortId = targetCohortId[i],
+        cohortName = targetCohortName[i],
+        denomCohorts = denomCohorts[i,],
+        irSettings = irSettings,
+        refId = i,
+        windowYear = irSettings$studyWindow[[j]]$id
+      )
+
+    }
   }
+
   tok <- Sys.time()
   cli::cat_bullet("Execution Completed at: ", crayon::red(tok),
                   bullet = "info", bullet_col = "blue")

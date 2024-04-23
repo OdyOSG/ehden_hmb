@@ -12,4 +12,13 @@ incidenceAnalysis:
     startOffset: 0
     endsWith: end
     endOffset: 0
+    studyWindow:
+    - name: window0
+      id: 2019
+    - name: window1
+      id: 2020
+    - name: window2
+      id: 2021
+    - name: window3
+      id: 2022
   outputFolder: 04_incidenceAnalysis
