@@ -3,8 +3,6 @@ strata:
     targetCohort:
     - name: hmb
       id: 1
-    - name: incidenceDenominator
-      id: 2
   demographics:
   - strataId: 1
     strataName: age_lt_30

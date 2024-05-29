@@ -14,6 +14,7 @@ verboseSave <- function(object, saveName, saveLocation) {
 
   savePath <- fs::path(saveLocation, saveName, ext = "csv")
   readr::write_csv(object, file = savePath)
+
   cli::cat_line()
   cli::cat_bullet("Saved file ", crayon::green(basename(savePath)), " to:",
                   bullet = "info", bullet_col = "blue")

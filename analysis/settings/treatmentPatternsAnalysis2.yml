@@ -30,6 +30,14 @@ treatmentPatterns:
       id: 36
     - name: ulipristalAcetate
       id: 37
+    - name: endometrialAblation
+      id: 40
+    - name: hysterectomy
+      id: 42
+    - name: myomectomy
+      id: 43
+    - name: uae
+      id: 44
   treatmentHistorySettings:
     minEraDuration: 0
     eraCollapseSize: 30

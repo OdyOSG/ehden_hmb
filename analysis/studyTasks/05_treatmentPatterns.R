@@ -49,7 +49,7 @@ analysisSettings3 <- readSettingsFile(here::here("analysis/settings/treatmentPat
 
 # E. Script --------------------
 
-#startSnowflakeSession(con = con, executionSettings = executionSettings)
+startSnowflakeSession(con = con, executionSettings = executionSettings)
 
 ## Post index prevalence
 executePostIndexDrugUtilization(con = con,
@@ -57,8 +57,8 @@ executePostIndexDrugUtilization(con = con,
                                 analysisSettings = analysisSettings1)
 
 ### Without NSAIDS --------------------
-## Treatment history
 
+## Treatment history
 runTreatmentHistory(con = con,
                     executionSettings = executionSettings,
                     analysisSettings = analysisSettings2)
@@ -74,8 +74,9 @@ executeTimeToEvent(con = con,
                    analysisSettings = analysisSettings2)
 
 
-## With NSAIDS (Sensitivity analysis) --------------------
-# Treatment history
+### With NSAIDS (Sensitivity analysis) --------------------
+
+## Treatment history
 runTreatmentHistory(con = con,
                     executionSettings = executionSettings,
                     analysisSettings = analysisSettings3)
