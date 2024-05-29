@@ -29,7 +29,7 @@ runStudyTask(file = studyTaskFiles[1], configBlock = configBlock)
 runStudyTask(file = studyTaskFiles[2], configBlock = configBlock)
 
 ### Task 3: Run Incidence Analysis
-runStudyTask(file = studyTaskFiles[3], configBlock = configBlock)
+#runStudyTask(file = studyTaskFiles[3], configBlock = configBlock)
 
 ### Task 4: Run Baseline Characteristics
 runStudyTask(file = studyTaskFiles[4], configBlock = configBlock)
