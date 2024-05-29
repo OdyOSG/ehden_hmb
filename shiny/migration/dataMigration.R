@@ -3,8 +3,8 @@
 library(tidyverse)
 library(dplyr)
 library(readr)
-
 source("shiny/migration/helpers.R")
+`%notin%` <- Negate("%in%")
 
 
 appDataPath <- here::here("shiny", "data") # Path to place app data
@@ -99,7 +99,6 @@ allCohorts <- dplyr::bind_rows(
 
 
 ## 3. Baseline Demographics ----------------
-`%notin%` <- Negate("%in%")
 
 demo <- bindCsv(allPaths = allPaths,
                 task = listOfTasks[5], # baseline char
@@ -516,6 +515,8 @@ piPrevFilesProc <- c("procedure_prevalence_1.csv",
 
 piPrevProcCohorts <- c(1L, 1001L, 1002L, 1003L)
 
+#debug(bindCsv)
+
 piPrevProc <- purrr::map2_dfr(piPrevFilesProc,          # files to use
                               piPrevProcCohorts,        # cohorts
                               ~bindCsv(                 # bind csv
@@ -531,19 +532,18 @@ piPrevProc <- purrr::map2_dfr(piPrevFilesProc,          # files to use
       cohortId == 1 ~ "hmb",
       cohortId == 1001L ~ "hmb_age_lt_30",
       cohortId == 1002L ~ "hmb_age_30_45",
-      cohortId == 1003L ~ "hmb_age_45_55"
     ),
     covariateId = cohortDefinitionId,
-    covariateName = dplyr::case_when(
-      covariateId == 36 ~ "bloodTransfusion",
-      covariateId == 37 ~ "copperIUDprocedure",
-      covariateId == 38 ~ "endometrialAblation",
-      covariateId == 39 ~ "hormonalIUD",
-      covariateId == 40 ~ "hysterectomy",
-      covariateId == 41 ~ "myomectomy",
-      covariateId == 42 ~ "uae",
-      covariateId == 43 ~ "undefinedIUD"
-    ),
+    # covariateName = dplyr::case_when(
+    #   covariateId == 36 ~ "bloodTransfusion",
+    #   covariateId == 37 ~ "copperIUDprocedure",
+    #   covariateId == 38 ~ "endometrialAblation",
+    #   covariateId == 39 ~ "hormonalIUD",
+    #   covariateId == 40 ~ "hysterectomy",
+    #   covariateId == 41 ~ "myomectomy",
+    #   covariateId == 42 ~ "uae",
+    #   covariateId == 43 ~ "undefinedIUD"
+    # ),
     count = numEvents,
     timeWindow = dplyr::case_when(
       window == "All" ~ "1d - 9999d",
@@ -555,6 +555,9 @@ piPrevProc <- purrr::map2_dfr(piPrevFilesProc,          # files to use
     ),
     type = "procedures"
   ) %>%
+  dplyr::left_join(allCohorts, by = c("covariateId" ="id"), relationship = "many-to-many") %>%
+  dplyr::rename(cohortName = cohortName.x,
+                covariateName = cohortName.y) %>%
   dplyr::select(databaseId, cohortId, cohortName, covariateId, covariateName,
                 count, pct, timeWindow, type, cat)
 

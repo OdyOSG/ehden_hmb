@@ -346,8 +346,8 @@ body <- dashboardBody(
                               pickerInput(
                                 inputId = "domainCohortCov",
                                 label = "Domain",
-                                choices = domainConceptChar[1:2],
-                                selected = domainConceptChar[1:2],
+                                choices = domainCohortChar,
+                                selected = domainCohortChar,
                                 options = shinyWidgets::pickerOptions(actionsBox = TRUE),
                                 multiple = TRUE
                               )
@@ -1091,7 +1091,6 @@ server <- function(input, output, session){
         columns = list(
           databaseId = colDef(name = "Database Name"),
           domain = colDef(name = "Domain"),
-          #timeWindow = colDef(name = "Time Window"),
           cohortName = colDef(name = "Cohort Name"),
           conceptId = colDef(name = "Concept Id"),
           name = colDef(name = "Concept Name"),
@@ -1117,7 +1116,6 @@ server <- function(input, output, session){
       reactable(
         columns = list(
           databaseId = colDef(name = "Database Name"),
-          #timeWindow = colDef(name = "Time Window"),
           cohortName = colDef(name = "Cohort Name"),
           domain = colDef(name = "Domain"),
           covariateName = colDef(name = "Covariate Name"),
@@ -1142,7 +1140,6 @@ server <- function(input, output, session){
       reactable(
         columns = list(
           databaseId = colDef(name = "Database Name"),
-          #timeWindow = colDef(name = "Time Window"),
           cohortName = colDef(name = "Cohort Name"),
           CATEGORY_CODE = colDef(name = "Concept Id"),
           categoryName = colDef(name = "Concept Name"),

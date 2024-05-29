@@ -57,15 +57,25 @@ conceptChar <- readr::read_csv(fs::path(dataPath, "baselineConcepts.csv"),
 ## Cohort baseline
 cohortChar <- readr::read_csv(fs::path(dataPath, "baselineCohorts.csv"),
                               show_col_types = FALSE) %>%
+  dplyr::rename(covariateName2 = covariateName) %>%
   dplyr::mutate(
     domain = dplyr::case_when(
-      covariateName %in% c("antidepressants", "antipsychotics", "antithrombotics",
-                           "tamoxifen", "gonadalSteroids", "copperIUDdrug") ~ "Drugs",
+      covariateName2 %in% c("antidepressants", "antipsychotics", "antithrombotics", "nsaids", "grha", "tranexamicAcid",
+                           "tamoxifen", "gonadalSteroids", "copperIUDdrug", "danazol", "lngIUD", "ulipristalAcetate",
+                           "oc_estradiolDienogest", "oc_other", "progestinOnly", "ironPreparations",
+                           "oralContraceptives_estradiolDienogest", "oralContraceptives_other") ~ "Drugs",
+      covariateName2 %in% c("copperIUDprocedure", "bloodTransfusion", "hysterectomy", "myomectomy",
+                           "uae", "undefinedIUD", "endometrialAblation", "hormonalIUD") ~ "Procedures",
       TRUE ~ "Conditions"
     )
   ) %>%
-  dplyr::select(databaseId, cohortName, domain, covariateName, count, pct) %>%
+  dplyr::select(databaseId, cohortName, domain, covariateName2, count, pct) %>%
   maskLowCount()
+
+cohortChar$covariateName <- gsub("oralContraceptives_estradiolDienogest", "oc_estradiolDienogest", cohortChar$covariateName2)
+cohortChar$covariateName <- gsub("oralContraceptives_other", "oc_other", cohortChar$covariateName)
+cohortChar$covariateName2 <- NULL
+cohortChar <- cohortChar %>% dplyr::select(databaseId, cohortName, domain, covariateName, count, pct)
 
 ## Chapters baseline
 icdChar <- readr::read_csv(fs::path(dataPath, "baselineChapters.csv"),
@@ -77,7 +87,7 @@ icdChar <- readr::read_csv(fs::path(dataPath, "baselineChapters.csv"),
 
 ### Baseline Pickers
 domainConceptChar <- sort(unique(conceptChar$domain))
-
+domainCohortChar  <- sort(unique(cohortChar$domain))
 
 # # 3. Incidence -----------------
 #
