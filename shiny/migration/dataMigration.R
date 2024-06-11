@@ -35,9 +35,7 @@ listOfTasks <- c("01_buildCohorts",
 
 ### Create a data frame of all permutations of paths
 allPaths <- tidyr::expand_grid(listOfDatabase, listOfTasks) %>%
-  dplyr::mutate(
-    fullPath = fs::path(resultsPath, listOfDatabase, listOfTasks)
-  )
+  dplyr::mutate(fullPath = fs::path(resultsPath, listOfDatabase, listOfTasks))
 
 
 ## 1. Bind and save Cohort Manifest for all databases ----------------
@@ -45,6 +43,7 @@ allPaths <- tidyr::expand_grid(listOfDatabase, listOfTasks) %>%
 cohortManifest <- bindCsv(allPaths = allPaths,
                           task = listOfTasks[1],       # Cohorts
                           file = "cohortManifest.csv")
+
 cm2 <- cohortManifest %>%
   dplyr::select(databaseId, id, name, entries, subjects) %>%
   dplyr::rename(
@@ -222,15 +221,9 @@ demo2 <- demo %>%
       TRUE ~ conceptId
     )
   )  %>%
-  dplyr::left_join(
-    allCohorts, by = c("cohortDefinitionId" ="id"), relationship = "many-to-many"
-  ) %>%
-  dplyr::select(
-    databaseId, cohortDefinitionId, cohortName, id, Covariate,  n, pct
-  ) %>%
-  dplyr::arrange(
-    databaseId, cohortDefinitionId, id
-  )
+  dplyr::left_join(allCohorts, by = c("cohortDefinitionId" ="id"), relationship = "many-to-many") %>%
+  dplyr::select(databaseId, cohortDefinitionId, cohortName, id, Covariate,  n, pct) %>%
+  dplyr::arrange(databaseId, cohortDefinitionId, id)
 
 
 readr::write_csv(demo2, file = fs::path(appDataPath, "baselineDemographics.csv"))
@@ -243,19 +236,13 @@ cts <- bindCsv(allPaths = allPaths,
                file = "continuous_baseline.csv")
 
 cts2 <- cts %>%
-  dplyr::left_join(
-    allCohorts, by = c("cohortDefinitionId" ="id"), relationship = "many-to-many"
-  ) %>%
+  dplyr::left_join(allCohorts, by = c("cohortDefinitionId" ="id"), relationship = "many-to-many") %>%
   dplyr::mutate(
     iqr = p75Value - p25Value,
     name = stringr::str_to_title(name)
   ) %>%
-  dplyr::select(
-    databaseId, cohortDefinitionId, cohortName, covariateId, name, medianValue, iqr
-  ) %>%
-  dplyr::arrange(
-    databaseId, cohortDefinitionId, covariateId
-  )
+  dplyr::select(databaseId, cohortDefinitionId, cohortName, covariateId, name, medianValue, iqr) %>%
+  dplyr::arrange(databaseId, cohortDefinitionId, covariateId)
 
 readr::write_csv(cts2, file = fs::path(appDataPath, "baselineContinuous.csv"))
 
@@ -268,30 +255,18 @@ drug <- bindCsv(allPaths = allPaths,
                 task = listOfTasks[5], # baseline char
                 file = "drugs_baseline.csv") %>%
   dplyr::filter(pct >= 0.02) %>%
-  dplyr::left_join(
-    allCohorts, by = c("cohortDefinitionId" ="id"), relationship = "many-to-many"
-  )  %>%
-  dplyr::mutate(
-    domain = "Drugs"
-  ) %>%
-  dplyr::select(
-    databaseId, domain, cohortDefinitionId, cohortName, conceptId, name,  n, pct, timeWindow
-  )
+  dplyr::left_join(allCohorts, by = c("cohortDefinitionId" ="id"), relationship = "many-to-many")  %>%
+  dplyr::mutate(domain = "Drugs") %>%
+  dplyr::select(databaseId, domain, cohortDefinitionId, cohortName, conceptId, name,  n, pct, timeWindow)
 
 ### Extract condition concepts
 cond <- bindCsv(allPaths = allPaths,
                 task = listOfTasks[5], # baseline char
                 file = "conditions_baseline.csv") %>%
   dplyr::filter(pct >= 0.02) %>%
-  dplyr::left_join(
-    allCohorts, by = c("cohortDefinitionId" ="id"), relationship = "many-to-many"
-  )  %>%
-  dplyr::mutate(
-    domain = "Conditions"
-  ) %>%
-  dplyr::select(
-    databaseId, domain, cohortDefinitionId, cohortName, conceptId, name,  n, pct, timeWindow
-  )
+  dplyr::left_join(allCohorts, by = c("cohortDefinitionId" ="id"), relationship = "many-to-many")  %>%
+  dplyr::mutate(domain = "Conditions") %>%
+  dplyr::select(databaseId, domain, cohortDefinitionId, cohortName, conceptId, name,  n, pct, timeWindow)
 
 ### Extract procedure concepts (exclude THINBE procedures)
 procPaths <- allPaths %>%
@@ -301,19 +276,12 @@ proc <- bindCsv(allPaths = procPaths,
                 task = listOfTasks[5], # baseline char
                 file = "procedures_baseline.csv") %>%
   dplyr::filter(pct >= 0.02) %>%
-  dplyr::left_join(
-    allCohorts, by = c("cohortDefinitionId" ="id"), relationship = "many-to-many"
-  ) %>%
-  dplyr::mutate(
-    domain = "Procedures"
-  ) %>%
-  dplyr::select(
-    databaseId, domain, cohortDefinitionId, cohortName, conceptId, name,  n, pct, timeWindow
-  )
+  dplyr::left_join(allCohorts, by = c("cohortDefinitionId" ="id"), relationship = "many-to-many") %>%
+  dplyr::mutate(domain = "Procedures") %>%
+  dplyr::select(databaseId, domain, cohortDefinitionId, cohortName, conceptId, name,  n, pct, timeWindow)
 
-conceptTab <- dplyr::bind_rows(
-  drug, cond, proc
-) %>% dplyr::arrange(databaseId, cohortDefinitionId, domain, conceptId)
+conceptTab <- dplyr::bind_rows(drug, cond, proc) %>%
+  dplyr::arrange(databaseId, cohortDefinitionId, domain, conceptId)
 
 
 readr::write_csv(conceptTab, file = fs::path(appDataPath, "baselineConcepts.csv"))
@@ -332,8 +300,7 @@ cohort365 <- bindCsv(allPaths = allPaths,
     covariateName = name,
     timeWindow = "-365d to 0d"
     ) %>%
-  dplyr::select(databaseId, timeWindow, cohortId, cohortName,
-                covariateId, covariateName, count, pct) %>%
+  dplyr::select(databaseId, timeWindow, cohortId, cohortName, covariateId, covariateName, count, pct) %>%
   dplyr::arrange(databaseId, cohortId, covariateId)
 
 readr::write_csv(cohort365, file = fs::path(appDataPath, "baselineCohorts.csv"))
@@ -400,11 +367,8 @@ icd10 <- bindCsv(allPaths = allPaths,
     )
   ) %>%
   dplyr::arrange(databaseId, COHORT_ID, CATEGORY_ID) %>%
-  dplyr::mutate(
-    pct = COUNTVALUE / n
-  ) %>%
-  dplyr::select(databaseId, COHORT_ID, cohortName,
-                CATEGORY_CODE, categoryName, COUNTVALUE, pct, timeWindow)
+  dplyr::mutate(pct = COUNTVALUE / n) %>%
+  dplyr::select(databaseId, COHORT_ID, cohortName, CATEGORY_CODE, categoryName, COUNTVALUE, pct, timeWindow)
 
 readr::write_csv(icd10, file = fs::path(appDataPath, "baselineChapters.csv"))
 
@@ -440,9 +404,9 @@ piPrevCond <- purrr::map2_dfr(piPrevFilesCond,         # files to use
     by = c("databaseId" = "databaseId", "covariateId" = "id")
   ) %>%
   dplyr::filter(
-    name %in% c("adenomyosis", "coagulopathy", "disorderOfOvary",
-                "dysmenorrhea", "endoHyperplasia", "endoPolyp", "endometriosis",
-                "ovulatoryDysfunction", "pcos", "uterineLeiomyoma")
+    name %in% c("adenomyosis", "anemia", "coagulopathy", "covid19", "diabetes", "disorderOfOvary", "ironDefAnemia",
+                "dysmenorrhea", "endoHyperplasia", "endoPolyp", "endometriosis", "endometriosisOfUterus", "obesity",
+                "pain", "pain_narrow", "pid", "ovulatoryDysfunction", "pcos", "std", "uterineLeiomyoma")
   ) %>%
   dplyr::rename(covariateName = name)
 
@@ -473,7 +437,7 @@ piPrevTimeFrameDrugs <- c(
   "731d to 1825d"
 )
 
-piPrevDrugsWithin <- purrr::map2_dfr(piPrevFilesDrugs,        # files to use
+piPrevDrugsWithin <- purrr::map2_dfr(piPrevFilesDrugs,  # files to use
                                piPrevTimeFrameDrugs,    # time frame column to add
                                ~bindCsv(                # bind csv
                                  allPaths = allPaths,
@@ -483,9 +447,7 @@ piPrevDrugsWithin <- purrr::map2_dfr(piPrevFilesDrugs,        # files to use
                                    timeWindow = .y
                                  )) %>%
   dplyr::rename(cat = type) %>%
-  dplyr::mutate(
-    type = "drugs"
-  )
+  dplyr::mutate(type = "drugs")
 
 
 piPrevDrugsFollowUp <- purrr::map2_dfr(piPrevFilesDrugs, # files to use
@@ -498,9 +460,7 @@ piPrevDrugsFollowUp <- purrr::map2_dfr(piPrevFilesDrugs, # files to use
                                    timeWindow = .y
                                  )) %>%
   dplyr::rename(cat = type) %>%
-  dplyr::mutate(
-    type = "drugs"
-  )
+  dplyr::mutate(type = "drugs")
 
 piPrevDrugs <- dplyr::bind_rows(piPrevDrugsWithin, piPrevDrugsFollowUp)
 
@@ -515,7 +475,8 @@ piPrevFilesProc <- c("procedure_prevalence_1.csv",
 
 piPrevProcCohorts <- c(1L, 1001L, 1002L, 1003L)
 
-#debug(bindCsv)
+procPaths <- allPaths %>%
+  dplyr::filter(listOfDatabase != "THINBE")
 
 piPrevProc <- purrr::map2_dfr(piPrevFilesProc,          # files to use
                               piPrevProcCohorts,        # cohorts
@@ -530,20 +491,11 @@ piPrevProc <- purrr::map2_dfr(piPrevFilesProc,          # files to use
     cat = "-",
     cohortName = dplyr::case_when(
       cohortId == 1 ~ "hmb",
-      cohortId == 1001L ~ "hmb_age_lt_30",
-      cohortId == 1002L ~ "hmb_age_30_45",
+      cohortId == 1001L ~ "hmb age_11_29",
+      cohortId == 1002L ~ "hmb age_30_45",
+      cohortId == 1003L ~ "hmb age_45_55",
     ),
     covariateId = cohortDefinitionId,
-    # covariateName = dplyr::case_when(
-    #   covariateId == 36 ~ "bloodTransfusion",
-    #   covariateId == 37 ~ "copperIUDprocedure",
-    #   covariateId == 38 ~ "endometrialAblation",
-    #   covariateId == 39 ~ "hormonalIUD",
-    #   covariateId == 40 ~ "hysterectomy",
-    #   covariateId == 41 ~ "myomectomy",
-    #   covariateId == 42 ~ "uae",
-    #   covariateId == 43 ~ "undefinedIUD"
-    # ),
     count = numEvents,
     timeWindow = dplyr::case_when(
       window == "All" ~ "1d - 9999d",
@@ -558,12 +510,10 @@ piPrevProc <- purrr::map2_dfr(piPrevFilesProc,          # files to use
   dplyr::left_join(allCohorts, by = c("covariateId" ="id"), relationship = "many-to-many") %>%
   dplyr::rename(cohortName = cohortName.x,
                 covariateName = cohortName.y) %>%
-  dplyr::select(databaseId, cohortId, cohortName, covariateId, covariateName,
-                count, pct, timeWindow, type, cat)
+  dplyr::select(databaseId, cohortId, cohortName, covariateId, covariateName, count, pct, timeWindow, type, cat) %>%
+  dplyr::filter(timeWindow != is.na(timeWindow))
 
-postIndexPrev <- dplyr::bind_rows(
-  piPrevCond, piPrevDrugs, piPrevProc
-)
+postIndexPrev <- dplyr::bind_rows(piPrevCond, piPrevDrugs, piPrevProc)
 
 readr::write_csv(postIndexPrev, file = fs::path(appDataPath, "postIndexPrevalence.csv"))
 

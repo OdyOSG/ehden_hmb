@@ -17,13 +17,12 @@ library(ggsurvfit)
 path <- here::here("shiny/data/ttd/with")
 
 database <- c("optum", "cprdGold", "cprdAurum", "mrktscan")
+database <- c("optum", "cprdAurum")
 
 cohort <- c(1, 1001, 1002, 1003)
 
 allPaths <- tidyr::expand_grid(path, database, cohort) %>%
-  dplyr::mutate(
-    fullPath = fs::path(path, paste0("tte_", database, "_", cohort, ".rds"))
-  )
+  dplyr::mutate(fullPath = fs::path(path, paste0("tte_", database, "_", cohort, ".rds")))
 
 
 for (i in 1:length(allPaths$fullPath)) {
@@ -49,7 +48,7 @@ for (i in 1:length(allPaths$fullPath)) {
                       theme(plot.title = element_text(face = "bold"),
                             plot.margin = unit(c(5.5, 50, 5.5, 5.5), "points"),
                             axis.text.x = element_text(hjust = -5)
-                            ),
+                            )
                     )) +
     # theme(axis.text.x = element_text(hjust = -0.5),
     #       plot.margin = unit(c(5.5, 50, 5.5, 50), "points")) +
@@ -98,9 +97,7 @@ for (i in 1:length(allPaths$fullPath)) {
 path <- here::here("shiny/data/ttd/wo")
 
 allPaths <- tidyr::expand_grid(path, database, cohort) %>%
-  dplyr::mutate(
-    fullPath = fs::path(path, paste0("tte_", database, "_", cohort, ".rds"))
-  )
+  dplyr::mutate(fullPath = fs::path(path, paste0("tte_", database, "_", cohort, ".rds")))
 
 
 for (i in 1:length(allPaths$fullPath)) {
@@ -172,9 +169,7 @@ for (i in 1:length(allPaths$fullPath)) {
 path <- here::here("shiny/data/tti")
 
 allPaths <- tidyr::expand_grid(path, database, cohort) %>%
-  dplyr::mutate(
-    fullPath = fs::path(path, paste0("tti_", database, "_", cohort, ".rds"))
-  )
+  dplyr::mutate(fullPath = fs::path(path, paste0("tti_", database, "_", cohort, ".rds")))
 
 
 for (i in 1:length(allPaths$fullPath)) {
