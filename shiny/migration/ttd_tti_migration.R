@@ -1,3 +1,5 @@
+# Dependencies ----------------
+
 library(shiny)
 library(htmltools)
 library(shinyWidgets)
@@ -11,15 +13,15 @@ library(markdown)
 library(ggsurvfit)
 
 
-## TTD --------------
-### With - Single --------------
-
-path <- here::here("shiny/data/ttd/with")
-
 database <- c("optum", "cprdGold", "cprdAurum", "mrktscan")
 database <- c("optum", "cprdAurum")
 
 cohort <- c(1, 1001, 1002, 1003)
+
+## TTD --------------
+### With - Single --------------
+
+path <- here::here("shiny/data/ttd/with")
 
 allPaths <- tidyr::expand_grid(path, database, cohort) %>%
   dplyr::mutate(fullPath = fs::path(path, paste0("tte_", database, "_", cohort, ".rds")))

@@ -16,30 +16,32 @@ treatmentPatterns:
       id: 6
     - name: antithrombotics
       id: 7
+    - name: copperIUDdrug
+      id: 9
     - name: gonadalSteroids
-      id: 17
+      id: 18
     - name: tamoxifen
-      id: 26
+      id: 27
     - name: danazol
-      id: 28
-    - name: grha
       id: 29
-    - name: ironPreparations
+    - name: grha
       id: 30
-    - name: lngIUD
+    - name: ironPreparations
       id: 31
-    - name: nsaids
+    - name: lngIUD
       id: 32
-    - name: oc_estradiolDienogest
+    - name: nsaids
       id: 33
-    - name: oc_other
+    - name: oc_estradiolDienogest
       id: 34
-    - name: progestinOnly
+    - name: oc_other
       id: 35
-    - name: tranexamicAcid
+    - name: progestinOnly
       id: 36
-    - name: ulipristalAcetate
+    - name: tranexamicAcid
       id: 37
+    - name: ulipristalAcetate
+      id: 38
   timeWindow:
   - startDay: -730
     endDay: -1

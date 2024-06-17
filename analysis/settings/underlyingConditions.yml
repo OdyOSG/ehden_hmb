@@ -14,16 +14,8 @@ underlyingConditions:
       id: 3
     - name: anemia
       id: 4
-    - name: antidepressants
-      id: 5
-    - name: antipsychotics
-      id: 6
-    - name: antithrombotics
-      id: 7
     - name: coagulopathy
       id: 8
-    - name: copperIUDdrug
-      id: 9
     - name: covid19
       id: 10
     - name: diabetes
@@ -38,28 +30,26 @@ underlyingConditions:
       id: 15
     - name: endometriosis
       id: 16
-    - name: gonadalSteroids
+    - name: endometriosisOfUterus
       id: 17
     - name: ironDefAnemia
-      id: 18
-    - name: obesity
       id: 19
-    - name: ovulatoryDysfunction
+    - name: obesity
       id: 20
-    - name: pain
+    - name: ovulatoryDysfunction
       id: 21
-    - name: pain_narrow
+    - name: pain
       id: 22
-    - name: pcos
+    - name: pain_narrow
       id: 23
-    - name: pid
+    - name: pcos
       id: 24
-    - name: std
+    - name: pid
       id: 25
-    - name: tamoxifen
+    - name: std
       id: 26
     - name: uterineLeiomyoma
-      id: 27
+      id: 28
   timeWindow:
   - startDay: 1
     endDay: 365

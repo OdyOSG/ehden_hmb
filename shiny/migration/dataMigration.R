@@ -487,6 +487,7 @@ piPrevProc <- purrr::map2_dfr(piPrevFilesProc,          # files to use
                                 dplyr::mutate(
                                   cohortId = .y
                                 )) %>%
+  dplyr::filter(window != "1 - 9999") %>%
   dplyr::mutate(
     cat = "-",
     cohortName = dplyr::case_when(
@@ -498,12 +499,13 @@ piPrevProc <- purrr::map2_dfr(piPrevFilesProc,          # files to use
     covariateId = cohortDefinitionId,
     count = numEvents,
     timeWindow = dplyr::case_when(
-      window == "All" ~ "1d - 9999d",
-      window == "1 - 183" ~ "1d - 183d",
-      window == "1 - 365" ~ "1d - 365d",
-      window == "184 - 365" ~ "184d - 365d",
-      window == "366 - 730" ~ "366d - 730d",
-      window == "731 - 1825" ~ "731d - 1825d"
+      window == "All" ~ "1d to 9999d",
+      window == "0 - 183" ~ "0d to 183d",
+      window == "1 - 183" ~ "1d to 183d",
+      window == "1 - 365" ~ "1d to 365d",
+      window == "184 - 365" ~ "184d to 365d",
+      window == "366 - 730" ~ "366d to 730d",
+      window == "731 - 1825" ~ "731d to 1825d"
     ),
     type = "procedures"
   ) %>%
@@ -518,7 +520,7 @@ postIndexPrev <- dplyr::bind_rows(piPrevCond, piPrevDrugs, piPrevProc)
 readr::write_csv(postIndexPrev, file = fs::path(appDataPath, "postIndexPrevalence.csv"))
 
 
-## 9. Incidence ----------------
+## 9.1 Incidence (CohortIncidence) ----------------
 
 inicFiles <- glue::glue("incidence_analysis_ref_{1:4}.csv")
 inicFiles <- "incidence_analysis_ref_1.csv"
@@ -550,7 +552,20 @@ inic2 <- inic %>%
                 INCIDENCE_RATE_P1000PY) %>%
   dplyr::arrange(databaseId, OUTCOME_COHORT_DEFINITION_ID, START_YEAR)
 
- readr::write_csv(inic2, file = fs::path(appDataPath, "incidence.csv"))
+readr::write_csv(inic2, file = fs::path(appDataPath, "incidence.csv"))
+
+
+ ## 9.2 Incidence (IncidencePrevalence) ----------------
+
+incFiles <- "incidence_1.csv"
+
+inc <- purrr::map_dfr(incFiles,               # files to use
+                        ~bindCsv(                # bind csv
+                          allPaths = allPaths,
+                          task = listOfTasks[4],
+                          file = .x))
+
+readr::write_csv(inc, file = fs::path(appDataPath, "incidence.csv"))
 
 
 ## 10. Treatment Patterns ----------------
@@ -560,6 +575,8 @@ inic2 <- inic %>%
 txPath <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[9]) %>%
   dplyr::mutate(fullPath = fs::path(fullPath, "/all"))
+
+#txPath <- txPath[1,]
 
 ### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
@@ -591,6 +608,8 @@ txPath <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[9]) %>%
   dplyr::mutate(fullPath = fs::path(fullPath, "/6m"))
 
+#txPath <- txPath[1,]
+
 ### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
   txPath,
@@ -621,6 +640,8 @@ txPath <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[9]) %>%
   dplyr::mutate(fullPath = fs::path(fullPath, "/1y"))
 
+#txPath <- txPath[1,]
+
 ### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
   txPath,
@@ -650,6 +671,8 @@ readr::write_csv(txPathDat, file = fs::path(appDataPath, "treatmentPatterns1y.cs
 txPath <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[9]) %>%
   dplyr::mutate(fullPath = fs::path(fullPath, "/2y"))
+
+#txPath <- txPath[1,]
 
 ### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
@@ -683,6 +706,8 @@ txPath <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[10]) %>%
   dplyr::mutate(fullPath = fs::path(fullPath, "/all"))
 
+#txPath <- txPath[1,]
+
 ### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
   txPath,
@@ -712,6 +737,8 @@ readr::write_csv(txPathDat, file = fs::path(appDataPath, "treatmentPatternsAllNs
 txPath <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[10]) %>%
   dplyr::mutate(fullPath = fs::path(fullPath, "/6m"))
+
+#txPath <- txPath[1,]
 
 ### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
@@ -743,6 +770,8 @@ txPath <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[10]) %>%
   dplyr::mutate(fullPath = fs::path(fullPath, "/1y"))
 
+#txPath <- txPath[1,]
+
 ### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
   txPath,
@@ -772,6 +801,8 @@ readr::write_csv(txPathDat, file = fs::path(appDataPath, "treatmentPatterns1yNsa
 txPath <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[10]) %>%
   dplyr::mutate(fullPath = fs::path(fullPath, "/2y"))
+
+#txPath <- txPath[1,]
 
 ### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
@@ -815,7 +846,7 @@ permutations <- tidyr::expand_grid(
 )
 
 ### Bind all in ttd
-#debug(bindTteData)
+
 ttd <- purrr::pmap_dfr(
   permutations,
   ~bindTteData(

@@ -158,46 +158,86 @@ generateIncidenceAnalysis <- function(con,
 }
 
 
-executeIncidenceAnalysis <- function(con,
+executeIncidenceAnalysis <- function(cdm,
                                      executionSettings,
                                      analysisSettings) {
 
-  ## get cohort Ids
-  targetCohortId <- analysisSettings$incidenceAnalysis$cohorts$targetCohort$id %>% sort()
-  targetCohortName <- analysisSettings$incidenceAnalysis$cohorts$targetCohort$name
-  denomCohorts <- analysisSettings$incidenceAnalysis$cohorts$denominatorCohort %>% dplyr::arrange(id)
+  ## Load cohort names and incidence analysis settings
+  targetCohort <- analysisSettings$incidenceAnalysis$cohorts$targetCohort
+  denomCohort <- analysisSettings$incidenceAnalysis$cohorts$denominatorCohort
   irSettings <- analysisSettings$incidenceAnalysis$incidenceSettings
 
+  outputFolder <- fs::path(here::here("results"), executionSettings$databaseName, analysisSettings[["incidenceAnalysis"]][["outputFolder"]]) %>%
+    fs::dir_create()
+
+
+  ## Job Log
   cli::cat_boxx("Building Incidence Analysis")
   cli::cat_line()
-
   tik <- Sys.time()
 
-  for (i in seq_along(targetCohortId)) {
-    for (j in seq_along(irSettings$studyWindow)) {
 
-      generateIncidenceAnalysis(
-        con = con,
-        executionSettings = executionSettings,
-        cohortId = targetCohortId[i],
-        cohortName = targetCohortName[i],
-        denomCohorts = denomCohorts[i,],
-        irSettings = irSettings,
-        refId = i,
-        windowYear = irSettings$studyWindow[[j]]$id
-      )
+  ## Build numerator cohort
+  cohortSet1 <- readCohortSet(path = here::here("cohortsToCreate", "01_target"))
+  cdm <- generateCohortSet(cdm, cohortSet1, name = "numerator")
 
-    }
-  }
+  ## Build denominator cohort
+  cohortSet2 <- readCohortSet(path = here::here("cohortsToCreate", "02_incidenceDenominator"))
+  cdm <- generateCohortSet(cdm, cohortSet2, name = "denominator")
 
+  ## Stratify denominator cohort by age and sex
+  cdm <- generateTargetDenominatorCohortSet(
+    cdm = cdm,
+    name = tolower(denomCohort$name),   ## Name of table with denominator data
+    targetCohortTable = "denominator",  ## Name of table with stratified denominator cohorts e.g. age groups
+    ageGroup = list(irSettings$ageGroups[[1]], irSettings$ageGroups[[2]], irSettings$ageGroups[[3]], irSettings$ageGroups[[4]]),
+    sex = irSettings$sex,
+    requirementInteractions = TRUE
+  )
+
+  ## Calculate incidence
+  inc <- estimateIncidence(
+    cdm = cdm,
+    denominatorTable = tolower(denomCohort$name), ## Should be the same variable as the 'name' argument in 'generateTargetDenominatorCohortSet'
+    outcomeTable = "numerator",
+    interval = irSettings$interval,
+    completeDatabaseIntervals = irSettings$completeDatabaseIntervals,
+    includeOverallStrata = TRUE,        ## Default value
+    repeatedEvents = FALSE,             ## Default value
+    minCellCount = irSettings$cellCount
+  )
+
+  # for (i in seq_along(targetCohort$id)) {
+  #   #for (j in seq_along(irSettings$studyWindow)) {
+  #
+  #     generateIncidenceAnalysis(
+  #       con = con,
+  #       executionSettings = executionSettings,
+  #       cohortId = targetCohortId[i],
+  #       cohortName = targetCohortName[i],
+  #       denomCohorts = denomCohorts[i,],
+  #       irSettings = irSettings,
+  #       refId = i,
+  #       windowYear = irSettings$studyWindow[[j]]$id
+  #     )
+  #
+  #   #}
+  # }
+
+  ## Save results
+  verboseSave(
+    object = inc,
+    saveName = paste("incidence", targetCohort$id, sep = "_"),
+    saveLocation = outputFolder
+  )
+
+  ## Job Log
   tok <- Sys.time()
-  cli::cat_bullet("Execution Completed at: ", crayon::red(tok),
-                  bullet = "info", bullet_col = "blue")
+  cli::cat_bullet("Execution Completed at: ", crayon::red(tok), bullet = "info", bullet_col = "blue")
   tdif <- tok - tik
   tok_format <- paste(scales::label_number(0.01)(as.numeric(tdif)), attr(tdif, "units"))
-  cli::cat_bullet("Execution took: ", crayon::red(tok_format),
-                  bullet = "info", bullet_col = "blue")
+  cli::cat_bullet("Execution took: ", crayon::red(tok_format), bullet = "info", bullet_col = "blue")
 
-  invisible(denomCohorts)
+  invisible(denomCohort)
 }
 

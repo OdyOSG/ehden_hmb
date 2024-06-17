@@ -24,7 +24,8 @@ drugUtilizationDescription2 <-  "Category 'Within time window' means that a drug
 drugUtilizationDescription3 <-  "Category 'Complete follow-up' means that a drug exposure spanned throughout the specified time window."
 clinicalCharacteristicsDescription <- "Counts equal to 5 and below have been masked and replaced with '<5'. Characteristics are assessed within a time window of 365 to 0 days prior to index date"
 
-incidenceDescription <- "Incidence rate is defined as Outcome Count/Person Years * 1000."
+incidenceDescription1 <- "Incidence rate is defined as Outcome Count/Person Years * 1000."
+incidenceDescription2 <- "Incidence proportion is defined as Outcome Count/Persons at Risk * 100."
 
 treatmentPatternsDescription <- "Treatment Patterns counts (Sequences) are restricted to 30. HMB cohort is the population whose index event is HMB and are censored by hysterectomy. Thus we consider only drugs."
 
@@ -63,7 +64,7 @@ sidebar <- dashboardSidebar(
     menuItem("About", tabName = "about", icon = shiny::icon("book", lib = "font-awesome")),
     menuItem("Cohorts", tabName = "cohorts", icon = shiny::icon("circle-user", lib = "font-awesome")),
     menuItem("Clinical Characteristics", tabName = "clinChar", icon = shiny::icon("clipboard", lib = "font-awesome")),
-    menuItem("Incidence", tabName = "inci", icon = shiny::icon("vial", lib = "font-awesome")),
+    menuItem("Incidence", tabName = "inci2", icon = shiny::icon("vial", lib = "font-awesome")),
     menuItem("Underlying Conditions", tabName = "cond", icon = shiny::icon("disease", lib = "font-awesome")),
     menuItem("Treatment Patterns",  tabName = "txPath", icon = shiny::icon("worm", lib = "font-awesome")),
     menuItem("Procedure Analysis",  tabName = "proc", icon = shiny::icon("x-ray", lib = "font-awesome"))
@@ -395,6 +396,54 @@ body <- dashboardBody(
                          csvDownloadButton("icdCharTab", filename = "baselineChapters.csv"))
                      )
                    )
+          ),
+
+          tabPanel("Age Distribution",
+
+                   fluidRow(
+                     box(
+                       status = "success",
+                       column(
+                         width = 6,
+                         pickerInput(
+                           inputId = "ageDisType",
+                           label = "Statistic",
+                           choices = ageDisType,
+                           selected = ageDisType,
+                           options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+                           multiple = FALSE
+                         ),
+
+                         pickerInput(
+                           inputId = "ageDisCat",
+                           label = "Age Group Category",
+                           choices = ageDisCat,
+                           selected = ageDisCat,
+                           options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+                           multiple = FALSE
+                         )
+                       ),
+
+                       column(
+                         width = 6,
+                         pickerInput(
+                           inputId = "ageDisDb",
+                           label = "Database",
+                           choices = ageDisDb,
+                           selected = ageDisDb,
+                           options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+                           multiple = TRUE
+                         )
+                       )
+                     )
+                   ),
+
+                   fluidRow(
+                     box(
+                       width = 12,
+                       plotOutput("ageDis")
+                     )
+                   )
           )
 
         )
@@ -402,9 +451,140 @@ body <- dashboardBody(
     ),
 
 
-    ### Incidence Tab -----------------
+    # ### Incidence Tab -----------------
+    # tabItem(
+    #   tabName = "inci",
+    #
+    #   fluidRow(
+    #     box(
+    #       collapsible = T,
+    #       collapsed = F,
+    #       title = "Incidence",
+    #       width = 12,
+    #       background = "light-blue",
+    #       textOutput("clinicalOutcomesDescription")
+    #     )
+    #   ),
+    #
+    #   fluidRow(
+    #     tabBox(
+    #       id = "baselineChar",
+    #       width = 12,
+    #
+    #       tabPanel("Table",
+    #         fluidRow(
+    #           box(
+    #             status = "success",
+    #             column(width = 6,
+    #
+    #                    pickerInput(
+    #                      inputId = "databaseNameInci",
+    #                      label = "Database Name",
+    #                      choices = databaseInci,
+    #                      selected = databaseInci,
+    #                      options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+    #                      multiple = TRUE
+    #                    ),
+    #
+    #                    pickerInput(
+    #                      inputId = "cohortNameInci",
+    #                      label = "Cohort Name",
+    #                      choices = cohortName,
+    #                      selected = cohortName,
+    #                      options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+    #                      multiple = TRUE
+    #                    )
+    #
+    #
+    #             ),
+    #             column(width = 6,
+    #
+    #                    pickerInput(
+    #                      inputId = "yearInci",
+    #                      label = "Year",
+    #                      choices = yearInci,
+    #                      selected = yearInci[1],
+    #                      options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+    #                      multiple = TRUE
+    #                    ),
+    #
+    #                    pickerInput(
+    #                      inputId = "ageInci",
+    #                      label = "Age Group",
+    #                      choices = ageInci,
+    #                      selected = "Total",
+    #                      options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+    #                      multiple = TRUE
+    #                    )
+    #             )
+    #           )
+    #         ),
+    #         fluidRow(
+    #           box(
+    #             width = 12,
+    #             reactableOutput("inciTab"),
+    #             csvDownloadButton("inciTab", filename = "incidence.csv")
+    #           )
+    #         )
+    #       ),
+    #       tabPanel("Yearly Trend",
+    #
+    #                fluidRow(
+    #                 box(
+    #                  status = "success",
+    #                  column(
+    #                         width = 6,
+    #                           pickerInput(
+    #                             inputId = "databaseNameYrInci",
+    #                             label = "Database Name",
+    #                             choices = databaseName,
+    #                             selected = databaseName,
+    #                             options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+    #                             multiple = TRUE
+    #                           ),
+    #
+    #                           pickerInput(
+    #                             inputId = "cohortNameYrInci",
+    #                             label = "Cohort Name",
+    #                             choices = cohortNameInciPlot,
+    #                             selected = cohortNameInciPlot,
+    #                             options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+    #                             multiple = TRUE
+    #                           )
+    #                         #)
+    #                  ),
+    #
+    #                  column(
+    #                    width = 6,
+    #                    #box(status = "success",
+    #                        pickerInput(
+    #                          inputId = "ageGroupYrInci",
+    #                          label = "Age Group",
+    #                          choices = ageGroupInciPlot,
+    #                          selected = ageGroupInciPlot,
+    #                          options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+    #                          multiple = TRUE
+    #                        )
+    #                   #)
+    #                  )
+    #                 )
+    #                ),
+    #
+    #                fluidRow(
+    #                  box(
+    #                    width = 12,
+    #                    plotOutput("inciYearPlot")
+    #                  )
+    #                )
+    #       )
+    #     )
+    #   )
+    # ),
+
+
+    ### Incidence Tab (IncidencePrevalence) -----------------
     tabItem(
-      tabName = "inci",
+      tabName = "inci2",
 
       fluidRow(
         box(
@@ -413,118 +593,115 @@ body <- dashboardBody(
           title = "Incidence",
           width = 12,
           background = "light-blue",
-          textOutput("clinicalOutcomesDescription")
+          textOutput("clinicalOutcomesDescriptionInciPre1"),
+          textOutput("clinicalOutcomesDescriptionInciPre2")
         )
       ),
 
       fluidRow(
         tabBox(
-          id = "baselineChar",
+          id = "inciAna",
           width = 12,
 
           tabPanel("Table",
-            fluidRow(
-              box(
-                status = "success",
-                column(width = 6,
-
-                       pickerInput(
-                         inputId = "databaseNameInci",
-                         label = "Database Name",
-                         choices = databaseInci,
-                         selected = databaseInci,
-                         options = shinyWidgets::pickerOptions(actionsBox = TRUE),
-                         multiple = TRUE
-                       ),
-
-                       pickerInput(
-                         inputId = "cohortNameInci",
-                         label = "Cohort Name",
-                         choices = cohortName,
-                         selected = cohortName,
-                         options = shinyWidgets::pickerOptions(actionsBox = TRUE),
-                         multiple = TRUE
-                       )
-
-
-                ),
-                column(width = 6,
-
-                       pickerInput(
-                         inputId = "yearInci",
-                         label = "Year",
-                         choices = yearInci,
-                         selected = yearInci[1],
-                         options = shinyWidgets::pickerOptions(actionsBox = TRUE),
-                         multiple = TRUE
-                       ),
-
-                       pickerInput(
-                         inputId = "ageInci",
-                         label = "Age Group",
-                         choices = ageInci,
-                         selected = "Total",
-                         options = shinyWidgets::pickerOptions(actionsBox = TRUE),
-                         multiple = TRUE
-                       )
-                )
-              )
-            ),
-            fluidRow(
-              box(
-                width = 12,
-                reactableOutput("inciTab"),
-                csvDownloadButton("inciTab", filename = "incidence.csv")
-              )
-            )
-          ),
-          tabPanel("Yearly Trend",
-
                    fluidRow(
-                    box(
-                     status = "success",
-                     column(
-                            width = 6,
+                     box(
+                       status = "success",
+                       column(width = 6,
+
                               pickerInput(
-                                inputId = "databaseNameYrInci",
+                                inputId = "databaseInci2",
                                 label = "Database Name",
-                                choices = databaseName,
-                                selected = databaseName,
+                                choices = databaseInci2,
+                                selected = databaseInci2,
                                 options = shinyWidgets::pickerOptions(actionsBox = TRUE),
                                 multiple = TRUE
                               ),
 
                               pickerInput(
-                                inputId = "cohortNameYrInci",
+                                inputId = "cohortNameInci2",
                                 label = "Cohort Name",
-                                choices = cohortNameInciPlot,
-                                selected = cohortNameInciPlot,
+                                choices = cohortNameInci2,
+                                selected = cohortNameInci2,
                                 options = shinyWidgets::pickerOptions(actionsBox = TRUE),
                                 multiple = TRUE
                               )
-                            #)
-                     ),
 
-                     column(
-                       width = 6,
-                       #box(status = "success",
-                           pickerInput(
-                             inputId = "ageGroupYrInci",
-                             label = "Age Group",
-                             choices = ageGroupInciPlot,
-                             selected = ageGroupInciPlot,
-                             options = shinyWidgets::pickerOptions(actionsBox = TRUE),
-                             multiple = TRUE
-                           )
-                      #)
+                       ),
+                       column(width = 6,
+
+                              pickerInput(
+                                inputId = "yearInci2",
+                                label = "Year",
+                                choices = yearInci2,
+                                selected = "All",
+                                options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+                                multiple = TRUE
+                              ),
+
+                              pickerInput(
+                                inputId = "ageInci2",
+                                label = "Age Group",
+                                choices = ageInci2,
+                                selected = "Total",
+                                options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+                                multiple = TRUE
+                              )
+                       )
                      )
-                    )
+                   ),
+                   fluidRow(
+                     box(
+                       width = 12,
+                       reactableOutput("inciTab2"),
+                       csvDownloadButton("inciTab2", filename = "incidence2.csv")
+                     )
+                   )
+          ),
+          tabPanel("Yearly Trend",
+
+                   fluidRow(
+                     box(
+                       status = "success",
+                       column(
+                         width = 6,
+                         pickerInput(
+                           inputId = "databaseInciPlot2",
+                           label = "Database Name",
+                           choices = databaseInciPlot2,
+                           selected = databaseInciPlot2,
+                           options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+                           multiple = TRUE
+                         ),
+
+                         pickerInput(
+                           inputId = "cohortNameInci2Plot",
+                           label = "Cohort Name",
+                           choices = cohortNameInci2Plot,
+                           selected = cohortNameInci2Plot,
+                           options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+                           multiple = TRUE
+                         )
+                       ),
+
+                       column(
+                         width = 6,
+                         pickerInput(
+                           inputId = "ageInci2Plot",
+                           label = "Age Group",
+                           choices = ageInci2Plot,
+                           selected = ageInci2Plot,
+                           options = shinyWidgets::pickerOptions(actionsBox = TRUE),
+                           multiple = TRUE
+                         )
+                       )
+                     )
                    ),
 
                    fluidRow(
                      box(
                        width = 12,
-                       plotOutput("inciYearPlot")
+                       plotOutput("inciYearPlot2")
                      )
                    )
           )
@@ -1154,34 +1331,108 @@ server <- function(input, output, session){
   )
 
 
-  # Incidence -----------
-
-  ## Box text
-  output$clinicalOutcomesDescription <- renderText({
-    incidenceDescription
+  ### Create age distribution object for plotting
+  subsetAgeDis <- reactive({
+    allAge %>%
+      dplyr::filter(
+        `Database Name` %in% input$ageDisDb,
+         category %in% input$ageDisCat,
+         type %in% input$ageDisType
+      )
   })
 
-  #observe({print(input$databaseNameInci)})
+  ### Create age distribution plot
+  output$ageDis <- renderPlot({
+    subsetAgeDis() %>%
+      plotAgeDistribution()
+  })
+
+
+
+  # Incidence -----------
+
+  # ## Box text
+  # output$clinicalOutcomesDescription <- renderText({
+  #   incidenceDescription
+  # })
+  #
+  # ## Incidence
+  # output$inciTab <- renderReactable(
+  #   incTab %>%
+  #     dplyr::filter(databaseId %in% input$databaseNameInci,
+  #                   START_YEAR %in% input$yearInci,
+  #                   AGE_GROUP_NAME %in% input$ageInci,
+  #                   OUTCOME_NAME %in% input$cohortNameInci) %>%
+  #     reactable(
+  #       columns = list(
+  #         databaseId = colDef(name = "Database Name"),
+  #         START_YEAR = colDef(name = "Year"),
+  #         AGE_GROUP_NAME = colDef(name = "Age Group"),
+  #         OUTCOME_NAME = colDef(name = "Cohort Name"),
+  #         PERSONS_AT_RISK = colDef(name = "Persons at Risk", format = colFormat(separators = TRUE)),
+  #         PERSON_DAYS = colDef(name = "Person Days", format = colFormat(separators = TRUE)),
+  #         PERSON_YEARS = colDef(name = "Person Years", format = colFormat(separators = TRUE)),
+  #         OUTCOMES = colDef(name = "Outcome Count", format = colFormat(separators = TRUE)),
+  #         INCIDENCE_PROPORTION_P100P = colDef(name = "Incidence Proportion (per 100p)", format = colFormat(digits = 2)),
+  #         INCIDENCE_RATE_P1000PY = colDef(name = "Incidence Rate (per 1000yrs)", format = colFormat(digits = 2))
+  #       ),
+  #       filterable = TRUE,
+  #       searchable = TRUE,
+  #       outlined = TRUE,
+  #       bordered = TRUE,
+  #       striped = TRUE,
+  #       defaultPageSize = 20
+  #     )
+  # )
+  #
+  # ## subset inci
+  # subsetInci <- reactive({
+  #   incTab %>%
+  #     dplyr::filter(
+  #       START_YEAR != "All",
+  #       AGE_GROUP_NAME %in% input$ageGroupYrInci,
+  #       databaseId %in% input$databaseNameYrInci,
+  #       OUTCOME_NAME %in% input$cohortNameYrInci
+  #     )
+  # })
+  #
+  # ### Make yearly incidence plot
+  # output$inciYearPlot <- renderPlot({
+  #   subsetInci() %>%
+  #     plotYearlyIncidence()
+  # })
+
+
+  # Incidence (IncidencePrevalence) -----------
+
+  ## Box text
+  output$clinicalOutcomesDescriptionInciPre1 <- renderText({
+    incidenceDescription1
+  })
+
+  ## Box text
+  output$clinicalOutcomesDescriptionInciPre2 <- renderText({
+    incidenceDescription2
+  })
 
   ## Incidence
-  output$inciTab <- renderReactable(
-    incTab %>%
-      dplyr::filter(databaseId %in% input$databaseNameInci,
-                    START_YEAR %in% input$yearInci,
-                    AGE_GROUP_NAME %in% input$ageInci,
-                    OUTCOME_NAME %in% input$cohortNameInci) %>%
+  output$inciTab2 <- renderReactable(
+    incTab2 %>%
+      dplyr::filter(databaseName %in% input$databaseInci2,
+                    incidenceYear %in% input$yearInci2,
+                    ageGroup %in% input$ageInci2) %>%
       reactable(
         columns = list(
-          databaseId = colDef(name = "Database Name"),
-          START_YEAR = colDef(name = "Year"),
-          AGE_GROUP_NAME = colDef(name = "Age Group"),
-          OUTCOME_NAME = colDef(name = "Cohort Name"),
-          PERSONS_AT_RISK = colDef(name = "Persons at Risk", format = colFormat(separators = TRUE)),
-          PERSON_DAYS = colDef(name = "Person Days", format = colFormat(separators = TRUE)),
-          PERSON_YEARS = colDef(name = "Person Years", format = colFormat(separators = TRUE)),
-          OUTCOMES = colDef(name = "Outcome Count", format = colFormat(separators = TRUE)),
-          INCIDENCE_PROPORTION_P100P = colDef(name = "Incidence Proportion (per 100p)", format = colFormat(digits = 2)),
-          INCIDENCE_RATE_P1000PY = colDef(name = "Incidence Rate (per 1000yrs)", format = colFormat(digits = 2))
+          databaseName = colDef(name = "Database Name"),
+          incidenceYear = colDef(name = "Year"),
+          ageGroup = colDef(name = "Age Group"),
+          outcome_cohort_name = colDef(name = "Cohort Name"),
+          n_persons = colDef(name = "Persons at Risk", format = colFormat(separators = TRUE)),
+          person_days = colDef(name = "Person Days", format = colFormat(separators = TRUE)),
+          person_years = colDef(name = "Person Years", format = colFormat(separators = TRUE)),
+          n_events = colDef(name = "Outcome Count", format = colFormat(separators = TRUE)),
+          incidenceProp_100_ps = colDef(name = "Proportion (per 100p)", format = colFormat(digits = 2)),
+          incidence_1000_pys = colDef(name = "Rate (per 1000yrs)", format = colFormat(digits = 2))
         ),
         filterable = TRUE,
         searchable = TRUE,
@@ -1193,20 +1444,19 @@ server <- function(input, output, session){
   )
 
   ## subset inci
-  subsetInci <- reactive({
-    incTab %>%
+  subsetInci2 <- reactive({
+    incTab2 %>%
       dplyr::filter(
-        START_YEAR != "All",
-        AGE_GROUP_NAME %in% input$ageGroupYrInci,
-        databaseId %in% input$databaseNameYrInci,
-        OUTCOME_NAME %in% input$cohortNameYrInci
+        incidenceYear != "All",
+        ageGroup %in% input$ageInci2Plot,
+        databaseName %in% input$databaseInciPlot2
       )
   })
 
   ### Make yearly incidence plot
-  output$inciYearPlot <- renderPlot({
-    subsetInci() %>%
-      plotYearlyIncidence()
+  output$inciYearPlot2 <- renderPlot({
+    subsetInci2() %>%
+      plotYearlyIncidencePrevalence()
   })
 
 
@@ -1702,7 +1952,7 @@ server <- function(input, output, session){
   # Survprob table subset (Database, Cohort)
   ttiSubset <- reactive({
 
-    tti %>%
+    tti2 %>%
       dplyr::filter(
         database == input$databaseNameTti,
         `Cohort Name` == input$cohortNameTti

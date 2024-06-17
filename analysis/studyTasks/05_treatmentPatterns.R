@@ -45,7 +45,8 @@ executionSettings <- config::get(config = configBlock) %>%
 analysisSettings1 <- readSettingsFile(here::here("analysis/settings/postIndexPrevalence.yml"))
 analysisSettings2 <- readSettingsFile(here::here("analysis/settings/treatmentPatternsAnalysis1.yml"))
 analysisSettings3 <- readSettingsFile(here::here("analysis/settings/treatmentPatternsAnalysis2.yml"))
-
+analysisSettings4 <- readSettingsFile(here::here("analysis/settings/treatmentPatternsAnalysis3.yml"))
+analysisSettings5 <- readSettingsFile(here::here("analysis/settings/treatmentPatternsAnalysis4.yml"))
 
 # E. Script --------------------
 
@@ -56,40 +57,54 @@ executePostIndexDrugUtilization(con = con,
                                 executionSettings = executionSettings,
                                 analysisSettings = analysisSettings1)
 
-### Without NSAIDS --------------------
 
-## Treatment history
+## Treatment History
+
+## Procedures + Drugs (no NSAIDs) for Sequences
 runTreatmentHistory(con = con,
                     executionSettings = executionSettings,
                     analysisSettings = analysisSettings2)
 
-## Treatment patterns
-executeTreatmentPatterns(con = con,
-                         executionSettings = executionSettings,
-                         analysisSettings = analysisSettings2)
-
-## Time to discontinuation
-executeTimeToEvent(con = con,
-                   executionSettings = executionSettings,
-                   analysisSettings = analysisSettings2)
-
-
-### With NSAIDS (Sensitivity analysis) --------------------
-
-## Treatment history
+## Procedures + Drugs (with NSAIDs) for Sequences
 runTreatmentHistory(con = con,
                     executionSettings = executionSettings,
                     analysisSettings = analysisSettings3)
 
-## Treatment patterns
+## Drugs (no NSAIDs) for TTD
+runTreatmentHistory(con = con,
+                    executionSettings = executionSettings,
+                    analysisSettings = analysisSettings4)
+
+## Drugs (with NSAIDs) for TTD
+runTreatmentHistory(con = con,
+                    executionSettings = executionSettings,
+                    analysisSettings = analysisSettings5)
+
+
+## Treatment Patterns
+
+## No NSAIDs
+executeTreatmentPatterns(con = con,
+                         executionSettings = executionSettings,
+                         analysisSettings = analysisSettings2)
+
+## With NSAIDs
 executeTreatmentPatterns(con = con,
                          executionSettings = executionSettings,
                          analysisSettings = analysisSettings3)
 
+
 ## Time to discontinuation
+
+## No NSAIDs
 executeTimeToEvent(con = con,
                    executionSettings = executionSettings,
-                   analysisSettings = analysisSettings3)
+                   analysisSettings = analysisSettings4)
+
+## With NSAIDs
+executeTimeToEvent(con = con,
+                   executionSettings = executionSettings,
+                   analysisSettings = analysisSettings5)
 
 # F. Session Info ------------------------
 

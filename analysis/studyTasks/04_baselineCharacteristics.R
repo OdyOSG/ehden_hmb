@@ -47,7 +47,7 @@ analysisSettings2 <- readSettingsFile(here::here("analysis/settings/underlyingCo
 
 # E. Script --------------------
 
-#startSnowflakeSession(con =con, executionSettings = executionSettings)
+startSnowflakeSession(con =con, executionSettings = executionSettings)
 
 ## Concept characterization
 executeConceptCharacterization(con = con,

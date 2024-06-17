@@ -139,3 +139,27 @@ bindFiles <- function(inputPath,
   unlink(filepath)
 
 }
+
+
+zipResults <- function(database) {
+
+  resultsPath <- here::here("results", database)
+
+  # Zip "report" folder
+  files2zip <- dir(resultsPath, full.names = TRUE)
+  files2zip <- files2zip[!grepl("treatmentHistory", files2zip)] # Exclude treatment history folder
+
+  if (length(database) >1) {
+
+    zipName <- 'reportFiles'
+  }
+  else {
+
+    zipName <- paste0('reportFiles_', database)
+  }
+
+  utils::zip(zipfile = zipName, files = files2zip)
+
+  cli::cat_bullet("Study results have been zipped and saved to:",
+                  crayon::cyan(here::here(paste0(zipName, ".zip"))),bullet = "info", bullet_col = "blue")
+}

@@ -102,6 +102,109 @@ plotYearlyIncidence <- function(dat) {
 }
 
 
+plotYearlyIncidencePrevalence <- function(dat) {
+
+  plot_colors <- unname(grafify::graf_palettes$kelly)
+
+  p <- dat %>%
+    dplyr::rename(`Age Group` = ageGroup) %>%
+    dplyr::mutate(
+      grp = paste(databaseName, outcome_cohort_name, sep = "_"),
+      incidenceYear = lubridate::ymd(incidenceYear, truncated = 2L),
+      `Cohort Name` = outcome_cohort_name
+    ) %>%
+    #ggplot(aes(x = incidenceYear, y = incidence_1000_pys, color = `Cohort Name`)) +
+    ggplot(aes(x = incidenceYear, y = incidence_1000_pys, color = `Age Group`)) +
+    geom_point() +
+    geom_line(aes(group = grp)) +
+    scale_x_date(name = "Year", date_labels = "%Y") +
+    scale_color_manual(values = plot_colors) + #scale colors to kelly
+    facet_grid(rows = vars(databaseName), cols = vars(`Age Group`)) +
+    #facet_wrap(vars(databaseName)) +
+    labs(
+      y = "Incidence Rate (per 1000yrs)"
+    ) +
+    theme_bw() +
+    theme(
+      axis.text.x = element_text(angle = 60, hjust = 1)
+    )
+
+  return(p)
+}
+
+
+plotAgeDistribution <- function(dat) {
+
+  noOfDbs <- length(unique(dat$`Database Name`))
+  plotCols <- RColorBrewer::brewer.pal(n = noOfDbs+1, name = "Dark2")
+
+  if (unique(dat$category) == "study_yr") {
+
+    x_lab <- "Age in study's age categories"
+
+  } else if (unique(dat$category) == "5_yr") {
+
+    x_lab <- "Age in 5-year categories"
+
+  } else {
+
+    x_lab <- "Age in 10-year categories"
+
+  }
+
+  if (unique(dat$type) == "pct") {
+
+    p <- dat %>%
+      ggplot2::ggplot(ggplot2::aes(x = name, y = pct, fill = `Database Name`)) +
+      ggplot2::geom_col(color = "white") +
+      ggplot2::geom_text(aes(label = value),
+                         size = 4,
+                         vjust = -.2) +
+      #ggplot2::facet_grid(rows = vars(cohortName), cols = vars(`Database Name`)) +
+      ggplot2::facet_grid(rows = vars(`Database Name`), cols = vars(cohortName)) +
+      ggplot2::scale_fill_manual(values = plotCols) +
+      ggplot2::scale_y_continuous(
+        labels = scales::label_percent(suffix = ""),
+        limits = c(0, 1)) +
+      xlab(x_lab) +
+      ylab("Percentage") +
+      theme_bw() +
+      theme(
+        text = element_text(size = 15, family = "serif"),
+        axis.text = element_text(size = 14, family = "serif"),
+        legend.position = "bottom"
+      )
+
+  } else {
+
+    p <- dat %>%
+      ggplot2::ggplot(ggplot2::aes(x = name, y = count, fill = `Database Name`)) +
+      ggplot2::geom_col(color = "white") +
+      ggplot2::geom_text(aes(label = value),
+                         size = 4,
+                         vjust = -.2) +
+      #ggplot2::facet_grid(rows = vars(cohortName), cols = vars(`Database Name`)) +
+      ggplot2::facet_grid(rows = vars(`Database Name`), cols = vars(cohortName)) +
+      ggplot2::scale_fill_manual(values = plotCols) +
+      ggplot2::scale_y_continuous(
+        limits = c(0, max(dat$count) + 50000L),
+        labels = scales::label_comma()) +
+      xlab(x_lab) +
+      ylab("Person Count") +
+      theme_bw() +
+      theme(
+        text = element_text(size = 15, family = "serif"),
+        axis.text = element_text(size = 14, family = "serif"),
+        legend.position = "bottom"
+      )
+
+  }
+
+
+  return(p)
+}
+
+
 relabelStrata <- function(dat, oldLabels, newLabels) {
 
   for (i in seq_along(oldLabels)){

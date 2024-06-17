@@ -29,7 +29,7 @@ runStudyTask(file = studyTaskFiles[1], configBlock = configBlock)
 runStudyTask(file = studyTaskFiles[2], configBlock = configBlock)
 
 ### Task 3: Run Incidence Analysis
-#runStudyTask(file = studyTaskFiles[3], configBlock = configBlock)
+runStudyTask(file = studyTaskFiles[3], configBlock = configBlock)
 
 ### Task 4: Run Baseline Characteristics
 runStudyTask(file = studyTaskFiles[4], configBlock = configBlock)
@@ -39,4 +39,7 @@ runStudyTask(file = studyTaskFiles[5], configBlock = configBlock)
 
 ### Task 6: Run Procedure Analysis
 runStudyTask(file = studyTaskFiles[6], configBlock = configBlock)
+
+### Task 7: Zip results
+runStudyTask(file = studyTaskFiles[7], configBlock = configBlock)
 

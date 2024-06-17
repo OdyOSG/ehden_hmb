@@ -11,31 +11,39 @@ treatmentPatterns:
       id: 1003
     txCohorts:
     - name: danazol
-      id: 28
-    - name: grha
       id: 29
-    - name: ironPreparations
+    - name: grha
       id: 30
-    - name: lngIUD
+    - name: ironPreparations
       id: 31
+    - name: lngIUD
+      id: 32
     - name: oc_estradiolDienogest
-      id: 33
-    - name: oc_other
       id: 34
-    - name: progestinOnly
+    - name: oc_other
       id: 35
-    - name: tranexamicAcid
+    - name: progestinOnly
       id: 36
-    - name: ulipristalAcetate
+    - name: tranexamicAcid
       id: 37
-    - name: endometrialAblation
+    - name: ulipristalAcetate
+      id: 38
+    - name: bloodTransfusion
+      id: 39
+    - name: copperIUDprocedure
       id: 40
-    - name: hysterectomy
+    - name: endometrialAblation
+      id: 41
+    - name: hormonalIUD
       id: 42
-    - name: myomectomy
+    - name: hysterectomy
       id: 43
-    - name: uae
+    - name: myomectomy
       id: 44
+    - name: uae
+      id: 45
+    - name: undefinedIUD
+      id: 46
   treatmentHistorySettings:
     minEraDuration: 0
     eraCollapseSize: 30

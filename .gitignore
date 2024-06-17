@@ -3,6 +3,7 @@ results/
 results_or/
 results_0603/
 results_old/
+results_temp/
 logs/
 config.yml
 scratch/incPrevTest.R

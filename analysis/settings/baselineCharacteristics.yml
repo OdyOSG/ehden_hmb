@@ -11,32 +11,34 @@ baselineCharacteristics:
       id: 1003
     covariateCohorts:
     - name: adenomyosis
-      id: 3
+      id: 2
     - name: anemia
-      id: 4
+      id: 3
     - name: antidepressants
-      id: 5
+      id: 4
     - name: antipsychotics
-      id: 6
+      id: 5
     - name: antithrombotics
-      id: 7
+      id: 6
     - name: coagulopathy
-      id: 8
+      id: 7
     - name: copperIUDdrug
-      id: 9
+      id: 8
     - name: covid19
-      id: 10
+      id: 9
     - name: diabetes
-      id: 11
+      id: 10
     - name: disorderOfOvary
-      id: 12
+      id: 11
     - name: dysmenorrhea
-      id: 13
+      id: 12
     - name: endoHyperplasia
-      id: 14
+      id: 13
     - name: endoPolyp
-      id: 15
+      id: 14
     - name: endometriosis
+      id: 15
+    - name: endometriosisOfUterus
       id: 16
     - name: gonadalSteroids
       id: 17

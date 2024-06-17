@@ -1,3 +1,14 @@
+# EHDEN HMB v2.0.0
+
+* Reworked incidence analysis. Using the `IncidencePrevalenc`e package to calculate.
+* Updated `endometriosis` and `disorder of ovary` concept sets
+* Added new covariate concept set `endometriosis of uterus`
+* Created additional task named `zip results`
+* Removed `lngIUD` cohort from `Time to Discontinuation` plot
+* Added procedures in the `Treatment Patterns` analysis (Sequences)
+* Added `Age distribution` plot in shiny app section `Clinical Characteristics`
+* Changed the label of the first age group from `0-30` to `11-29`
+
 # EHDEN HMB v1.1.1
 
 * Adjusted height and width parameters for KM plots pictures in the shiny app
