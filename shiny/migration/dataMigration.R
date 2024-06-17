@@ -520,39 +520,39 @@ postIndexPrev <- dplyr::bind_rows(piPrevCond, piPrevDrugs, piPrevProc)
 readr::write_csv(postIndexPrev, file = fs::path(appDataPath, "postIndexPrevalence.csv"))
 
 
-## 9.1 Incidence (CohortIncidence) ----------------
-
-inicFiles <- glue::glue("incidence_analysis_ref_{1:4}.csv")
-inicFiles <- "incidence_analysis_ref_1.csv"
-
-inic <- purrr::map_dfr(inicFiles,               # files to use
-                       ~bindCsv(                # bind csv
-                         allPaths = allPaths,
-                         task = listOfTasks[4],
-                         file = .x))
-
-fctOrder <- c("All", as.character(2000:2022))
-
-inic2 <- inic %>%
-  dplyr::mutate(
-    AGE_ID = dplyr::if_else(is.na(AGE_ID), 0, AGE_ID, AGE_ID),
-    AGE_GROUP_NAME = dplyr::if_else(is.na(AGE_GROUP_NAME), "Total", AGE_GROUP_NAME, AGE_GROUP_NAME),
-    ) %>%
-  dplyr::filter(AGE_ID != 5) %>%
-  dplyr::mutate(
-    START_YEAR = ifelse(is.na(START_YEAR), "All", as.character(START_YEAR)),
-    START_YEAR = factor(START_YEAR, levels = fctOrder),
-    INCIDENCE_RATE_P1000PY = INCIDENCE_RATE_P100PY * 10
-  ) %>%
-  dplyr::select(databaseId,
-                START_YEAR, AGE_ID, AGE_GROUP_NAME,
-                OUTCOME_COHORT_DEFINITION_ID, OUTCOME_NAME,
-                PERSONS_AT_RISK, PERSON_DAYS, OUTCOMES,
-                INCIDENCE_PROPORTION_P100P,
-                INCIDENCE_RATE_P1000PY) %>%
-  dplyr::arrange(databaseId, OUTCOME_COHORT_DEFINITION_ID, START_YEAR)
-
-readr::write_csv(inic2, file = fs::path(appDataPath, "incidence.csv"))
+# ## 9.1 Incidence (CohortIncidence) ----------------
+#
+# inicFiles <- glue::glue("incidence_analysis_ref_{1:4}.csv")
+# inicFiles <- "incidence_analysis_ref_1.csv"
+#
+# inic <- purrr::map_dfr(inicFiles,               # files to use
+#                        ~bindCsv(                # bind csv
+#                          allPaths = allPaths,
+#                          task = listOfTasks[4],
+#                          file = .x))
+#
+# fctOrder <- c("All", as.character(2000:2022))
+#
+# inic2 <- inic %>%
+#   dplyr::mutate(
+#     AGE_ID = dplyr::if_else(is.na(AGE_ID), 0, AGE_ID, AGE_ID),
+#     AGE_GROUP_NAME = dplyr::if_else(is.na(AGE_GROUP_NAME), "Total", AGE_GROUP_NAME, AGE_GROUP_NAME),
+#     ) %>%
+#   dplyr::filter(AGE_ID != 5) %>%
+#   dplyr::mutate(
+#     START_YEAR = ifelse(is.na(START_YEAR), "All", as.character(START_YEAR)),
+#     START_YEAR = factor(START_YEAR, levels = fctOrder),
+#     INCIDENCE_RATE_P1000PY = INCIDENCE_RATE_P100PY * 10
+#   ) %>%
+#   dplyr::select(databaseId,
+#                 START_YEAR, AGE_ID, AGE_GROUP_NAME,
+#                 OUTCOME_COHORT_DEFINITION_ID, OUTCOME_NAME,
+#                 PERSONS_AT_RISK, PERSON_DAYS, OUTCOMES,
+#                 INCIDENCE_PROPORTION_P100P,
+#                 INCIDENCE_RATE_P1000PY) %>%
+#   dplyr::arrange(databaseId, OUTCOME_COHORT_DEFINITION_ID, START_YEAR)
+#
+# readr::write_csv(inic2, file = fs::path(appDataPath, "incidence.csv"))
 
 
  ## 9.2 Incidence (IncidencePrevalence) ----------------
@@ -576,7 +576,6 @@ txPath <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[9]) %>%
   dplyr::mutate(fullPath = fs::path(fullPath, "/all"))
 
-#txPath <- txPath[1,]
 
 ### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
@@ -608,7 +607,6 @@ txPath <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[9]) %>%
   dplyr::mutate(fullPath = fs::path(fullPath, "/6m"))
 
-#txPath <- txPath[1,]
 
 ### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
@@ -640,7 +638,6 @@ txPath <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[9]) %>%
   dplyr::mutate(fullPath = fs::path(fullPath, "/1y"))
 
-#txPath <- txPath[1,]
 
 ### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
@@ -672,7 +669,6 @@ txPath <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[9]) %>%
   dplyr::mutate(fullPath = fs::path(fullPath, "/2y"))
 
-#txPath <- txPath[1,]
 
 ### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
@@ -706,7 +702,6 @@ txPath <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[10]) %>%
   dplyr::mutate(fullPath = fs::path(fullPath, "/all"))
 
-#txPath <- txPath[1,]
 
 ### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
@@ -738,7 +733,6 @@ txPath <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[10]) %>%
   dplyr::mutate(fullPath = fs::path(fullPath, "/6m"))
 
-#txPath <- txPath[1,]
 
 ### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
@@ -770,7 +764,6 @@ txPath <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[10]) %>%
   dplyr::mutate(fullPath = fs::path(fullPath, "/1y"))
 
-#txPath <- txPath[1,]
 
 ### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
@@ -802,7 +795,6 @@ txPath <- allPaths %>%
   dplyr::filter(listOfTasks == listOfTasks[10]) %>%
   dplyr::mutate(fullPath = fs::path(fullPath, "/2y"))
 
-#txPath <- txPath[1,]
 
 ### Get treatment patterns table
 txPathDat <- purrr::pmap_dfr(
@@ -876,7 +868,6 @@ permutations <- tidyr::expand_grid(
 )
 
 ### Bind all in ttd
-#debug(bindTteData)
 ttd <- purrr::pmap_dfr(
   permutations,
   ~bindTteData(
