@@ -32,7 +32,7 @@ maskLowCount <- function(df, countLimit = 5L) {
   dfLow <- df %>%
     dplyr::mutate(
       pct = dplyr::if_else(count <= countLimit, "-", scales::percent(pct, accuracy = 0.01), "-"),
-      count = dplyr::if_else(count <= countLimit, "<5", format(count, big.mark = ",", scientific = FALSE), "-")
+      count = dplyr::if_else(count <= countLimit, "=<5", format(count, big.mark = ",", scientific = FALSE), "-")
     )
 
   return(dfLow)
@@ -45,7 +45,7 @@ maskLowCountInci <- function(df, countLimit = 5L) {
     dplyr::mutate(
       INCIDENCE_PROPORTION_P100P = dplyr::if_else(OUTCOMES <= countLimit, "-", format(round(INCIDENCE_PROPORTION_P100P, 2) , big.mark = ",", scientific = FALSE), "-"),
       INCIDENCE_RATE_P1000PY = dplyr::if_else(OUTCOMES <= countLimit, "-", format(round(INCIDENCE_RATE_P1000PY, 2), big.mark = ",", scientific = FALSE), "-"),
-      OUTCOMES = dplyr::if_else(OUTCOMES <= countLimit, "<5", format(OUTCOMES, big.mark = ",", scientific = FALSE), "-")
+      OUTCOMES = dplyr::if_else(OUTCOMES <= countLimit, "=<5", format(OUTCOMES, big.mark = ",", scientific = FALSE), "-")
     )
 
   return(dfLow)
@@ -212,11 +212,11 @@ bindTteData2 <- function(path,
   # create path to file
   pathToFile <- fs::path(path, database, task, file)
 
-  #create target id
+  # create target id
   targetId <- gsub(".*_", "", file) %>%
     tools::file_path_sans_ext()
 
-  #read in data
+  # read in data
   tteData <- readr::read_csv(file = pathToFile, show_col_types = FALSE)
   # %>%
   #   dplyr::filter(

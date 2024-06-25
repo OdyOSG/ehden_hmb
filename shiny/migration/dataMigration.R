@@ -56,8 +56,8 @@ cm2 <- cohortManifest %>%
   dplyr::mutate(Entries = dplyr::if_else(is.na(Entries), 0, Entries, 0),
                 Subjects = dplyr::if_else(is.na(Subjects), 0, Subjects, 0)
   ) %>%
-  dplyr::mutate(Entries = dplyr::if_else(Entries <= 5L & Entries > 0, "<5", format(Entries, big.mark = ",", scientific = FALSE), "0"),
-                Subjects = dplyr::if_else(Subjects <= 5L & Subjects > 0, "<5", format(Subjects, big.mark = ",", scientific = FALSE), "0")
+  dplyr::mutate(Entries = dplyr::if_else(Entries <= 5L & Entries > 0, "=<5", format(Entries, big.mark = ",", scientific = FALSE), "0"),
+                Subjects = dplyr::if_else(Subjects <= 5L & Subjects > 0, "=<5", format(Subjects, big.mark = ",", scientific = FALSE), "0")
   )
 
 readr::write_csv(cm2, file = fs::path(appDataPath, "cohortCounts.csv"))
@@ -78,7 +78,7 @@ sm2 <- strataManifest %>%
   )%>%
   dplyr::mutate(Subjects = dplyr::if_else(is.na(Subjects), 0, Subjects, 0)
   ) %>%
-  dplyr::mutate(Subjects = dplyr::if_else(Subjects <= 5L & Subjects > 0, "<5", format(Subjects, big.mark = ",", scientific = FALSE), "0"))
+  dplyr::mutate(Subjects = dplyr::if_else(Subjects <= 5L & Subjects > 0, "=<5", format(Subjects, big.mark = ",", scientific = FALSE), "0"))
 
 
 readr::write_csv(sm2, file = fs::path(appDataPath, "strataCounts.csv"))

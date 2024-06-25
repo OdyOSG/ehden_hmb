@@ -372,12 +372,6 @@ findSurvProbAtTime2 <- function(dat, outcome, t) {
 
 makeSurvProbTab2 <- function(dat) {
 
-  # subset data
-  # dat <- dat %>%
-  #   dplyr::filter(
-  #     database == !!database,
-  #     targetId == !!targetId
-  #   )
 
   # determine unique strata
   outcomeLines <- unique(dat$outcomeCohortId)
@@ -390,6 +384,8 @@ makeSurvProbTab2 <- function(dat) {
     outcomeLines,
     t
   )
+
+  #debug(findSurvProbAtTime2)
 
   # create survProbTab
   survProbTab <- purrr::pmap_dfr(
