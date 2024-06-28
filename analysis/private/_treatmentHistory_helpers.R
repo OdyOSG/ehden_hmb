@@ -75,7 +75,13 @@ doCreateTreatmentHistory <- function(current_cohorts, targetCohortId, eventCohor
 
   # Only keep event cohorts starting (startDate) or ending (endDate) after target cohort start date
   if (includeTreatments == "startDate") {
-    current_cohorts <- current_cohorts[current_cohorts$start_date.y - as.difftime(periodPriorToIndex, unit="days") <= current_cohorts$start_date.x & current_cohorts$start_date.x < current_cohorts$end_date.y,]
+
+    # Original code
+    #current_cohorts <- current_cohorts[current_cohorts$start_date.y - as.difftime(periodPriorToIndex, unit="days") <= current_cohorts$start_date.x & current_cohorts$start_date.x < current_cohorts$end_date.y,]
+
+    # New code (to include event cohorts that ended the same day as the target cohort start date)
+    current_cohorts <- current_cohorts[current_cohorts$start_date.y - as.difftime(periodPriorToIndex, unit="days") <= current_cohorts$start_date.x & current_cohorts$start_date.x <= current_cohorts$end_date.y,]
+
   } else if (includeTreatments == "endDate") {
     current_cohorts <- current_cohorts[current_cohorts$start_date.y - as.difftime(periodPriorToIndex, unit="days") <= current_cohorts$end_date.x & current_cohorts$start_date.x < current_cohorts$end_date.y,]
     current_cohorts$start_date.x <- pmax(current_cohorts$start_date.y - as.difftime(periodPriorToIndex, unit="days"), current_cohorts$start_date.x)

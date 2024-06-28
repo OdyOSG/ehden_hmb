@@ -16,34 +16,32 @@ treatmentPatterns:
       id: 30
     - name: ironPreparations
       id: 31
-    - name: lngIUD
-      id: 32
     - name: oc_estradiolDienogest
-      id: 34
+      id: 33
     - name: oc_other
-      id: 35
+      id: 34
     - name: progestinOnly
-      id: 36
+      id: 35
     - name: tranexamicAcid
-      id: 37
+      id: 36
     - name: ulipristalAcetate
-      id: 38
+      id: 37
     - name: bloodTransfusion
-      id: 39
+      id: 38
     - name: copperIUDprocedure
-      id: 40
+      id: 39
     - name: endometrialAblation
+      id: 40
+    - name: hormonalLngIUD
       id: 41
-    - name: hormonalIUD
-      id: 42
     - name: hysterectomy
-      id: 43
+      id: 42
     - name: myomectomy
-      id: 44
+      id: 43
     - name: uae
-      id: 45
+      id: 44
     - name: undefinedIUD
-      id: 46
+      id: 45
   treatmentHistorySettings:
     minEraDuration: 0
     eraCollapseSize: 30

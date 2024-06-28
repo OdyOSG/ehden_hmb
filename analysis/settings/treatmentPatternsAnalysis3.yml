@@ -17,15 +17,15 @@ treatmentPatterns:
     - name: ironPreparations
       id: 31
     - name: oc_estradiolDienogest
-      id: 34
+      id: 33
     - name: oc_other
-      id: 35
+      id: 34
     - name: progestinOnly
-      id: 36
+      id: 35
     - name: tranexamicAcid
-      id: 37
+      id: 36
     - name: ulipristalAcetate
-      id: 38
+      id: 37
   treatmentHistorySettings:
     minEraDuration: 0
     eraCollapseSize: 30

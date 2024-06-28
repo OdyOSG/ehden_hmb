@@ -20,6 +20,6 @@ incidenceAnalysis:
     interval:
     - years
     - overall
-    completeDatabaseIntervals: yes
+    completeDatabaseIntervals: no
     cellCount: 5
   outputFolder: 04_incidenceAnalysis

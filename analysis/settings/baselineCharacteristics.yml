@@ -11,64 +11,62 @@ baselineCharacteristics:
       id: 1003
     covariateCohorts:
     - name: adenomyosis
-      id: 2
-    - name: anemia
       id: 3
-    - name: antidepressants
+    - name: anemia
       id: 4
-    - name: antipsychotics
+    - name: antidepressants
       id: 5
-    - name: antithrombotics
+    - name: antipsychotics
       id: 6
-    - name: coagulopathy
+    - name: antithrombotics
       id: 7
-    - name: copperIUDdrug
+    - name: coagulopathy
       id: 8
-    - name: covid19
+    - name: copperIUDdrug
       id: 9
-    - name: diabetes
+    - name: covid19
       id: 10
-    - name: disorderOfOvary
+    - name: diabetes
       id: 11
-    - name: dysmenorrhea
+    - name: disorderOfOvary
       id: 12
-    - name: endoHyperplasia
+    - name: dysmenorrhea
       id: 13
-    - name: endoPolyp
+    - name: endoHyperplasia
       id: 14
-    - name: endometriosis
+    - name: endoPolyp
       id: 15
-    - name: endometriosisOfUterus
+    - name: endometriosis
       id: 16
-    - name: gonadalSteroids
+    - name: endometriosisOfUterus
       id: 17
-    - name: ironDefAnemia
+    - name: gonadalSteroids
       id: 18
-    - name: obesity
+    - name: ironDefAnemia
       id: 19
-    - name: ovulatoryDysfunction
+    - name: obesity
       id: 20
-    - name: pain
+    - name: ovulatoryDysfunction
       id: 21
-    - name: pain_narrow
+    - name: pain
       id: 22
-    - name: pcos
+    - name: pain_narrow
       id: 23
-    - name: pid
+    - name: pcos
       id: 24
-    - name: std
+    - name: pid
       id: 25
-    - name: tamoxifen
+    - name: std
       id: 26
-    - name: uterineLeiomyoma
+    - name: tamoxifen
       id: 27
-    - name: danazol
+    - name: uterineLeiomyoma
       id: 28
-    - name: grha
+    - name: danazol
       id: 29
-    - name: ironPreparations
+    - name: grha
       id: 30
-    - name: lngIUD
+    - name: ironPreparations
       id: 31
     - name: nsaids
       id: 32
@@ -88,7 +86,7 @@ baselineCharacteristics:
       id: 39
     - name: endometrialAblation
       id: 40
-    - name: hormonalIUD
+    - name: hormonalLngIUD
       id: 41
     - name: hysterectomy
       id: 42

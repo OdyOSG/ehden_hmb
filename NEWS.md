@@ -1,13 +1,15 @@
 # EHDEN HMB v2.0.0
 
-* Reworked incidence analysis. Using the `IncidencePrevalenc`e package to calculate.
-* Updated `endometriosis` and `disorder of ovary` concept sets
+* Updated `endometriosis`, `disorder of ovary`, `myomectomy`, `hysterectomy` `endometrial ablation` and `endometrial polyp` concept sets
+* Merged concept sets `hormonal IUD` and `lng IUD` into one concept set named `hormonalIUD`
 * Added new covariate concept set `endometriosis of uterus`
-* Created additional task named `zip results`
-* Removed `lngIUD` cohort from `Time to Discontinuation` plot
 * Added procedures in the `Treatment Patterns` analysis (Sequences)
+* Edited `Treatment Patterns` function code to include event cohorts that started the same day as the target cohort's end date
+* Reworked incidence analysis. Using the `IncidencePrevalenc`e package to calculate.
 * Added `Age distribution` plot in shiny app section `Clinical Characteristics`
+* Added new time window (at index i.e. 0 days from index date) for drug and procedure prevalence analysis
 * Changed the label of the first age group from `0-30` to `11-29`
+* Created additional task named `zip results`
 
 # EHDEN HMB v1.1.1
 

@@ -1,7 +1,7 @@
 # A. File Info ----------------------
 
 # Name: Zip Results
-# Description: The purpose of this script is to run incidence analyses
+# Description: The purpose of this script is to zip result files
 
 
 # B. Dependencies ----------------------
