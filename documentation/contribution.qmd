@@ -7,7 +7,7 @@ Welcome to the EHDEN HMB Study! Thank you for your interest in participating in 
 
 # Participation
 
-During the active maintenance of the EHDEN HMB study, If you would like to participate in the network study please contact [Martin Lavallee](mailto:martin.lavallee@odysseusinc.com), [Siir Su Saydam](mailto:siirsu.saydam@bayer.com) or [Marta Pineda Moncusi](mailto:marta.pinedamoncusi@ndorms.ox.ac.uk). Please send us the following information when announcing your interest in participation:
+During the active maintenance of the EHDEN HMB study, If you would like to participate in the network study please contact [Gianmario Candore](mailto:gianmario.candore@bayer.com) or [Marta Pineda Moncusi](mailto:marta.pinedamoncusi@ndorms.ox.ac.uk). Please send us the following information when announcing your interest in participation:
 
 -   **Primary Contact** - person managing the network study participation
 -   **Analyst Contact** - person running the study code at the institution (can be same as primary)
@@ -77,5 +77,5 @@ Results from this study will be loaded to a secure file transfer protocol (sftp)
 
 #### Via email
 
-You may also email the results to [Martin Lavallee](mailto:martin.lavallee@odysseusinc.com) as a zip file using the following naming convention: `<site_id>_results_<date>.zip`.
+You may also email the results to [George Argyriou](mailto:george.argyriou@odysseusinc.com) as a zip file using the following naming convention: `<site_id>_results_<date>.zip`.
 

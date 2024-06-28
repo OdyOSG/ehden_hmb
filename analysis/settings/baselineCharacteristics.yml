@@ -3,11 +3,11 @@ baselineCharacteristics:
     targetCohort:
     - name: hmb
       id: 1
-    - name: hmb_age_lt_30
+    - name: hmb age_lt_30
       id: 1001
-    - name: hmb_age_30_45
+    - name: hmb age_30_45
       id: 1002
-    - name: hmb_age_45_55
+    - name: hmb age_45_55
       id: 1003
     covariateCohorts:
     - name: adenomyosis
@@ -34,30 +34,68 @@ baselineCharacteristics:
       id: 13
     - name: endoHyperplasia
       id: 14
-    - name: endometriosis
-      id: 15
     - name: endoPolyp
+      id: 15
+    - name: endometriosis
       id: 16
-    - name: gonadalSteroids
+    - name: endometriosisOfUterus
       id: 17
-    - name: ironDefAnemia
+    - name: gonadalSteroids
       id: 18
-    - name: obesity
+    - name: ironDefAnemia
       id: 19
-    - name: ovulatoryDysfunction
+    - name: obesity
       id: 20
-    - name: pain
+    - name: ovulatoryDysfunction
       id: 21
-    - name: pcos
+    - name: pain
       id: 22
-    - name: pid
+    - name: pain_narrow
       id: 23
-    - name: std
+    - name: pcos
       id: 24
-    - name: tamoxifen
+    - name: pid
       id: 25
-    - name: uterineLeiomyoma
+    - name: std
       id: 26
+    - name: tamoxifen
+      id: 27
+    - name: uterineLeiomyoma
+      id: 28
+    - name: danazol
+      id: 29
+    - name: grha
+      id: 30
+    - name: ironPreparations
+      id: 31
+    - name: nsaids
+      id: 32
+    - name: oc_estradiolDienogest
+      id: 33
+    - name: oc_other
+      id: 34
+    - name: progestinOnly
+      id: 35
+    - name: tranexamicAcid
+      id: 36
+    - name: ulipristalAcetate
+      id: 37
+    - name: bloodTransfusion
+      id: 38
+    - name: copperIUDprocedure
+      id: 39
+    - name: endometrialAblation
+      id: 40
+    - name: hormonalLngIUD
+      id: 41
+    - name: hysterectomy
+      id: 42
+    - name: myomectomy
+      id: 43
+    - name: uae
+      id: 44
+    - name: undefinedIUD
+      id: 45
   timeWindow:
   - startDay: -365
     endDay: 0

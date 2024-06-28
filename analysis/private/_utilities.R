@@ -1,13 +1,10 @@
-# A. Meta Info -----------------------
+# A. File Info -----------------------
 
 # Task: Execution Settings
-# Author: Martin Lavallee
-# Date: 2023-04-12
-# Description: The purpose of the _executionSettings.R script is to
-# set the execution settings and initialize cohorts
+# Description: The purpose of the _executionSettings.R script is to set the execution settings and initialize cohorts
+
 
 # B. Functions ------------------------
-#
 
 getCohortManifest <- function(inputPath = here::here("cohortsToCreate")) {
 
@@ -36,11 +33,13 @@ getCohortManifest <- function(inputPath = here::here("cohortsToCreate")) {
     dplyr::mutate(
       id = dplyr::row_number(), .before = 1
     )
+
   return(tb)
 }
 
 
 startSnowflakeSession <- function(con, executionSettings) {
+
   sql <- "
   ALTER SESSION SET JDBC_QUERY_RESULT_FORMAT='JSON';
     USE ROLE @user_role;
@@ -88,11 +87,15 @@ readSettingsFile <- function(settingsFile) {
   return(tt)
 }
 
+
 listToTibble <- function(ll) {
+
   df <- do.call(rbind.data.frame, ll) |>
     tibble::as_tibble()
+
   return(df)
 }
+
 
 verboseSave <- function(object, saveName, saveLocation) {
 
@@ -103,5 +106,60 @@ verboseSave <- function(object, saveName, saveLocation) {
                   bullet = "info", bullet_col = "blue")
   cli::cat_bullet(crayon::cyan(saveLocation), bullet = "pointer", bullet_col = "yellow")
   cli::cat_line()
+
   invisible(savePath)
+}
+
+
+bindFiles <- function(inputPath,
+                      pattern = NULL)  {
+
+  # Check if <pattern>.csv file exists. If it does, delete
+  if (file.exists(here::here(inputPath, paste0(pattern, ".csv"))) == TRUE) {
+        unlink(here::here(inputPath, paste0(pattern, ".csv")))
+  }
+
+  ## List all files with "pattern" in folder
+  filepath <- list.files(inputPath, full.names = TRUE, pattern = pattern, recursive = TRUE)
+
+  ## Read all the files and save in list
+  listed_files <- lapply(filepath, readr::read_csv, show_col_types = FALSE)
+
+  ## Bind all data frames of list together
+  binded_df <- dplyr::bind_rows(listed_files)
+
+  ## Save output
+  readr::write_csv(
+    x = binded_df,
+    file = file.path(here::here(inputPath, paste0(pattern, ".csv"))),
+    append = FALSE
+  )
+
+  ## Delete binded csv files
+  unlink(filepath)
+
+}
+
+
+zipResults <- function(database) {
+
+  resultsPath <- here::here("results", database)
+
+  # Zip "report" folder
+  files2zip <- dir(resultsPath, full.names = TRUE)
+  files2zip <- files2zip[!grepl("treatmentHistory", files2zip)] # Exclude treatment history folder
+
+  if (length(database) >1) {
+
+    zipName <- 'reportFiles'
+  }
+  else {
+
+    zipName <- paste0('reportFiles_', database)
+  }
+
+  utils::zip(zipfile = zipName, files = files2zip)
+
+  cli::cat_bullet("Study results have been zipped and saved to:",
+                  crayon::cyan(here::here(paste0(zipName, ".zip"))),bullet = "info", bullet_col = "blue")
 }

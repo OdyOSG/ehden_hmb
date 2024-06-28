@@ -125,7 +125,7 @@ dataSources <- tibble::tribble(
   "Ministry of Health", "Israel", "EHR", "<Count>", "<Dates>", "<Description>", 
   "Cegedim THIN", "Belgium", "EHR", "<Count>", "<Dates>", "<Description>", 
   "Disease Analyzer", "Germany", "EHR", "<Count>", "<Dates>", "<Description>",
-  "FinnGen", "Finland", "EHR", "<Count>", "<Dates>", "<Description>",
+  "Helsinki University Hospital", "Finland", "EHR", "<Count>", "<Dates>", "<Description>",
   "Semmelweis University", "Hungary", "EHR", "<Count>", "<Dates>", "<Description>",
   "University of Oslo", "Norway", "EHR", "<Count>", "<Dates>", "<Description>"
 )

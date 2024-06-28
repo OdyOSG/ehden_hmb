@@ -3,29 +3,29 @@ treatmentPatterns:
     targetCohorts:
     - name: hmb
       id: 1
-    - name: hmb_age_lt_30
+    - name: hmb age_lt_30
       id: 1001
-    - name: hmb_age_30_45
+    - name: hmb age_30_45
       id: 1002
-    - name: hmb_age_45_55
+    - name: hmb age_45_55
       id: 1003
     txCohorts:
-    - name: combOralContraceptives
-      id: 27
     - name: danazol
-      id: 28
-    - name: grha
       id: 29
-    - name: lngIUD
+    - name: grha
+      id: 30
+    - name: ironPreparations
       id: 31
-    - name: nsaids
-      id: 32
-    - name: progestinOnly
+    - name: oc_estradiolDienogest
       id: 33
-    - name: tranexamicAcid
+    - name: oc_other
       id: 34
-    - name: ulipristalAcetate
+    - name: progestinOnly
       id: 35
+    - name: tranexamicAcid
+      id: 36
+    - name: ulipristalAcetate
+      id: 37
   treatmentHistorySettings:
     minEraDuration: 0
     eraCollapseSize: 30
@@ -40,6 +40,6 @@ treatmentPatterns:
     groupCombinations: 10
     addNoPaths: no
   outputFolder:
-  - 08_treatmentHistory
+  - 08_treatmentHistory3
   - 09_treatmentPatterns
   - 10_timeToDiscontinuation

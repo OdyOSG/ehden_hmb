@@ -3,19 +3,23 @@ incidenceAnalysis:
     targetCohort:
     - name: hmb
       id: 1
-    - name: hmb_age_lt_30
-      id: 1001
-    - name: hmb_age_30_45
-      id: 1002
-    - name: hmb_age_45_55
-      id: 1003
     denominatorCohort:
     - name: incidenceDenominator
       id: 2
   incidenceSettings:
-    cleanWindow: 0
-    startWith: start
-    startOffset: 0
-    endsWith: end
-    endOffset: 0
+    sex: Female
+    ageGroups:
+    - - 0.0
+      - 130.0
+    - - 0.0
+      - 29.0
+    - - 30.0
+      - 44.0
+    - - 45.0
+      - 55.0
+    interval:
+    - years
+    - overall
+    completeDatabaseIntervals: no
+    cellCount: 5
   outputFolder: 04_incidenceAnalysis

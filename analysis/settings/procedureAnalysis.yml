@@ -3,34 +3,40 @@ procedureAnalysis:
     targetCohorts:
     - name: hmb
       id: 1
-    - name: hmb_age_lt_30
+    - name: hmb age_lt_30
       id: 1001
-    - name: hmb_age_30_45
+    - name: hmb age_30_45
       id: 1002
-    - name: hmb_age_45_55
+    - name: hmb age_45_55
       id: 1003
     procCohorts:
     - name: bloodTransfusion
-      id: 36
-    - name: copperIUDprocedure
-      id: 37
-    - name: endometrialAblation
       id: 38
-    - name: hormonalIUD
+    - name: copperIUDprocedure
       id: 39
-    - name: hysterectomy
+    - name: endometrialAblation
       id: 40
-    - name: myomectomy
+    - name: hormonalLngIUD
       id: 41
-    - name: uae
+    - name: hysterectomy
       id: 42
-    - name: undefinedIUD
+    - name: myomectomy
       id: 43
+    - name: uae
+      id: 44
+    - name: undefinedIUD
+      id: 45
   timeWindow:
+  - startDay: 0
+    endDay: 0
+  - startDay: 0
+    endDay: 183
   - startDay: 1
     endDay: 183
   - startDay: 1
     endDay: 365
+  - startDay: 1
+    endDay: 9999
   - startDay: 184
     endDay: 365
   - startDay: 366

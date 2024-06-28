@@ -3,27 +3,19 @@ underlyingConditions:
     targetCohort:
     - name: hmb
       id: 1
-    - name: hmb_age_lt_30
+    - name: hmb age_lt_30
       id: 1001
-    - name: hmb_age_30_45
+    - name: hmb age_30_45
       id: 1002
-    - name: hmb_age_45_55
+    - name: hmb age_45_55
       id: 1003
     covariateCohorts:
     - name: adenomyosis
       id: 3
     - name: anemia
       id: 4
-    - name: antidepressants
-      id: 5
-    - name: antipsychotics
-      id: 6
-    - name: antithrombotics
-      id: 7
     - name: coagulopathy
       id: 8
-    - name: copperIUDdrug
-      id: 9
     - name: covid19
       id: 10
     - name: diabetes
@@ -34,30 +26,30 @@ underlyingConditions:
       id: 13
     - name: endoHyperplasia
       id: 14
-    - name: endometriosis
-      id: 15
     - name: endoPolyp
+      id: 15
+    - name: endometriosis
       id: 16
-    - name: gonadalSteroids
+    - name: endometriosisOfUterus
       id: 17
     - name: ironDefAnemia
-      id: 18
-    - name: obesity
       id: 19
-    - name: ovulatoryDysfunction
+    - name: obesity
       id: 20
-    - name: pain
+    - name: ovulatoryDysfunction
       id: 21
-    - name: pcos
+    - name: pain
       id: 22
-    - name: pid
+    - name: pain_narrow
       id: 23
-    - name: std
+    - name: pcos
       id: 24
-    - name: tamoxifen
+    - name: pid
       id: 25
-    - name: uterineLeiomyoma
+    - name: std
       id: 26
+    - name: uterineLeiomyoma
+      id: 28
   timeWindow:
   - startDay: 1
     endDay: 365

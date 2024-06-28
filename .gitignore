@@ -1,23 +1,84 @@
-.Rproj.user
+# Project specific files and folders
 results/
+results_or/
+results_0603/
+results_old/
+results_temp/
 logs/
 config.yml
-NUL
 scratch/incPrevTest.R
 .httr-oauth
 documentation/minutes/custom-reference-doc.docx
 documentation/custom-reference-doc.docx
 documentation/StudySAP.qmd
 documentation/minutes612023.qmd
-errorReportSql.txt
-
-# ignore minutes documents
 documentation/minutes/img
 documentation/minutes/*.qmd
-
-# ignore problem incidence Denom
+errorReportSql.txt
 cohortsToCreate/ignore/
 hidden/
 results.zip
-
 scratchDiagnostics
+shiny/data/
+shiny/data_or/
+shiny/data_0603/
+shiny/data_old/
+bindResults.R
+bindResults_Public.R
+bindResults_Private.R
+shiny/data_public
+shiny/data_private
+misc/
+
+# Mac files
+.DS_Store
+
+# History files
+.Rhistory
+.Rapp.history
+
+# Session Data files
+.RData
+.RDataTmp
+
+# User-specific files
+.Ruserdata
+
+# Example code in package build process
+*-Ex.R
+
+# Output files from R CMD build
+/*.tar.gz
+
+# Output files from R CMD check
+/*.Rcheck/
+
+# RStudio files
+.Rproj.user/
+
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.httr-oauth
+
+# knitr and R markdown default cache directories
+*_cache/
+/cache/
+
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
+
+# R Environment Variables
+.Renviron
+
+# pkgdown site
+docs/
+
+# translation temp files
+po/*~
+
+# RStudio Connect folder
+rsconnect/

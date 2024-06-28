@@ -1,9 +1,8 @@
-# A. Meta Info -----------------------
+# A. File Info -----------------------
 
 # Task: Treatment History
-# Author: Carina
-# Date: 2023-07-26
 # Description: The purpose of the _treatmentHistory.R script is to.....
+
 
 # B. Functions ------------------------
 
@@ -13,18 +12,16 @@ get_tx_history <- function(con,
                            targetId,
                            targetName,
                            treatmentCohorts,
+                           database,
                            thSettings,
                            outputFolder) {
 
-
-
-  #collect cohorts
+  # Collect cohorts
   current_cohorts <- collect_cohorts(con = con,
                                      workDatabaseSchema = workDatabaseSchema,
                                      cohortTable = cohortTable,
                                      targetId = targetId,
                                      eventIds = treatmentCohorts$id)
-
 
 
   # Run treatment history
@@ -43,7 +40,34 @@ get_tx_history <- function(con,
     postProcess(eventCohortIds = treatmentCohorts$id,
                 eventCohortNames = treatmentCohorts$name,
                 maxPathLength = thSettings$maxPathLength)
+
   res$duration_era <- as.integer(res$duration_era)
+
+  #res <- arrow::read_parquet(here::here("results", database, "08_treatmentHistory", paste0("th_", targetId, ".parquet")))
+  #res <- arrow::read_parquet(here::here("results", database, "08_treatmentHistory2", paste0("th_", targetId, ".parquet")))
+
+  #res$flag <- NULL
+  #res$start_date <- NULL
+
+  # Extract person ids and start date of target cohort index(start) date (hmb diagnosis)
+  pids <- current_cohorts %>%
+    dplyr::filter(cohort_id == targetId & rnk == 1) %>%
+    dplyr::select(person_id, start_date) %>%
+    dplyr::distinct()
+
+  # Add target cohort index date in Treatment History data frame
+  resIdDate <- res %>%
+    dplyr::left_join(pids, by = c("person_id"))
+
+  # Create flag for treatment received in 6 months, 1 year and 2 years after target cohort index date
+  resFinal <- resIdDate %>%
+    dplyr::mutate(flag = dplyr::case_when(
+      event_start_date >= start_date & event_start_date <= start_date + lubridate::days(183) ~ '6m',
+      event_start_date >= start_date & event_start_date <= start_date + lubridate::days(365) ~ '1y',
+      event_start_date >= start_date & event_start_date <= start_date + lubridate::days(730) ~ '2y',
+      event_start_date >= start_date ~ 'end',
+    )
+  )
 
   tok <- Sys.time()
   tdif <- tok - tik
@@ -53,7 +77,7 @@ get_tx_history <- function(con,
 
   save_name <- paste("th", targetId,  sep = "_")
   save_path <- fs::path(outputFolder, save_name, ext = "parquet")
-  arrow::write_parquet(x = res, sink = save_path)
+  arrow::write_parquet(x = resFinal, sink = save_path)
   cli::cat_line()
   cli::cat_bullet("Saved file ", crayon::green(basename(save_path)), " to:",
                   bullet = "info", bullet_col = "blue")
@@ -61,8 +85,8 @@ get_tx_history <- function(con,
   cli::cat_line()
 
   invisible(res)
-
 }
+
 
 ## Run bulk treatment history module -------------
 
@@ -108,8 +132,6 @@ runTreatmentHistory <- function(con,
         cli::cat_rule()
         txt1 <- paste0(targetCohorts$name[i], " (id:", targetCohorts$id[i], ")")
         cli::cat_bullet(crayon::green("Target Cohort: "), txt1, bullet = "pointer", bullet_col = "yellow")
-        # cli::cat_bullet(crayon::green("Drug Class: "), drugClass[j], bullet = "pointer", bullet_col = "yellow")
-        # cli::cat_bullet(crayon::green("Era Collapse Size: "), eraCollapseSize[k], bullet = "pointer", bullet_col = "yellow")
         txt2 <- paste(txCohorts$name, collapse = ", ")
         cli::cat_bullet(crayon::green("Event Cohorts: "), txt2, bullet = "pointer", bullet_col = "yellow")
         cli::cat_line()
@@ -122,9 +144,9 @@ runTreatmentHistory <- function(con,
                        targetId = tmp_targetId,
                        targetName = tmp_targetName,
                        treatmentCohorts = txCohorts,
+                       database = executionSettings$databaseName,
                        thSettings = thSettings,
                        outputFolder = save_path)
-
 
 
   }
@@ -136,7 +158,5 @@ runTreatmentHistory <- function(con,
                   bullet = "info", bullet_col = "blue")
 
   invisible(treatmentCohorts)
-
 }
-
 

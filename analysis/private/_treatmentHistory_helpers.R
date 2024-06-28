@@ -1,9 +1,8 @@
-# A. Meta Info -----------------------
+# A. File Info -----------------------
 
 # Task: Treatment History Helpers
-# Author: Martin Lavallee
-# Date: 2023-08-02
 # Description: The purpose of the _treatmentHistory_helpers.R script is to.....
+
 
 # B. Functions ------------------------
 
@@ -25,15 +24,16 @@ collect_cohorts <- function(con,
     FROM @write_schema.@cohort_table
     WHERE cohort_definition_id = @cohortId
   )
-  SELECT a.*
+  SELECT a.*,
+  rank() over(partition by a.subject_id, a.cohort_definition_id order by a.cohort_start_date) as rnk
   FROM (
-  SELECT * FROM
-  @write_schema.@cohort_table
-  WHERE cohort_definition_id in (@allIds)
+    SELECT * FROM
+    @write_schema.@cohort_table
+    WHERE cohort_definition_id in (@allIds)
   ) a
   JOIN T1
     ON a.subject_id = t1.subject_id
-  " %>%
+    order by subject_id, cohort_definition_id, rnk;" %>%
     SqlRender::render(
       write_schema = workDatabaseSchema,
       cohort_table = cohortTable,
@@ -45,13 +45,11 @@ collect_cohorts <- function(con,
     )
 
   current_cohorts <- DatabaseConnector::querySql(connection = con, sql = sql)
-  names(current_cohorts) <- c("cohort_id", "person_id", "start_date", "end_date")
+  names(current_cohorts) <- c("cohort_id", "person_id", "start_date", "end_date", "rnk")
   current_cohorts <- data.table::as.data.table(current_cohorts)
 
   return(current_cohorts)
 }
-
-
 
 
 # Internals --------------------
@@ -77,7 +75,13 @@ doCreateTreatmentHistory <- function(current_cohorts, targetCohortId, eventCohor
 
   # Only keep event cohorts starting (startDate) or ending (endDate) after target cohort start date
   if (includeTreatments == "startDate") {
-    current_cohorts <- current_cohorts[current_cohorts$start_date.y - as.difftime(periodPriorToIndex, unit="days") <= current_cohorts$start_date.x & current_cohorts$start_date.x < current_cohorts$end_date.y,]
+
+    # Original code
+    #current_cohorts <- current_cohorts[current_cohorts$start_date.y - as.difftime(periodPriorToIndex, unit="days") <= current_cohorts$start_date.x & current_cohorts$start_date.x < current_cohorts$end_date.y,]
+
+    # New code (to include event cohorts that ended the same day as the target cohort start date)
+    current_cohorts <- current_cohorts[current_cohorts$start_date.y - as.difftime(periodPriorToIndex, unit="days") <= current_cohorts$start_date.x & current_cohorts$start_date.x <= current_cohorts$end_date.y,]
+
   } else if (includeTreatments == "endDate") {
     current_cohorts <- current_cohorts[current_cohorts$start_date.y - as.difftime(periodPriorToIndex, unit="days") <= current_cohorts$end_date.x & current_cohorts$start_date.x < current_cohorts$end_date.y,]
     current_cohorts$start_date.x <- pmax(current_cohorts$start_date.y - as.difftime(periodPriorToIndex, unit="days"), current_cohorts$start_date.x)
@@ -221,6 +225,7 @@ selectRowsCombinationWindow <- function(treatment_history) {
 
   return(treatment_history)
 }
+
 doStepDuration <- function(treatment_history, minPostCombinationDuration) {
   treatment_history <- treatment_history[(is.na(check_duration) | duration_era >= minPostCombinationDuration),]
   cli::cat_line(paste0("After minPostCombinationDuration: ", nrow(treatment_history)))
@@ -248,6 +253,7 @@ doEraCollapse <- function(treatment_history, eraCollapseSize) {
   treatment_history[,duration_era:=difftime(event_end_date , event_start_date, units = "days")]
 
   cli::cat_line(paste0("After eraCollapseSize: ", nrow(treatment_history)))
+
   return(treatment_history)
 }
 
@@ -288,11 +294,15 @@ doFilterTreatments <- function(treatment_history, filterTreatments) {
   return(treatment_history)
 }
 
+
 addDrugSequence <- function(treatment_history) {
+
   cli::cat_line("Adding drug sequence number.")
   treatment_history <- treatment_history[order(person_id, event_start_date, event_end_date),]
   treatment_history[, event_seq:=seq_len(.N), by= .(person_id)]
+
 }
+
 
 doMaxPathLength <- function(treatment_history, maxPathLength) {
 
@@ -303,6 +313,7 @@ doMaxPathLength <- function(treatment_history, maxPathLength) {
 
   return(treatment_history)
 }
+
 
 addLabels <- function(treatment_history, eventCohortIds, eventCohortNames) {
 
@@ -338,20 +349,25 @@ addLabels <- function(treatment_history, eventCohortIds, eventCohortNames) {
   return(th)
 }
 
+
 orderCombinations <- function(th) {
+
   cli::cat_line("Ordering the combinations.")
   #some clean up for the combination names
   combi <- grep("+", th$event_cohort_name, fixed=TRUE)
   cohort_names <- strsplit(th$event_cohort_name[combi], split="+", fixed=TRUE)
   th$event_cohort_name[combi] <- sapply(cohort_names, function(x) paste(sort(x), collapse = "+"))
   th$event_cohort_name <- unlist(th$event_cohort_name)
+
   return(th)
 }
+
 
 postProcess <- function(treatment_history,
                         eventCohortIds,
                         eventCohortNames,
                         maxPathLength) {
+
   if (nrow(treatment_history) != 0) {
     res <- addDrugSequence(treatment_history) %>%
       doMaxPathLength(maxPathLength) %>%
@@ -364,5 +380,4 @@ postProcess <- function(treatment_history,
 
   return(res)
 }
-
 

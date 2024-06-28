@@ -1,3 +1,63 @@
+# EHDEN HMB v2.0.0
+
+* Updated `endometriosis`, `disorder of ovary`, `myomectomy`, `hysterectomy` `endometrial ablation` and `endometrial polyp` concept sets
+* Merged concept sets `hormonal IUD` and `lng IUD` into one concept set named `hormonalIUD`
+* Added new covariate concept set `endometriosis of uterus`
+* Added procedures in the `Treatment Patterns` analysis (Sequences)
+* Edited `Treatment Patterns` function code to include event cohorts that started the same day as the target cohort's end date
+* Reworked incidence analysis. Using the `IncidencePrevalenc`e package to calculate.
+* Added `Age distribution` plot in shiny app section `Clinical Characteristics`
+* Added new time window (at index i.e. 0 days from index date) for drug and procedure prevalence analysis
+* Changed the label of the first age group from `0-30` to `11-29`
+* Created additional task named `zip results`
+
+# EHDEN HMB v1.1.1
+
+* Adjusted height and width parameters for KM plots pictures in the shiny app
+
+# EHDEN HMB v1.1.0
+
+* Reworked incidence analysis. Age groups' incidence is calclulated by the CohortIncidence package and not by stratified cohorts.
+
+# EHDEN HMB v1.0.2
+
+* Fixed cohort picker in shiny app
+* Updated renv.lock file for package dependency
+
+# EHDEN HMB v1.0.1
+
+* Corrected NEWS.md file
+* Added "result"" and "data"" folders in .gitignore file
+
+# EHDEN HMB v1.0.0
+
+* Removed `HMB2` cohort definition
+* Added all drug cohorts to post-index utilization analysis
+* Split Oral Contraceptives concept set to 1) All oral contraceptives excluding estradiol+dienogest and 2) just estradiol+dienogest oral contraceptives
+* Added narrow definition of pain covariate (i.e. pain associated with HMB)
+* Added new Treatment Patterns analysis (without NSAIDs). Kept the initial analysis as sensitivity (with NSAIDs).
+* Added new Time to discontinuation analysis (without NSAIDs). Kept the initial analysis as sensitivity (with NSAIDs).
+* Added risk table with people at risk and censored underneath KM plots
+* Added subsets of Treatment Patterns analysis i.e. patterns of first 6 months, 1 year and 2 years after index date
+* Drug utilization has been extended to two different analyses: 'Within time window' and 'Complete follow-up'
+* Incidence analysis has been altered. Incidence rate is calculated by using the same stratified cohorts in both numerator and denominator
+
+# EHDEN HMB v0.9.0
+
+* Updated `.gitignore` with Github R template
+* Corrected links in `README.md` file
+* Corrected database names in `sap.qmd` and `index.qmd` file
+* Tidied up R scripts
+* Replaced SQL function `EXTRACT` with `YEAR` in the `_buildStrata.R` script to translate SQL code to Azure Synapse dialect
+* Converted `dbplyr` function to SQL code
+* Reworked `initializeCohortTables` function (Added `drop table` sql code)
+* Added database information Markdown in shiny app
+
+
+# EHDEN HMB v0.2.0
+
+* Add shiny app to preview results
+
 # EHDEN HMB v0.1.8
 
 * Fix pid and std file names in cohort definitions, changes anticipated build order
@@ -17,7 +77,7 @@
 * Update package website
 * Add yearly incidence to `Incidence Analysis` (Issue #13)
 * Add R scripts for data exchange and CD preview (Issue #14)
-* update cohort definitions from Siir
+* Update cohort definitions from Siir
     - copperIUDproc
     - copperIUDdrug
     - disorderOfOvary
@@ -49,7 +109,7 @@
 * Add study website
 * Update cohort definitions for denominator
 * Addition of executeStudy.R file to automate execution
-* add age strata [under 30, 30-45, 45-55]
+* Add age strata [under 30, 30-45, 45-55]
 
 # EHDEN HMB v0.1.0
 
@@ -64,12 +124,12 @@
 * Add file `StoreResults` to upload cohort diagnostics zip to aws s3 bucket
 * Update `KeyringSetup` to match `Ulysses`
 * Update renv.lock to add `aws.s3` and `Ulysses` v0.0.2
-* minor correction to study task files
+* Minor correction to study task files
 
 # EHDEN HMB v0.0.5
 
-* Add in renv
-* minor correction to HMB cohort for cohort diagnostics
+* Added in `renv`
+* Minor correction to HMB cohort for cohort diagnostics
 
 # EHDEN HMB v0.0.4
 
@@ -87,11 +147,11 @@
 
 * Update cohort definition for HMB to fix error
 * Add cohort diagnostics script
-* Add How to Run file and key ring file
+* Add `HowToRun` file and `keyring` file
 
 # EHDEN HMB v0.0.1
 
 * Add HMB cohort definition to repo
 * Start preparing documentation about study
 * Initialize OHDSI study
-* Add `NEWS.md` to track changes to OHDSI study
+* Add `NEWS.md` to track changes

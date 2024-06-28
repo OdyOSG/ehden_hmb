@@ -215,6 +215,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#troubleshooting-1" id="toc-troubleshooting-1" class="nav-link" data-scroll-target="#troubleshooting-1"><span class="header-section-number">2.3.1</span> Troubleshooting</a></li>
   </ul></li>
   <li><a href="#results-folder" id="toc-results-folder" class="nav-link" data-scroll-target="#results-folder"><span class="header-section-number">2.4</span> Results Folder</a></li>
+  <li><a href="#review-results" id="toc-review-results" class="nav-link" data-scroll-target="#review-results"><span class="header-section-number">2.5</span> Review Results</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -391,6 +392,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="results-folder" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="results-folder"><span class="header-section-number">2.4</span> Results Folder</h2>
 <p>Following successful execution of the study, each database will have its own sub-folder within results. There will be a further 14 subfolders containing results from the execution underneath the database. Within each of these folders there will be a combination of <code>csv</code>, <code>rds</code> and <code>parquet</code> (only for treatmentHistory) that contain the results. You may review these files individually if you wish. Instructions on how to share the results are maintained in the contribution tab of the website.</p>
+</section>
+<section id="review-results" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="review-results"><span class="header-section-number">2.5</span> Review Results</h2>
+<p>In version 0.2 of the study code, we have added code to launch a shiny app to locally review results prior to distributing them to the study host. In order to run the shiny app the user needs to prep the data for the app. Navigate to <code>extras/PreviewResults.R</code> and run the first step. This will take all databases run in the results section and build a data folder for the shiny app. This data folder is ignored to prevent accidental commits back to github. Next launch the shiny app.</p>
 
 
 </section>

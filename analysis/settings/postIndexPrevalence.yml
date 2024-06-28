@@ -1,0 +1,66 @@
+treatmentPatterns:
+  cohorts:
+    targetCohorts:
+    - name: hmb
+      id: 1
+    - name: hmb age_lt_30
+      id: 1001
+    - name: hmb age_30_45
+      id: 1002
+    - name: hmb age_45_55
+      id: 1003
+    drugCohorts:
+    - name: antidepressants
+      id: 5
+    - name: antipsychotics
+      id: 6
+    - name: antithrombotics
+      id: 7
+    - name: copperIUDdrug
+      id: 9
+    - name: gonadalSteroids
+      id: 18
+    - name: tamoxifen
+      id: 27
+    - name: danazol
+      id: 29
+    - name: grha
+      id: 30
+    - name: ironPreparations
+      id: 31
+    - name: nsaids
+      id: 32
+    - name: oc_estradiolDienogest
+      id: 33
+    - name: oc_other
+      id: 34
+    - name: progestinOnly
+      id: 35
+    - name: tranexamicAcid
+      id: 36
+    - name: ulipristalAcetate
+      id: 37
+  timeWindow:
+  - startDay: -730
+    endDay: -1
+  - startDay: -365
+    endDay: -1
+  - startDay: -183
+    endDay: -1
+  - startDay: 0
+    endDay: 0
+  - startDay: 1
+    endDay: 183
+  - startDay: 1
+    endDay: 365
+  - startDay: 1
+    endDay: 730
+  - startDay: 184
+    endDay: 365
+  - startDay: 366
+    endDay: 730
+  - startDay: 731
+    endDay: 1825
+  outputFolder:
+  - 07_postIndexPrevalenceDrugs
+  - 07_postIndexPrevalenceDrugs2
