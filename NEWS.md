@@ -1,7 +1,7 @@
 # EHDEN HMB v2.0.0
 
 * Updated `endometriosis`, `disorder of ovary`, `myomectomy`, `hysterectomy` `endometrial ablation` and `endometrial polyp` concept sets
-* Merged concept sets `hormonal IUD` and `lng IUD` into one concept set named `hormonalIUD`
+* Merged concept sets `hormonal IUD` and `lng IUD` into one concept set named `hormonalLngIud`
 * Added new covariate concept set `endometriosis of uterus`
 * Added procedures in the `Treatment Patterns` analysis (Sequences)
 * Edited `Treatment Patterns` function code to include event cohorts that started the same day as the target cohort's end date
