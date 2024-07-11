@@ -22,6 +22,9 @@ dataPath <- here::here("shiny", "data")
 cohortCounts <- readr::read_csv(fs::path(dataPath, "cohortCounts.csv"),
                                 show_col_types = FALSE)
 
+cohortCounts2 <- readr::read_csv(fs::path(dataPath, "cohortCounts2.csv"),
+                                show_col_types = FALSE)
+
 ## Load strata counts
 strataCounts <- readr::read_csv(fs::path(dataPath, "strataCounts.csv"),
                                 show_col_types = FALSE)
@@ -77,11 +80,11 @@ cohortChar <- readr::read_csv(fs::path(dataPath, "baselineCohorts.csv"),
   dplyr::mutate(
     domain = dplyr::case_when(
       covariateName2 %in% c("antidepressants", "antipsychotics", "antithrombotics", "nsaids", "grha", "tranexamicAcid",
-                           "tamoxifen", "gonadalSteroids", "copperIUDdrug", "danazol", "lngIUD", "ulipristalAcetate",
+                           "tamoxifen", "gonadalSteroids", "copperIUDdrug", "danazol", "hormonalLngIUD", "ulipristalAcetate",
                            "oc_estradiolDienogest", "oc_other", "progestinOnly", "ironPreparations",
                            "oralContraceptives_estradiolDienogest", "oralContraceptives_other") ~ "Drugs",
       covariateName2 %in% c("copperIUDprocedure", "bloodTransfusion", "hysterectomy", "myomectomy",
-                           "uae", "undefinedIUD", "endometrialAblation", "hormonalIUD") ~ "Procedures",
+                           "uae", "undefinedIUD", "endometrialAblation") ~ "Procedures",
       TRUE ~ "Conditions"
     )
   ) %>%
@@ -428,7 +431,7 @@ age10GrpP <- demographics %>%
   ) %>%
   dplyr::ungroup() %>%
   dplyr::left_join(
-    cohortCounts, by = c("cohortName" = "Cohort Name", "databaseId" = "Database")
+    cohortCounts2, by = c("cohortName" = "Cohort Name", "databaseId" = "Database")
   ) %>%
   dplyr::mutate(
     pct = count / Subjects,
@@ -458,7 +461,7 @@ age10GrpC <- demographics %>%
   ) %>%
   dplyr::ungroup() %>%
   dplyr::left_join(
-    cohortCounts, by = c("cohortName" = "Cohort Name", "databaseId" = "Database")
+    cohortCounts2, by = c("cohortName" = "Cohort Name", "databaseId" = "Database")
   ) %>%
   dplyr::mutate(
     pct = count / Subjects,
@@ -488,7 +491,7 @@ age5GrpP <- demographics %>%
   ) %>%
   dplyr::ungroup() %>%
   dplyr::left_join(
-    cohortCounts, by = c("cohortName" = "Cohort Name", "databaseId" = "Database")
+    cohortCounts2, by = c("cohortName" = "Cohort Name", "databaseId" = "Database")
   ) %>%
   dplyr::mutate(
     pct = count / Subjects,
@@ -515,7 +518,7 @@ age5GrpC <- demographics %>%
   ) %>%
   dplyr::ungroup() %>%
   dplyr::left_join(
-    cohortCounts, by = c("cohortName" = "Cohort Name", "databaseId" = "Database")
+    cohortCounts2, by = c("cohortName" = "Cohort Name", "databaseId" = "Database")
   ) %>%
   dplyr::mutate(
     pct = count / Subjects,
@@ -544,7 +547,7 @@ ageGrpP <- demographics %>%
   ) %>%
   dplyr::ungroup() %>%
   dplyr::left_join(
-    cohortCounts, by = c("cohortName" = "Cohort Name", "databaseId" = "Database")
+    cohortCounts2, by = c("cohortName" = "Cohort Name", "databaseId" = "Database")
   ) %>%
   dplyr::mutate(
     pct = count / Subjects,
@@ -571,7 +574,7 @@ ageGrpC <- demographics %>%
   ) %>%
   dplyr::ungroup() %>%
   dplyr::left_join(
-    cohortCounts, by = c("cohortName" = "Cohort Name", "databaseId" = "Database")
+    cohortCounts2, by = c("cohortName" = "Cohort Name", "databaseId" = "Database")
   ) %>%
   dplyr::mutate(
     pct = count / Subjects,

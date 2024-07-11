@@ -26,6 +26,8 @@ treatmentPatterns:
       id: 36
     - name: ulipristalAcetate
       id: 37
+    - name: hormonalLngIUD
+      id: 41
   treatmentHistorySettings:
     minEraDuration: 0
     eraCollapseSize: 30

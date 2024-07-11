@@ -1,3 +1,8 @@
+# EHDEN HMB v2.1.0
+
+* Moved `hormonalLngIud` concept from `Procedure Analysis` to `Treatment Patterns`
+* Edited info text in `Treatment Patterns` section
+
 # EHDEN HMB v2.0.0
 
 * Updated `endometriosis`, `disorder of ovary`, `myomectomy`, `hysterectomy` `endometrial ablation` and `endometrial polyp` concept sets

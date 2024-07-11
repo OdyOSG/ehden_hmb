@@ -14,7 +14,7 @@ library(ggsurvfit)
 
 
 database <- c("optum", "cprdGold", "cprdAurum", "mrktscan")
-database <- c("optum", "cprdAurum")
+database <- c("optum", "cprdGold", "cprdAurum")
 
 cohort <- c(1, 1001, 1002, 1003)
 

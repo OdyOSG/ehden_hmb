@@ -13,7 +13,7 @@ source(here::here("analysis/private/_executeStudy.R"))
 # C. Variables -----------------------
 
 ### Edit to respective config block
-configBlock <- "[block]"
+configBlock <- "[mrktscan]block]"
 
 ### Provide path to tasks
 studyTaskFolder <- here::here("analysis/studyTasks")
@@ -26,7 +26,7 @@ studyTaskFiles <- fs::dir_ls(studyTaskFolder, type = "file")
 runStudyTask(file = studyTaskFiles[1], configBlock = configBlock)
 
 ### Task 2: Run Cohort Diagnostics
-runStudyTask(file = studyTaskFiles[2], configBlock = configBlock)
+#runStudyTask(file = studyTaskFiles[2], configBlock = configBlock)
 
 ### Task 3: Run Incidence Analysis
 runStudyTask(file = studyTaskFiles[3], configBlock = configBlock)

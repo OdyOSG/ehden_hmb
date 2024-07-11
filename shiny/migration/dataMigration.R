@@ -44,6 +44,19 @@ cohortManifest <- bindCsv(allPaths = allPaths,
                           task = listOfTasks[1],       # Cohorts
                           file = "cohortManifest.csv")
 
+cm <- cohortManifest %>%
+  dplyr::select(databaseId, id, name, entries, subjects) %>%
+  dplyr::rename(
+    Database = databaseId,
+    `Cohort Id` = id,
+    `Cohort Name` = name,
+    Entries = entries,
+    Subjects = subjects
+  ) %>%
+  dplyr::mutate(Entries = dplyr::if_else(is.na(Entries), 0, Entries, 0),
+                Subjects = dplyr::if_else(is.na(Subjects), 0, Subjects, 0)
+  )
+
 cm2 <- cohortManifest %>%
   dplyr::select(databaseId, id, name, entries, subjects) %>%
   dplyr::rename(
@@ -61,6 +74,7 @@ cm2 <- cohortManifest %>%
   )
 
 readr::write_csv(cm2, file = fs::path(appDataPath, "cohortCounts.csv"))
+readr::write_csv(cm, file = fs::path(appDataPath, "cohortCounts2.csv"))
 
 
 ## 2. Bind and save strata table for all databases ----------------
@@ -417,6 +431,7 @@ piPrevFilesDrugs <- c(
   "cohort_covariates_183_1.csv",
   "cohort_covariates_365_1.csv",
   "cohort_covariates_730_1.csv",
+  "cohort_covariates_0_0.csv",
   "cohort_covariates_1_183.csv",
   "cohort_covariates_1_365.csv",
   "cohort_covariates_1_730.csv",
@@ -429,6 +444,7 @@ piPrevTimeFrameDrugs <- c(
   "-183d to -1d",
   "-365d to -1d",
   "-730d to -1d",
+  "On index date",
   "1d to 183d",
   "1d to 365d",
   "1d to 730d",
@@ -500,6 +516,7 @@ piPrevProc <- purrr::map2_dfr(piPrevFilesProc,          # files to use
     count = numEvents,
     timeWindow = dplyr::case_when(
       window == "All" ~ "1d to 9999d",
+      window == "0 - 0" ~ "On index date",
       window == "0 - 183" ~ "0d to 183d",
       window == "1 - 183" ~ "1d to 183d",
       window == "1 - 365" ~ "1d to 365d",
@@ -844,7 +861,7 @@ ttd <- purrr::pmap_dfr(
   ~bindTteData(
     path = resultsPath,
     database = ..2,
-    task = listOfTasks[11], ## Change number
+    task = listOfTasks[11],
     file = ..1
   )
 )

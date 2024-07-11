@@ -40,6 +40,8 @@ treatmentPatterns:
       id: 36
     - name: ulipristalAcetate
       id: 37
+    - name: hormonalLngIUD
+      id: 41
   timeWindow:
   - startDay: -730
     endDay: -1

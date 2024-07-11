@@ -23,16 +23,13 @@ drugUtilizationDescription <- "Counts equal to 5 and below have been masked and 
 drugUtilizationDescription2 <-  "Category 'Within time window' means that a drug exposure started and ended within the specified time window."
 drugUtilizationDescription3 <-  "Category 'Complete follow-up' means that a drug exposure spanned throughout the specified time window."
 clinicalCharacteristicsDescription <- "Counts equal to 5 and below have been masked and replaced with '=<5'. Characteristics are assessed within a time window of 365 to 0 days prior to index date"
-
 incidenceDescription1 <- "Incidence rate is defined as Outcome Count/Person Years * 1000."
 incidenceDescription2 <- "Incidence proportion is defined as Outcome Count/Persons at Risk * 100."
-
-treatmentPatternsDescription <- "Treatment Patterns counts (Sequences) are restricted to 30. HMB cohort is the population whose index event is HMB and are censored by hysterectomy. Thus we consider only drugs."
-
+treatmentPatternsDescription <- "Treatment Patterns counts (Sequences) are restricted to 30. HMB cohort is the population whose index event is HMB and are censored after hysterectomy."
 procedureAnalysisDescription <- "Counts equal to 5 and below have been masked and replaced with '=<5'.
 In the 'Time to Intervention' tab we consider the time for only those who experienced the event, not the entire cohort population."
 
-dashboardVersion <- "0.3.0"
+dashboardVersion <- "2.1.0"
 dashboardDate <- Sys.Date()
 
 # Functions ---------------

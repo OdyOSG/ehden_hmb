@@ -16,8 +16,6 @@ procedureAnalysis:
       id: 39
     - name: endometrialAblation
       id: 40
-    - name: hormonalLngIUD
-      id: 41
     - name: hysterectomy
       id: 42
     - name: myomectomy

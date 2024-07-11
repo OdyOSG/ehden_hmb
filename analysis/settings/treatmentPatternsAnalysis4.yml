@@ -28,6 +28,22 @@ treatmentPatterns:
       id: 36
     - name: ulipristalAcetate
       id: 37
+    - name: bloodTransfusion
+      id: 38
+    - name: copperIUDprocedure
+      id: 39
+    - name: endometrialAblation
+      id: 40
+    - name: hormonalLngIUD
+      id: 41
+    - name: hysterectomy
+      id: 42
+    - name: myomectomy
+      id: 43
+    - name: uae
+      id: 44
+    - name: undefinedIUD
+      id: 45
   treatmentHistorySettings:
     minEraDuration: 0
     eraCollapseSize: 30
