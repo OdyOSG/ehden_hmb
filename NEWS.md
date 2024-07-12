@@ -1,3 +1,7 @@
+# EHDEN HMB v2.1.1
+
+* Removed concept set `undefinedIUD` from analysis
+
 # EHDEN HMB v2.1.0
 
 * Moved `hormonalLngIud` concept from `Procedure Analysis` to `Treatment Patterns`

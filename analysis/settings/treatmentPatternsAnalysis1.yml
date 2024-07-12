@@ -40,8 +40,6 @@ treatmentPatterns:
       id: 43
     - name: uae
       id: 44
-    - name: undefinedIUD
-      id: 45
   treatmentHistorySettings:
     minEraDuration: 0
     eraCollapseSize: 30

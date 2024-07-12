@@ -10,13 +10,6 @@ source(here::here("shiny", "migration", "helpers.R"))
 
 dataPath <- here::here("shiny", "data")
 
-
-# About -----------------
-## Load database meta
-# databaseMeta <- readr::read_csv(fs::path(dataPath, "databaseMeta.csv"),
-#                                 show_col_types = FALSE)
-
-
 # 1. Cohorts -----------------
 ## Load cohort Counts
 cohortCounts <- readr::read_csv(fs::path(dataPath, "cohortCounts.csv"),
