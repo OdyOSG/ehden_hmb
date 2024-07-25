@@ -207,23 +207,6 @@ executeIncidenceAnalysis <- function(cdm,
     minCellCount = irSettings$cellCount
   )
 
-  # for (i in seq_along(targetCohort$id)) {
-  #   #for (j in seq_along(irSettings$studyWindow)) {
-  #
-  #     generateIncidenceAnalysis(
-  #       con = con,
-  #       executionSettings = executionSettings,
-  #       cohortId = targetCohortId[i],
-  #       cohortName = targetCohortName[i],
-  #       denomCohorts = denomCohorts[i,],
-  #       irSettings = irSettings,
-  #       refId = i,
-  #       windowYear = irSettings$studyWindow[[j]]$id
-  #     )
-  #
-  #   #}
-  # }
-
   ## Save results
   verboseSave(
     object = inc,

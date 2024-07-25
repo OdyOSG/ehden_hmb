@@ -45,11 +45,13 @@ DBI::dbExecute(con, "ALTER SESSION SET DATE_INPUT_FORMAT = 'YYYY-MM-DD'")
 DBI::dbExecute(con, "ALTER SESSION SET JDBC_QUERY_RESULT_FORMAT='JSON'")
 
 ### Connect to database
+
 cdm <- cdm_from_con(
   con = con,
   cdm_schema = c(catalog = dbName, schema = schemaName),
   write_schema = c(catalog = writeDbName, schema = writeSchemaName),
-  cdm_name = dbName
+  cdm_name = dbName,
+  .soft_validation = FALSE
 )
 
 

@@ -1,3 +1,9 @@
+# EHDEN HMB v2.1.2
+
+* Edited info text in `About` page
+* Renamed age group label from `age_30_45` to `age_30_44`
+* Added task to create png files of the KM plots for TTD and TTI
+
 # EHDEN HMB v2.1.1
 
 * Removed concept set `undefinedIUD` from analysis

@@ -23,6 +23,7 @@ strataCounts <- readr::read_csv(fs::path(dataPath, "strataCounts.csv"),
                                 show_col_types = FALSE)
 
 strataCounts$`Strata Cohort Name` <- gsub("hmb age_lt_30", "hmb age_11_29", strataCounts$`Strata Cohort Name`)
+strataCounts$`Strata Cohort Name` <- gsub("hmb age_30_45", "hmb age_30_44", strataCounts$`Strata Cohort Name`)
 
 ### Global Pickers ---------------------------
 databaseName <- unique(cohortCounts$Database)
@@ -39,6 +40,7 @@ demoChar <- readr::read_csv(fs::path(dataPath, "baselineDemographics.csv"),
   maskLowCount()
 
 demoChar$cohortName <- gsub("hmb age_lt_30", "hmb age_11_29", demoChar$cohortName)
+demoChar$cohortName <- gsub("hmb age_30_45", "hmb age_30_44", demoChar$cohortName)
 
 ## Pickers
 cohortNameDemo <- unique(demoChar$cohortName)
@@ -50,6 +52,7 @@ ctsChar <- readr::read_csv(fs::path(dataPath, "baselineContinuous.csv"),
   dplyr::select(-cohortDefinitionId)
 
 ctsChar$cohortName <- gsub("hmb age_lt_30", "hmb age_11_29", ctsChar$cohortName)
+ctsChar$cohortName <- gsub("hmb age_30_45", "hmb age_30_44", ctsChar$cohortName)
 
 ## Pickers
 cohortNameCts <- unique(ctsChar$cohortName)
@@ -62,6 +65,7 @@ conceptChar <- readr::read_csv(fs::path(dataPath, "baselineConcepts.csv"),
   maskLowCount()
 
 conceptChar$cohortName <- gsub("hmb age_lt_30", "hmb age_11_29", conceptChar$cohortName)
+conceptChar$cohortName <- gsub("hmb age_30_45", "hmb age_30_44", conceptChar$cohortName)
 
 ## Pickers
 cohortNameConcept <- unique(conceptChar$cohortName)
@@ -90,6 +94,7 @@ cohortChar$covariateName2 <- NULL
 cohortChar <- cohortChar %>% dplyr::select(databaseId, cohortName, domain, covariateName, count, pct)
 
 cohortChar$cohortName <- gsub("hmb age_lt_30", "hmb age_11_29", cohortChar$cohortName)
+cohortChar$cohortName <- gsub("hmb age_30_45", "hmb age_30_44", cohortChar$cohortName)
 
 ## Pickers
 cohortNameCohort <- unique(cohortChar$cohortName)
@@ -102,6 +107,7 @@ icdChar <- readr::read_csv(fs::path(dataPath, "baselineChapters.csv"),
   maskLowCount()
 
 icdChar$cohortName <- gsub("hmb age_lt_30", "hmb age_11_29", icdChar$cohortName)
+icdChar$cohortName <- gsub("hmb age_30_45", "hmb age_30_44", icdChar$cohortName)
 
 ## Pickers
 cohortNameICD <- unique(icdChar$cohortName)
@@ -111,24 +117,8 @@ cohortNameICD <- unique(icdChar$cohortName)
 domainConceptChar <- sort(unique(conceptChar$domain))
 domainCohortChar  <- sort(unique(cohortChar$domain))
 
-# 3. Incidence -----------------
 
-# ## Incidence
-# incTab <- readr::read_csv(fs::path(dataPath, "incidence.csv"),
-#                           show_col_types = FALSE) %>%
-#   dplyr::select(-c(OUTCOME_COHORT_DEFINITION_ID, AGE_ID)) %>%
-#   dplyr::mutate(PERSON_YEARS = as.integer(PERSON_DAYS/365.25), .before =6) %>%
-#   maskLowCountInci()
-#
-# ### Incidence Pickers
-# yearInci <- c("All", as.character(2000:2022))
-# ageInci <- unique(incTab$AGE_GROUP_NAME) %>% sort(decreasing = TRUE)
-# cohortNameInciPlot <- "hmb"
-# ageGroupInciPlot <- unique(incTab$AGE_GROUP_NAME) %>% sort(decreasing = TRUE)
-# databaseInci <- unique(incTab$databaseId)
-
-
-# 3.2 Incidence (IncidencePrevalence) -----------------
+# 3. Incidence (IncidencePrevalence) -----------------
 
 ## Incidence 2
 incTab2 <- readr::read_csv(fs::path(dataPath, "incidence.csv"),
@@ -194,7 +184,7 @@ ageInci2Plot        <- unique(incTab2$ageGroup) %>% sort(decreasing = TRUE)
 databaseInciPlot2   <- unique(incTab2$databaseName)
 
 
-# 4. PostIndex Prevalence -----------------
+# 4. Post-Index Prevalence -----------------
 
 postIndex <- readr::read_csv(fs::path(dataPath, "postIndexPrevalence.csv"),
                              show_col_types = FALSE) %>%
@@ -202,6 +192,7 @@ postIndex <- readr::read_csv(fs::path(dataPath, "postIndexPrevalence.csv"),
   maskLowCount()
 
 postIndex$cohortName <- gsub("hmb age_lt_30", "hmb age_11_29", postIndex$cohortName)
+postIndex$cohortName <- gsub("hmb age_30_45", "hmb age_30_44", postIndex$cohortName)
 
 ## Underlying conditions -----------------
 
@@ -286,9 +277,10 @@ txPatDatAll <- dplyr::bind_rows(
 )
 
 txPatDatAll$cohortName <-  gsub("hmb_age_lt_30", "hmb_age_11_29", txPatDatAll$cohortName)
+txPatDatAll$cohortName <- gsub("hmb age_30_45", "hmb age_30_44", txPatDatAll$cohortName)
 
 ### Sankey pickers
-cohortName2 <- c("hmb", "hmb_age_11_29", "hmb_age_30_45", "hmb_age_45_55")
+cohortName2 <- c("hmb", "hmb_age_11_29", "hmb age_30_44", "hmb_age_45_55")
 
 sankeyCohorts <- tibble::tibble(
   id = c(1L, 1001L, 1002L, 1003L),
@@ -314,6 +306,8 @@ ttd <- arrow::read_parquet(file = fs::path(here::here(dataPath ,"ttd.parquet")))
   )
 
 ttd$`Cohort Name` <- gsub("hmb age_lt_30", "hmb age_11_29", ttd$`Cohort Name`)
+ttd$`Cohort Name` <- gsub("hmb age_30_45", "hmb age_30_44", ttd$`Cohort Name`)
+
 
 ttd2 <- arrow::read_parquet(file = fs::path(here::here(dataPath ,"ttd2.parquet"))) %>%
   dplyr::mutate(targetId = as.double(targetId)) %>%
@@ -326,19 +320,13 @@ ttd2 <- arrow::read_parquet(file = fs::path(here::here(dataPath ,"ttd2.parquet")
   )
 
 ttd2$`Cohort Name` <- gsub("hmb age_lt_30", "hmb age_11_29", ttd2$`Cohort Name`)
+ttd2$`Cohort Name` <- gsub("hmb age_30_45", "hmb age_30_44", ttd2$`Cohort Name`)
 
-### Relabel strata
-# ttd <- relabelStrata(
-#   ttd,
-#   oldLabels = as.character(c(27:29, 31:35)),
-#   newLabels = c("oc", "danazol", "grha", "lglIUD",
-#                 "nsaids", "progestin", "tranexamicAcid", "ulipristalAcetate")
-# )
 
 ### TTE cohort pickers
 ttdCohorts <- unique(ttd$`Cohort Name`)
 
-cohortName3 <- c("hmb", "hmb age_11_29", "hmb age_30_45", "hmb age_45_55")
+cohortName3 <- c("hmb", "hmb age_11_29", "hmb age_30_44", "hmb age_45_55")
 
 ### TTE pickers
 tteCohorts <- tibble::tibble(
@@ -363,6 +351,7 @@ tti <- arrow::read_parquet(file = fs::path(here::here(dataPath ,"tti.parquet")))
     )
 
 tti$`Cohort Name` <- gsub("hmb age_lt_30", "hmb age_11_29", tti$`Cohort Name`)
+tti$`Cohort Name` <- gsub("hmb age_30_45", "hmb age_30_44", tti$`Cohort Name`)
 
 cohortNames <- cohortCounts %>%
   dplyr::select(`Cohort Name`, `Cohort Id`) %>%
@@ -374,13 +363,6 @@ tti2 <- tti %>%
   dplyr::rename(outcomeCohortId = `Cohort Name.y`,
                 `Cohort Name` = `Cohort Name.x`)
 
-# ### Relabel strata
-# tti <- relabelOutcome(
-#   tti,
-#   oldLabels = as.character(38:45),
-#   newLabels = c("bloodTransfusion", "copperIUD", "endometrialAblation", "hormonalIUD",
-#                 "hysterectomy", "myomectomy", "uae", "undefinedIUD")
-# )
 
 ### TTI cohort pickers
 ttiCohorts <- tti %>%

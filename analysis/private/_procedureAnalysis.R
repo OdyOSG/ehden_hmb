@@ -277,11 +277,19 @@ executeProcedureAnalysis <- function(con,
     # subset table for survival analysis (survfit)
     survDatKM <- getTteResKM(tb = tb, outcomeCohortId = procedureCohort)
 
+
     # Export time to event tables (survfit)
+    # readr::write_rds(
+    #   survDatKM,
+    #   here::here(ttiFolder, paste0("tti_", databaseId, "_", targetCohortIds[i], ".rds"))
+    #                  )
+
+    ttiFolder_rds <- paste0(ttiFolder, "_rds") %>% fs::dir_create()
+
     readr::write_rds(
       survDatKM,
-      here::here(ttiFolder, paste0("tti_", databaseId, "_", targetCohortIds[i], ".rds"))
-                     )
+      here::here(ttiFolder_rds, paste0("tti_", databaseId, "_", targetCohortIds[i], ".rds"))
+    )
 
     fileNm2 <- glue::glue("procedure_survival_{idx}")
 

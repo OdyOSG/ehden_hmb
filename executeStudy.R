@@ -40,6 +40,9 @@ runStudyTask(file = studyTaskFiles[5], configBlock = configBlock)
 ### Task 6: Run Procedure Analysis
 runStudyTask(file = studyTaskFiles[6], configBlock = configBlock)
 
-### Task 7: Zip results
+### Task 7: Create TTD and TTI plots
+runStudyTask(file = studyTaskFiles[8], configBlock = configBlock)
+
+### Task 8: Zip results
 runStudyTask(file = studyTaskFiles[7], configBlock = configBlock)
 

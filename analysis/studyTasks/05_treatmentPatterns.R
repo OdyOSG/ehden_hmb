@@ -50,7 +50,7 @@ analysisSettings5 <- readSettingsFile(here::here("analysis/settings/treatmentPat
 
 # E. Script --------------------
 
-startSnowflakeSession(con = con, executionSettings = executionSettings)
+#startSnowflakeSession(con = con, executionSettings = executionSettings)
 
 ## Post index prevalence
 executePostIndexDrugUtilization(con = con,

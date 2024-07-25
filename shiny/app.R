@@ -29,7 +29,7 @@ treatmentPatternsDescription <- "Treatment Patterns counts (Sequences) are restr
 procedureAnalysisDescription <- "Counts equal to 5 and below have been masked and replaced with '=<5'.
 In the 'Time to Intervention' tab we consider the time for only those who experienced the event, not the entire cohort population."
 
-dashboardVersion <- "2.1.0"
+dashboardVersion <- "2.1.2"
 dashboardDate <- Sys.Date()
 
 # Functions ---------------

@@ -16,11 +16,11 @@ library(keyring)
 
 configBlock <- "" # Name of config block
 
-database <- "" # Name of the database in the config block
+database <- ""    # Name of the database in the config block
 
-keyringName <- "ehden_hmb"   # Name of the keyring
+keyringName <- "ehden_hmb"       # Name of the keyring
 
-keyringPassword <- ""       # Password for keyring
+keyringPassword <- "ohdsi"       # Password for keyring
 
 
 ## C. Check or create Config File ------------
@@ -61,6 +61,7 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
   password = config::get("password", config = configBlock),
   connectionString = config::get("connectionString", config = configBlock)
 )
+
 connectionDetails$dbms
 
 

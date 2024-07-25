@@ -1,7 +1,27 @@
 {
   "R": {
-    "Version": "4.2.1",
+    "Version": "4.2.3",
     "Repositories": [
+      {
+        "Name": "BioCsoft",
+        "URL": "https://bioconductor.org/packages/3.16/bioc"
+      },
+      {
+        "Name": "BioCann",
+        "URL": "https://bioconductor.org/packages/3.16/data/annotation"
+      },
+      {
+        "Name": "BioCexp",
+        "URL": "https://bioconductor.org/packages/3.16/data/experiment"
+      },
+      {
+        "Name": "BioCworkflows",
+        "URL": "https://bioconductor.org/packages/3.16/workflows"
+      },
+      {
+        "Name": "BioCbooks",
+        "URL": "https://bioconductor.org/packages/3.16/books"
+      },
       {
         "Name": "CRAN",
         "URL": "https://packagemanager.rstudio.com/cran/latest"
@@ -54,12 +74,52 @@
       ],
       "Hash": "d57e43105a1aa9cb54fdb4629725acb1"
     },
+    "BiocVersion": {
+      "Package": "BiocVersion",
+      "Version": "3.16.0",
+      "Source": "Bioconductor",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "44c5824508b9a10e52dbb505c34fa880"
+    },
+    "CDMConnector": {
+      "Package": "CDMConnector",
+      "Version": "1.5.0",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "DBI",
+        "R",
+        "checkmate",
+        "cli",
+        "dbplyr",
+        "dplyr",
+        "fs",
+        "generics",
+        "glue",
+        "jsonlite",
+        "lifecycle",
+        "methods",
+        "omopgenerics",
+        "purrr",
+        "readr",
+        "rlang",
+        "stringi",
+        "stringr",
+        "tidyr",
+        "tidyselect",
+        "waldo",
+        "withr"
+      ],
+      "Hash": "2bae94aed83da2007c938f3d2fa1a48f"
+    },
     "Capr": {
       "Package": "Capr",
       "Version": "2.0.7",
       "Source": "GitHub",
-      "Remotes": "ohdsi/CirceR",
       "RemoteType": "github",
+      "Remotes": "ohdsi/CirceR",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "Capr",
       "RemoteUsername": "ohdsi",
@@ -112,8 +172,8 @@
       "Package": "CohortDiagnostics",
       "Version": "3.2.4",
       "Source": "GitHub",
-      "Remotes": "ohdsi/Eunomia, ohdsi/FeatureExtraction, ohdsi/ResultModelManager, ohdsi/ROhdsiWebApi, ohdsi/CirceR, ohdsi/CohortGenerator, ohdsi/OhdsiShinyModules",
       "RemoteType": "github",
+      "Remotes": "ohdsi/Eunomia, ohdsi/FeatureExtraction, ohdsi/ResultModelManager, ohdsi/ROhdsiWebApi, ohdsi/CirceR, ohdsi/CohortGenerator, ohdsi/OhdsiShinyModules",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "CohortDiagnostics",
       "RemoteUsername": "OHDSI",
@@ -146,8 +206,8 @@
       "Package": "CohortGenerator",
       "Version": "0.8.0",
       "Source": "GitHub",
-      "Remotes": "ohdsi/CirceR, ohdsi/Eunomia, ohdsi/ROhdsiWebApi",
       "RemoteType": "github",
+      "Remotes": "ohdsi/CirceR, ohdsi/Eunomia, ohdsi/ROhdsiWebApi",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "CohortGenerator",
       "RemoteUsername": "ohdsi",
@@ -176,8 +236,8 @@
       "Package": "CohortIncidence",
       "Version": "3.1.5",
       "Source": "GitHub",
-      "Remotes": "ohdsi/Eunomia",
       "RemoteType": "github",
+      "Remotes": "ohdsi/Eunomia",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "CohortIncidence",
       "RemoteUsername": "ohdsi",
@@ -237,8 +297,8 @@
       "Package": "FeatureExtraction",
       "Version": "3.3.0",
       "Source": "GitHub",
-      "Remotes": "ohdsi/Eunomia",
       "RemoteType": "github",
+      "Remotes": "ohdsi/Eunomia",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "FeatureExtraction",
       "RemoteUsername": "ohdsi",
@@ -301,6 +361,33 @@
         "viridis"
       ],
       "Hash": "58bdffbf73db41c8bf9e4e2329f92429"
+    },
+    "IncidencePrevalence": {
+      "Package": "IncidencePrevalence",
+      "Version": "0.7.4",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "CDMConnector",
+        "PatientProfiles",
+        "R",
+        "checkmate",
+        "cli",
+        "clock",
+        "dbplyr",
+        "dplyr",
+        "glue",
+        "lifecycle",
+        "lubridate",
+        "magrittr",
+        "omopgenerics",
+        "purrr",
+        "rlang",
+        "stringr",
+        "tidyr",
+        "visOmopResults"
+      ],
+      "Hash": "644352fe1c48cab082e268f0c5a04002"
     },
     "MASS": {
       "Package": "MASS",
@@ -366,6 +453,28 @@
         "xml2"
       ],
       "Hash": "ffafca66ca34155756112acdc232684f"
+    },
+    "PatientProfiles": {
+      "Package": "PatientProfiles",
+      "Version": "1.1.0",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "CDMConnector",
+        "R",
+        "checkmate",
+        "cli",
+        "dplyr",
+        "lifecycle",
+        "magrittr",
+        "omopgenerics",
+        "purrr",
+        "rlang",
+        "stringr",
+        "tidyr",
+        "visOmopResults"
+      ],
+      "Hash": "8981f38fcf92168d90112c9b5dacd826"
     },
     "R6": {
       "Package": "R6",
@@ -1668,7 +1777,7 @@
     },
     "igraph": {
       "Package": "igraph",
-      "Version": "1.5.1",
+      "Version": "2.0.3",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
@@ -1684,9 +1793,10 @@
         "pkgconfig",
         "rlang",
         "stats",
-        "utils"
+        "utils",
+        "vctrs"
       ],
-      "Hash": "80401cb5ec513e8ddc56764d03f63669"
+      "Hash": "c3b7d801d722e26e4cd888e042bf9af5"
     },
     "ini": {
       "Package": "ini",
@@ -2036,6 +2146,44 @@
         "R"
       ],
       "Hash": "df58958f293b166e4ab885ebcad90e02"
+    },
+    "odbc": {
+      "Package": "odbc",
+      "Version": "1.5.0",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "DBI",
+        "R",
+        "Rcpp",
+        "bit64",
+        "blob",
+        "cli",
+        "hms",
+        "lifecycle",
+        "methods",
+        "rlang"
+      ],
+      "Hash": "0609d24c52744c675f8578622c33d5fa"
+    },
+    "omopgenerics": {
+      "Package": "omopgenerics",
+      "Version": "0.2.3",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "cli",
+        "dbplyr",
+        "dplyr",
+        "glue",
+        "methods",
+        "rlang",
+        "snakecase",
+        "stringr",
+        "tidyr"
+      ],
+      "Hash": "455369900c393d3eb843fcbd056e1a9c"
     },
     "openssl": {
       "Package": "openssl",
@@ -2814,7 +2962,7 @@
     },
     "tidyselect": {
       "Package": "tidyselect",
-      "Version": "1.2.0",
+      "Version": "1.2.1",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
@@ -2826,7 +2974,7 @@
         "vctrs",
         "withr"
       ],
-      "Hash": "79540e5fcd9e0435af547d885f184fd5"
+      "Hash": "829f27b9c4919c16b593794a6344d6c0"
     },
     "tidyverse": {
       "Package": "tidyverse",
@@ -3010,6 +3158,24 @@
         "R"
       ],
       "Hash": "c826c7c4241b6fc89ff55aaea3fa7491"
+    },
+    "visOmopResults": {
+      "Package": "visOmopResults",
+      "Version": "0.3.0",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "cli",
+        "dplyr",
+        "generics",
+        "glue",
+        "lifecycle",
+        "omopgenerics",
+        "rlang",
+        "stringr",
+        "tidyr"
+      ],
+      "Hash": "e5f5d00836622ad63cd8027522a7dc1c"
     },
     "vroom": {
       "Package": "vroom",

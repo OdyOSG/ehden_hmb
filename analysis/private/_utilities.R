@@ -145,9 +145,12 @@ zipResults <- function(database) {
 
   resultsPath <- here::here("results", database)
 
+  dfdf <- c("12_timeToIntervention", "10_timeToDiscontinuation2")
+
   # Zip "report" folder
-  files2zip <- dir(resultsPath, full.names = TRUE)
+  files2zip <- dir(resultsPath, full.names = TRUE, recursive = TRUE)
   files2zip <- files2zip[!grepl("treatmentHistory", files2zip)] # Exclude treatment history folder
+  files2zip <- files2zip[!grepl("12_timeToIntervention" & ".rds", files2zip)] # Exclude treatment history folder
 
   if (length(database) >1) {
 
