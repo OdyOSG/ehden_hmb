@@ -1,3 +1,7 @@
+# EHDEN HMB v2.1.3
+
+* Updated renv.lock
+
 # EHDEN HMB v2.1.2
 
 * Edited info text in `About` page
