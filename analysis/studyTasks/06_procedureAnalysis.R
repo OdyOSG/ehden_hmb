@@ -44,7 +44,13 @@ analysisSettings <- readSettingsFile(here::here("analysis/settings/procedureAnal
 
 # E. Script --------------------
 
-#startSnowflakeSession(con = con, executionSettings = executionSettings)
+dbType <- config::get("dbms", config = configBlock)
+
+if (dbType == "snowflake") {
+
+  startSnowflakeSession(con = con, executionSettings = executionSettings)
+
+}
 
 executeProcedureAnalysis(con = con,
                          executionSettings = executionSettings,

@@ -52,7 +52,13 @@ analysisSettings <- readSettingsFile(here::here("analysis/settings/strata.yml"))
 
 # E. Script --------------------
 
-#startSnowflakeSession(con = con, executionSettings = executionSettings)
+dbType <- config::get("dbms", config = configBlock)
+
+if (dbType == "snowflake") {
+
+  startSnowflakeSession(con = con, executionSettings = executionSettings)
+
+}
 
 ## Initialize cohort tables
 initializeCohortTables(executionSettings = executionSettings, con = con, dropTables = TRUE)

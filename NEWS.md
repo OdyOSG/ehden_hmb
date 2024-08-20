@@ -1,3 +1,8 @@
+# EHDEN HMB v2.2.0
+
+* Added `if-clause` for Snowflake specific SQL functions
+* Added code that checks if the output of function `FeatureExtraction::getDbCovariateData` is empty
+
 # EHDEN HMB v2.1.3
 
 * Updated renv.lock

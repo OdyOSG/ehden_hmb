@@ -40,9 +40,17 @@ con <- DBI::dbConnect(
   pwd = executionSettings$password
 )
 
-### Set the DATE_INPUT_FORMAT session parameter
-DBI::dbExecute(con, "ALTER SESSION SET DATE_INPUT_FORMAT = 'YYYY-MM-DD'")
-DBI::dbExecute(con, "ALTER SESSION SET JDBC_QUERY_RESULT_FORMAT='JSON'")
+
+dbType <- config::get("dbms", config = configBlock)
+
+if (dbType == "snowflake") {
+
+  ### Set the DATE_INPUT_FORMAT session parameter
+  DBI::dbExecute(con, "ALTER SESSION SET DATE_INPUT_FORMAT = 'YYYY-MM-DD'")
+  DBI::dbExecute(con, "ALTER SESSION SET JDBC_QUERY_RESULT_FORMAT='JSON'")
+
+}
+
 
 ### Connect to database
 

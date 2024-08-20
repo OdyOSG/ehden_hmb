@@ -80,6 +80,19 @@ baselineDemographics <- function(con,
                           cohortId = cohortId,
                           covSettings = covSettings)
 
+
+  # If the cov$covariates object is empty, skip export and continue with the next cohort
+  # If TRUE, then it is most likely that the cohort has no counts (Check files strataCounts.csv and cohortManifest.csv)
+  if (cov$covariates %>% tally() %>% pull() == 0) {
+
+    cli::cat_bullet(crayon::red("No data returned."), bullet = "info", bullet_col = "blue")
+    cli::cat_bullet("Please check files strataCounts.csv and cohortManifest.csv to see if the cohort (id: ",
+                    crayon::red(as.character(cohortId)), ") has any counts.", bullet = "info", bullet_col = "blue")
+    cli::cat_line()
+
+    return(NA)
+  }
+
   demoTbl <- cov$covariates %>%
     dplyr::left_join(cov$covariateRef, by = c("covariateId")) %>%
     dplyr::rename(
@@ -124,6 +137,18 @@ baselineContinuous <- function(con,
                           cohortDatabaseSchema = cohortDatabaseSchema,
                           cohortId = cohortId,
                           covSettings = covSettings)
+
+  # If the cov$covariatesContinuous object is empty, skip export and continue with the next cohort
+  # If TRUE, then it is most likely that the cohort has no counts (Check files strataCounts.csv and cohortManifest.csv)
+  if (purrr::is_null(cov$covariatesContinuous)) {
+
+    cli::cat_bullet(crayon::red("No data returned."), bullet = "info", bullet_col = "blue")
+    cli::cat_bullet("Please check files strataCounts.csv and cohortManifest.csv to see if the cohort (id: ",
+                    crayon::red(as.character(cohortId)), ") has any counts.", bullet = "info", bullet_col = "blue")
+    cli::cat_line()
+
+    return(NA)
+  }
 
   ctsTbl <- cov$covariatesContinuous %>%
     dplyr::left_join(cov$covariateRef, by = c("covariateId")) %>%
@@ -173,6 +198,18 @@ baselineDrugs <- function(con,
                           cohortDatabaseSchema = cohortDatabaseSchema,
                           cohortId = cohortId,
                           covSettings = covSettings)
+
+  # If the cov$covariates object is empty, skip export and continue with the next cohort
+  # If TRUE, then it is most likely that the cohort has no counts (Check files strataCounts.csv and cohortManifest.csv)
+  if (cov$covariates %>% tally() %>% pull() == 0) {
+
+    cli::cat_bullet(crayon::red("No data returned."), bullet = "info", bullet_col = "blue")
+    cli::cat_bullet("Please check files strataCounts.csv and cohortManifest.csv to see if the cohort (id: ",
+                    crayon::red(as.character(cohortId)), ") has any counts.", bullet = "info", bullet_col = "blue")
+    cli::cat_line()
+
+    return(NA)
+  }
 
   drugTbl <- cov$covariates %>%
     dplyr::left_join(cov$covariateRef, by = c("covariateId")) %>%
@@ -224,6 +261,18 @@ baselineConditions <- function(con,
                           cohortId = cohortId,
                           covSettings = covSettings)
 
+  # If the cov$covariates object is empty, skip export and continue with the next cohort
+  # If TRUE, then it is most likely that the cohort has no counts (Check files strataCounts.csv and cohortManifest.csv)
+  if (cov$covariates %>% tally() %>% pull() == 0) {
+
+    cli::cat_bullet(crayon::red("No data returned."), bullet = "info", bullet_col = "blue")
+    cli::cat_bullet("Please check files strataCounts.csv and cohortManifest.csv to see if the cohort (id: ",
+                    crayon::red(as.character(cohortId)), ") has any counts.", bullet = "info", bullet_col = "blue")
+    cli::cat_line()
+
+    return(NA)
+  }
+
   condTbl <- cov$covariates %>%
     dplyr::left_join(cov$covariateRef, by = c("covariateId")) %>%
     dplyr::rename(
@@ -273,6 +322,18 @@ baselineProcedures <- function(con,
                           cohortDatabaseSchema = cohortDatabaseSchema,
                           cohortId = cohortId,
                           covSettings = covSettings)
+
+  # If the cov$covariates object is empty, skip export and continue with the next cohort
+  # If TRUE, then it is most likely that the cohort has no counts (Check files strataCounts.csv and cohortManifest.csv)
+  if (cov$covariates %>% tally() %>% pull() == 0) {
+
+    cli::cat_bullet(crayon::red("No data returned."), bullet = "info", bullet_col = "blue")
+    cli::cat_bullet("Please check files strataCounts.csv and cohortManifest.csv to see if the cohort (id: ",
+                    crayon::red(as.character(cohortId)), ") has any counts.", bullet = "info", bullet_col = "blue")
+    cli::cat_line()
+
+    return(NA)
+  }
 
   procTbl <- cov$covariates %>%
     dplyr::left_join(cov$covariateRef, by = c("covariateId")) %>%

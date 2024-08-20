@@ -52,6 +52,14 @@ diagCohorts <- getCohortManifest() %>%
 
 # E. Script --------------------
 
+dbType <- config::get("dbms", config = configBlock)
+
+if (dbType == "snowflake") {
+
+  startSnowflakeSession(con = con, executionSettings = executionSettings)
+
+}
+
 ### Run cohort diagnostics
 runCohortDiagnostics(executionSettings = executionSettings,
                      con = con,

@@ -773,7 +773,6 @@ executeTimeToEvent <- function(con,
     file_name <- paste("tte", databaseId, file_label, sep = "_")
 
     save_path <- paste0(save_path, "_rds") %>% fs::dir_create()
-    #save_path <- paste0(save_path, "_rds")
 
     save_path2 <- fs::path(save_path, file_name, ext = "rds")
     readr::write_rds(tteDat, file = save_path2)

@@ -47,7 +47,13 @@ analysisSettings2 <- readSettingsFile(here::here("analysis/settings/underlyingCo
 
 # E. Script --------------------
 
-#startSnowflakeSession(con =con, executionSettings = executionSettings)
+dbType <- config::get("dbms", config = configBlock)
+
+if (dbType == "snowflake") {
+
+  startSnowflakeSession(con = con, executionSettings = executionSettings)
+
+}
 
 ## Concept characterization
 executeConceptCharacterization(con = con,

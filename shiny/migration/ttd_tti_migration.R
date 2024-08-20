@@ -13,8 +13,8 @@ library(markdown)
 library(ggsurvfit)
 
 
-database <- c("optum", "cprdGold", "cprdAurum", "mrktscan")
-database <- c("optum")
+# database <- c("optum", "cprdGold", "cprdAurum", "mrktscan")
+# database <- c("optum")
 
 cohort <- c(1, 1001, 1002, 1003)
 

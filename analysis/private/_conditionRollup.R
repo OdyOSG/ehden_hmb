@@ -158,6 +158,7 @@ getIcd10Chapters <- function(con,
     targetCovariateTable = targetCovariateTable,
     aggregated = FALSE
   )
+
   cli::cat_line()
 
   # generate ICD Chapters features

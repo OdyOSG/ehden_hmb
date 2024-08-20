@@ -114,7 +114,7 @@ verboseSave <- function(object, saveName, saveLocation) {
 bindFiles <- function(inputPath,
                       pattern = NULL)  {
 
-  # Check if <pattern>.csv file exists. If it does, delete
+  ## Check if <pattern>.csv file exists. If it does, delete
   if (file.exists(here::here(inputPath, paste0(pattern, ".csv"))) == TRUE) {
         unlink(here::here(inputPath, paste0(pattern, ".csv")))
   }
@@ -145,12 +145,13 @@ zipResults <- function(database) {
 
   resultsPath <- here::here("results", database)
 
-  dfdf <- c("12_timeToIntervention", "10_timeToDiscontinuation2")
-
-  # Zip "report" folder
+  # Zip "report" folder and exclude treatment history folders and rds files
   files2zip <- dir(resultsPath, full.names = TRUE, recursive = TRUE)
-  files2zip <- files2zip[!grepl("treatmentHistory", files2zip)] # Exclude treatment history folder
-  files2zip <- files2zip[!grepl("12_timeToIntervention" & ".rds", files2zip)] # Exclude treatment history folder
+  files2zip <- files2zip[!grepl("treatmentHistory", files2zip)]               # Exclude treatment history folder
+  files2zip <- files2zip[!grepl("10_timeToDiscontinuation2_rds", files2zip)]  # Exclude rds files
+  files2zip <- files2zip[!grepl("10_timeToDiscontinuation_rds", files2zip)]   # Exclude rds files
+  files2zip <- files2zip[!grepl("12_timeToIntervention_rds", files2zip)]      # Exclude rds files
+
 
   if (length(database) >1) {
 
@@ -165,4 +166,5 @@ zipResults <- function(database) {
 
   cli::cat_bullet("Study results have been zipped and saved to:",
                   crayon::cyan(here::here(paste0(zipName, ".zip"))),bullet = "info", bullet_col = "blue")
+
 }
