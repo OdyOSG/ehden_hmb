@@ -233,7 +233,10 @@ cdmFromConAllDbs <- function(executionSettings) {
   schemaName <- strsplit(executionSettings$cdmDatabaseSchema, split = ".", fixed = TRUE)[[1]][2]
   writeDbName <- strsplit(executionSettings$workDatabaseSchema, split = ".", fixed = TRUE)[[1]][1]
   writeSchemaName <- strsplit(executionSettings$workDatabaseSchema, split = ".", fixed = TRUE)[[1]][2]
+  host <- strsplit(executionSettings$connectionString, split = "/", fixed = TRUE)[[1]][2]
 
+
+  ## Snowflake
   if (executionSettings$dbms == "snowflake") {
 
     ## Connect to server
@@ -247,11 +250,9 @@ cdmFromConAllDbs <- function(executionSettings) {
       pwd = executionSettings$password
     )
 
-
     ## Set the DATE_INPUT_FORMAT session parameter
     DBI::dbExecute(con, "ALTER SESSION SET DATE_INPUT_FORMAT = 'YYYY-MM-DD'")
     DBI::dbExecute(con, "ALTER SESSION SET JDBC_QUERY_RESULT_FORMAT='JSON'")
-
 
     ## Connect to database
     cdm <- cdm_from_con(
@@ -264,8 +265,28 @@ cdmFromConAllDbs <- function(executionSettings) {
 
   }
 
+
+  ## Postgre
   if (executionSettings$dbms == "postgresql") {
+
+    ## Connect to server
+    con <- DBI::dbConnect(
+      drv = RPostgres::Postgres(),
+      host = host,
+      port = 5441,
+      dbname = dbName,
+      user = executionSettings$user,
+      password = executionSettings$password
+    )
+
+    ## Connect to database
+    cdm <- cdm_from_con(
+      con = con,
+      cdm_schema = schemaName,
+      write_schema = writeSchemaName
+    )
 
   }
 
+  return(cdm)
 }

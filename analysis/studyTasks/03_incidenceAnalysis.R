@@ -19,11 +19,16 @@ source("analysis/private/_incidenceAnalysis.R")
 
 ### Set connection Block
 # <<<
-configBlock <- "[block]"
+configBlock <- "mrktscan"
 # >>>
 
 ### Provide connection details
 executionSettings <- config::get(config = configBlock)
+
+debug(cdmFromConAllDbs)
+cdm <- cdmFromConAllDbs(executionSettings = executionSettings)
+
+
 dbName <- strsplit(executionSettings$cdmDatabaseSchema, split = ".", fixed = TRUE)[[1]][1]
 schemaName <- strsplit(executionSettings$cdmDatabaseSchema, split = ".", fixed = TRUE)[[1]][2]
 writeDbName <- strsplit(executionSettings$workDatabaseSchema, split = ".", fixed = TRUE)[[1]][1]
