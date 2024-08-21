@@ -256,14 +256,14 @@
     },
     "DBI": {
       "Package": "DBI",
-      "Version": "1.1.3",
+      "Version": "1.2.3",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Requirements": [
         "R",
         "methods"
       ],
-      "Hash": "b2866e62bab9378c3cc9476a1954226b"
+      "Hash": "065ae649b05f1ff66bb0c793107508f5"
     },
     "DatabaseConnector": {
       "Package": "DatabaseConnector",
@@ -505,6 +505,25 @@
         "methods"
       ],
       "Hash": "cd79d1874fb20217463451f8c310c526"
+    },
+    "RPostgres": {
+      "Package": "RPostgres",
+      "Version": "1.4.7",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "DBI",
+        "R",
+        "bit64",
+        "blob",
+        "cpp11",
+        "hms",
+        "lubridate",
+        "methods",
+        "plogr",
+        "withr"
+      ],
+      "Hash": "beb7e18bf3f9e096f716a52a77ec793c"
     },
     "RSQLite": {
       "Package": "RSQLite",
