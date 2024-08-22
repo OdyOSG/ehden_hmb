@@ -1697,7 +1697,7 @@ server <- function(input, output, session){
   ### KM Plot (With)
   ttdKMPlotWith <- reactive ({
 
-    ttd_km <- glue::glue('shiny/data/plots/ttd/with/ttd_{ttdPickLineWith()}_{input$databaseNameTtd2}_{ttdPickIdWith()}.png')
+    ttd_km <- glue::glue('shiny/data/plots/ttd/with/ttd_{input$databaseNameTtd2}_{ttdPickIdWith()}_{ttdPickLineWith()}.png')
 
     return(ttd_km)
 
@@ -1715,7 +1715,7 @@ server <- function(input, output, session){
   ### KM Plot (Without)
   ttdKMPlotWithout <- reactive ({
 
-    ttd_km <- glue::glue('shiny/data/plots/ttd/wo/ttd_{ttdPickLineWithout()}_{input$databaseNameTtd}_{ttdPickIdWithout()}.png')
+    ttd_km <- glue::glue('shiny/data/plots/ttd/wo/ttd_{input$databaseNameTtd}_{ttdPickIdWithout()}_{ttdPickLineWithout()}.png')
 
     return(ttd_km)
 
@@ -1729,14 +1729,6 @@ server <- function(input, output, session){
 
     }, deleteFile = FALSE
   )
-
-
-
-  ## Observer
-  # observe({print(ttdKMPlotWith())})
-  # observe({print(ttdPickLine())})
-  # observe({print(ttdPickId())})
-  # observe({print(ttiKMPlot())})
 
 
   # ## Find rds file (Without)

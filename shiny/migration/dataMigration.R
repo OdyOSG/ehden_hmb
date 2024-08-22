@@ -30,7 +30,8 @@ listOfTasks <- c("01_buildCohorts",
                  "10_timeToDiscontinuation",
                  "10_timeToDiscontinuation2",
                  "11_postIndexPrevalenceProcedures",
-                 "12_timeToIntervention"
+                 "12_timeToIntervention",
+                 "plots"
                  )
 
 ### Create a data frame of all permutations of paths
@@ -576,9 +577,11 @@ readr::write_csv(postIndexPrev, file = fs::path(appDataPath, "postIndexPrevalenc
 
 incFiles <- "incidence_1.csv"
 
-inc <- purrr::map_dfr(incFiles,               # files to use
+allPathsWithoutMrktscan <- allPaths %>% dplyr::filter(listOfDatabase != "mrktscan")  ## To remove if we have Marketscan data
+
+inc <- purrr::map_dfr(incFiles,                  # files to use
                         ~bindCsv(                # bind csv
-                          allPaths = allPaths,
+                          allPaths = allPathsWithoutMrktscan,
                           task = listOfTasks[4],
                           file = .x))
 
@@ -855,7 +858,6 @@ permutations <- tidyr::expand_grid(
 )
 
 ### Bind all in ttd
-
 ttd <- purrr::pmap_dfr(
   permutations,
   ~bindTteData(
@@ -903,22 +905,23 @@ arrow::write_parquet(
 ### B.1 TTD without NSAIDs (survfit) ----------------
 
 ## Create output folder
-outputPath <- here::here(appDataPath, "ttd/wo") %>%
+outputPath <- here::here(appDataPath, "plots", "ttd/wo") %>%
   fs::dir_create()
 
-outputPath <- here::here(appDataPath, "ttd/wo")
+outputPath <- here::here(appDataPath, "plots", "ttd/wo")
 
 for (i in 1:length(listOfDatabase)) {
 
   db <- listOfDatabase[i]
 
   path <- allPaths %>%
-    dplyr::filter(listOfTasks == listOfTasks[11] & listOfDatabase == db) %>%
+    dplyr::filter(listOfTasks == listOfTasks[15] & listOfDatabase == db) %>%
+    dplyr::mutate(fullPath = fs::path(paste0(fullPath,  "/ttd", "/wo"))) %>%
     dplyr::pull(fullPath)
 
-  listOfFiles <- list.files(path, full.names = FALSE, pattern = ".rds", recursive = TRUE)
+  listOfFiles <- list.files(path, full.names = FALSE, pattern = ".png", recursive = TRUE)
 
-  inputPath <- here::here("results", db, listOfTasks[11])
+  inputPath <- here::here("results", db, listOfTasks[15], "ttd", "wo")
 
   fs::file_copy(here::here(inputPath, listOfFiles),
                 here::here(outputPath, listOfFiles), overwrite = TRUE)
@@ -928,22 +931,23 @@ for (i in 1:length(listOfDatabase)) {
 ### B.2 TTD with NSAIDs (survfit) ----------------
 
 ## Create output folder
-outputPath <- here::here(appDataPath, "ttd/with") %>%
+outputPath <- here::here(appDataPath, "plots", "ttd/with") %>%
   fs::dir_create()
 
-outputPath <- here::here(appDataPath, "ttd/with")
+outputPath <- here::here(appDataPath, "plots", "ttd/with")
 
 for (i in 1:length(listOfDatabase)) {
 
   db <- listOfDatabase[i]
 
   path <- allPaths %>%
-    dplyr::filter(listOfTasks == listOfTasks[12] & listOfDatabase == db) %>%
+    dplyr::filter(listOfTasks == listOfTasks[15] & listOfDatabase == db) %>%
+    dplyr::mutate(fullPath = fs::path(paste0(fullPath, "/ttd", "/with"))) %>%
     dplyr::pull(fullPath)
 
-  listOfFiles <- list.files(path, full.names = FALSE, pattern = ".rds", recursive = TRUE)
+  listOfFiles <- list.files(path, full.names = FALSE, pattern = ".png", recursive = TRUE)
 
-  inputPath <- here::here("results", db, listOfTasks[12])
+  inputPath <- here::here("results", db, listOfTasks[15], "ttd", "with")
 
   fs::file_copy(here::here(inputPath, listOfFiles),
                 here::here(outputPath, listOfFiles), overwrite = TRUE)
@@ -983,22 +987,23 @@ arrow::write_parquet(
 ### C.2 Time to intervention (survfit) ----------------
 
 ## Create output folder
-outputPath <- here::here(appDataPath, "tti") %>%
+outputPath <- here::here(appDataPath, "plots", "tti") %>%
   fs::dir_create()
 
-outputPath <- here::here(appDataPath, "tti")
+outputPath <- here::here(appDataPath, "plots", "tti")
 
 for (i in 1:length(listOfDatabase)) {
 
   db <- listOfDatabase[i]
 
   path <- allPaths %>%
-    dplyr::filter(listOfTasks == listOfTasks[14] & listOfDatabase == db) %>%
+    dplyr::filter(listOfTasks == listOfTasks[15] & listOfDatabase == db) %>%
+    dplyr::mutate(fullPath = fs::path(paste0(fullPath, "/tti"))) %>%
     dplyr::pull(fullPath)
 
-  listOfFiles <- list.files(path, full.names = FALSE, pattern = ".rds", recursive = TRUE)
+  listOfFiles <- list.files(path, full.names = FALSE, pattern = ".png", recursive = TRUE)
 
-  inputPath <- here::here("results", db, listOfTasks[14])
+  inputPath <- here::here("results", db, listOfTasks[15], "tti")
 
   fs::file_copy(here::here(inputPath, listOfFiles),
                 here::here(outputPath, listOfFiles), overwrite = TRUE)

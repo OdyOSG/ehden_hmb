@@ -19,53 +19,14 @@ source("analysis/private/_incidenceAnalysis.R")
 
 ### Set connection Block
 # <<<
-configBlock <- "mrktscan"
+configBlock <- "[block]"
 # >>>
 
 ### Provide connection details
 executionSettings <- config::get(config = configBlock)
 
-debug(cdmFromConAllDbs)
-cdm <- cdmFromConAllDbs(executionSettings = executionSettings)
-
-
-dbName <- strsplit(executionSettings$cdmDatabaseSchema, split = ".", fixed = TRUE)[[1]][1]
-schemaName <- strsplit(executionSettings$cdmDatabaseSchema, split = ".", fixed = TRUE)[[1]][2]
-writeDbName <- strsplit(executionSettings$workDatabaseSchema, split = ".", fixed = TRUE)[[1]][1]
-writeSchemaName <- strsplit(executionSettings$workDatabaseSchema, split = ".", fixed = TRUE)[[1]][2]
-
-### Connect to database
-con <- DBI::dbConnect(
-  odbc::odbc(),
-  dsn = executionSettings$dbms,
-  database = dbName,
-  schema = schemaName,
-  uid = executionSettings$user,
-  role = executionSettings$role,
-  pwd = executionSettings$password
-)
-
-
-dbType <- config::get("dbms", config = configBlock)
-
-if (dbType == "snowflake") {
-
-  ### Set the DATE_INPUT_FORMAT session parameter
-  DBI::dbExecute(con, "ALTER SESSION SET DATE_INPUT_FORMAT = 'YYYY-MM-DD'")
-  DBI::dbExecute(con, "ALTER SESSION SET JDBC_QUERY_RESULT_FORMAT='JSON'")
-
-}
-
-
-### Connect to database
-
-cdm <- cdm_from_con(
-  con = con,
-  cdm_schema = c(catalog = dbName, schema = schemaName),
-  write_schema = c(catalog = writeDbName, schema = writeSchemaName),
-  cdm_name = dbName,
-  .soft_validation = FALSE
-)
+### Connect to server and database
+conCdm <- cdmFromConAllDbs(executionSettings = executionSettings)
 
 
 # D. Variables -----------------------
@@ -82,11 +43,11 @@ analysisSettings <- readSettingsFile(here::here("analysis/settings/incidenceAnal
 
 ### Incidence Analyses
 
-executeIncidenceAnalysis(cdm = cdm,
+executeIncidenceAnalysis(cdm = conCdm$cdm,
                          executionSettings = executionSettings,
                          analysisSettings = analysisSettings)
 
 
 # F. Session Info ------------------------
 
-DBI::dbDisconnect(con)
+DBI::dbDisconnect(conCdm$con)

@@ -1,3 +1,7 @@
+# EHDEN HMB v2.3.0
+
+* Added function `cdmFromConAllDbs` to connect to different SQL servers with ODBC drivers
+
 # EHDEN HMB v2.2.0
 
 * Added `if-clause` for Snowflake specific SQL functions

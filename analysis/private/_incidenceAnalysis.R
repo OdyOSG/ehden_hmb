@@ -233,7 +233,7 @@ cdmFromConAllDbs <- function(executionSettings) {
   schemaName <- strsplit(executionSettings$cdmDatabaseSchema, split = ".", fixed = TRUE)[[1]][2]
   writeDbName <- strsplit(executionSettings$workDatabaseSchema, split = ".", fixed = TRUE)[[1]][1]
   writeSchemaName <- strsplit(executionSettings$workDatabaseSchema, split = ".", fixed = TRUE)[[1]][2]
-  host <- strsplit(executionSettings$connectionString, split = "/", fixed = TRUE)[[1]][2]
+  host <- strsplit(executionSettings$connectionString, split = "/", fixed = TRUE)[[1]][1]
 
 
   ## Snowflake
@@ -288,5 +288,8 @@ cdmFromConAllDbs <- function(executionSettings) {
 
   }
 
-  return(cdm)
+  conCdm <- list(cdm = cdm,
+                 con = con)
+
+  return(conCdm)
 }
