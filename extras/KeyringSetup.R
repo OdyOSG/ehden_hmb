@@ -10,7 +10,7 @@
 library(tidyverse, quietly = TRUE)
 library(Ulysses)
 library(keyring)
-
+source("analysis/private/_utilities.R")
 
 ## B. Set Parameters ------------
 
@@ -36,7 +36,7 @@ setStudyKeyring(keyringName = keyringName,
                 keyringPassword = keyringPassword)
 
 ### Set credential keys in keyring
-setMultipleCredentials(cred = defaultCredentials(),
+setMultipleCredentials(cred = defaultCreds(),
                        db = configBlock,
                        keyringName = keyringName,
                        keyringPassword = keyringPassword,

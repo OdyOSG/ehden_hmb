@@ -266,14 +266,36 @@ cdmFromConAllDbs <- function(executionSettings) {
   }
 
 
-  ## Postgre
+  ## PostgreSql
   if (executionSettings$dbms == "postgresql") {
 
     ## Connect to server
     con <- DBI::dbConnect(
       drv = RPostgres::Postgres(),
-      host = host,
-      port = 5441,
+      host = executionSettings$server,
+      port = executionSettings$port,
+      dbname = dbName,
+      user = executionSettings$user,
+      password = executionSettings$password
+    )
+
+    ## Connect to database
+    cdm <- cdm_from_con(
+      con = con,
+      cdm_schema = schemaName,
+      write_schema = writeSchemaName
+    )
+
+  }
+
+  ## Redshift
+  if (executionSettings$dbms == "redshift") {
+
+    ## Connect to server
+    con <- DBI::dbConnect(
+      drv = RPostgres::Redshift(),
+      host = executionSettings$server,
+      port = executionSettings$port,
       dbname = dbName,
       user = executionSettings$user,
       password = executionSettings$password

@@ -1,3 +1,8 @@
+# EHDEN HMB v2.3.1
+
+* Added Redshift connectivity in function `cdmFromConAllDbs`
+* Updated the `KeyringSetup.R` file to add two additional credentials: port and server 
+
 # EHDEN HMB v2.3.0
 
 * Added function `cdmFromConAllDbs` to connect to different SQL servers with ODBC drivers

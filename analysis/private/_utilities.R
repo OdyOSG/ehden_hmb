@@ -168,3 +168,21 @@ zipResults <- function(database) {
                   crayon::cyan(here::here(paste0(zipName, ".zip"))),bullet = "info", bullet_col = "blue")
 
 }
+
+
+defaultCreds <- function() {
+
+  creds <- c(
+    "dbms", # the database dialect
+    "user", # the user name for the db
+    "password", # the password for the db
+    "port",
+    "server",
+    "connectionString", # the connection string to access the db
+    "cdmDatabaseSchema", # the database + schema (or just schema) hosting the cdm
+    "vocabDatabaseSchema", # the database + schema (or just schema) hosting the vocabulary, usually same as cdm
+    "workDatabaseSchema" # the database + schema (or just schema) hosting the work or scratch
+  )
+
+  return(creds)
+}
