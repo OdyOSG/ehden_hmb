@@ -1,3 +1,7 @@
+# EHDEN HMB v2.3.2
+
+* Added code to remove double quotes from credentials in order to connect to server with DBI (function: `cdmFromConAllDbs`)
+
 # EHDEN HMB v2.3.1
 
 * Added Redshift connectivity in function `cdmFromConAllDbs`

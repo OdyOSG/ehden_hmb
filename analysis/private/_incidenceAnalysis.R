@@ -235,6 +235,10 @@ cdmFromConAllDbs <- function(executionSettings) {
   writeSchemaName <- strsplit(executionSettings$workDatabaseSchema, split = ".", fixed = TRUE)[[1]][2]
   host <- strsplit(executionSettings$connectionString, split = "/", fixed = TRUE)[[1]][1]
 
+  ## Remove double quotes from string variables
+  dbName <- str_remove_all(dbName, "\"")
+  writeDbName <- str_remove_all(writeDbName, "\"")
+
 
   ## Snowflake
   if (executionSettings$dbms == "snowflake") {
