@@ -369,6 +369,16 @@
           "ConditionSourceConcept": 7,
           "First": true
         }
+      },
+      {
+        "Observation": {
+          "CodesetId": 0,
+          "OccurrenceStartDate": {
+            "Value": "2001-01-01",
+            "Op": "gte"
+          },
+          "First": true
+        }
       }
     ],
     "ObservationWindow": {
