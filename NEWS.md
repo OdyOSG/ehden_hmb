@@ -1,3 +1,7 @@
+# EHDEN HMB v2.3.4
+
+* Added check in function `getTteResKM`(_procedureAnalysis.R). If no data are returned, skip export and subsequent data transformation.
+
 # EHDEN HMB v2.3.3
 
 * Edited `hmb` cohort definition. Added Observation domain block to Cohort Entry Events because of a change of concept `4302555` from Condition to Observation.

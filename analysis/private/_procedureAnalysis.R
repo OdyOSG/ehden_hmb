@@ -165,6 +165,8 @@ getTteResKM <- function(tb, outcomeCohortId) {
       survival::Surv(duration, event) ~ name, data = tab2
     )
 
+  } else {
+    survFit <- 0
   }
 
   return(survFit)
@@ -286,10 +288,14 @@ executeProcedureAnalysis <- function(con,
 
     ttiFolder_rds <- paste0(ttiFolder, "_rds") %>% fs::dir_create()
 
-    readr::write_rds(
-      survDatKM,
-      here::here(ttiFolder_rds, paste0("tti_", databaseId, "_", targetCohortIds[i], ".rds"))
-    )
+    if (is.list(survDatKM)) {
+
+        readr::write_rds(
+          survDatKM,
+          here::here(ttiFolder_rds, paste0("tti_", databaseId, "_", targetCohortIds[i], ".rds"))
+        )
+
+  }
 
     fileNm2 <- glue::glue("procedure_survival_{idx}")
 
