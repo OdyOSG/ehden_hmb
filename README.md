@@ -56,6 +56,7 @@ This study will be run on OMOP databases in the EHDEN Network. The table below l
 | Hospital del Mar (Barcelona)        | Spain              | Hospital del Mar         |
 | Semmelweis University               | Hungary            | Semmelweis University    |
 | Helsinksi University Hospital       | Finland            | Helsinksi University     |
+| NLHR@UIO                            | Norway             | University of Oslo       |
 
 
 ## Study Documentation

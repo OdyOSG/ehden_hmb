@@ -1,5 +1,25 @@
 
 # function to bind csvs from executions
+# bindCsv <- function(allPaths, task, file) {
+#
+#   dat <- allPaths %>%
+#     dplyr::filter(listOfTasks == !!task) %>%
+#     dplyr::mutate(
+#       filePath = fs::path(fullPath, !!file)
+#     ) %>%
+#     dplyr::select(filePath, listOfDatabase) %>%
+#     purrr::pmap_dfr(~readr::read_csv(..1, show_col_types = FALSE) %>%
+#                       dplyr::mutate(
+#                         pct = as.double(pct),
+#                         count = as.double(count),
+#                         covariateId = as.double(covariateId),
+#                         cohortId = as.double(cohortId),
+#                         databaseId = ..2)) %>%
+#     dplyr::relocate(databaseId, .before = 1)
+#
+#   return(dat)
+# }
+
 bindCsv <- function(allPaths, task, file) {
 
   dat <- allPaths %>%

@@ -146,6 +146,7 @@ incTab2 <- readr::read_csv(fs::path(dataPath, "incidence.csv"),
       cdm_name == "CPRD_EHR_GOLD_OMOP" ~ "cprdGold",
       cdm_name == "MKTSCAN_CLAIMS_OMOP" ~ "mrktscan",
       cdm_name == "OPTUM_CLAIMS_OMOP" ~ "optum",
+      cdm_name == "Institut Municipal Assistència Sanitària Information System" ~ "IMASIS",
       TRUE ~ cdm_name
     ),
     incidence_1000_pys = dplyr::if_else(

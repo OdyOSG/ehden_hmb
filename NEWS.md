@@ -1,3 +1,7 @@
+# EHDEN HMB v2.3.5
+
+* Added database name of data partner in README.md file
+
 # EHDEN HMB v2.3.4
 
 * Added check in function `getTteResKM`(_procedureAnalysis.R). If no data are returned, skip export and subsequent data transformation.

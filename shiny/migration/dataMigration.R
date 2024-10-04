@@ -577,11 +577,11 @@ readr::write_csv(postIndexPrev, file = fs::path(appDataPath, "postIndexPrevalenc
 
 incFiles <- "incidence_1.csv"
 
-allPathsWithoutMrktscan <- allPaths %>% dplyr::filter(listOfDatabase != "mrktscan")  ## To remove if we have Marketscan data
+#allPathsWithoutMrktscan <- allPaths %>% dplyr::filter(listOfDatabase != "mrktscan")  ## To remove if we have Marketscan data
 
 inc <- purrr::map_dfr(incFiles,                  # files to use
                         ~bindCsv(                # bind csv
-                          allPaths = allPathsWithoutMrktscan,
+                          allPaths = allPaths,
                           task = listOfTasks[4],
                           file = .x))
 
