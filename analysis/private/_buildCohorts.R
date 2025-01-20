@@ -188,3 +188,53 @@ runCohortDiagnostics <- function(con,
 
   invisible(cohortsToRun)
 }
+
+
+runCohortDiagnosticsExtra <- function(con,
+                                      executionSettings,
+                                      cohortManifest,
+                                      outputFolder) {
+
+  cohortsToRun <- prepManifestForCohortGenerator(cohortManifest) %>%
+    dplyr::mutate(
+      cohortId = as.numeric(cohortId)
+    )
+
+  name <- executionSettings$cohortTable
+
+  cohortTableNames <- list(cohortTable = paste0(name),
+                           cohortInclusionTable = paste0(name, "_inclusion"),
+                           cohortInclusionResultTable = paste0(name, "_inclusion_result"),
+                           cohortInclusionStatsTable = paste0(name, "_inclusion_stats"),
+                           cohortSummaryStatsTable = paste0(name, "_summary_stats"),
+                           cohortCensorStatsTable = paste0(name, "_censor_stats"))
+
+
+  # Run cohort diagnostics
+  CohortDiagnostics::executeDiagnostics(
+    cohortDefinitionSet = cohortsToRun,
+    exportFolder = outputFolder,
+    cohortTableNames = cohortTableNames,
+    cohortDatabaseSchema = executionSettings$workDatabaseSchema,
+    cdmDatabaseSchema = executionSettings$cdmDatabaseSchema,
+    vocabularyDatabaseSchema = executionSettings$vocabDatabaseSchema,
+    databaseId = executionSettings$databaseName,
+    runInclusionStatistics = TRUE,
+    runIncludedSourceConcepts = FALSE,
+    runOrphanConcepts = FALSE,
+    runTimeSeries = FALSE,
+    runVisitContext = FALSE,
+    runBreakdownIndexEvents = FALSE,
+    runIncidenceRate = FALSE,
+    runCohortRelationship = FALSE,
+    runTemporalCohortCharacterization = FALSE,
+    connection = con,
+    incremental = TRUE,
+    minCellCount = 5
+  )
+
+  cli::cat_bullet("Saving Cohort Diagnostics to ", crayon::cyan(outputFolder),
+                  bullet = "tick", bullet_col = "green")
+
+  invisible(cohortsToRun)
+}

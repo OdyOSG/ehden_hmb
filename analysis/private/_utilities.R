@@ -170,6 +170,42 @@ zipResults <- function(database) {
 }
 
 
+zipResultsExtra <- function(database) {
+
+  resultsPath <- here::here("results", database)
+
+  # Zip "report" folder and exclude treatment history folders and rds files
+  files2zip <- dir(resultsPath, full.names = TRUE, recursive = TRUE)
+
+  files2zip_1 <- files2zip[grepl("01_buildCohortsExtra", files2zip)]
+  files2zip_2 <- files2zip[grepl("02_cohortDiagnosticsExtra", files2zip)]
+  files2zip_3 <- files2zip[grepl("03_buildStrataExtra", files2zip)]
+  files2zip_4 <- files2zip[grepl("05_baselineCharacteristicsExtra", files2zip)]
+  files2zip_5 <- files2zip[grepl("07_postIndexPrevalenceDrugsExtra", files2zip)]
+  files2zip_6 <- files2zip[grepl("07_postIndexPrevalenceDrugsExtra2", files2zip)]
+
+
+  files2zip_final <- c(files2zip_1, files2zip_2, files2zip_3, files2zip_4, files2zip_5, files2zip_6)
+
+
+
+  if (length(database) >1) {
+
+    zipName <- 'reportFilesExtra'
+  }
+  else {
+
+    zipName <- paste0('reportFilesExtra_', database)
+  }
+
+  utils::zip(zipfile = zipName, files = files2zip_final)
+
+  cli::cat_bullet("Study results have been zipped and saved to:",
+                  crayon::cyan(here::here(paste0(zipName, ".zip"))),bullet = "info", bullet_col = "blue")
+
+}
+
+
 defaultCreds <- function() {
 
   creds <- c(

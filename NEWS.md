@@ -1,3 +1,7 @@
+# EHDEN HMB v2.4.0
+
+* Added scripts and functions for additional task (pre/post prevalence of new hormonal Lng IUD cohort, csv files from CohortDiagnostics for flowchart)
+
 # EHDEN HMB v2.3.5
 
 * Added database name of data partner in README.md file

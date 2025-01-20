@@ -1,0 +1,13 @@
+strata:
+  cohorts:
+    targetCohort:
+    - name: hmb
+      id: 1
+  demographics:
+  - strataId: 1
+    strataName: age_lt_30
+  - strataId: 2
+    strataName: age_30_45
+  - strataId: 3
+    strataName: age_45_55
+  outputFolder: 03_buildStrataExtra

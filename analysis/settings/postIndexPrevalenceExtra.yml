@@ -1,0 +1,38 @@
+treatmentPatterns:
+  cohorts:
+    targetCohorts:
+    - name: hmb
+      id: 1
+    - name: hmb age_lt_30
+      id: 1001
+    - name: hmb age_30_45
+      id: 1002
+    - name: hmb age_45_55
+      id: 1003
+    drugCohorts:
+    - name: hormonalLngIUDTest3
+      id: 2
+  timeWindow:
+  - startDay: -730
+    endDay: -1
+  - startDay: -365
+    endDay: -1
+  - startDay: -183
+    endDay: -1
+  - startDay: 0
+    endDay: 0
+  - startDay: 1
+    endDay: 183
+  - startDay: 1
+    endDay: 365
+  - startDay: 1
+    endDay: 730
+  - startDay: 184
+    endDay: 365
+  - startDay: 366
+    endDay: 730
+  - startDay: 731
+    endDay: 1825
+  outputFolder:
+  - 07_postIndexPrevalenceDrugsExtra
+  - 07_postIndexPrevalenceDrugsExtra2
