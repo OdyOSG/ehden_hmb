@@ -1,3 +1,7 @@
+# EHDEN HMB v2.4.1
+
+* Updated cohort definition `hormonalLngIUD` with new concept set
+
 # EHDEN HMB v2.4.0
 
 * Added scripts and functions for additional task (pre/post prevalence of new hormonal Lng IUD cohort, csv files from CohortDiagnostics for flowchart)
