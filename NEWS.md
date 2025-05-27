@@ -1,3 +1,8 @@
+# EHDEN HMB v2.4.2
+
+* Fixed cohort definitions of `hormonalLngIUD`, `undefinedIUD` and `copperIUDprocedure` (cohort exit strategy)
+* Updated `disorderOfovary` cohort definition with correct concept set on index date event
+
 # EHDEN HMB v2.4.1
 
 * Updated cohort definition `hormonalLngIUD` with new concept set

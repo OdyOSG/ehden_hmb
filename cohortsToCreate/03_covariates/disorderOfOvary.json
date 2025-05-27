@@ -4282,7 +4282,9 @@
   "PrimaryCriteria": {
     "CriteriaList": [
       {
-        "ConditionOccurrence": {}
+        "ConditionOccurrence": {
+          "CodesetId": 0
+        }
       }
     ],
     "ObservationWindow": {
