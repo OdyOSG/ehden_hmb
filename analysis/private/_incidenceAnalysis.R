@@ -314,6 +314,30 @@ cdmFromConAllDbs <- function(executionSettings) {
 
   }
 
+  ## BigQuery
+  if (executionSettings$dbms == "bigquery") {
+
+    ## Connect to server
+    con <- DBI::dbConnect(
+      drv = bigrquery::bigquery(),
+      project = executionSettings$project,
+      dataset = executionSettings$dataset
+      # host = executionSettings$server,
+      # port = executionSettings$port,
+      # dbname = dbName,
+      # user = executionSettings$user,
+      # password = executionSettings$password
+    )
+
+    ## Connect to database
+    cdm <- cdm_from_con(
+      con = con,
+      cdm_schema = schemaName,
+      write_schema = writeSchemaName
+    )
+
+  }
+
   conCdm <- list(cdm = cdm,
                  con = con)
 

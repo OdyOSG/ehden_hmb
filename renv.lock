@@ -715,6 +715,32 @@
       ],
       "Hash": "543776ae6848fde2f48ff3816d0628bc"
     },
+    "bigrquery": {
+      "Package": "bigrquery",
+      "Version": "1.5.1",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "DBI",
+        "R",
+        "bit64",
+        "brio",
+        "cli",
+        "clock",
+        "cpp11",
+        "curl",
+        "gargle",
+        "httr",
+        "jsonlite",
+        "lifecycle",
+        "methods",
+        "prettyunits",
+        "rapidjsonr",
+        "rlang",
+        "tibble"
+      ],
+      "Hash": "960ebaf6c19ebf0f570616bc217c1af1"
+    },
     "bit": {
       "Package": "bit",
       "Version": "4.5.0.1",
@@ -762,6 +788,16 @@
         "stats"
       ],
       "Hash": "96abeed416a286d4a0f52e550b612343"
+    },
+    "brio": {
+      "Package": "brio",
+      "Version": "1.1.5",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "c1ee497a6d999947c2c224ae46799b1a"
     },
     "broom": {
       "Package": "broom",
@@ -2372,6 +2408,13 @@
         "textshaping"
       ],
       "Hash": "0595fe5e47357111f29ad19101c7d271"
+    },
+    "rapidjsonr": {
+      "Package": "rapidjsonr",
+      "Version": "1.2.0",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "88b9f48c93d17cdb811b54079a6a414f"
     },
     "rappdirs": {
       "Package": "rappdirs",
