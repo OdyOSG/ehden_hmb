@@ -125,7 +125,6 @@ generateIncidenceAnalysis <- function(con,
                                              buildOptions = buildOptions)
 
   analysisSql <- SqlRender::translate(analysisSql, targetDialect = "snowflake")
-  #cat(analysisSql)
 
   cli::cat_line()
   cli::cat_bullet("Executing Incidence Analysis Id: ", crayon::green(refId),
@@ -162,7 +161,7 @@ executeIncidenceAnalysis <- function(cdm,
                                      executionSettings,
                                      analysisSettings) {
 
-  ## Load cohort names and incidence analysis settings
+  # Load cohort names and incidence analysis settings
   targetCohort <- analysisSettings$incidenceAnalysis$cohorts$targetCohort
   denomCohort <- analysisSettings$incidenceAnalysis$cohorts$denominatorCohort
   irSettings <- analysisSettings$incidenceAnalysis$incidenceSettings
@@ -170,51 +169,52 @@ executeIncidenceAnalysis <- function(cdm,
   outputFolder <- fs::path(here::here("results"), executionSettings$databaseName, analysisSettings[["incidenceAnalysis"]][["outputFolder"]]) %>%
     fs::dir_create()
 
-
-  ## Job Log
+  # Job Log
   cli::cat_boxx("Building Incidence Analysis")
   cli::cat_line()
   tik <- Sys.time()
 
+  # Build numerator cohort
+  cohortSet1 <- CDMConnector::readCohortSet(path = here::here("cohortsToCreate", "01_target"))
+  cdm <- CDMConnector::generateCohortSet(cdm, cohortSet1, name = "numerator")
 
-  ## Build numerator cohort
-  cohortSet1 <- readCohortSet(path = here::here("cohortsToCreate", "01_target"))
-  cdm <- generateCohortSet(cdm, cohortSet1, name = "numerator")
+  # Build denominator cohort
+  cohortSet2 <- CDMConnector::readCohortSet(path = here::here("cohortsToCreate", "02_incidenceDenominator"))
+  cdm <- CDMConnector::generateCohortSet(cdm, cohortSet2, name = "denominator")
 
-  ## Build denominator cohort
-  cohortSet2 <- readCohortSet(path = here::here("cohortsToCreate", "02_incidenceDenominator"))
-  cdm <- generateCohortSet(cdm, cohortSet2, name = "denominator")
-
-  ## Stratify denominator cohort by age and sex
-  cdm <- generateTargetDenominatorCohortSet(
+  # Stratify denominator cohort by age and sex
+  cdm <- IncidencePrevalence::generateTargetDenominatorCohortSet(
     cdm = cdm,
-    name = tolower(denomCohort$name),   ## Name of table with denominator data
-    targetCohortTable = "denominator",  ## Name of table with stratified denominator cohorts e.g. age groups
+    name = tolower(denomCohort$name),   # Name of table with denominator data
+    targetCohortTable = "denominator",  # Name of table with stratified denominator cohorts e.g. age groups
     ageGroup = list(irSettings$ageGroups[[1]], irSettings$ageGroups[[2]], irSettings$ageGroups[[3]], irSettings$ageGroups[[4]]),
     sex = irSettings$sex,
-    requirementInteractions = TRUE
+    requirementInteractions = TRUE,
+    requirementsAtEntry = FALSE
   )
 
-  ## Calculate incidence
-  inc <- estimateIncidence(
+  # Calculate incidence
+  inc <- IncidencePrevalence::estimateIncidence(
     cdm = cdm,
     denominatorTable = tolower(denomCohort$name), ## Should be the same variable as the 'name' argument in 'generateTargetDenominatorCohortSet'
     outcomeTable = "numerator",
     interval = irSettings$interval,
     completeDatabaseIntervals = irSettings$completeDatabaseIntervals,
-    includeOverallStrata = TRUE,        ## Default value
-    repeatedEvents = FALSE,             ## Default value
-    minCellCount = irSettings$cellCount
+    includeOverallStrata = TRUE,        # Default value
+    repeatedEvents = FALSE              # Default value
   )
 
-  ## Save results
+  # Format incidence results
+  inc2 <- IncidencePrevalence::asIncidenceResult(inc)
+
+  # Save results
   verboseSave(
-    object = inc,
+    object = inc2,
     saveName = paste("incidence", targetCohort$id, sep = "_"),
     saveLocation = outputFolder
   )
 
-  ## Job Log
+  # Job Log
   tok <- Sys.time()
   cli::cat_bullet("Execution Completed at: ", crayon::red(tok), bullet = "info", bullet_col = "blue")
   tdif <- tok - tik
@@ -225,7 +225,7 @@ executeIncidenceAnalysis <- function(cdm,
 }
 
 
-##
+
 cdmFromConAllDbs <- function(executionSettings) {
 
   ## Set variables
@@ -235,31 +235,32 @@ cdmFromConAllDbs <- function(executionSettings) {
   writeSchemaName <- strsplit(executionSettings$workDatabaseSchema, split = ".", fixed = TRUE)[[1]][2]
   host <- strsplit(executionSettings$connectionString, split = "/", fixed = TRUE)[[1]][1]
 
-  ## Remove double quotes from string variables
+  # Remove double quotes from string variables
   dbName <- str_remove_all(dbName, "\"")
   writeDbName <- str_remove_all(writeDbName, "\"")
 
 
-  ## Snowflake
+  # Snowflake
   if (executionSettings$dbms == "snowflake") {
 
-    ## Connect to server
+    # Connect to server
     con <- DBI::dbConnect(
       odbc::odbc(),
       dsn = executionSettings$dbms,
       database = dbName,
+      #token = token,
       schema = schemaName,
       uid = executionSettings$user,
       role = executionSettings$role,
       pwd = executionSettings$password
     )
 
-    ## Set the DATE_INPUT_FORMAT session parameter
+    # Set the DATE_INPUT_FORMAT session parameter
     DBI::dbExecute(con, "ALTER SESSION SET DATE_INPUT_FORMAT = 'YYYY-MM-DD'")
     DBI::dbExecute(con, "ALTER SESSION SET JDBC_QUERY_RESULT_FORMAT='JSON'")
 
-    ## Connect to database
-    cdm <- cdm_from_con(
+    # Connect to database
+    cdm <- CDMConnector::cdm_from_con(
       con = con,
       cdm_schema = c(catalog = dbName, schema = schemaName),
       write_schema = c(catalog = writeDbName, schema = writeSchemaName),
@@ -270,10 +271,10 @@ cdmFromConAllDbs <- function(executionSettings) {
   }
 
 
-  ## PostgreSql
+  # PostgreSql
   if (executionSettings$dbms == "postgresql") {
 
-    ## Connect to server
+    # Connect to server
     con <- DBI::dbConnect(
       drv = RPostgres::Postgres(),
       host = executionSettings$server,
@@ -283,19 +284,20 @@ cdmFromConAllDbs <- function(executionSettings) {
       password = executionSettings$password
     )
 
-    ## Connect to database
-    cdm <- cdm_from_con(
+    # Connect to database
+    cdm <- CDMConnector::cdm_from_con(
       con = con,
       cdm_schema = schemaName,
-      write_schema = writeSchemaName
+      write_schema = writeSchemaName,
+      .soft_validation = TRUE
     )
 
   }
 
-  ## Redshift
+  # Redshift
   if (executionSettings$dbms == "redshift") {
 
-    ## Connect to server
+    # Connect to server
     con <- DBI::dbConnect(
       drv = RPostgres::Redshift(),
       host = executionSettings$server,
@@ -305,17 +307,20 @@ cdmFromConAllDbs <- function(executionSettings) {
       password = executionSettings$password
     )
 
-    ## Connect to database
-    cdm <- cdm_from_con(
+    # Connect to database
+    cdm <- CDMConnector::cdm_from_con(
       con = con,
       cdm_schema = schemaName,
-      write_schema = writeSchemaName
+      write_schema = writeSchemaName,
+      .soft_validation = TRUE
     )
 
   }
 
-  conCdm <- list(cdm = cdm,
-                 con = con)
+  conCdm <- list(
+    cdm = cdm,
+    con = con
+  )
 
   return(conCdm)
 }

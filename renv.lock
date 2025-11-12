@@ -348,35 +348,30 @@
     },
     "IncidencePrevalence": {
       "Package": "IncidencePrevalence",
-      "Version": "0.7.4",
+      "Version": "1.2.1",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "IncidencePrevalence",
       "RemoteUsername": "darwin-eu",
-      "RemoteRef": "v0.7.4",
-      "RemoteSha": "cfbc27ad507d65e19fbef4dbbd22a4384f360ff4",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "1bbb79f5f1f61ed51da107e5edb061d0d852150f",
       "Requirements": [
         "CDMConnector",
         "PatientProfiles",
         "R",
-        "checkmate",
         "cli",
         "clock",
-        "dbplyr",
         "dplyr",
         "glue",
-        "lifecycle",
-        "lubridate",
         "magrittr",
         "omopgenerics",
         "purrr",
         "rlang",
         "stringr",
-        "tidyr",
-        "visOmopResults"
+        "tidyr"
       ],
-      "Hash": "bcdc57a42befa3d4f361f8f105055f04"
+      "Hash": "f0d9dab0cfa190bdefaa0a92f6f3cede"
     },
     "MASS": {
       "Package": "MASS",
@@ -2158,9 +2153,14 @@
     },
     "omopgenerics": {
       "Package": "omopgenerics",
-      "Version": "0.4.1",
-      "Source": "Repository",
-      "Repository": "RSPM",
+      "Version": "1.3.2",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "omopgenerics",
+      "RemoteUsername": "darwin-eu",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "f8183df564d84cc458c96aa75a918a8c1492b9e1",
       "Requirements": [
         "R",
         "cli",
@@ -2173,11 +2173,12 @@
         "purrr",
         "rlang",
         "snakecase",
+        "stringi",
         "stringr",
         "tidyr",
         "vctrs"
       ],
-      "Hash": "072f4e363174ababd20aeab7926d5797"
+      "Hash": "b74be5a07c66842824a3ff602dbce305"
     },
     "openssl": {
       "Package": "openssl",
@@ -3095,25 +3096,6 @@
         "R"
       ],
       "Hash": "c826c7c4241b6fc89ff55aaea3fa7491"
-    },
-    "visOmopResults": {
-      "Package": "visOmopResults",
-      "Version": "0.5.1",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Requirements": [
-        "cli",
-        "dplyr",
-        "generics",
-        "glue",
-        "lifecycle",
-        "omopgenerics",
-        "purrr",
-        "rlang",
-        "stringr",
-        "tidyr"
-      ],
-      "Hash": "62111b2c7b941ffe31fc68fbe1cae436"
     },
     "vroom": {
       "Package": "vroom",
