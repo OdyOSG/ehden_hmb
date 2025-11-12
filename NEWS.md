@@ -1,3 +1,7 @@
+# EHDEN HMB v2.4.4
+
+* Upgraded `IncidencePrevalence` package from version 0.7.4 to 1.2.1
+
 # EHDEN HMB v2.4.2
 
 * Fixed cohort definitions of `hormonalLngIUD`, `undefinedIUD` and `copperIUDprocedure` (cohort exit strategy)
